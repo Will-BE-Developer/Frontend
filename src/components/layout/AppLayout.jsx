@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Header from "./Header";
-import GlobalStyles from "../../styled/GlobalStyles";
+import GlobalStyles from "../../styles/GlobalStyles";
 
 const AppLayout = ({ children }) => {
   return (
