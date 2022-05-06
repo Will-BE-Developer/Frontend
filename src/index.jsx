@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { ThemeProvider } from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import theme from "./styled/theme";
+import theme from "./styles/theme";
 import App from "./App";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
