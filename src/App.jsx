@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
-import BaseLayOut from "./components/layout/BaseLayOut";
+import AppLayout from "./components/layout/AppLayout";
 
 function App() {
   return (
-    <BaseLayOut>
+    <AppLayout>
       <Outlet />
-    </BaseLayOut>
+    </AppLayout>
   );
 }
 
