@@ -6,13 +6,18 @@ import theme from "./styles/theme";
 import App from "./App";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
+import FeedBack from "./pages/FeedBack";
+import FeedBackDetail from "./pages/FeedBackDetail";
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<App />}></Route>
+          <Route path="/" element={<App />}>
+            <Route path="feedback" element={<FeedBack />} />
+            <Route path="feedback/:postId" element={<FeedBackDetail />} />
+          </Route>
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
         </Routes>
