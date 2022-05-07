@@ -19,14 +19,19 @@ const SignupForm = (props) => {
   };
 
   // 회원가입 유효성 검사
+  // 특수문자 허용
   const schema = Yup.object().shape({
     email: Yup.string()
       .email("이메일 형식이 맞지 않습니다.")
       .required("이메일을 입력해주세요."),
     pw: Yup.string()
-      .min(1, "비밀번호는 7~10자 사이로 입력해주세요.")
-      .max(10, "비밀번호는 7~10자 사이로 입력해주세요.")
-      .required(),
+      .min(1, "비밀번호는 7~15자 사이로 입력해주세요.")
+      .max(15, "비밀번호는 7~15자 사이로 입력해주세요.")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$%\^&\*])/,
+        "대문자와 소문자 특수문자를 조합해주세요."
+      )
+      .required(""),
     checkPw: Yup.string()
       .oneOf(
         [Yup.ref("pw"), null],
