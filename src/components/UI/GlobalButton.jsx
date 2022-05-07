@@ -2,16 +2,32 @@ import React from "react";
 import styled, { css } from "styled-components";
 
 const GlobalButton = (props) => {
-  const { text, onClick, children, color, margin, background } = props;
+  const {
+    text,
+    onClick,
+    children,
+    color,
+    margin,
+    background,
+    padding,
+    _width,
+    border,
+    hover,
+    type,
+  } = props;
 
   const styles = {
-    margin: margin,
-    color: color,
-    background: background,
+    margin,
+    color,
+    background,
+    padding,
+    _width,
+    border,
+    hover,
   };
 
   return (
-    <Button {...styles} onClick={onClick}>
+    <Button {...styles} onClick={onClick} type={type}>
       {text ? text : children}
     </Button>
   );
@@ -21,33 +37,39 @@ GlobalButton.defaultProps = {
   children: null,
   text: false,
   background: false,
+  padding: false,
+  _width: false,
+  border: false,
   onClick: () => {},
   color: "white",
   marginBottom: "12px",
+  hover: false,
+  type: "text",
 };
 
 const Button = styled.button`
   ${({ theme }) => {
     const { colors, device, calRem } = theme;
     return css`
-      width: 100%;
+      width: ${(props) => (props._width ? props._width : "max-content")};
       height: 50px;
       border-radius: 4px;
-      ${(props) =>
-        props.margin ? `margin: ${props.margin};` : "margin-bottom: 12px;"}
+      border: ${(props) => (props.border ? props.border : "")};
+      padding: ${(props) => (props.padding ? props.padding : "11px 18px")};
+      margin: ${(props) => (props.margin ? props.margin : "")};
       font-size: ${calRem(16)};
-      ${(props) =>
-        props.color ? `color: ${props.color};` : `color: ${colors.white};`}
-      ${(props) =>
-        props.background
-          ? `background: ${props.background};`
-          : `background: ${colors.darkGrey};`}
+      color: ${(props) => (props.color ? props.color : colors.white)};
+      background: ${(props) =>
+        props.background ? props.background : colors.darkGrey};
       ${device.mobile} {
+        width: ${(props) => (props._width ? props._width : "max-content")};
         height: 30px;
         font-size: ${calRem(12)};
+        padding: ${(props) => (props.padding ? props.padding : "0 16px")};
       }
       &:hover {
-        background: ${colors.mediumGrey};
+        background: ${(props) =>
+          props.hover ? colors.mediumGrey : props.background};
       }
     `;
   }}//
