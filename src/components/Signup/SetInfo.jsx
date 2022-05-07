@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import SetProfileImg from "./SetProfileImg";
 import { boxShadow } from "../../styles/boxShadow";
-import { instance } from "../../apis/axios";
+import instance from "../../apis/axios";
 import GlobalButton from "../UI/GlobalButton";
 
 import { FcNext } from "react-icons/fc";
