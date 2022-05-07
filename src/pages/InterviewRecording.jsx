@@ -5,7 +5,8 @@ import Countdown from "react-countdown";
 import Timer from "react-timer-wrapper";
 import Timecode from "react-timecode";
 import styled from "styled-components";
-import { BsAlarm } from "react-icons/bs";
+import { BsAlarm, BsStopCircle } from "react-icons/bs";
+import GlobalButton from "../components/UI/GlobalButton";
 import InterviewForm from "../components/interview/InterviewForm";
 
 const InterviewRecording = () => {
@@ -142,10 +143,15 @@ const InterviewRecording = () => {
         </div>
         <div style={{ textAlign: "center" }}>
           {!isStart && (
-            <button onClick={() => navigate(-1)}>주제 다시 선택하기</button>
+            <GlobalButton onClick={() => navigate(-1)}>
+              주제 다시 선택하기
+            </GlobalButton>
           )}
           {isStart && !isEnd && (
-            <button onClick={stopRecordingHandler}>Stop</button>
+            <BsStopCircle
+              onClick={stopRecordingHandler}
+              size="40"
+            ></BsStopCircle>
           )}
           {isEnd && <InterviewForm thumbnail={thumbnail} ref={recorderRef} />}
         </div>
@@ -187,6 +193,7 @@ const RecordWrapper = styled.div`
   video {
     width: 100%;
     border-radius: 6px;
+    margin-bottom: 20px;
   }
 
   canvas {
@@ -201,6 +208,10 @@ const RecordWrapper = styled.div`
     z-index: 100;
     margin: 0;
     transform: translate(-50%, -50%);
+  }
+
+  svg:hover {
+    cursor: pointer;
   }
 `;
 

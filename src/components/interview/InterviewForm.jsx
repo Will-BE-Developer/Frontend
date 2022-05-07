@@ -2,6 +2,8 @@ import { useState, forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import instance from "../../apis/axios";
+import theme from "../../styles/theme";
+import GlobalButton from "../UI/GlobalButton";
 
 const InterviewForm = ({ thumbnail }, recorderRef) => {
   const navigate = useNavigate();
@@ -84,10 +86,23 @@ const InterviewForm = ({ thumbnail }, recorderRef) => {
       </div>
       <div className="btnWrapper">
         <div>
-          <button>재도전</button>
-          <button>주제 수정</button>
+          <GlobalButton
+            margin="0px 10px 0px 0px"
+            background={theme.colors.white}
+            color={theme.colors.black}
+            border="1px solid rgba(130, 130, 130, 0.2)"
+          >
+            재도전
+          </GlobalButton>
+          <GlobalButton
+            background={theme.colors.white}
+            color={theme.colors.black}
+            border="1px solid rgba(130, 130, 130, 0.2)"
+          >
+            주제 수정
+          </GlobalButton>
         </div>
-        <button>저장</button>
+        <GlobalButton onClick={s3UploadHandler}>저장</GlobalButton>
       </div>
     </FormLayout>
   );
