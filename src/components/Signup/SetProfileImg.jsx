@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 
 import test_img from "./test_img.jpg";
 import styled, { css } from "styled-components";
+import GlobalButton from "../UI/GlobalButton";
+
 const SetProfileImg = (props) => {
   // 기본이미지
   const { img_src } = props;
@@ -82,10 +84,13 @@ const SetProfileImg = (props) => {
       />
 
       <div className="flex_colum">
-        <Button onClick={handleChangeImageBtn}>
+        <GlobalButton onClick={handleChangeImageBtn} margin="0 0 6px 0" hover>
           {getUrl ? "다른 사진 등록" : "사진 등록"}
-        </Button>
-        <Button onClick={DeleteImgHandler}>사진삭제</Button>
+        </GlobalButton>
+
+        <GlobalButton onClick={DeleteImgHandler} margin="0 0 6px 0" hover>
+          사진 삭제
+        </GlobalButton>
       </div>
     </Div>
   );

@@ -102,12 +102,25 @@ const SetInfo = (props) => {
               <Label htmlFor="nickname">닉네임</Label>
               <div>
                 <Input type="text" placeholder="2-6자 이내로 입력해주세요." />
-                <Button onClick={checkEmailHandler}>중복확인</Button>
+
+                <GlobalButton
+                  onClick={checkEmailHandler}
+                  hover
+                  _width="30%"
+                  margin="0 0 0 8px"
+                >
+                  중복확인
+                </GlobalButton>
               </div>
               <ErrorMSG>공백 없이 한글/영문/숫자만 가능합니다. </ErrorMSG>
-              <GlobalButton onClick={nextPageHandler} margin="18px 0 0 0">
-                다음
-                <NextIcon />
+
+              <GlobalButton
+                onClick={nextPageHandler}
+                _width="100%"
+                margin="18px 0 0 0"
+                hover
+              >
+                다음 <NextIcon />
               </GlobalButton>
             </InputField>
           </BoxContainer>
@@ -129,9 +142,8 @@ const SetInfo = (props) => {
               <div>
                 <ErrorMSG>PNG, JPG파일만 업로드 가능합니다.</ErrorMSG>
               </div>
-              <GlobalButton onClick={nextPageWithUploadImgHandler}>
-                다음
-                <NextIcon />
+              <GlobalButton onClick={nextPageHandler} _width="100%" hover>
+                다음 <NextIcon />
               </GlobalButton>
             </InputField>
           </BoxContainer>
@@ -163,7 +175,12 @@ const SetInfo = (props) => {
                 placeholder="50자이내로 나를 표현해주세요."
               />
 
-              <GlobalButton onClick={linkToHomeHandler} margin="18px 0 0 0">
+              <GlobalButton
+                onClick={linkToHomeHandler}
+                _width="100%"
+                margin="18px 0 0 0"
+                hover
+              >
                 가입 완료
               </GlobalButton>
             </InputField>
@@ -280,7 +297,7 @@ const Label = styled.label`
 
 const Input = styled.input`
   width: 100%;
-  height: 60px;
+  height: 50px;
   padding: 0.3em 1em;
   border: 1px solid #e6e6e6;
   border-radius: 4px;

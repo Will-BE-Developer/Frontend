@@ -19,8 +19,15 @@ const SignupStart = (props) => {
       <h2>여러 유저들과 공유하면서 준비하는 화상 면접 공유 공간</h2>
       <BoxContainer>
         <div>
-          <GlobalButton>카카오톡으로 시작하기</GlobalButton>
-          <GlobalButton onClick={nextPageHandler}>
+          <GlobalButton _width="100%" height="50px" margin="0 0 12px 0" hover>
+            카카오톡으로 시작하기
+          </GlobalButton>
+          <GlobalButton
+            onClick={nextPageHandler}
+            _width="100%"
+            margin="0 0 12px 0"
+            hover
+          >
             이메일로 시작하기
           </GlobalButton>
         </div>

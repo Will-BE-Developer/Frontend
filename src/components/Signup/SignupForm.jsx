@@ -99,8 +99,6 @@ const SignupForm = (props) => {
             {...register("checkPw")}
           />
           <ErrorMSG>{errors.checkPw?.message}</ErrorMSG>
-
-          {/* <GlobalButton type="submit">회원가입</GlobalButton> */}
           <GlobalButton type="submit" _width="100%" margin="0 0 12px 0" hover>
             회원가입
           </GlobalButton>
