@@ -8,6 +8,7 @@ const colors = {
   white: "#FFFFFF",
   black: "#424242",
   headerBgColor: "#F9F9F9",
+  errorMsg: "red",
 
   // 4 main colors
   green: "#92A094",

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import RecordRTC from "recordrtc";
 import Countdown from "react-countdown";
 import Timer from "react-timer-wrapper";
@@ -8,8 +8,10 @@ import styled from "styled-components";
 import { BsAlarm, BsStopCircle } from "react-icons/bs";
 import GlobalButton from "../components/UI/GlobalButton";
 import InterviewForm from "../components/interview/InterviewForm";
+import instance from "../apis/axios";
 
 const InterviewRecording = () => {
+  const { state } = useLocation();
   const navigate = useNavigate();
   const videoRef = useRef(null);
   const recorderRef = useRef(null);
@@ -18,6 +20,9 @@ const InterviewRecording = () => {
   const [isStart, setIsStart] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
   const [time, setTime] = useState();
+  const [question, setQuestion] = useState();
+
+  console.log(question);
 
   const recordingHandler = useCallback(async () => {
     try {
@@ -60,6 +65,15 @@ const InterviewRecording = () => {
       return;
     }
 
+    instance
+      .get(`/api/questions/${state}`)
+      .then((res) => {
+        setQuestion(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
     const timer = setTimeout(() => {
       recordingHandler();
     }, 5000);
@@ -67,7 +81,7 @@ const InterviewRecording = () => {
     return () => {
       clearTimeout(timer);
     };
-  }, [recordingHandler, isEnd]);
+  }, [recordingHandler, isEnd, state]);
 
   const stopRecordingHandler = () => {
     recorderRef.current.stopRecording(() => {

@@ -1,30 +1,30 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiChevronRight } from "react-icons/hi";
-
-const TOPIC = [
-  "면접주제 1",
-  "면접주제 2",
-  "면접주제 3",
-  "면접주제 4",
-  "면접주제 5",
-  "면접주제 6",
-  "면접주제 7",
-  "면접주제 8",
-  "면접주제 9",
-  "면접주제 10",
-];
+import instance from "../apis/axios";
 
 const InterviewTopic = () => {
+  const [topic, setTopic] = useState([]);
   const [selectTopic, setSelectTopic] = useState();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    instance
+      .get("/api/categories")
+      .then((res) => {
+        setTopic(res.data.categories);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <TopicBox>
       <p className="title">면접 주제를 선정해주세요.</p>
       <div className="topic">
-        {TOPIC.map((topic, index) => {
+        {topic.map((topic, index) => {
           return (
             <label key={index}>
               <input
@@ -41,7 +41,9 @@ const InterviewTopic = () => {
       <div style={{ display: "flex", justifyContent: "center" }}>
         <button
           className="startBtn"
-          onClick={() => navigate("/interview/recording")}
+          onClick={() =>
+            navigate("/interview/recording", { state: selectTopic })
+          }
         >
           면접 시작하기
           <HiChevronRight />
@@ -66,6 +68,7 @@ const TopicBox = styled.div`
   }
 
   & .topic {
+    text-align: start;
     padding: 0px 120px;
     margin-top: 40px;
     display: grid;

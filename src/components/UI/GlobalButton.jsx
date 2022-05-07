@@ -10,7 +10,7 @@ const GlobalButton = (props) => {
     margin,
     background,
     padding,
-    width,
+    _width,
     border,
   } = props;
 
@@ -19,7 +19,7 @@ const GlobalButton = (props) => {
     color,
     background,
     padding,
-    width,
+    _width,
     border,
   };
 
@@ -35,7 +35,7 @@ GlobalButton.defaultProps = {
   text: false,
   background: false,
   padding: false,
-  width: false,
+  _width: false,
   border: false,
   onClick: () => {},
   color: "white",
@@ -46,26 +46,23 @@ const Button = styled.button`
   ${({ theme }) => {
     const { colors, device, calRem } = theme;
     return css`
-      width: ${(props) => (props.width ? props.width : "max-content")}
+      width: ${(props) => (props._width ? props._width : "max-content")};
       height: 50px;
       border-radius: 4px;
-      border: ${(props) => (props.border ? props.border : "none")}
-      padding: ${(props) => (props.padding ? props.padding : "11px 18px")}
-      ${(props) =>
-        props.margin ? `margin: ${props.margin};` : "margin-bottom: 12px;"}
+      border: ${(props) => (props.border ? props.border : "")};
+      padding: ${(props) => (props.padding ? props.padding : "11px 18px")};
+      margin: ${(props) => (props.margin ? props.margin : "")};
       font-size: ${calRem(16)};
-      ${(props) =>
-        props.color ? `color: ${props.color};` : `color: ${colors.white};`}
-      ${(props) =>
-        props.background
-          ? `background: ${props.background};`
-          : `background: ${colors.darkGrey};`}
+      color: ${(props) => (props.color ? props.color : colors.white)};
+      background: ${(props) =>
+        props.background ? props.background : colors.darkGrey};
       ${device.mobile} {
         height: 30px;
         font-size: ${calRem(12)};
       }
       &:hover {
-        background: ${colors.mediumGrey};
+        background: ${(props) =>
+          props.background ? colors.mediumGrey : props.background};
       }
     `;
   }}//
