@@ -4,14 +4,18 @@ import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <HeaderContainer>
-      <Link to="/">
-        <Title>WillBe</Title>
-      </Link>
-      <div>
-        <Link style={{ marginRight: "10px" }} to="/signin">
-          로그인
-        </Link>
-        <Link to="/signup">회원가입</Link>
+      <div className="nav">
+        <div style={{ display: "flex", gap: "20px" }}>
+          <Link to="/">
+            <Title>WillBe</Title>
+          </Link>
+          <Link to="/feedback">피드백</Link>
+          <Link to="/interview">면접보기</Link>
+          <Link to="/mypage">마이페이지</Link>
+        </div>
+        <div>
+          <Link to="/signin">로그인</Link>
+        </div>
       </div>
     </HeaderContainer>
   );
@@ -19,22 +23,28 @@ const Header = () => {
 
 const HeaderContainer = styled.div`
   ${({ theme }) => {
-    const { colors, device } = theme;
+    const { colors } = theme;
     return css`
       position: fixed;
+      display: flex;
+      justify-content: center;
       top: 0;
       left: 0;
       z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 30px;
+      padding: 0px;
       width: 100%;
-      height: 80px;
+      height: 60px;
       background-color: ${colors.headerBgColor};
       box-shadow: 0 2px 5px rgba(130, 130, 130, 0.1);
-      ${device.tablet} {
-        height: 100px;
+
+      & .nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        width: 100%;
+        height: 60px;
+        padding: 0px 20px;
       }
     `;
   }}//
@@ -42,7 +52,7 @@ const HeaderContainer = styled.div`
 
 const Title = styled.h1`
   ${({ theme }) => {
-    const { colors, device, fontSize } = theme;
+    const { colors } = theme;
     return css`
       color: ${colors.black};
       font-weight: 600;
