@@ -17,7 +17,7 @@ const colors = {
   yellow: "#F0F354",
 
   //btn
-  lightGrey: "#C4C4C4",
+  lightGrey: "#666666",
   mediumGrey: "#888888",
 
   // add btn

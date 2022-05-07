@@ -6,13 +6,21 @@ import theme from "./styles/theme";
 import App from "./App";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
+import Interview from "./pages/Interview";
+import InterviewTopic from "./pages/InterviewTopic";
+import InterviewRecording from "./pages/InterviewRecording";
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<App />}></Route>
+          <Route path="/" element={<App />}>
+            <Route path="interview" element={<Interview />}>
+              <Route path="topic" element={<InterviewTopic />} />
+              <Route path="recording" element={<InterviewRecording />} />
+            </Route>
+          </Route>
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
         </Routes>
