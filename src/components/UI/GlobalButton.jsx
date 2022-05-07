@@ -12,6 +12,7 @@ const GlobalButton = (props) => {
     padding,
     _width,
     border,
+    hover,
   } = props;
 
   const styles = {
@@ -21,6 +22,7 @@ const GlobalButton = (props) => {
     padding,
     _width,
     border,
+    hover,
   };
 
   return (
@@ -37,6 +39,7 @@ GlobalButton.defaultProps = {
   padding: false,
   _width: false,
   border: false,
+  hover: false,
   onClick: () => {},
   color: "white",
   marginBottom: "12px",
@@ -46,23 +49,27 @@ const Button = styled.button`
   ${({ theme }) => {
     const { colors, device, calRem } = theme;
     return css`
+      display: flex;
+      justify-content: center;
+      align-items: center;
       width: ${(props) => (props._width ? props._width : "max-content")};
       height: 50px;
       border-radius: 4px;
       border: ${(props) => (props.border ? props.border : "")};
       padding: ${(props) => (props.padding ? props.padding : "11px 18px")};
       margin: ${(props) => (props.margin ? props.margin : "")};
-      font-size: ${calRem(16)};
+      font-size: ${calRem(14)};
       color: ${(props) => (props.color ? props.color : colors.white)};
       background: ${(props) =>
         props.background ? props.background : colors.darkGrey};
       ${device.mobile} {
         height: 30px;
         font-size: ${calRem(12)};
+        padding: ${(props) => (props.padding ? props.padding : "0px 16px")};
       }
       &:hover {
         background: ${(props) =>
-          props.background ? colors.mediumGrey : props.background};
+          props.hover ? colors.mediumGrey : props.background};
       }
     `;
   }}//

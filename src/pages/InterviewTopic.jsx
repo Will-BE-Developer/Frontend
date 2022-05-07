@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiChevronRight } from "react-icons/hi";
 import instance from "../apis/axios";
+import GlobalButton from "../components/UI/GlobalButton";
 
 const InterviewTopic = () => {
   const [topic, setTopic] = useState([]);
@@ -39,15 +40,15 @@ const InterviewTopic = () => {
         })}
       </div>
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <button
-          className="startBtn"
+        <GlobalButton
+          margin="0px 0px 40px 0px"
           onClick={() =>
             navigate("/interview/recording", { state: selectTopic })
           }
         >
           면접 시작하기
-          <HiChevronRight />
-        </button>
+          <HiChevronRight size="25px" />
+        </GlobalButton>
       </div>
     </TopicBox>
   );
@@ -74,15 +75,7 @@ const TopicBox = styled.div`
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 20px;
-    margin-bottom: 32px;
-  }
-
-  & .startBtn {
-    display: flex;
-    margin-bottom: 40px;
-    padding: 11px 18px;
-    border-radius: 4px;
-    border: 1px solid rgba(130, 130, 130, 0.2);
+    margin-bottom: 30px;
   }
 `;
 

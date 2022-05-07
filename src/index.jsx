@@ -17,7 +17,7 @@ ReactDOM.render(
         <Routes>
           <Route path="/" element={<App />}>
             <Route path="interview" element={<Interview />}>
-              <Route path="topic" element={<InterviewTopic />} />
+              <Route path="" element={<InterviewTopic />} />
               <Route path="recording" element={<InterviewRecording />} />
             </Route>
           </Route>

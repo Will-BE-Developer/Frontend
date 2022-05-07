@@ -5,47 +5,74 @@ import instance from "../../apis/axios";
 import theme from "../../styles/theme";
 import GlobalButton from "../UI/GlobalButton";
 
-const InterviewForm = ({ thumbnail }, recorderRef) => {
+const InterviewForm = ({ thumbnail, questionId, reset }, recorderRef) => {
   const navigate = useNavigate();
   const [isPublic, setIsPublic] = useState("");
-  const [charCount, setCharCount] = useState(0);
-  console.log(recorderRef, thumbnail);
+  const [noteInfo, setNoteInfo] = useState({ noteCount: 0 });
 
   const s3UploadHandler = async () => {
+    if (isPublic.length === 0 || noteInfo.noteText.length === 0) {
+      alert("공개 여부 또는 내용을 작성해주세요.");
+      return;
+    }
+
     try {
-      const res = await instance.get("/s3url-put", {
-        params: {
-          objKey: "testLlama",
+      const { data } = await instance.get("/api/interviews/draft");
+
+      const video = recorderRef.current.getBlob();
+      const interviewId = data.interview.id;
+      const presignedUrlVideo = data.presignedUrl.video;
+      const presignedUrlThumbnail = data.presignedUrl.thumbnail;
+
+      console.log(thumbnail, video);
+
+      const s3ResVideo = await instance.put(presignedUrlVideo, video, {
+        headers: {
+          "Content-Type": "video/webm",
         },
       });
 
-      const s3VideoUrl = res.data;
-
-      const res2 = await instance.put(
-        s3VideoUrl,
-        recorderRef.current.getBlob(),
+      const s3ResThumbnail = await instance.put(
+        presignedUrlThumbnail,
+        thumbnail,
         {
           headers: {
-            "Content-Type": "video/webm",
+            "Content-Type": "image/png",
           },
         }
       );
 
-      // const s3ThumbnailUrl = res.data
+      const response = await instance.post(
+        `api/interviews/${interviewId}`,
+        {
+          note: noteInfo.noteText,
+          questionId,
+          isPublic,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      // const res3 = await instance.put(s3ThumbnailUrl, thumbnail, {
-      //   headers: {
-      //     "Content-Type": "image/png"
-      //   }
-      // })
-
-      console.log(res2);
+      console.log(s3ResVideo, s3ResThumbnail, response);
 
       recorderRef.current.reset();
       recorderRef.current = null;
+
+      if (isPublic) {
+        navigate("/feedback");
+      } else {
+        navigate("/mypage");
+      }
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const reTryHandler = () => {
+    reset();
   };
 
   return (
@@ -75,26 +102,33 @@ const InterviewForm = ({ thumbnail }, recorderRef) => {
       <div>
         <p>내용</p>
         <textarea
-          onChange={(e) => setCharCount(e.target.value.length)}
+          onChange={(e) =>
+            setNoteInfo({
+              noteText: e.target.value,
+              noteCount: e.target.value.length,
+            })
+          }
           placeholder="내용을 작성해주세요"
           maxLength={500}
           rows={5}
         ></textarea>
         <p
           style={{ textAlign: "end", color: "#666666" }}
-        >{`${charCount} / 500`}</p>
+        >{`${noteInfo.noteCount} / 500`}</p>
       </div>
       <div className="btnWrapper">
-        <div>
+        <div style={{ display: "flex" }}>
           <GlobalButton
             margin="0px 10px 0px 0px"
             background={theme.colors.white}
             color={theme.colors.black}
             border="1px solid rgba(130, 130, 130, 0.2)"
+            onClick={reTryHandler}
           >
             재도전
           </GlobalButton>
           <GlobalButton
+            onClick={() => navigate("/interview")}
             background={theme.colors.white}
             color={theme.colors.black}
             border="1px solid rgba(130, 130, 130, 0.2)"
@@ -127,7 +161,19 @@ const FormLayout = styled.div`
   }
 
   & .radioGroup {
+    display: flex;
+    gap: 10px;
     margin: 8px 0px 20px 0px;
+    font-size: ${({ theme }) => theme.fontSize["14"]};
+  }
+
+  & .radioGroup input {
+    margin: 0px 5px 0px 0px;
+  }
+
+  & .radioGroup label {
+    display: flex;
+    align-items: center;
   }
 
   & .noti {

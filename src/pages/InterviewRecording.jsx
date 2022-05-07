@@ -5,7 +5,7 @@ import Countdown from "react-countdown";
 import Timer from "react-timer-wrapper";
 import Timecode from "react-timecode";
 import styled from "styled-components";
-import { BsAlarm, BsStopCircle } from "react-icons/bs";
+import { BsAlarm } from "react-icons/bs";
 import GlobalButton from "../components/UI/GlobalButton";
 import InterviewForm from "../components/interview/InterviewForm";
 import instance from "../apis/axios";
@@ -20,9 +20,8 @@ const InterviewRecording = () => {
   const [isStart, setIsStart] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
   const [time, setTime] = useState();
-  const [question, setQuestion] = useState();
-
-  console.log(question);
+  const [question, setQuestion] = useState({});
+  const [firstTry, setIsFirstTry] = useState(true);
 
   const recordingHandler = useCallback(async () => {
     try {
@@ -42,6 +41,7 @@ const InterviewRecording = () => {
 
       recorderRef.current.startRecording();
 
+      setIsFirstTry(false);
       setIsStart(true);
     } catch (err) {
       console.log(err);
@@ -54,37 +54,39 @@ const InterviewRecording = () => {
         const { videoWidth, videoHeight } = videoRef.current;
         thumbnailRef.current.width = videoWidth;
         thumbnailRef.current.height = videoHeight;
+
         const ctx = thumbnailRef.current.getContext("2d");
-
         ctx.drawImage(videoRef.current, 0, 0, videoWidth, videoHeight);
-
-        console.log(videoWidth, videoHeight);
         thumbnailRef.current.toBlob((blob) => setThumbnail(blob));
       }, 1000);
 
       return;
     }
 
-    instance
-      .get(`/api/questions/${state}`)
-      .then((res) => {
-        setQuestion(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
+    if (firstTry) {
+      instance
+        .get(`/api/questions/${state}`)
+        .then((res) => {
+          setQuestion(res.data.question);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
     const timer = setTimeout(() => {
-      recordingHandler();
+      if (videoRef.current.srcObject === null) {
+        recordingHandler();
+      }
     }, 5000);
 
     return () => {
       clearTimeout(timer);
     };
-  }, [recordingHandler, isEnd, state]);
+  }, [recordingHandler, isEnd, state, firstTry]);
 
   const stopRecordingHandler = () => {
     recorderRef.current.stopRecording(() => {
+      videoRef.current.controls = true;
       videoRef.current.srcObject = null;
       videoRef.current.muted = false;
       videoRef.current.volume = 1;
@@ -96,8 +98,18 @@ const InterviewRecording = () => {
     });
   };
 
+  const resetHandler = () => {
+    videoRef.current.src = null;
+    videoRef.current.srcObject = null;
+    recorderRef.current.reset();
+    recorderRef.current = null;
+
+    setIsEnd(false);
+    setIsStart(false);
+  };
+
   return (
-    <RecordWrapper>
+    <RecordWrapper isEnd={isEnd}>
       <div
         style={{
           maxWidth: "700px",
@@ -105,26 +117,24 @@ const InterviewRecording = () => {
         }}
       >
         <div className="header">
-          <p>면접주제</p>
+          <span className="badge">{question.category}</span>
           <div className="title">
-            <span>Q.Recoil 장점을 말해주세요.</span>
+            <span>{`Q.${question.contents}`}</span>
             {isStart && !isEnd && (
               <span className="alarm">
                 <BsAlarm />
                 <Timer active duration={300000}>
                   <Timecode format="H:?mm:ss" style={{ color: "black" }} />
                 </Timer>
+                <span>/</span>
                 <Timer
+                  style={{ display: "none" }}
                   active
                   onFinish={stopRecordingHandler}
                   duration={300000}
                   onTimeUpdate={({ time }) => setTime(time)}
                 />
-                <Timecode
-                  time={301000 - time}
-                  format="H:?mm:ss"
-                  style={{ color: "black" }}
-                />
+                <Timecode time={301000 - time} format="H:?mm:ss" />
               </span>
             )}
           </div>
@@ -139,35 +149,24 @@ const InterviewRecording = () => {
               />
             </h1>
           )}
-          {/* {isStart && !isEnd && (
-            <Countdown
-              date={Date.now() + 300000}
-              zeroPadTime={2}
-              renderer={({ seconds, minutes, completed }) => (
-                <h3 style={{ margin: 0 }}>
-                  {completed && stopRecordingHandler()}
-                  <span>
-                    Timer : {String(minutes).padStart(2, "0")}:
-                    {String(seconds).padStart(2, "0")}
-                  </span>
-                </h3>
-              )}
-            />
-          )} */}
         </div>
-        <div style={{ textAlign: "center" }}>
+        <div style={{ display: "flex", justifyContent: "center" }}>
           {!isStart && (
-            <GlobalButton onClick={() => navigate(-1)}>
-              주제 다시 선택하기
+            <GlobalButton onClick={() => navigate("/interview")}>
+              주제 재선택
             </GlobalButton>
           )}
           {isStart && !isEnd && (
-            <BsStopCircle
-              onClick={stopRecordingHandler}
-              size="40"
-            ></BsStopCircle>
+            <GlobalButton onClick={stopRecordingHandler}>Stop</GlobalButton>
           )}
-          {isEnd && <InterviewForm thumbnail={thumbnail} ref={recorderRef} />}
+          {isEnd && (
+            <InterviewForm
+              reset={resetHandler}
+              questionId={question.id}
+              thumbnail={thumbnail}
+              ref={recorderRef}
+            />
+          )}
         </div>
         <canvas ref={thumbnailRef} />
       </div>
@@ -186,10 +185,19 @@ const RecordWrapper = styled.div`
     margin: 20px 0px;
   }
 
+  & .badge {
+    font-size: ${({ theme }) => theme.fontSize["12"]};
+    color: ${({ theme }) => theme.colors.white};
+    background-color: ${({ theme }) => theme.colors.lightGrey};
+    border-radius: 10px;
+    padding: 5px 12px;
+  }
+
   & .header .title {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+    margin-top: 12px;
     font-size: ${({ theme }) => theme.fontSize["20"]};
   }
 
@@ -197,11 +205,17 @@ const RecordWrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    align-content: center;
+    gap: 5px;
     border-radius: 4px;
     border: 1px solid rgba(130, 130, 130, 0.2);
     padding: 8px 10px;
-    font-size: 16px;
+    font-size: ${({ theme }) => theme.fontSize["16"]};
     color: #b3b3b3;
+  }
+
+  video::-webkit-media-controls-current-time-display {
+    display: ${({ isEnd }) => (isEnd ? "" : "none")};
   }
 
   video {
@@ -230,3 +244,19 @@ const RecordWrapper = styled.div`
 `;
 
 export default InterviewRecording;
+
+/* {isStart && !isEnd && (
+            <Countdown
+              date={Date.now() + 300000}
+              zeroPadTime={2}
+              renderer={({ seconds, minutes, completed }) => (
+                <h3 style={{ margin: 0 }}>
+                  {completed && stopRecordingHandler()}
+                  <span>
+                    Timer : {String(minutes).padStart(2, "0")}:
+                    {String(seconds).padStart(2, "0")}
+                  </span>
+                </h3>
+              )}
+            />
+          )} */
