@@ -21,7 +21,8 @@
     "styled-components": "^5.3.5",
     "styled-reset": "^4.3.4",
     "web-vitals": "^2.1.4",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "date-fns": "^2.28.0"
   },
   "scripts": {
     "start": "react-scripts start",
