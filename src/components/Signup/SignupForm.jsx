@@ -19,19 +19,18 @@ const SignupForm = (props) => {
   };
 
   // 회원가입 유효성 검사
-  // 특수문자 허용
   const schema = Yup.object().shape({
     email: Yup.string()
       .email("이메일 형식이 맞지 않습니다.")
       .required("이메일을 입력해주세요."),
     pw: Yup.string()
-      .min(1, "비밀번호는 7~15자 사이로 입력해주세요.")
+      .min(1, "비밀번호는 7~10자 사이로 입력해주세요.")
       .max(15, "비밀번호는 7~15자 사이로 입력해주세요.")
       // .matches(
       //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$%\^&\*])/,
       //   "대문자와 소문자 특수문자를 조합해주세요."
       // )
-      .required(""),
+      .required(),
     checkPw: Yup.string()
       .oneOf(
         [Yup.ref("pw"), null],
@@ -60,10 +59,9 @@ const SignupForm = (props) => {
     props.setCurrentPage(2);
   };
 
-  const checkEmail = () => {
+  const checkEmailHandler = () => {
     alert("이미 사용중인 이메일입니다.");
   };
-
   return (
     <Container>
       <div>이메일 회원가입</div>
@@ -76,8 +74,14 @@ const SignupForm = (props) => {
               placeholder="이메일을 입력해주세요."
               {...register("email")}
             />
-
-            <Button onClick={checkEmail}>중복확인</Button>
+            <GlobalButton
+              onClick={checkEmailHandler}
+              hover
+              _width="30%"
+              margin="0 0 0 8px"
+            >
+              중복확인
+            </GlobalButton>
           </div>
           <ErrorMSG>{errors.email?.message}</ErrorMSG>
           <Label htmlFor="pw">비밀번호</Label>
@@ -96,7 +100,10 @@ const SignupForm = (props) => {
           />
           <ErrorMSG>{errors.checkPw?.message}</ErrorMSG>
 
-          <GlobalButton type="submit">회원가입</GlobalButton>
+          {/* <GlobalButton type="submit">회원가입</GlobalButton> */}
+          <GlobalButton type="submit" _width="100%" margin="0 0 12px 0" hover>
+            회원가입
+          </GlobalButton>
         </SignUpForm>
       </BoxContainer>
     </Container>
@@ -127,6 +134,12 @@ const BoxContainer = styled.div`
   width: 672px;
   height: 620px;
 
+  & > div {
+    padding: 0 7%;
+    display: flex;
+    flex-direction: column;
+  }
+
   ${(props) => boxShadow()};
 
   ${({ theme }) => theme.device.mobile} {
@@ -149,30 +162,6 @@ const SignUpForm = styled.form`
     justify-content: space-between;
     align-items: center;
   }
-`;
-
-const Button = styled.button`
-  ${({ theme }) => {
-    const { colors, device, calRem } = theme;
-    return css`
-      border-radius: 4px;
-      background: ${colors.darkGrey};
-      color: ${colors.white};
-      width: 96px;
-      height: 60px;
-      font-size: ${calRem(16)};
-      margin-left: 10px;
-
-      ${device.mobile} {
-        width: 80px;
-        height: 30px;
-        font-size: ${calRem(12)};
-      }
-      &:hover {
-        background: ${colors.mediumGrey};
-      }
-    `;
-  }}
 `;
 
 const Label = styled.label`
@@ -210,21 +199,8 @@ const ErrorMSG = styled.span`
   margin-top: 2px;
   font-size: ${({ theme }) => theme.calRem(12)};
   text-align: left;
-  color: ${({ theme }) => theme.colors.mediumGrey};
+  color: ${({ theme }) => theme.colors.errorMsg};
   margin-bottom: 16px;
 `;
-// const Button = styled.button`
-//   width: 100%;
-//   height: 50px;
-//   /* width: 560px;
-//   height: 60px; */
-//   margin-bottom: 12px;
-//   font-size: ${({ theme }) => theme.calRem(16)};
-
-//   ${({ theme }) => theme.device.mobile} {
-//     height: 30px;
-//     font-size: ${({ theme }) => theme.calRem(14)};
-//   }
-// `;
 
 export default SignupForm;
