@@ -1,10 +1,15 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import SetProfileImg from "./SetProfileImg";
-
+import { boxShadow } from "../../styles/boxShadow";
 import { instance } from "../../apis/axios";
+import GlobalButton from "../UI/GlobalButton";
 
+import { FcNext } from "react-icons/fc";
+import { FcPrevious } from "react-icons/fc";
+
+import GlobalTextarea from "../UI/GlobalTextArea";
 const SetInfo = (props) => {
   // 받아온 src url
   const [imgUrl, setImgUrl] = useState("");
@@ -79,77 +84,250 @@ const SetInfo = (props) => {
     navigate("/");
   };
 
+  const checkEmailHandler = () => {
+    alert("이미 사용중인 이메일입니다.");
+  };
+
   return (
     <div>
       {currentPage === 2 && (
-        <BG>
-          <Container>
-            <h2>사용하실 닉네임을 설정해주세요.</h2>
-            <div>서비스를 이용할 때 사용되는 이름이에요!</div>
-            <div>
-              <input type="text" placeholder="2-6자 이내로 입력해주세요." />
-            </div>
-            <p>닉네임은 공백 없이 한글/영문/숫자만 가능합니다. </p>
-            <button onClick={nextPageHandler}>다음으로</button>
-          </Container>
-        </BG>
+        <Container>
+          <div>
+            <h2>닉네임</h2>
+            <span>서비스 이용시 사용되는 닉네임입니다.</span>
+          </div>
+
+          <BoxContainer>
+            <InputField>
+              <Label htmlFor="nickname">닉네임</Label>
+              <div>
+                <Input type="text" placeholder="2-6자 이내로 입력해주세요." />
+                <Button onClick={checkEmailHandler}>중복확인</Button>
+              </div>
+              <ErrorMSG>공백 없이 한글/영문/숫자만 가능합니다. </ErrorMSG>
+              <GlobalButton onClick={nextPageHandler} margin="18px 0 0 0">
+                다음
+                <NextIcon />
+              </GlobalButton>
+            </InputField>
+          </BoxContainer>
+        </Container>
       )}
 
       {currentPage === 3 && (
-        <BG>
-          <Container>
-            <button onClick={previousPageHandler}>뒤로가기</button>
-            <h2>프로필 사진을 설정해주세요.</h2>
-            <div>서비스를 이용할 때 사용되는 이미지에요!</div>
-            <div>
-              <SetProfileImg sendImgUrl={getImgUrl} getUrl={getUrl} />
-            </div>
-            <p>PNG, JPG파일만 업로드 가능합니다. </p>
-            <button onClick={nextPageWithUploadImgHandler}>다음으로</button>
-          </Container>
-        </BG>
+        <Container>
+          <div>
+            <h2>프로필</h2>
+            <span>서비스 이용시 사용되는 이미지입니다.</span>
+          </div>
+          <BoxContainer>
+            <InputField isCenter="center">
+              <PreviousIcon onClick={previousPageHandler} />
+              <FlexDiv>
+                <SetProfileImg sendImgUrl={getImgUrl} getUrl={getUrl} />
+              </FlexDiv>
+              <div>
+                <ErrorMSG>PNG, JPG파일만 업로드 가능합니다.</ErrorMSG>
+              </div>
+              <GlobalButton onClick={nextPageWithUploadImgHandler}>
+                다음
+                <NextIcon />
+              </GlobalButton>
+            </InputField>
+          </BoxContainer>
+        </Container>
       )}
 
       {currentPage === 4 && (
-        <BG>
-          <Container>
-            <button onClick={previousPageHandler}>뒤로가기</button>
+        <Container>
+          <div>
+            <h2>포트폴리오 URL</h2>
+            <span>
+              깃허브, 노션 등 본인의 포트폴리오 URL을 한 개만 작성해주세요.
+            </span>
+          </div>
 
-            <h2>Github링크를 넣어주세요</h2>
-            <div>개발자들끼리 서로 공유해요!</div>
-            <input type="text" placeholder="https://github.com/" />
-            <h2>본인을 소개하는 한줄!</h2>
-            <textarea />
-            {/* 이메일로 가입한사람은 로그인창으로 가야함.. */}
-            {/* 회원가입할 떄 토큰 내려달라고 하기 바로 로그인.. */}
-            <button onClick={linkToHomeHandler}>홈페이지로 가기</button>
-          </Container>
-        </BG>
+          <BoxContainer>
+            <InputField>
+              <div>
+                <PreviousIcon onClick={previousPageHandler} />
+              </div>
+
+              <Label htmlFor="github_url">포트폴리오 URL</Label>
+              <Input type="text" placeholder="https://github.com/" />
+              <Label htmlFor="pr">자기소개</Label>
+              <GlobalTextarea
+                charLimit="50"
+                rows="5"
+                cols="80"
+                placeholder="50자이내로 나를 표현해주세요."
+              />
+
+              <GlobalButton onClick={linkToHomeHandler} margin="18px 0 0 0">
+                가입 완료
+              </GlobalButton>
+            </InputField>
+          </BoxContainer>
+        </Container>
       )}
     </div>
   );
 };
 
-const BG = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.7);
+const FlexDiv = styled.div`
+  display: flex;
+  flex-direction: ${(props) => (props.isColum ? "column" : null)};
+
+  margin-bottom: 10px;
+`;
+const Container = styled.div`
+  ${({ theme }) => {
+    const { colors, device, calRem, fontWeight } = theme;
+    return css`
+      margin: 0 auto;
+      & > div {
+        margin: 0 auto;
+
+        margin-bottom: 20px;
+        text-align: center;
+        & > h2 {
+          font-size: ${calRem(24)};
+        }
+
+        & > span {
+          font-size: ${calRem(14)};
+          font-weight: ${fontWeight.regular};
+          color: ${colors.lightGrey};
+          margin: 32px 0;
+        }
+      }
+
+      font-weight: ${fontWeight.semiExtraBold};
+      ${device.mobile} {
+        margin-right: 0;
+        width: 100%;
+        font-size: ${calRem(18)};
+        & > h2 {
+          margin: 0 auto;
+          text-align: center;
+          margin-bottom: 32px;
+        }
+      }
+    `;
+  }}
 `;
 
-// wrap?
-const Container = styled.div`
-  z-index: 1000;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 10px;
-  width: 400px;
-  padding: 4rem;
-  background-color: white;
+const BoxContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  width: 672px;
+  height: 400px;
+
+  ${(props) => boxShadow()};
+  ${({ theme }) => theme.device.mobile} {
+    padding: 0 5%;
+    width: 100%;
+    height: 300px;
+  }
+`;
+
+const InputField = styled.form`
+  width: 100%;
+  padding: 0 7%;
+
+  text-align: left;
+
+  & > div {
+    width: 100%;
+    display: flex;
+    justify-content: ${(props) => (props.isCenter ? props.isCenter : "left")};
+
+    align-items: center;
+  }
+`;
+
+const Button = styled.button`
+  ${({ theme }) => {
+    const { colors, device, calRem } = theme;
+    return css`
+      border-radius: 4px;
+      background: ${colors.darkGrey};
+      color: ${colors.white};
+      width: 96px;
+      height: 60px;
+      font-size: ${calRem(16)};
+      margin: 0 0 6px 0;
+
+      ${device.mobile} {
+        width: 80px;
+        height: 30px;
+        font-size: ${calRem(12)};
+      }
+      &:hover {
+        background: ${colors.mediumGrey};
+      }
+    `;
+  }}
+`;
+
+const Label = styled.label`
+  font-size: ${({ theme }) => theme.calRem(14)};
+  color: ${({ theme }) => theme.colors.black};
+  text-align: left;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  height: 60px;
+  padding: 0.3em 1em;
+  border: 1px solid #e6e6e6;
+  border-radius: 4px;
+  margin: 5px 0;
+
+  background: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.placeHolder};
+
+  ::placeholder {
+    font-size: ${({ theme }) => theme.calRem(16)};
+    font-weight: lighter;
+    color: ${({ theme }) => theme.colors.placeHolder};
+  }
+
+  ${({ theme }) => theme.device.mobile} {
+    height: 30px;
+    ::placeholder {
+      color: ${({ theme }) => theme.colors.placeHolder};
+      font-size: ${({ theme }) => theme.calRem(12)};
+    }
+  }
+`;
+const ErrorMSG = styled.span`
+  margin-top: 2px;
+  font-size: ${({ theme }) => theme.calRem(12)};
+  text-align: center;
+  color: ${({ theme }) => theme.colors.mediumGrey};
+  margin-bottom: 16px;
+`;
+
+const NextIcon = styled(FcNext)`
+  margin-right: 5px;
+  vertical-align: middle;
+  position: relative;
+  bottom: 1px;
+  & > polygon {
+    fill: ${({ theme }) => theme.colors.white};
+  }
+`;
+const PreviousIcon = styled(FcPrevious)`
+  margin-bottom: 5px;
+  vertical-align: middle;
+  position: relative;
+  cursor: pointer;
+  & > polygon {
+    fill: ${({ theme }) => theme.colors.lightGrey};
+  }
 `;
 
 const Img = styled.img`

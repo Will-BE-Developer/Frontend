@@ -27,7 +27,7 @@ const SignupStart = (props) => {
         <Terms>
           <label>
             <input type="checkbox" />
-            (필수) 서비스 이용 약관 동의{" "}
+            (필수) 서비스 이용 약관 동의
             <Link to="/">
               <TermsShow>보기</TermsShow>
             </Link>

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
-import styled from "styled-components";
-import test_img from "./test_img.jpg";
 
+import test_img from "./test_img.jpg";
+import styled, { css } from "styled-components";
 const SetProfileImg = (props) => {
   // 기본이미지
   const { img_src } = props;
@@ -53,8 +53,13 @@ const SetProfileImg = (props) => {
     inputFileRef.current.click();
   };
 
+  const DeleteImgHandler = (e) => {
+    e.preventDefault();
+    setSelectedImage(null);
+  };
+
   return (
-    <div>
+    <Div>
       <div>
         <Img
           alt="not fount"
@@ -75,16 +80,56 @@ const SetProfileImg = (props) => {
         ref={inputFileRef}
         onChange={handleImageUrl}
       />
-      <button onClick={handleChangeImageBtn}>
-        {getUrl ? "다른 사진 등록" : "프로필 사진 등록"}
-      </button>
-    </div>
+
+      <div className="flex_colum">
+        <Button onClick={handleChangeImageBtn}>
+          {getUrl ? "다른 사진 등록" : "사진 등록"}
+        </Button>
+        <Button onClick={DeleteImgHandler}>사진삭제</Button>
+      </div>
+    </Div>
   );
 };
 
 SetProfileImg.defaultProps = {
   img_src: test_img,
 };
+
+const Div = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+
+  & .flex_colum {
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
+const Button = styled.button`
+  ${({ theme }) => {
+    const { colors, device, calRem } = theme;
+    return css`
+      border-radius: 4px;
+      background: ${colors.darkGrey};
+      color: ${colors.white};
+      width: 96px;
+      height: 60px;
+      font-size: ${calRem(16)};
+      margin: 0 0 6px 0;
+
+      ${device.mobile} {
+        width: 80px;
+        height: 30px;
+        font-size: ${calRem(12)};
+      }
+      &:hover {
+        background: ${colors.mediumGrey};
+      }
+    `;
+  }}
+`;
 
 const Img = styled.img`
   border-radius: 50%;

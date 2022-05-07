@@ -122,12 +122,6 @@ const BoxContainer = styled.div`
   width: 672px;
   height: 620px;
 
-  & > div {
-    padding: 0 7%;
-    display: flex;
-    flex-direction: column;
-  }
-
   ${(props) => boxShadow()};
 
   ${({ theme }) => theme.device.mobile} {
