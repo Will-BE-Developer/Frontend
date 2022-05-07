@@ -15,9 +15,10 @@ const colors = {
   warmGrey: "#A8A9AB",
   pink: "#dc7487",
   yellow: "#F0F354",
+  errorMsg: "red",
 
   //btn
-  lightGrey: "#C4C4C4",
+  lightGrey: "#666666",
   mediumGrey: "#888888",
 
   // add btn
