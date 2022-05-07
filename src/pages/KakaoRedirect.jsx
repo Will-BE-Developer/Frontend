@@ -1,5 +1,5 @@
 const KakaoRedirect = () => {
-  return <></>;
+  return <>kakao rediext</>;
 };
 
 export default KakaoRedirect;
