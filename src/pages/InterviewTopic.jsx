@@ -22,6 +22,14 @@ const InterviewTopic = () => {
       });
   }, []);
 
+  const selectTopicHandler = () => {
+    if (selectTopic.length === 0) {
+      alert("주제를 선택해주세요");
+      return;
+    }
+    navigate("/interview/recording", { state: selectTopic });
+  };
+
   return (
     <TopicBox>
       <p className="title">면접 주제를 선정해주세요.</p>
@@ -41,16 +49,7 @@ const InterviewTopic = () => {
         })}
       </div>
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <GlobalButton
-          margin="0px 0px 40px 0px"
-          onClick={() => {
-            if (selectTopic.length === 0) {
-              alert("주제를 선택해주세요.");
-              return;
-            }
-            navigate("/interview/recording", { state: selectTopic });
-          }}
-        >
+        <GlobalButton margin="0px 0px 40px 0px" onClick={selectTopicHandler}>
           면접 시작하기
           <HiChevronRight size="25px" />
         </GlobalButton>

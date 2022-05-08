@@ -77,6 +77,7 @@ const InterviewRecording = () => {
           console.log(err);
         });
     }
+
     const timer = setTimeout(() => {
       if (videoRef.current.srcObject === null) {
         recordingHandler();
@@ -90,7 +91,6 @@ const InterviewRecording = () => {
 
   const stopRecordingHandler = () => {
     recorderRef.current.stopRecording(() => {
-      videoRef.current.controls = true;
       videoRef.current.srcObject = null;
       videoRef.current.muted = false;
       videoRef.current.volume = 1;
