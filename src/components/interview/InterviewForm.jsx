@@ -4,6 +4,7 @@ import styled from "styled-components";
 import instance from "../../apis/axios";
 import theme from "../../styles/theme";
 import GlobalButton from "../UI/GlobalButton";
+import { GrRefresh } from "react-icons/gr";
 
 const InterviewForm = ({ thumbnail, questionId, reset }, recorderRef) => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const InterviewForm = ({ thumbnail, questionId, reset }, recorderRef) => {
   const [noteInfo, setNoteInfo] = useState({ noteCount: 0 });
 
   const s3UploadHandler = async () => {
-    if (isPublic.length === 0 || noteInfo.noteText.length === 0) {
+    if (isPublic.length === 0 || noteInfo.noteCount === 0) {
       alert("공개 여부 또는 내용을 작성해주세요.");
       return;
     }
@@ -95,7 +96,7 @@ const InterviewForm = ({ thumbnail, questionId, reset }, recorderRef) => {
           />
           전체 공개
           {isPublic && (
-            <span className="noti"> *피드백 게시판에 게시됩니다.</span>
+            <span className="noti">*피드백 게시판에 게시됩니다.</span>
           )}
         </label>
       </div>
@@ -125,6 +126,7 @@ const InterviewForm = ({ thumbnail, questionId, reset }, recorderRef) => {
             border="1px solid rgba(130, 130, 130, 0.2)"
             onClick={reTryHandler}
           >
+            <GrRefresh style={{ marginRight: "5px" }} />
             재도전
           </GlobalButton>
           <GlobalButton
@@ -179,6 +181,7 @@ const FormLayout = styled.div`
   & .noti {
     font-size: ${({ theme }) => theme.fontSize["12"]};
     color: #666666;
+    margin-left: 5px;
   }
 
   & .btnWrapper {

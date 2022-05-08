@@ -9,6 +9,7 @@ import { BsAlarm } from "react-icons/bs";
 import GlobalButton from "../components/UI/GlobalButton";
 import InterviewForm from "../components/interview/InterviewForm";
 import instance from "../apis/axios";
+import deniedError from "../assets/deniedError.png";
 
 const InterviewRecording = () => {
   const { state } = useLocation();
@@ -22,6 +23,7 @@ const InterviewRecording = () => {
   const [time, setTime] = useState();
   const [question, setQuestion] = useState({});
   const [firstTry, setIsFirstTry] = useState(true);
+  const [isDenied, setIsDenied] = useState(false);
 
   const recordingHandler = useCallback(async () => {
     try {
@@ -29,6 +31,8 @@ const InterviewRecording = () => {
         video: true,
         audio: true,
       });
+
+      console.log("1");
 
       recorderRef.current = new RecordRTC(stream, {
         type: "video",
@@ -44,7 +48,7 @@ const InterviewRecording = () => {
       setIsFirstTry(false);
       setIsStart(true);
     } catch (err) {
-      console.log(err);
+      setIsDenied(true);
     }
   }, []);
 
@@ -116,59 +120,72 @@ const InterviewRecording = () => {
           width: "100%",
         }}
       >
-        <div className="header">
-          <span className="badge">{question.category}</span>
-          <div className="title">
-            <span>{`Q.${question.contents}`}</span>
-            {isStart && !isEnd && (
-              <span className="alarm">
-                <BsAlarm />
-                <Timer active duration={300000}>
-                  <Timecode format="H:?mm:ss" style={{ color: "black" }} />
-                </Timer>
-                <span>/</span>
-                <Timer
-                  style={{ display: "none" }}
-                  active
-                  onFinish={stopRecordingHandler}
-                  duration={300000}
-                  onTimeUpdate={({ time }) => setTime(time)}
-                />
-                <Timecode time={301000 - time} format="H:?mm:ss" />
-              </span>
-            )}
-          </div>
-        </div>
-        <div style={{ position: "relative", textAlign: "end" }}>
-          <video controls autoPlay ref={videoRef} />
-          {!isStart && (
-            <h1 className="count">
-              <Countdown
-                date={Date.now() + 5000}
-                renderer={({ seconds }) => seconds}
-              />
-            </h1>
-          )}
-        </div>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          {!isStart && (
-            <GlobalButton onClick={() => navigate("/interview")}>
-              주제 재선택
-            </GlobalButton>
-          )}
-          {isStart && !isEnd && (
-            <GlobalButton onClick={stopRecordingHandler}>Stop</GlobalButton>
-          )}
-          {isEnd && (
-            <InterviewForm
-              reset={resetHandler}
-              questionId={question.id}
-              thumbnail={thumbnail}
-              ref={recorderRef}
+        {isDenied ? (
+          <div style={{ textAlign: "center" }}>
+            <img
+              style={{ width: "100%" }}
+              src={deniedError}
+              alt="deniedError"
             />
-          )}
-        </div>
-        <canvas ref={thumbnailRef} />
+            <p>카메라 및 마이크 권한 허용 후 새로고침 해주세요</p>
+          </div>
+        ) : (
+          <>
+            <div className="header">
+              <span className="badge">{question.category}</span>
+              <div className="title">
+                <span>{`Q.${question.contents}`}</span>
+                {isStart && !isEnd && (
+                  <span className="alarm">
+                    <BsAlarm />
+                    <Timer active duration={300000}>
+                      <Timecode format="H:?mm:ss" style={{ color: "black" }} />
+                    </Timer>
+                    <span>/</span>
+                    <Timer
+                      style={{ display: "none" }}
+                      active
+                      onFinish={stopRecordingHandler}
+                      duration={300000}
+                      onTimeUpdate={({ time }) => setTime(time)}
+                    />
+                    <Timecode time={301000 - time} format="H:?mm:ss" />
+                  </span>
+                )}
+              </div>
+            </div>
+            <div style={{ position: "relative", textAlign: "end" }}>
+              <video controls autoPlay ref={videoRef} />
+              {!isStart && (
+                <h1 className="count">
+                  <Countdown
+                    date={Date.now() + 5000}
+                    renderer={({ seconds }) => seconds}
+                  />
+                </h1>
+              )}
+            </div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              {!isStart && (
+                <GlobalButton onClick={() => navigate("/interview")}>
+                  주제 재선택
+                </GlobalButton>
+              )}
+              {isStart && !isEnd && (
+                <GlobalButton onClick={stopRecordingHandler}>Stop</GlobalButton>
+              )}
+              {isEnd && (
+                <InterviewForm
+                  reset={resetHandler}
+                  questionId={question.id}
+                  thumbnail={thumbnail}
+                  ref={recorderRef}
+                />
+              )}
+            </div>
+            <canvas ref={thumbnailRef} />
+          </>
+        )}
       </div>
     </RecordWrapper>
   );
@@ -188,8 +205,8 @@ const RecordWrapper = styled.div`
   & .badge {
     font-size: ${({ theme }) => theme.fontSize["12"]};
     color: ${({ theme }) => theme.colors.white};
-    background-color: ${({ theme }) => theme.colors.lightGrey};
-    border-radius: 10px;
+    background-color: ${({ theme }) => theme.colors.darkGrey};
+    border-radius: 15px;
     padding: 5px 12px;
   }
 
@@ -199,6 +216,7 @@ const RecordWrapper = styled.div`
     align-items: flex-end;
     margin-top: 12px;
     font-size: ${({ theme }) => theme.fontSize["20"]};
+    font-weight: ${({ theme }) => theme.fontWeight.extraBold};
   }
 
   & .alarm {
@@ -244,19 +262,3 @@ const RecordWrapper = styled.div`
 `;
 
 export default InterviewRecording;
-
-/* {isStart && !isEnd && (
-            <Countdown
-              date={Date.now() + 300000}
-              zeroPadTime={2}
-              renderer={({ seconds, minutes, completed }) => (
-                <h3 style={{ margin: 0 }}>
-                  {completed && stopRecordingHandler()}
-                  <span>
-                    Timer : {String(minutes).padStart(2, "0")}:
-                    {String(seconds).padStart(2, "0")}
-                  </span>
-                </h3>
-              )}
-            />
-          )} */

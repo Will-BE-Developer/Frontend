@@ -6,9 +6,8 @@ const device = {
 
 const colors = {
   white: "#FFFFFF",
-  black: "#424242",
+  black: "#222222",
   headerBgColor: "#F9F9F9",
-  errorMsg: "red",
 
   // 4 main colors
   green: "#92A094",
@@ -16,6 +15,7 @@ const colors = {
   warmGrey: "#A8A9AB",
   pink: "#dc7487",
   yellow: "#F0F354",
+  errorMsg: "red",
 
   //btn
   lightGrey: "#666666",
@@ -23,10 +23,12 @@ const colors = {
 
   // add btn
   darkGrey: "#505050",
+  placeHolder: "#666666",
 };
 
 const fontWeight = {
   extraBold: 800,
+  semiExtraBold: 700,
   semiBold: 600,
   regular: 400,
 };
