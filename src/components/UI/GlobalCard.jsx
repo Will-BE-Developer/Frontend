@@ -310,14 +310,14 @@ const IconBox = styled.div`
 const BeforeCheck = styled(BsFillBookmarkFill)`
   /* font-size: 1rem; */
   height: 100%;
-  color: ${({ theme }) => theme.colors.pink};
+  color: ${({ theme }) => theme.colors.yellow};
   cursor: pointer;
   font-size: ${({ theme }) => theme.calRem(18)};
   padding: 0;
 `;
 const HeartCheck = styled(BsHeartFill)`
   height: 100%;
-  color: ${({ theme }) => theme.colors.pink};
+  color: ${({ theme }) => theme.colors.yellow};
   cursor: pointer;
 
   font-size: ${({ theme }) => theme.calRem(18)};
