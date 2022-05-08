@@ -8,6 +8,9 @@ import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import FeedBack from "./pages/FeedBack";
 import FeedBackDetail from "./pages/FeedBackDetail";
+import Interview from "./pages/Interview";
+import InterviewTopic from "./pages/InterviewTopic";
+import InterviewRecording from "./pages/InterviewRecording";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -17,6 +20,10 @@ ReactDOM.render(
           <Route path="/" element={<App />}>
             <Route path="feedback" element={<FeedBack />} />
             <Route path="feedback/:postId" element={<FeedBackDetail />} />
+            <Route path="interview" element={<Interview />}>
+              <Route path="" element={<InterviewTopic />} />
+              <Route path="recording" element={<InterviewRecording />} />
+            </Route>
           </Route>
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />

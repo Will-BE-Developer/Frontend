@@ -14,8 +14,8 @@ const colors = {
   blue: "#798996",
   warmGrey: "#A8A9AB",
   pink: "#dc7487",
-  yellow: "#FAD03E",
   errorMsg: "red",
+  yellow: "#F0F354",
 
   //btn
   lightGrey: "#666666",
