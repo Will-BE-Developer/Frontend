@@ -34,19 +34,21 @@ function Dropdown({ selected, setSelected, options }) {
 
 const Container = styled.button`
   ${({ theme }) => {
-    const { colors, device, calRem } = theme;
+    const { colors, device, calRem, fontWeight } = theme;
     return css`
       width: 100%;
       user-select: none;
-      margin: 0 10px 150px 0px;
+      margin: 0 10px 30px 0px;
       position: relative;
       padding: 0;
+      z-index: 1000;
+
       & .btn {
         padding: 15px;
-        background: #fff;
+        background: ${colors.white};
         border: 1px solid #e6e6e6;
         font-weight: bold;
-        color: #333;
+        color: ${colors.black};
         display: flex;
         align-items: center;
         cursor: pointer;
@@ -60,8 +62,8 @@ const Container = styled.button`
         padding: 10px;
         background: #fff;
         border: 1px solid #e6e6e6;
-        font-weight: 500;
-        color: #333;
+        font-weight: ${fontWeight.regular};
+        color: ${colors.black};
         width: 100%;
       }
 

@@ -84,11 +84,21 @@ const SetProfileImg = (props) => {
       />
 
       <div className="flex_colum">
-        <GlobalButton onClick={handleChangeImageBtn} margin="0 0 6px 0" hover>
+        <GlobalButton
+          onClick={handleChangeImageBtn}
+          margin="0 0 6px 0"
+          _height="30px"
+          hover
+        >
           {getUrl ? "다른 사진 등록" : "사진 등록"}
         </GlobalButton>
 
-        <GlobalButton onClick={DeleteImgHandler} margin="0 0 6px 0" hover>
+        <GlobalButton
+          onClick={DeleteImgHandler}
+          margin="0 0 6px 0"
+          _height="30px"
+          hover
+        >
           사진 삭제
         </GlobalButton>
       </div>

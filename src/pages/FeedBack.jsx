@@ -5,21 +5,17 @@ import GlobalCard from "../components/UI/GlobalCard";
 
 import instance from "../apis/axios";
 import Dropdown from "../components/UI/GlobalDropDown";
+import { getFeedback as getFeedbackApi } from "../apis/async.js";
+
 const FeedBack = () => {
   const [data, setData] = useState([]);
 
   const [selectedDate, setSelectedDate] = useState("(정렬)");
   const [selectedCategory, setSelectedCategory] = useState("전체보기");
   useEffect(() => {
-    instance
-      .get("/api/interviews")
-      .then((res) => {
-        console.log(res);
-        setData(res.data.interviews);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    getFeedbackApi().then((data) => {
+      setData(data.interviews);
+    });
   }, []);
 
   const dateList = ["최신순", "오래된순"];
@@ -40,8 +36,8 @@ const FeedBack = () => {
         />
       </div>
       <div className="card_wrap">
-        {data.map((data) => {
-          return <GlobalCard key={data.id} data={data} />;
+        {data?.map((card) => {
+          return <GlobalCard key={card.id} card={card} />;
         })}
       </div>
     </Container>
@@ -50,31 +46,33 @@ const FeedBack = () => {
 
 const Container = styled.div`
   width: 100%;
-  padding: 50px 0;
-  }
+  padding: 0;
 
   & .dropDown_container {
     display: flex;
-    left:0;
+    justify-content: right;
+    left: 0;
     width: 316px;
+    margin-left: auto;
   }
 
   & .card_wrap {
     display: flex;
-  flex-wrap: wrap;
+    flex-wrap: wrap;
 
-  justify-content: space-around;
-  /* gap: 5px; */
+    justify-content: space-around;
+    /* gap: 5px; */
 
-  animation: fadeInBottom 1s;
-  transform: translateY(0%);
-  @keyframes fadeInBottom {
-    from {
-      opacity: 0;
-      transform: translateY(30%);
-    }
-    to {
-      opacity: 1;
+    animation: fadeInBottom 1s;
+    transform: translateY(0%);
+    @keyframes fadeInBottom {
+      from {
+        opacity: 0;
+        transform: translateY(30%);
+      }
+      to {
+        opacity: 1;
+      }
     }
   }
 `;

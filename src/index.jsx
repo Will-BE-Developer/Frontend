@@ -19,7 +19,7 @@ ReactDOM.render(
         <Routes>
           <Route path="/" element={<App />}>
             <Route path="feedback" element={<FeedBack />} />
-            <Route path="feedback/:postId" element={<FeedBackDetail />} />
+            <Route path="feedback/:cardId" element={<FeedBackDetail />} />
             <Route path="interview" element={<Interview />}>
               <Route path="" element={<InterviewTopic />} />
               <Route path="recording" element={<InterviewRecording />} />

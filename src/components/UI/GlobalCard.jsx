@@ -21,12 +21,12 @@ import TimeAgo from "../FeedBack/TimeAgo";
 
 import test_img from "../Signup/test_img.jpg";
 
-const GlobalCard = memo(({ data }) => {
+const GlobalCard = memo(({ card }) => {
   const [showModal, setShowModal] = useState(false);
 
   const { postId } = useParams();
   const navigate = useNavigate();
-  console.log(data);
+
   const {
     id,
     thumbnail,
@@ -38,9 +38,10 @@ const GlobalCard = memo(({ data }) => {
     scrapsCount,
     likesCount,
     createdAt,
+    isMine,
     updatedAt,
     isPublic,
-  } = data;
+  } = card;
 
   const linkToDetailHandler = () => {
     navigate(`/feedback/${id}`, { postId });
@@ -66,11 +67,11 @@ const GlobalCard = memo(({ data }) => {
       <CardBody onClick={linkToDetailHandler}>
         <img alt="img" src={thumbnail} />
         <BodyContents>
-          <h2>{question}</h2>
+          <h2>{question.contents}</h2>
 
           <span>{note}</span>
         </BodyContents>
-        <p>FRONTEND</p>
+        <p>{question.category}</p>
         <TimeAgo timestamp={createdAt} />
       </CardBody>
 
@@ -80,7 +81,7 @@ const GlobalCard = memo(({ data }) => {
           <BtnCircleBg>
             <CrownIcon />
           </BtnCircleBg>
-          <span>{user.nickName}</span>
+          <span>{user.nickname}</span>
         </div>
 
         <IconBox>

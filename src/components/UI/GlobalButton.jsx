@@ -11,6 +11,7 @@ const GlobalButton = (props) => {
     background,
     padding,
     _width,
+    _height,
     border,
     hover,
   } = props;
@@ -21,6 +22,7 @@ const GlobalButton = (props) => {
     background,
     padding,
     _width,
+    _height,
     border,
     hover,
   };
@@ -38,6 +40,7 @@ GlobalButton.defaultProps = {
   background: false,
   padding: false,
   _width: false,
+  _height: false,
   border: false,
   hover: false,
   onClick: () => {},
@@ -53,7 +56,7 @@ const Button = styled.button`
       justify-content: center;
       align-items: center;
       width: ${(props) => (props._width ? props._width : "max-content")};
-      height: 50px;
+      height: ${(props) => (props._height ? props._height : "50px")};
       border-radius: 4px;
       border: ${(props) => (props.border ? props.border : "")};
       padding: ${(props) => (props.padding ? props.padding : "11px 18px")};
