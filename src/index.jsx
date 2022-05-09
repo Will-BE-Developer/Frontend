@@ -8,6 +8,8 @@ import theme from "./styles/theme";
 import App from "./App";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
+import FeedBack from "./pages/FeedBack";
+import FeedBackDetail from "./pages/FeedBackDetail";
 import Interview from "./pages/Interview";
 import InterviewTopic from "./pages/InterviewTopic";
 import InterviewRecording from "./pages/InterviewRecording";
@@ -21,6 +23,8 @@ ReactDOM.render(
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<App />}>
+              <Route path="feedback" element={<FeedBack />} />
+              <Route path="feedback/:cardId" element={<FeedBackDetail />} />
               <Route path="" element={<Home />} />
               <Route path="interview" element={<Interview />}>
                 <Route path="" element={<InterviewTopic />} />

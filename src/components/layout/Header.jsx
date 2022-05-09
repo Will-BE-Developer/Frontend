@@ -38,7 +38,9 @@ const Header = () => {
         </div>
         <div>
           {token ? (
-            <span onClick={logoutHandler}>로그아웃</span>
+            <span className="signout" onClick={logoutHandler}>
+              로그아웃
+            </span>
           ) : (
             <Link to="/signin">로그인</Link>
           )}
@@ -76,6 +78,10 @@ const HeaderContainer = styled.div`
         & a {
           display: flex;
           align-items: center;
+        }
+
+        & .signout {
+          cursor: pointer;
         }
 
         @media screen and (min-width: 1240px) {

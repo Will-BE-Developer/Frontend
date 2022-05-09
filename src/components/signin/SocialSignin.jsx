@@ -15,10 +15,11 @@ const KakaoBtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  /* max-width: 560px; */
+  height: 50px;
 
-  max-width: 560px;
-  height: 60px;
-  border-radius: 12px;
+  border-radius: 4px;
   background-color: #fee500;
 
   &:hover {
@@ -27,14 +28,28 @@ const KakaoBtn = styled.div`
 
   img {
     margin-right: 10px;
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
   }
 
   span {
-    font-weight: ${({ theme }) => theme.fontWeight.semiBold};
-    font-size: ${({ theme }) => theme.fontSize["20"]};
+    font-size: ${({ theme }) => theme.calRem(14)};
     color: #000000;
+  }
+
+  ${({ theme }) => theme.device.mobile} {
+    height: 30px;
+    img {
+      margin-right: 10px;
+      width: 15px;
+      height: 15px;
+    }
+    span {
+      font-weight: ${({ theme }) => theme.fontWeight.semiBold};
+      margin-right: 0;
+      font-size: ${({ theme }) => theme.calRem(12)};
+      padding: "0px 16px";
+    }
   }
 `;
 
