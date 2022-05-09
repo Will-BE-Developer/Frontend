@@ -11,6 +11,7 @@ const KakaoRedirect = () => {
 
   useEffect(() => {
     const url = `${process.env.REACT_APP_API_JURI_URL}/user/kakao/callback`;
+    console.log(url);
 
     const singinDispatch = async () => {
       try {
@@ -21,7 +22,6 @@ const KakaoRedirect = () => {
         alert("로그인에 실패하였습니다");
       }
     };
-
     singinDispatch();
   }, [code, navigate, dispatch]);
 
