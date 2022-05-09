@@ -16,6 +16,10 @@ import InterviewRecording from "./pages/InterviewRecording";
 import KakaoRedirect from "./pages/KakaoRedirect";
 import Home from "./pages/Home";
 
+import MyPage from "./pages/MyPage";
+import MyProfile from "./components/MyPage/MyProfile";
+import MyHistory from "./components/MyPage/MyHistory";
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
@@ -23,12 +27,17 @@ ReactDOM.render(
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<App />}>
+              <Route path="" element={<Home />} />
               <Route path="feedback" element={<FeedBack />} />
               <Route path="feedback/:cardId" element={<FeedBackDetail />} />
-              <Route path="" element={<Home />} />
               <Route path="interview" element={<Interview />}>
                 <Route path="" element={<InterviewTopic />} />
                 <Route path="recording" element={<InterviewRecording />} />
+              </Route>
+
+              <Route path="mypage" element={<MyPage />}>
+                <Route path="" element={<MyProfile />} />
+                <Route path="history" element={<MyHistory />} />
               </Route>
               <Route path="/signup" element={<Signup />} />
               <Route path="/signin" element={<Signin />} />
