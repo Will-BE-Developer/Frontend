@@ -41,7 +41,7 @@ const Container = styled.button`
       margin: 0 10px 30px 0px;
       position: relative;
       padding: 0;
-      z-index: 1000;
+      z-index: 50;
 
       & .btn {
         padding: 15px;
