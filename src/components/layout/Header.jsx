@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
+import logo from "../../assets/logo.png";
 
 const Header = () => {
   return (
@@ -7,7 +8,9 @@ const Header = () => {
       <div className="nav">
         <div style={{ display: "flex", gap: "20px" }}>
           <Link to="/">
-            <Title>WillBe</Title>
+            <Title>
+              <img alt="logo" src={logo} />
+            </Title>
           </Link>
           <Link to="/feedback">피드백</Link>
           <Link to="/interview">면접보기</Link>
@@ -45,6 +48,15 @@ const HeaderContainer = styled.div`
         width: 100%;
         height: 60px;
         padding: 0px 20px;
+
+        & a {
+          display: flex;
+          align-items: center;
+        }
+
+        @media screen and (min-width: 1240px) {
+          padding: 0px;
+        }
       }
     `;
   }}//

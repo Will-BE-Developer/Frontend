@@ -25,8 +25,12 @@ const GlobalStyles = createGlobalStyle`
   body {
     height: 100vh;
     font-family: 'Pretendard-Regular';
-    margin: 100px auto;
+    margin: 60px auto;
     padding: 0px 3rem;
+
+    ${({ theme }) => theme.device.mobile} {
+      padding: 0px 1rem;
+    }
    
   }
 

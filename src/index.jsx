@@ -9,6 +9,7 @@ import Signup from "./pages/Signup";
 import Interview from "./pages/Interview";
 import InterviewTopic from "./pages/InterviewTopic";
 import InterviewRecording from "./pages/InterviewRecording";
+import Home from "./pages/Home";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -16,6 +17,7 @@ ReactDOM.render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />}>
+            <Route path="" element={<Home />} />
             <Route path="interview" element={<Interview />}>
               <Route path="" element={<InterviewTopic />} />
               <Route path="recording" element={<InterviewRecording />} />
