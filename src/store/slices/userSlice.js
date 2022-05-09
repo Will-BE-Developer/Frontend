@@ -30,6 +30,27 @@ export const signinKakao = createAsyncThunk(
   }
 );
 
+export const signout = createAsyncThunk(
+  "user/signout",
+  async (token, { rejectWithValue }) => {
+    try {
+      await instance.post(
+        `${process.env.REACT_APP_API_JURI_URL}/signout`,
+        {},
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+
+      return { msg: "success" };
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -38,6 +59,10 @@ const userSlice = createSlice({
     builder.addCase(signinKakao.fulfilled, (state, action) => {
       setCookie("token", action.payload.token);
       state.user = action.payload.user;
+    });
+    builder.addCase(signout.fulfilled, (state) => {
+      deleteCookie("token");
+      state.user = null;
     });
   },
 });
