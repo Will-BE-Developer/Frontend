@@ -6,10 +6,14 @@ const KakaoRedirect = () => {
   const navigate = useNavigate();
   const code = new URL(window.location.href).searchParams.get("code");
 
+  console.log(code);
+
   useEffect(() => {
     instance
-      .post(`${process.env.REACT_APP_API_JURI_URL}/user/kakao/callbak`, {
-        grantCode: code,
+      .get(`${process.env.REACT_APP_API_JURI_URL}/user/kakao/callback`, {
+        params: {
+          code,
+        },
       })
       .then((res) => {
         console.log(res);
