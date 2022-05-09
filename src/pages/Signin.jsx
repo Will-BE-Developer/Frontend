@@ -21,11 +21,6 @@ const Signin = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // 다음 페이지
-  const nextPageHandler = () => {
-    props.setCurrentPage(currentPage + 1);
-  };
-
   // 회원가입 유효성 검사
   const schema = Yup.object().shape({
     email: Yup.string()
@@ -47,8 +42,6 @@ const Signin = (props) => {
     },
     resolver: yupResolver(schema),
   });
-
-  // 회원가입 폼 제출
 
   // 회원가입 폼 제출
   const onSubmitHandler = async (userData) => {
