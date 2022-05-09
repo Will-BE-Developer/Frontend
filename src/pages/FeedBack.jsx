@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import GlobalCard from "../components/UI/GlobalCard";
 
-import instance from "../apis/axios";
 import Dropdown from "../components/UI/GlobalDropDown";
 import { getFeedback as getFeedbackApi } from "../apis/async.js";
 
@@ -12,6 +11,7 @@ const FeedBack = () => {
 
   const [selectedDate, setSelectedDate] = useState("(정렬)");
   const [selectedCategory, setSelectedCategory] = useState("전체보기");
+
   useEffect(() => {
     getFeedbackApi().then((data) => {
       setData(data.interviews);

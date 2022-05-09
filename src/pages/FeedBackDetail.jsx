@@ -10,6 +10,8 @@ import GlobalButton from "../components/UI/GlobalButton";
 import {
   getFeedbackDetail as getDetailApi,
   getFeedbackDetailVideo as getVideoApi,
+  editFeedbackDetail as editDeailApi,
+  deleteFeedbackDetail as deleteDetailApi,
 } from "../apis/async.js";
 
 // timeago function
@@ -20,6 +22,8 @@ import { BsFillBookmarkFill, BsHeartFill } from "react-icons/bs";
 import { TiTimes } from "react-icons/ti";
 import { AiTwotoneEdit, AiTwotoneCrown } from "react-icons/ai";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+
+import { getCookie } from "../shared/cookies";
 
 const FeedBackDetail = (props) => {
   const { cardId } = useParams();
@@ -33,8 +37,6 @@ const FeedBackDetail = (props) => {
       setVideo(URL.createObjectURL(data));
     });
     getDetailApi(cardId).then((data) => {
-      console.log(cardId, "cardId~~~~!@!!");
-
       setData(data.interview);
     });
   }, [cardId]);
@@ -60,12 +62,26 @@ const FeedBackDetail = (props) => {
     alert("felfij");
     setShowModal(!showModal);
   };
+
+  const editCardHandler = () => {
+    editDeailApi(cardId).then((data) => {
+      console.log(data);
+    });
+  };
+
+  const deleteCardHandler = () => {
+    deleteDetailApi(cardId).then((data) => {
+      console.log(data);
+    });
+  };
+
   return (
     <Container>
       <div className="contents_wrap">
         <video controls src={video}></video>
         <div className="user_buttons">
           <GlobalButton
+            onClick={editCardHandler}
             background={theme.colors.white}
             color={theme.colors.black}
             border="1px solid rgba(130, 130, 130, 0.2)"
@@ -74,6 +90,7 @@ const FeedBackDetail = (props) => {
             _height="36px"
           />
           <GlobalButton
+            onClick={deleteCardHandler}
             background={theme.colors.lightGrey}
             text="삭제"
             _width="64px"
