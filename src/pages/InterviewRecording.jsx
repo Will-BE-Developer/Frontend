@@ -116,7 +116,7 @@ const InterviewRecording = () => {
     <RecordWrapper isEnd={isEnd}>
       <div
         style={{
-          maxWidth: "700px",
+          maxWidth: "1200px",
           width: "100%",
         }}
       >
@@ -155,7 +155,9 @@ const InterviewRecording = () => {
               </div>
             </div>
             <div style={{ position: "relative", textAlign: "end" }}>
-              <video controls autoPlay ref={videoRef} />
+              <div className="videoLayout">
+                <video controls autoPlay ref={videoRef} />
+              </div>
               {!isStart && (
                 <h1 className="count">
                   <Countdown
@@ -165,7 +167,13 @@ const InterviewRecording = () => {
                 </h1>
               )}
             </div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "20px",
+              }}
+            >
               {!isStart && (
                 <GlobalButton onClick={() => navigate("/interview")}>
                   주제 재선택
@@ -237,9 +245,15 @@ const RecordWrapper = styled.div`
   }
 
   video {
+    max-width: 750px;
     width: 100%;
+  }
+
+  .videoLayout {
+    display: flex;
+    justify-content: center;
+    background-color: ${({ theme }) => theme.colors.headerBgColor};
     border-radius: 6px;
-    margin-bottom: 20px;
   }
 
   canvas {
