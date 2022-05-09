@@ -63,7 +63,7 @@ const DailyQuestionLayout = styled.div`
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      margin: 80px 0px;
+      margin: 140px 0px;
 
       .main {
         width: 100%;

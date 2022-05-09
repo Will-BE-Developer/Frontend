@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Banner from "../components/Home/Banner";
 import DailyQuestion from "../components/Home/DailyQuestions";
 import BestInterviews from "../components/Home/BestInterviews";
+import HotTopic from "../components/Home/HotTopic";
 import subBanner from "../assets/subBanner.png";
 
 const Home = () => {
@@ -9,6 +10,7 @@ const Home = () => {
     <div>
       <Banner />
       <DailyQuestion />
+      <HotTopic />
       <BestInterviews />
       <img
         style={{ maxWidth: "1200px", width: "100%", margin: "40px 0px" }}
