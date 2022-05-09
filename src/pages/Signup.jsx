@@ -3,22 +3,16 @@ import styled from "styled-components";
 import GlobalStyles from "../styles/GlobalStyles";
 
 import SetInfo from "../components/Signup/SetInfo";
-import SignupStart from "../components/Signup/SignupStart";
+
 import SignupForm from "../components/Signup/SignupForm";
 
 const Signup = () => {
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   return (
     <>
       <GlobalStyles />
       <Wrap>
-        {currentPage === 0 && (
-          <SignupStart
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
-        )}
         {currentPage === 1 ? (
           <SignupForm
             currentPage={currentPage}

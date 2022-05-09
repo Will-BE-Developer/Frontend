@@ -4,20 +4,19 @@ import { deleteCookie, setCookie } from "../../shared/cookies";
 
 const initialState = {
   user: null,
+  isLoggedIn: false,
 };
 
 export const signinKakao = createAsyncThunk(
   "user/signin",
   async (data, { rejectWithValue }) => {
     const { url, code } = data;
-
     try {
       const response = await instance.get(url, {
         params: {
           code: code,
         },
       });
-
       const result = {
         user: response.data.user,
         token: response.headers.authorization,
@@ -25,6 +24,48 @@ export const signinKakao = createAsyncThunk(
 
       return result;
     } catch (err) {
+      console.log(err.response, "err msg");
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const signupEmail = createAsyncThunk(
+  "user/signupEmail",
+  async (userData, { rejectWithValue }) => {
+    try {
+      const response = await instance.post(
+        `${process.env.REACT_APP_API_JURI_URL}/signup`,
+        userData
+      );
+      return response;
+    } catch (err) {
+      console.log("이메일 회원가입 오류: ", err.response);
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const signinEmail = createAsyncThunk(
+  "user/signinEmail",
+  async (userData, { rejectWithValue }) => {
+    console.log(userData);
+    try {
+      // const response = await instance.post("/signin", userData);
+      const response = await instance.post(
+        `${process.env.REACT_APP_API_JURI_URL}/signin`,
+        userData
+      );
+      console.log(response);
+
+      const result = {
+        user: response.data.user,
+        token: response.headers.authorization,
+      };
+      console.log(result);
+      return result;
+    } catch (err) {
+      console.log("이메일 로그인 오류: ", err.response);
       return rejectWithValue(err.response.data);
     }
   }
@@ -56,6 +97,11 @@ const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(signupEmail.fulfilled, (state, action) => {});
+    builder.addCase(signinEmail.fulfilled, (state, action) => {
+      setCookie("token", action.payload.token);
+      state.user = action.payload.user;
+    });
     builder.addCase(signinKakao.fulfilled, (state, action) => {
       setCookie("token", action.payload.token);
       state.user = action.payload.user;

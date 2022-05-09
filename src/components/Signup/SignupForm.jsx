@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { boxShadow } from "../../styles/boxShadow";
 import styled, { css } from "styled-components";
@@ -9,31 +10,33 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import GlobalButton from "../UI/GlobalButton";
+import { signupEmail } from "../../store/slices/userSlice";
+import { signupEmailCheck as emailCheckApi } from "../../apis/async.js";
 
 const SignupForm = (props) => {
+  const emailRef = useRef(null);
+  const [checkEmail, setCheckEmail] = useState(false);
   const currentPage = props.currentPage;
 
+  const dispatch = useDispatch();
   // 다음 페이지
-  const nextPageHandler = () => {
-    props.setCurrentPage(currentPage + 1);
-  };
 
   // 회원가입 유효성 검사
   const schema = Yup.object().shape({
     email: Yup.string()
       .email("이메일 형식이 맞지 않습니다.")
       .required("이메일을 입력해주세요."),
-    pw: Yup.string()
+    password: Yup.string()
       .min(1, "비밀번호는 7~10자 사이로 입력해주세요.")
       .max(15, "비밀번호는 7~15자 사이로 입력해주세요.")
-      // .matches(
-      //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$%\^&\*])/,
-      //   "대문자와 소문자 특수문자를 조합해주세요."
-      // )
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$%\^&\*])/,
+        "대문자와 소문자 특수문자를 조합해주세요."
+      )
       .required(),
-    checkPw: Yup.string()
+    passwordCheck: Yup.string()
       .oneOf(
-        [Yup.ref("pw"), null],
+        [Yup.ref("password"), null],
         "비밀번호가 일치하지 않습니다. 다시 입력해주세요."
       )
       .required("비밀번호 확인란을 채워주세요."),
@@ -47,32 +50,53 @@ const SignupForm = (props) => {
   } = useForm({
     initialValues: {
       email: "",
-      pw: "",
-      checkPw: "",
+      password: "",
+      passwordCheck: "",
     },
     resolver: yupResolver(schema),
   });
 
-  // 회원가입 폼 제출
-  const onSubmit = (data) => {
-    console.log(data);
+  const { ref, ...rest } = register("email");
+
+  const onSubmitHandler = (userData) => {
+    console.log(userData);
+
+    if (!checkEmail) {
+      alert("이메일 중복을 확인해주세요.");
+      return;
+    }
+    dispatch(signupEmail(userData));
     props.setCurrentPage(2);
   };
 
   const checkEmailHandler = () => {
-    alert("이미 사용중인 이메일입니다.");
+    const currentEmail = emailRef.current?.value;
+    if (currentEmail) {
+      emailCheckApi(currentEmail).then((res) => {
+        if (res.success) {
+          setCheckEmail(true);
+        } else {
+          setCheckEmail(false);
+        }
+      });
+    }
   };
+
   return (
     <Container>
       <div>이메일 회원가입</div>
       <BoxContainer>
-        <SignUpForm onSubmit={handleSubmit(onSubmit)}>
+        <SignUpForm onSubmit={handleSubmit(onSubmitHandler)}>
           <Label htmlFor="email">이메일</Label>
           <div>
             <Input
               type="email"
               placeholder="이메일을 입력해주세요."
-              {...register("email")}
+              {...rest}
+              ref={(e) => {
+                ref(e);
+                emailRef.current = e;
+              }}
             />
             <GlobalButton
               onClick={checkEmailHandler}
@@ -84,25 +108,35 @@ const SignupForm = (props) => {
             </GlobalButton>
           </div>
           <ErrorMSG>{errors.email?.message}</ErrorMSG>
-          <Label htmlFor="pw">비밀번호</Label>
+          <Label htmlFor="password">비밀번호</Label>
           <Input
             type="password"
             placeholder="비밀번호를 입력해주세요."
-            {...register("pw")}
+            {...register("password")}
           />
-          <ErrorMSG>{errors.pw?.message}</ErrorMSG>
+          <ErrorMSG>{errors.password?.message}</ErrorMSG>
 
-          <Label htmlFor="checkPw">비밀번호 확인</Label>
+          <Label htmlFor="passwordCheck">비밀번호 확인</Label>
           <Input
             type="password"
             placeholder="비밀번호를 입력해주세요."
-            {...register("checkPw")}
+            {...register("passwordCheck")}
           />
-          <ErrorMSG>{errors.checkPw?.message}</ErrorMSG>
+          <ErrorMSG>{errors.passwordCheck?.message}</ErrorMSG>
           <GlobalButton type="submit" _width="100%" margin="0 0 12px 0" hover>
             회원가입
           </GlobalButton>
         </SignUpForm>
+
+        <Terms>
+          <label>
+            <input type="checkbox" />
+            (필수) 서비스 이용 약관 동의
+            <Link to="/">
+              <TermsShow>보기</TermsShow>
+            </Link>
+          </label>
+        </Terms>
       </BoxContainer>
     </Container>
   );
@@ -201,4 +235,27 @@ const ErrorMSG = styled.span`
   margin-bottom: 16px;
 `;
 
+const Terms = styled.div`
+  font-size: ${({ theme }) => theme.calRem(14)};
+  font-weight: ${({ theme }) => theme.fontWeight.semiExtraBold};
+  display: table-cell;
+  margin-top: 10px;
+  & > label > input[type="checkbox"] {
+    margin-right: 5px;
+    vertical-align: middle;
+    position: relative;
+    bottom: 1px;
+  }
+
+  ${({ theme }) => theme.device.mobile} {
+    font-size: ${({ theme }) => theme.calRem(12)};
+  }
+`;
+
+const TermsShow = styled.span`
+  margin-left: 5px;
+  text-decoration: underline;
+  color: ${({ theme }) => theme.colors.black};
+  font-weight: ${({ theme }) => theme.fontWeight.semiExtraBold};
+`;
 export default SignupForm;
