@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiChevronRight } from "react-icons/hi";
@@ -43,7 +43,7 @@ const InterviewTopic = () => {
                 type="radio"
                 name="topic"
               />
-              {topic}
+              <span>{topic}</span>
             </label>
           );
         })}
@@ -59,27 +59,41 @@ const InterviewTopic = () => {
 };
 
 const TopicBox = styled.div`
-  width: 100%;
-  max-width: 980px;
-  margin-top: 15vh;
-  text-align: center;
-  ${boxShadow()}
+  ${({ theme }) => {
+    const { colors, fontSize, device } = theme;
 
-  & .title {
-    padding: 23px 0px;
-    background-color: ${({ theme }) => theme.colors.headerBgColor};
-    font-size: ${({ theme }) => theme.fontSize["20"]};
-  }
+    return css`
+      width: 100%;
+      max-width: 980px;
+      margin-top: 15vh;
+      text-align: center;
+      ${boxShadow()}
 
-  & .topic {
-    text-align: start;
-    padding: 0px 120px;
-    margin-top: 40px;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 20px;
-    margin-bottom: 30px;
-  }
+      & .title {
+        padding: 23px 0px;
+        background-color: ${colors.headerBgColor};
+        font-size: ${fontSize["20"]};
+      }
+
+      & .topic {
+        text-align: start;
+        padding: 0px 100px;
+        margin-top: 40px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin-bottom: 30px;
+        white-space: nowrap;
+
+        ${device.tablet} {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        ${device.mobile} {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    `;
+  }}
 `;
 
 export default InterviewTopic;
