@@ -49,20 +49,16 @@ export const signupEmail = createAsyncThunk(
 export const signinEmail = createAsyncThunk(
   "user/signinEmail",
   async (userData, { rejectWithValue }) => {
-    console.log(userData);
     try {
       // const response = await instance.post("/signin", userData);
       const response = await instance.post(
         `${process.env.REACT_APP_API_JURI_URL}/signin`,
         userData
       );
-      console.log(response);
-
       const result = {
         user: response.data.user,
         token: response.headers.authorization,
       };
-      console.log(result);
       return result;
     } catch (err) {
       console.log("이메일 로그인 오류: ", err.response);

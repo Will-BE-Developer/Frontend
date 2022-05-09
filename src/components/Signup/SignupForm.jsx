@@ -16,10 +16,8 @@ import { signupEmailCheck as emailCheckApi } from "../../apis/async.js";
 const SignupForm = (props) => {
   const emailRef = useRef(null);
   const [checkEmail, setCheckEmail] = useState(false);
-  const currentPage = props.currentPage;
 
   const dispatch = useDispatch();
-  // 다음 페이지
 
   // 회원가입 유효성 검사
   const schema = Yup.object().shape({
