@@ -1,7 +1,11 @@
-import React from "react";
+import SocialSignin from "../components/signin/SocialSignin";
 
 const Signin = () => {
-  return <div>Signin</div>;
+  return (
+    <>
+      <SocialSignin />
+    </>
+  );
 };
 
 export default Signin;
