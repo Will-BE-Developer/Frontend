@@ -4,6 +4,7 @@ import { boxShadow } from "../../styles/boxShadow";
 import { useNavigate } from "react-router-dom";
 import theme from "../../styles/theme";
 import GlobalBadge from "../UI/GlobalBadge";
+import face from "../../assets/face.png";
 
 const DUMMY_QUESTIONS = [
   {
@@ -33,13 +34,14 @@ const DailyQuestions = () => {
         {DUMMY_QUESTIONS.map((ele, idx) => {
           return (
             <div className="card" key={idx}>
+              <img className="logo" alt="logo" src={face} />
               <div className="contents">
                 <GlobalBadge background={theme.colors.pink} text={ele.title} />
                 <p>{ele.question}</p>
               </div>
               <button className="startBtn">
                 시작하기
-                <HiChevronRight size="16px" />
+                <HiChevronRight size="20px" />
               </button>
             </div>
           );
@@ -85,6 +87,13 @@ const DailyQuestionLayout = styled.div`
         }
       }
 
+      .logo {
+        padding: 10px;
+        background-color: ${colors.headerBgColor};
+        border-radius: 8px;
+        margin-bottom: 24px;
+      }
+
       .contents {
         display: flex;
         flex-direction: column;
@@ -116,6 +125,7 @@ const DailyQuestionLayout = styled.div`
         width: 100%;
         padding: 11px 0px;
         border-radius: 4px;
+        font-size: ${fontSize["16"]};
       }
 
       .interviewBtn {
