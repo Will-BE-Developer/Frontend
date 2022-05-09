@@ -13,7 +13,7 @@ const Home = () => {
       <HotTopic />
       <BestInterviews />
       <img
-        style={{ maxWidth: "1200px", width: "100%", margin: "40px 0px" }}
+        style={{ maxWidth: "1200px", width: "100%", marginBottom: "140px" }}
         src={subBanner}
         alt="subBanner"
       />

@@ -66,29 +66,27 @@ const BestInterviews = () => {
           <HiChevronLeft size="20px" />
         </button>
       </div>
-      <StyledSlider ref={slider} {...settings}>
-        {DUMMY_BEST_INTERVIEWS.map((ele, idx) => {
-          return (
-            <>
-              {/* <div className="header">
+      {/* <div className="header">
                 <h2 className="title">{ele.title}</h2>
                 <p className="description">{ele.description}</p>
               </div> */}
-              <div className="main">
-                <div className="card" key={idx}>
-                  <img className="thumbnail" src={ele.imageUrl} alt="user" />
-                  <div className="interview">
-                    <h2 className="title">{ele.title}</h2>
-                    <p className="description">{ele.description}</p>
-                    <span>${ele.rank}</span>
-                    <GlobalBadge
-                      background={theme.colors.pink}
-                      text={ele.badge}
-                    />
-                  </div>
+      <StyledSlider ref={slider} {...settings}>
+        {DUMMY_BEST_INTERVIEWS.map((ele, idx) => {
+          return (
+            <div key={idx} className="main">
+              <div className="card" key={idx}>
+                <img className="thumbnail" src={ele.imageUrl} alt="user" />
+                <div className="interview">
+                  <h2 className="title">{ele.title}</h2>
+                  <p className="description">{ele.description}</p>
+                  <span>{ele.rank}</span>
+                  <GlobalBadge
+                    background={theme.colors.pink}
+                    text={ele.badge}
+                  />
                 </div>
               </div>
-            </>
+            </div>
           );
         })}
       </StyledSlider>
