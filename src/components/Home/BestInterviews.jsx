@@ -4,6 +4,7 @@ import { useRef } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import bestUser from "../../assets/bestUser.png";
+import { HiChevronRight, HiChevronLeft } from "react-icons/hi";
 
 const DUMMY_BEST_INTERVIEWS = [
   {
@@ -50,10 +51,9 @@ const BestInterviews = () => {
     speed: 500,
     autoplay: true,
     autoplaySpeed: 2000,
-    slidesToScroll: 1,
-    slidesToShow: 3,
+    slidesToShow: 1,
     centerMode: true,
-    centerPadding: "30px",
+    centerPadding: "60px",
   };
 
   return (
@@ -63,7 +63,15 @@ const BestInterviews = () => {
           return (
             <div className="card" key={idx}>
               <p>{idx}</p>
-              <img src={ele.imageUrl} alt="user" />
+              <img className="thumbnail" src={ele.imageUrl} alt="user" />
+              <div className="btnWrapper">
+                <button onClick={prevBtn}>
+                  <HiChevronLeft size="16px" />
+                </button>
+                <button onClick={nextBtn}>
+                  <HiChevronRight size="16px" />
+                </button>
+              </div>
             </div>
           );
         })}
@@ -73,12 +81,17 @@ const BestInterviews = () => {
 };
 
 const BestInterviewsLayout = styled.div`
-  /* display: flex; */
-  /* justify-content: center; */
-  /* align-items: center; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
+  height: 400px;
   background-color: ${({ theme }) => theme.colors.headerBgColor};
   margin-bottom: 80px;
+
+  .slick-slider {
+    width: 100% !important;
+  }
 `;
 
 const StyledSlider = styled(Slider)`
@@ -87,9 +100,8 @@ const StyledSlider = styled(Slider)`
   }
 
   .slick-slide div {
-    max-width: 400px;
+    max-width: 1200px;
     width: 100%;
-    height: 250px;
   }
 
   .slick-slide div .card {
@@ -98,7 +110,6 @@ const StyledSlider = styled(Slider)`
     justify-content: center;
     padding: 25px;
     border-radius: 4px;
-    box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.2);
   }
 `;
 
