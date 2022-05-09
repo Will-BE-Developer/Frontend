@@ -5,9 +5,11 @@ import instance from "../../apis/axios";
 import theme from "../../styles/theme";
 import GlobalButton from "../UI/GlobalButton";
 import { GrRefresh } from "react-icons/gr";
+import { getCookie } from "../../shared/cookies";
 
 const InterviewForm = ({ thumbnail, questionId, reset }, recorderRef) => {
   const navigate = useNavigate();
+  const token = getCookie("token");
   const [isPublic, setIsPublic] = useState("");
   const [noteInfo, setNoteInfo] = useState({ noteCount: 0 });
 
@@ -18,7 +20,15 @@ const InterviewForm = ({ thumbnail, questionId, reset }, recorderRef) => {
     }
 
     try {
-      const { data } = await instance.get("/api/interviews/draft");
+      const { data } = await instance.post(
+        "/api/interviews/draft",
+        {},
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
 
       const video = recorderRef.current.getBlob();
       const interviewId = data.interview.id;

@@ -1,8 +1,28 @@
 import styled, { css } from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getCookie } from "../../shared/cookies";
 import logo from "../../assets/logo.png";
+import { signout } from "../../store/slices/userSlice";
 
 const Header = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const token = getCookie("token");
+
+  const logoutHandler = () => {
+    const signoutDispatch = async () => {
+      try {
+        await dispatch(signout(token)).unwrap();
+        navigate("/", { replace: true });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    signoutDispatch();
+  };
+
   return (
     <HeaderContainer>
       <div className="nav">
@@ -17,7 +37,11 @@ const Header = () => {
           <Link to="/mypage">마이페이지</Link>
         </div>
         <div>
-          <Link to="/signin">로그인</Link>
+          {token ? (
+            <span onClick={logoutHandler}>로그아웃</span>
+          ) : (
+            <Link to="/signin">로그인</Link>
+          )}
         </div>
       </div>
     </HeaderContainer>
