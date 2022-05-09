@@ -252,7 +252,7 @@ const RecordWrapper = styled.div`
   .videoLayout {
     display: flex;
     justify-content: center;
-    background-color: lightgray;
+    background-color: ${({ theme }) => theme.colors.headerBgColor};
     border-radius: 6px;
   }
 
