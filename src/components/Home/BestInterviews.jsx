@@ -46,14 +46,15 @@ const BestInterviews = () => {
 
   const settings = {
     className: "center",
-    dots: false,
+    dots: true,
     infinite: true,
     speed: 500,
     autoplay: true,
-    autoplaySpeed: 2000,
-    slidesToShow: 1,
+    autoplaySpeed: 4000,
+    slidesToShow: 3,
     centerMode: true,
     centerPadding: "60px",
+    fade: true,
   };
 
   return (
@@ -61,18 +62,22 @@ const BestInterviews = () => {
       <StyledSlider ref={slider} {...settings}>
         {DUMMY_BEST_INTERVIEWS.map((ele, idx) => {
           return (
-            <div className="card" key={idx}>
-              <p>{idx}</p>
-              <img className="thumbnail" src={ele.imageUrl} alt="user" />
+            <>
               <div className="btnWrapper">
                 <button onClick={prevBtn}>
                   <HiChevronLeft size="16px" />
                 </button>
-                <button onClick={nextBtn}>
+              </div>
+              <div className="card" key={idx}>
+                <p>{idx}</p>
+                <img className="thumbnail" src={ele.imageUrl} alt="user" />
+              </div>
+              <div className="btnWrapper">
+                <button onClick={prevBtn}>
                   <HiChevronRight size="16px" />
                 </button>
               </div>
-            </div>
+            </>
           );
         })}
       </StyledSlider>
@@ -95,13 +100,25 @@ const BestInterviewsLayout = styled.div`
 `;
 
 const StyledSlider = styled(Slider)`
+  .slick-arrow {
+    display: none !important;
+  }
+
+  .slick-dots {
+    bottom: -40px;
+  }
+
   .slick-slide {
-    /* display: flex !important; */
+    display: flex !important;
+    justify-content: center;
   }
 
   .slick-slide div {
-    max-width: 1200px;
+    display: flex;
+    justify-content: center;
     width: 100%;
+    max-width: 1200px;
+    width: 80%;
   }
 
   .slick-slide div .card {
@@ -110,6 +127,11 @@ const StyledSlider = styled(Slider)`
     justify-content: center;
     padding: 25px;
     border-radius: 4px;
+    background-color: ${({ theme }) => theme.colors.white};
+  }
+
+  .thumbnail {
+    width: 300px;
   }
 `;
 
