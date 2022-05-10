@@ -26,11 +26,14 @@ import MyScrap from "./pages/MyPage/MyScrap";
 
 import NotFound from "./pages/NotFound";
 
+import ScrollToTop from "./components/UI/ScrollToTop";
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
+          <ScrollToTop />
           <Routes>
             <Route path="" element={<Home />} />
             <Route path="/" element={<App />}>
