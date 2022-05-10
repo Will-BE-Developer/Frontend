@@ -62,6 +62,7 @@ const InterviewForm = ({ thumbnail, questionId, reset }, recorderRef) => {
         },
         {
           headers: {
+            Authorization: token,
             "Content-Type": "application/json",
           },
         }
@@ -75,7 +76,7 @@ const InterviewForm = ({ thumbnail, questionId, reset }, recorderRef) => {
       if (isPublic) {
         navigate("/feedback");
       } else {
-        navigate("/mypage");
+        navigate("/mypage/history");
       }
     } catch (err) {
       console.log(err);
