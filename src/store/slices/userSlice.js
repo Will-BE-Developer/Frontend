@@ -34,11 +34,9 @@ export const signupEmail = createAsyncThunk(
   "user/signupEmail",
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await instance.post(
-        `${process.env.REACT_APP_API_JURI_URL}/signup`,
-        userData
-      );
-      return response;
+      const response = await instance.post(`/signup`, userData);
+
+      return response.data;
     } catch (err) {
       console.log("이메일 회원가입 오류: ", err.response);
       return rejectWithValue(err.response.data);
@@ -50,11 +48,11 @@ export const signinEmail = createAsyncThunk(
   "user/signinEmail",
   async (userData, { rejectWithValue }) => {
     try {
-      // const response = await instance.post("/signin", userData);
-      const response = await instance.post(
-        `${process.env.REACT_APP_API_JURI_URL}/signin`,
-        userData
-      );
+      const response = await instance.post("/signin", userData);
+      // const response = await instance.post(
+      //   `${process.env.REACT_APP_API_JURI_URL}/signin`,
+      //   userData
+      // );
       const result = {
         user: response.data.user,
         token: response.headers.authorization,
@@ -70,9 +68,10 @@ export const signinEmail = createAsyncThunk(
 export const signout = createAsyncThunk(
   "user/signout",
   async (token, { rejectWithValue }) => {
+    console.log(token);
     try {
       await instance.post(
-        `${process.env.REACT_APP_API_JURI_URL}/signout`,
+        "/signout",
         {},
         {
           headers: {
