@@ -34,11 +34,13 @@ const userApis = {
         token: response.headers.authorization,
       };
 
+      console.log(result, "로그인 ");
       return result;
     } catch (error) {
       return error.response;
     }
   },
+
   signinKakao: async (url, code) => {
     try {
       const response = instance.get(url, {

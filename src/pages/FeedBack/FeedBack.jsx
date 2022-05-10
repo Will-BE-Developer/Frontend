@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
-import GlobalCard from "../components/UI/GlobalCard";
+import GlobalCard from "../../components/UI/GlobalCard";
 
-import Dropdown from "../components/UI/GlobalDropDown";
-import { getFeedback as getFeedbackApi } from "../apis/async.js";
+import Dropdown from "../../components/UI/GlobalDropDown";
+import { getFeedback as getFeedbackApi } from "../../apis/feedbackApis.js";
 
 const FeedBack = () => {
   const [data, setData] = useState([]);
@@ -47,7 +47,7 @@ const FeedBack = () => {
 const Container = styled.div`
   width: 100%;
   padding: 0;
-
+  margin-top: 100px;
   & .dropDown_container {
     display: flex;
     justify-content: right;
@@ -57,14 +57,12 @@ const Container = styled.div`
   }
 
   & .card_wrap {
-    display: flex;
-    flex-wrap: wrap;
-
-    justify-content: space-around;
-    /* gap: 5px; */
-
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
     animation: fadeInBottom 1s;
     transform: translateY(0%);
+
     @keyframes fadeInBottom {
       from {
         opacity: 0;
@@ -73,6 +71,12 @@ const Container = styled.div`
       to {
         opacity: 1;
       }
+    }
+    ${({ theme }) => theme.device.tablet} {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    ${({ theme }) => theme.device.mobile} {
+      grid-template-columns: repeat(1, 1fr);
     }
   }
 `;

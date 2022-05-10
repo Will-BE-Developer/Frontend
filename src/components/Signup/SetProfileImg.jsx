@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import test_img from "./test_img.jpg";
 import styled, { css } from "styled-components";
 import GlobalButton from "../UI/GlobalButton";
+import HiCamera from "react-icons/hi";
 
 const SetProfileImg = (props) => {
   // 기본이미지

@@ -13,6 +13,7 @@ const AppLayout = ({ children }) => {
 };
 
 const MainContainer = styled.main`
+  /* width: ${(props) => (props._width ? props._width : "max-content")}; */
   max-width: 1200px;
   margin: 0 auto;
 

@@ -40,7 +40,7 @@ const InterviewForm = ({ thumbnail, questionId, reset }, recorderRef) => {
       if (isPublic) {
         navigate(`/feedback/${interviewId}`);
       } else {
-        navigate("/mypage");
+        navigate("/mypage/history");
       }
     } catch (error) {
       console.log(error);
