@@ -11,18 +11,8 @@ import Interview from "./pages/Interview";
 import InterviewTopic from "./pages/InterviewTopic";
 import InterviewRecording from "./pages/InterviewRecording";
 import KakaoRedirect from "./pages/KakaoRedirect";
-
-import Signin from "./pages/Signin";
-import Signup from "./pages/Signup";
-
-import FeedBack from "./pages/FeedBack/FeedBack";
-import FeedBackDetail from "./pages/FeedBack/FeedBackDetail";
-import FeedbackUpdate from "./pages/FeedBack/FeedbackUpdate";
-
-import MyPage from "./pages/MyPage/MyPage";
-import MyProfile from "./pages/MyPage/MyProfile";
-import MyHistory from "./pages/MyPage/MyHistory";
-import MyScrap from "./pages/MyPage/MyScrap";
+import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -54,6 +44,7 @@ ReactDOM.render(
             <Route path="/signup" element={<Signup />} />
             <Route path="/signin" element={<Signin />} />
             <Route path="/user/kakao/callback" element={<KakaoRedirect />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

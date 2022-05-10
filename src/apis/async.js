@@ -14,13 +14,10 @@ export const getFeedback = async () => {
 };
 
 export const getFeedbackDetail = async (cardId) => {
-  console.log(cardId);
   try {
     const res = await instance.get(`/api/interviews/${cardId}`);
-    console.log(res);
     return res.data;
   } catch (err) {
-    console.log(err);
     return err;
   }
 };
@@ -33,31 +30,24 @@ export const getFeedbackDetailVideo = async (cardId) => {
     });
     return convertVideo.data;
   } catch (err) {
-    console.log(err, "getFeedbackDetailVideo err");
     return err;
   }
 };
 
 export const editFeedbackDetail = async (cardId) => {
-  console.log(cardId);
   try {
     const res = await instance.get(`/api/interviews/${cardId}`);
-    console.log(res);
     return res.data;
   } catch (err) {
-    console.log(err);
     return err;
   }
 };
 
 export const deleteFeedbackDetail = async (cardId) => {
-  console.log(cardId);
   try {
     const res = await instance.delete(`/api/interviews/${cardId}`);
-    console.log(res);
     return res.data;
   } catch (err) {
-    console.log(err);
     return err;
   }
 };
