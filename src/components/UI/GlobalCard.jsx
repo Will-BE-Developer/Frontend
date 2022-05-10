@@ -17,7 +17,6 @@ import test_img from "../Signup/test_img.jpg";
 
 const GlobalCard = memo(({ card }) => {
   const [showModal, setShowModal] = useState(false);
-
   const { cardId } = useParams();
   const navigate = useNavigate();
 
@@ -30,10 +29,8 @@ const GlobalCard = memo(({ card }) => {
     note,
     scrapsMe,
     scrapsCount,
-    likesCount,
     createdAt,
     isMine,
-    updatedAt,
     isPublic,
   } = card;
 
@@ -48,12 +45,6 @@ const GlobalCard = memo(({ card }) => {
 
   return (
     <Card>
-      {/* <CardHeader>
-        <div>
-          <span>FRONTEND</span>
-        </div>
-      </CardHeader> */}
-
       <CardBody onClick={linkToDetailHandler}>
         <img alt="img" src={thumbnail} />
         <BodyContainer>
@@ -79,7 +70,7 @@ const GlobalCard = memo(({ card }) => {
           <span>by {user.nickname}</span>
         </div>
         <div className="icon_container">
-          <BeforeCheck />
+          <ScrapButton isScrapped={scrapsMe} />
           <span>{scrapsCount}</span>
         </div>
       </CardFooter>
@@ -233,71 +224,16 @@ const ProfileImg = styled.img`
   margin-right: 5px;
 `;
 
-// btn
-const BtnCircleBg = styled.button`
-  width: 1.6em;
-  height: 1.6em;
-  padding: 0;
-  margin-right: 6px;
-  border-radius: 50%;
-  background-color: ${({ theme }) => theme.colors.lightGrey};
-  ${({ theme }) => theme.device.tablet} {
-    width: 1.2em;
-    height: 1.2em;
-    margin-right: 4px;
-  }
-`;
-
-const CrownIcon = styled(AiTwotoneCrown)`
-  height: 100%;
-  color: ${({ theme }) => theme.colors.darkGrey};
-  cursor: pointer;
-
-  font-size: ${({ theme }) => theme.calRem(18)};
-  padding: 0;
-`;
-
-const BeforeCheck = styled(BsFillBookmarkFill)`
-  /* font-size: 1rem; */
-  height: 100%;
-  color: ${({ theme }) => theme.colors.yellow};
-
-  font-size: ${({ theme }) => theme.calRem(18)};
-  padding: 0;
-`;
-const HeartCheck = styled(BsHeartFill)`
-  height: 100%;
-  color: ${({ theme }) => theme.colors.yellow};
-
-  font-size: ${({ theme }) => theme.calRem(18)};
-  padding: 0;
-`;
-
-const AfterCheck = styled(BsFillBookmarkFill)`
-  height: 100%;
-  vertical-align: middle;
-  padding-bottom: 4px;
-  color: ${({ theme }) => theme.colors.yellow};
-  font-size: ${({ theme }) => theme.fontSizes.xl};
-`;
-const HeartIcon = styled(AiOutlineHeart)`
-  & svg {
-    height: 100%;
-  }
-
-  cursor: pointer;
-  color: "#686ef3";
-`;
-
-// btn
-
-const Icons = css`
-  vertical-align: middle;
-  padding-bottom: 3px;
-
-  color: ${({ theme }) => theme.colors.mediumGrey};
-  font-size: ${({ theme }) => theme.fontSizes.xl};
-  text-align: center;
+const ScrapButton = styled(BsFillBookmarkFill)`
+  ${({ isScrapped, theme }) => {
+    return css`
+      height: 100%;
+      color: ${isScrapped ? theme.colors.yellow : theme.colors.lightGrey};
+      cursor: pointer;
+      font-size: ${({ theme }) => theme.calRem(18)};
+      padding: 0;
+    `;
+  }}
 `;
 
 export default GlobalCard;

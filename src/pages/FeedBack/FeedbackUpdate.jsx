@@ -51,12 +51,20 @@ const FeedbackUpdate = () => {
           <GlobalButton
             onClick={clickCancleHandler}
             text="취소"
-            margin="0px 10px 0px 0px"
             background={theme.colors.white}
             color={theme.colors.black}
             border="1px solid rgba(130, 130, 130, 0.2)"
+            _width="64px"
+            _height="36px"
           />
-          <GlobalButton onClick={clickUpdateHandler} text="저장" />
+          <GlobalButton
+            onClick={clickUpdateHandler}
+            background={theme.colors.lightGrey}
+            _width="64px"
+            _height="36px"
+            padding="9px 16px"
+            text="저장"
+          />
         </div>
       </div>
       <div className="header">

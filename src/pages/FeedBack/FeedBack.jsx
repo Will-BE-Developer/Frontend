@@ -8,7 +8,7 @@ import { getFeedback as getFeedbackApi } from "../../apis/feedbackApis.js";
 
 const FeedBack = () => {
   const [data, setData] = useState([]);
-
+  console.log(data);
   const [selectedDate, setSelectedDate] = useState("(정렬)");
   const [selectedCategory, setSelectedCategory] = useState("전체보기");
 

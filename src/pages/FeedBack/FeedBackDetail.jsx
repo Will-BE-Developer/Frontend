@@ -15,12 +15,15 @@ import {
   undoScrap as undoScrapApi,
 } from "../../apis/feedbackApis.js";
 
+import {
+  getComments as getCommentsApi,
+  addComment as addCommentApi,
+} from "../../apis/commentApis";
 import TimeAgo from "../../components/FeedBack/TimeAgo";
 
 // react = icons
 import { BsFillBookmarkFill, BsHeartFill } from "react-icons/bs";
-import { TiTimes } from "react-icons/ti";
-import { AiTwotoneEdit, AiTwotoneCrown } from "react-icons/ai";
+import { AiTwotoneCrown } from "react-icons/ai";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
 const FeedBackDetail = (props) => {
@@ -42,6 +45,9 @@ const FeedBackDetail = (props) => {
       setScrapCount(data.interview.scrapsCount);
       setIsMine(data.interview.isMine);
     });
+    getCommentsApi(cardId).then((data) => {
+      console.log(data);
+    });
   }, [cardId]);
 
   const {
@@ -60,7 +66,7 @@ const FeedBackDetail = (props) => {
   } = data;
 
   const profileHandler = () => {
-    alert("felfij");
+    alert("프로필 정보 불러오기");
     setShowModal(!showModal);
   };
 
@@ -90,6 +96,17 @@ const FeedBackDetail = (props) => {
         setScrapCount(data.scrap.scrapsCount);
       });
     }
+  };
+
+  const addCommentHandelr = () => {
+    const commentData = {
+      constents: "댓글 추가",
+      rootId: 12,
+      rootName: "interview",
+    };
+    addCommentApi(commentData).then((data) => {
+      console.log(data);
+    });
   };
 
   return (
@@ -140,7 +157,7 @@ const FeedBackDetail = (props) => {
             </div>
             <div>
               <button onClick={scrapHandler}>
-                <BeforeCheck />
+                <ScrapButton isScrapped={isScrapped} />
               </button>
 
               <span>{scrapCount}</span>
@@ -255,14 +272,18 @@ const IconBox = styled.div`
   }
 `;
 
-const BeforeCheck = styled(BsFillBookmarkFill)`
-  /* font-size: 1rem; */
-  height: 100%;
-  color: ${({ theme }) => theme.colors.yellow};
-  cursor: pointer;
-  font-size: ${({ theme }) => theme.calRem(18)};
-  padding: 0;
+const ScrapButton = styled(BsFillBookmarkFill)`
+  ${({ isScrapped, theme }) => {
+    return css`
+      height: 100%;
+      color: ${isScrapped ? theme.colors.yellow : theme.colors.lightGrey};
+      cursor: pointer;
+      font-size: ${({ theme }) => theme.calRem(18)};
+      padding: 0;
+    `;
+  }}
 `;
+
 const HeartCheck = styled(BsHeartFill)`
   height: 100%;
   color: ${({ theme }) => theme.colors.yellow};
@@ -272,14 +293,6 @@ const HeartCheck = styled(BsHeartFill)`
   padding: 0;
 `;
 
-const AfterCheck = styled(BsFillBookmarkFill)`
-  /* font-size: 1.2rem; */
-  height: 100%;
-  vertical-align: middle;
-  padding-bottom: 4px;
-  color: ${({ theme }) => theme.colors.yellow};
-  font-size: ${({ theme }) => theme.fontSizes.xl};
-`;
 const HeartIcon = styled(AiOutlineHeart)`
   & svg {
     height: 100%;
@@ -290,24 +303,6 @@ const HeartIcon = styled(AiOutlineHeart)`
 `;
 
 // btn
-
-const Icons = css`
-  vertical-align: middle;
-  padding-bottom: 3px;
-
-  color: ${({ theme }) => theme.colors.mediumGrey};
-  font-size: ${({ theme }) => theme.fontSizes.xl};
-  text-align: center;
-`;
-
-const Edit = styled(AiTwotoneEdit)`
-  ${Icons}
-`;
-const Delete = styled(TiTimes)`
-  ${Icons}
-`;
-
-// author
 
 const AuthorContainer = styled.div`
   width: 100%;
