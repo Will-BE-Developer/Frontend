@@ -154,10 +154,16 @@ const FeedBackDetail = (props) => {
                 <span>{likesCount}</span>
               </div>
               <div className="button_wrap">
-                <button onClick={scrapHandler}>
-                  <ScrapButton isScrapped={isScrapped} />
+                <button
+                  style={{
+                    color: isScrapped
+                      ? theme.colors.yellow
+                      : theme.colors.lightGrey,
+                  }}
+                  onClick={scrapHandler}
+                >
+                  <ScrapIcon />
                 </button>
-
                 <span>{scrapCount}</span>
               </div>
             </div>
@@ -256,6 +262,10 @@ const TitleContainer = styled.div`
       -webkit-box-align: center;
       align-items: center;
       margin: 0 5px;
+      button : {
+        width: 10px;
+        margin: 0 5px;
+      }
       span {
         font-size: ${({ theme }) => theme.calRem(12)};
       }
@@ -263,16 +273,11 @@ const TitleContainer = styled.div`
   }
 `;
 
-const ScrapButton = styled(BsFillBookmarkFill)`
-  ${({ isScrapped, theme }) => {
-    return css`
-      height: 100%;
-      color: ${isScrapped ? theme.colors.yellow : theme.colors.lightGrey};
-      cursor: pointer;
-      font-size: ${({ theme }) => theme.calRem(18)};
-      padding: 0;
-    `;
-  }}
+const ScrapIcon = styled(BsFillBookmarkFill)`
+  height: 100%;
+  cursor: pointer;
+  font-size: ${({ theme }) => theme.calRem(18)};
+  padding: 0;
 `;
 
 const HeartCheck = styled(BsHeartFill)`
@@ -309,9 +314,7 @@ const AuthorContainer = styled.div`
       }
     }
   }
-
-  // note
-  & > span {
+  & .author_note {
     font-size: ${({ theme }) => theme.calRem(14)};
     margin: 20px 0;
     overflow: hidden;
