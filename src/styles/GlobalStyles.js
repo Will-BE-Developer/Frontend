@@ -26,13 +26,6 @@ const GlobalStyles = createGlobalStyle`
     min-height: 100vh;
     font-family: 'Pretendard-Regular';
     margin: 60px auto;
-<<<<<<< HEAD
-    /* padding: 0px 3rem; */
-
-  
-   
-=======
->>>>>>> e992065dd0e9c2b83be43669ad5bddf84d3bdb39
   }
 
   &:focus,&:hover,&:active{
