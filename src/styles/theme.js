@@ -1,6 +1,6 @@
 const device = {
-  desktop: "@media screen and (min-width: 1024px)",
-  tablet: "@media screen and (max-width: 1023px)",
+  desktop: "@media screen and (min-width: 1241px)",
+  tablet: "@media screen and (max-width: 1240px)",
   mobile: "@media screen and (max-width: 500px)",
 };
 

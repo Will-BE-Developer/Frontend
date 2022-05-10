@@ -84,10 +84,6 @@ const SetInfo = (props) => {
     navigate("/");
   };
 
-  const checkEmailHandler = () => {
-    alert("이미 사용중인 이메일입니다.");
-  };
-
   return (
     <div>
       {currentPage === 2 && (
@@ -102,15 +98,6 @@ const SetInfo = (props) => {
               <Label htmlFor="nickname">닉네임</Label>
               <div>
                 <Input type="text" placeholder="2-6자 이내로 입력해주세요." />
-
-                <GlobalButton
-                  onClick={checkEmailHandler}
-                  hover
-                  _width="30%"
-                  margin="0 0 0 8px"
-                >
-                  중복확인
-                </GlobalButton>
               </div>
               <ErrorMSG>공백 없이 한글/영문/숫자만 가능합니다. </ErrorMSG>
 
@@ -265,30 +252,6 @@ const InputField = styled.form`
   }
 `;
 
-const Button = styled.button`
-  ${({ theme }) => {
-    const { colors, device, calRem } = theme;
-    return css`
-      border-radius: 4px;
-      background: ${colors.darkGrey};
-      color: ${colors.white};
-      width: 96px;
-      height: 60px;
-      font-size: ${calRem(16)};
-      margin: 0 0 6px 0;
-
-      ${device.mobile} {
-        width: 80px;
-        height: 30px;
-        font-size: ${calRem(12)};
-      }
-      &:hover {
-        background: ${colors.mediumGrey};
-      }
-    `;
-  }}
-`;
-
 const Label = styled.label`
   font-size: ${({ theme }) => theme.calRem(14)};
   color: ${({ theme }) => theme.colors.black};
@@ -347,9 +310,4 @@ const PreviousIcon = styled(FcPrevious)`
   }
 `;
 
-const Img = styled.img`
-  border-radius: 50%;
-  width: 80px;
-  height: 80px;
-`;
 export default SetInfo;

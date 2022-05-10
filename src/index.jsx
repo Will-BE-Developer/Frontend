@@ -22,18 +22,18 @@ ReactDOM.render(
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Routes>
+            <Route path="" element={<Home />} />
             <Route path="/" element={<App />}>
               <Route path="feedback" element={<FeedBack />} />
               <Route path="feedback/:cardId" element={<FeedBackDetail />} />
-              <Route path="" element={<Home />} />
               <Route path="interview" element={<Interview />}>
                 <Route path="" element={<InterviewTopic />} />
                 <Route path="recording" element={<InterviewRecording />} />
               </Route>
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/signin" element={<Signin />} />
-              <Route path="/user/kakao/callback" element={<KakaoRedirect />} />
             </Route>
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/signin" element={<Signin />} />
+            <Route path="/user/kakao/callback" element={<KakaoRedirect />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

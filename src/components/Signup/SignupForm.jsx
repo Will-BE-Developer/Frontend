@@ -11,7 +11,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import GlobalButton from "../UI/GlobalButton";
 import { signupEmail } from "../../store/slices/userSlice";
-import { signupEmailCheck as emailCheckApi } from "../../apis/async.js";
+import userApis from "../../apis/userApis";
 
 const SignupForm = (props) => {
   const emailRef = useRef(null);
@@ -72,7 +72,7 @@ const SignupForm = (props) => {
   const checkEmailHandler = () => {
     const currentEmail = emailRef.current?.value;
     if (currentEmail) {
-      emailCheckApi(currentEmail).then((res) => {
+      userApis.signupEmailCheck(currentEmail).then((res) => {
         if (res.success) {
           setCheckEmail(true);
         } else {

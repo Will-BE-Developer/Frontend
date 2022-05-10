@@ -1,84 +1,49 @@
 import { useState, forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import instance from "../../apis/axios";
 import theme from "../../styles/theme";
 import GlobalButton from "../UI/GlobalButton";
 import { GrRefresh } from "react-icons/gr";
-import { getCookie } from "../../shared/cookies";
+import interviewApis from "../../apis/interviewApis";
 
 const InterviewForm = ({ thumbnail, questionId, reset }, recorderRef) => {
   const navigate = useNavigate();
-  const token = getCookie("token");
   const [isPublic, setIsPublic] = useState("");
   const [noteInfo, setNoteInfo] = useState({ noteCount: 0 });
 
-  const s3UploadHandler = async () => {
+  const createInterviewHandler = async () => {
     if (isPublic.length === 0 || noteInfo.noteCount === 0) {
-      alert("공개 여부 또는 내용을 작성해주세요.");
+      alert("공개 여부 또는 내용을 작성해주세요");
       return;
     }
 
     try {
-      const { data } = await instance.post(
-        "/api/interviews/draft",
-        {},
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
+      const data = await interviewApis.getPresignedUrl();
 
       const video = recorderRef.current.getBlob();
       const interviewId = data.interview.id;
       const presignedUrlVideo = data.presignedUrl.video;
       const presignedUrlThumbnail = data.presignedUrl.thumbnail;
 
-      console.log(thumbnail, video);
-
-      const s3ResVideo = await instance.put(presignedUrlVideo, video, {
-        headers: {
-          "Content-Type": "video/webm",
-        },
-      });
-
-      const s3ResThumbnail = await instance.put(
-        presignedUrlThumbnail,
-        thumbnail,
-        {
-          headers: {
-            "Content-Type": "image/png",
-          },
-        }
+      await interviewApis.s3VideoUpload(presignedUrlVideo, video);
+      await interviewApis.s3ThumbnailUpload(presignedUrlThumbnail, thumbnail);
+      await interviewApis.createInterview(
+        interviewId,
+        noteInfo.noteText,
+        questionId,
+        isPublic
       );
-
-      const response = await instance.post(
-        `api/interviews/${interviewId}`,
-        {
-          note: noteInfo.noteText,
-          questionId,
-          isPublic,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      console.log(s3ResVideo, s3ResThumbnail, response);
 
       recorderRef.current.reset();
       recorderRef.current = null;
 
       if (isPublic) {
-        navigate("/feedback");
+        navigate(`/feedback/${interviewId}`);
       } else {
         navigate("/mypage");
       }
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -148,7 +113,7 @@ const InterviewForm = ({ thumbnail, questionId, reset }, recorderRef) => {
             주제 수정
           </GlobalButton>
         </div>
-        <GlobalButton onClick={s3UploadHandler}>저장</GlobalButton>
+        <GlobalButton onClick={createInterviewHandler}>저장</GlobalButton>
       </div>
     </FormLayout>
   );
