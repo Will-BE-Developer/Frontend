@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useRef } from "react";
+import { useDispatch } from "react-redux";
 
 import { boxShadow } from "../../styles/boxShadow";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 // 회원가입 유효성 검사 api : react hook form
