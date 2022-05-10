@@ -24,7 +24,7 @@ import test_img from "../Signup/test_img.jpg";
 const GlobalCard = memo(({ card }) => {
   const [showModal, setShowModal] = useState(false);
 
-  const { postId } = useParams();
+  const { cardId } = useParams();
   const navigate = useNavigate();
 
   const {
@@ -44,7 +44,7 @@ const GlobalCard = memo(({ card }) => {
   } = card;
 
   const linkToDetailHandler = () => {
-    navigate(`/feedback/${id}`, { postId });
+    navigate(`/feedback/${id}`, { cardId });
   };
 
   const showProfileHandler = () => {
@@ -111,22 +111,10 @@ const Card = styled.article`
       display: flex;
       flex-direction: column;
       margin-bottom: 20px;
-
-      width: 100%;
-      /* height: 467px; */
       border-radius: 4px;
       background-color: ${colors.white};
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       overflow: hidden;
-      margin: 15px 10px;
-      ${device.mobile} {
-        width: calc((100% - 20px) / 1);
-      }
-
-      ${device.desktop} {
-        width: calc((100% - (40px * 2)) / 3);
-      }
-
       &:hover {
         top: -2px;
         box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
