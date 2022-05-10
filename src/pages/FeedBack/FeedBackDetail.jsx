@@ -29,11 +29,9 @@ const FeedBackDetail = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [video, setVideo] = useState("");
   const [data, setData] = useState([]);
-
+  const [isMine, setIsMine] = useState();
   const [isScrapped, setIsScrapped] = useState();
   const [scrapCount, setScrapCount] = useState();
-
-  console.log(data);
   useEffect(() => {
     getVideoApi(cardId).then((data) => {
       setVideo(URL.createObjectURL(data));
@@ -42,6 +40,7 @@ const FeedBackDetail = (props) => {
       setData(data.interview);
       setIsScrapped(data.interview.scrapsMe);
       setScrapCount(data.interview.scrapsCount);
+      setIsMine(data.interview.isMine);
     });
   }, [cardId]);
 
@@ -56,7 +55,6 @@ const FeedBackDetail = (props) => {
     scrapsCount,
     likesCount,
     createdAt,
-    isMine,
     updatedAt,
     isPublic,
   } = data;
@@ -72,29 +70,27 @@ const FeedBackDetail = (props) => {
 
   const clickDeleteHandler = () => {
     deleteDetailApi(cardId).then((data) => {
-      console.log(data);
-      navigate("/feedback", { replace: true });
+      if (data.interview.isPublic === true) {
+        navigate(`/feedback/`, { replace: true });
+      } else {
+        navigate("/mypage/history", { replace: true });
+      }
     });
   };
 
   const scrapHandler = () => {
     if (isScrapped === false) {
       addScrapApi(cardId).then((data) => {
-        console.log(data, "데이터");
         setIsScrapped(data.scrap.scrapsMe);
         setScrapCount(data.scrap.scrapsCount);
       });
     } else {
       undoScrapApi(cardId).then((data) => {
-        console.log(data, "데이터 삭제");
         setIsScrapped(data.scrap.scrapsMe);
         setScrapCount(data.scrap.scrapsCount);
       });
     }
   };
-
-  console.log("북마크유무", isScrapped);
-  console.log("북마크 개수", scrapCount);
 
   return (
     <Container>

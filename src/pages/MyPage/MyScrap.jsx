@@ -3,20 +3,18 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import GlobalCard from "../../components/UI/GlobalCard";
-import { getUserScrap as getUserScrapApi } from "../../apis/feedbackApis.js";
+import { getUserScrap as getUserScrapApi } from "../../apis/mypageApis.js";
 
 import Dropdown from "../../components/UI/GlobalDropDown";
 
 const MyScrap = () => {
   const [data, setData] = useState([]);
 
-  // useEffect(() => {
-  //   getUserCardApi().then((data) => {
-  //     setData(data.interviews);
-  //   });
-  // }, []);
-
-  console.log(data);
+  useEffect(() => {
+    getUserScrapApi().then((data) => {
+      setData(data.interviews);
+    });
+  }, []);
 
   return (
     <Container>
@@ -25,11 +23,11 @@ const MyScrap = () => {
         <span>총 {data.length}개</span>
       </div>
 
-      {/* <div className="card_wrap">
+      <div className="card_wrap">
         {data?.map((card) => {
           return <GlobalCard key={card.id} card={card} />;
         })}
-      </div> */}
+      </div>
     </Container>
   );
 };

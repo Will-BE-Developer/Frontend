@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import theme from "../../styles/theme";
@@ -9,11 +9,9 @@ import { updateFeedbackDetail as updateDetailApi } from "../../apis/feedbackApis
 
 const FeedbackUpdate = () => {
   const navigate = useNavigate();
-  const content = useRef();
   const { state } = useLocation();
-
   const { video, data } = state;
-  console.log(data);
+
   const [noteInfo, setNoteInfo] = useState({
     noteText: data.note,
     noteCount: 0,
@@ -28,7 +26,6 @@ const FeedbackUpdate = () => {
     };
 
     updateDetailApi(cardId, updateData).then((data) => {
-      console.log(data);
       if (isPublic === true) {
         navigate(`/feedback/${cardId}`, { replace: true });
       } else {
