@@ -102,15 +102,6 @@ const SetInfo = (props) => {
               <Label htmlFor="nickname">닉네임</Label>
               <div>
                 <Input type="text" placeholder="2-6자 이내로 입력해주세요." />
-
-                <GlobalButton
-                  onClick={checkEmailHandler}
-                  hover
-                  _width="30%"
-                  margin="0 0 0 8px"
-                >
-                  중복확인
-                </GlobalButton>
               </div>
               <ErrorMSG>공백 없이 한글/영문/숫자만 가능합니다. </ErrorMSG>
 

@@ -26,11 +26,9 @@ const GlobalStyles = createGlobalStyle`
     min-height: 100vh;
     font-family: 'Pretendard-Regular';
     margin: 60px auto;
-    padding: 0px 3rem;
+    /* padding: 0px 3rem; */
 
-    ${({ theme }) => theme.device.mobile} {
-      padding: 0px 1rem;
-    }
+  
    
   }
 
