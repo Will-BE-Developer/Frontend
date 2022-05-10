@@ -2,23 +2,23 @@ import styled, { css } from "styled-components";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiChevronRight } from "react-icons/hi";
-import instance from "../apis/axios";
+import interviewApis from "../apis/interviewApis";
 import GlobalButton from "../components/UI/GlobalButton";
 import { boxShadow } from "../styles/boxShadow";
 
 const InterviewTopic = () => {
-  const [topic, setTopic] = useState([]);
+  const [topics, setTopics] = useState([]);
   const [selectTopic, setSelectTopic] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-    instance
-      .get("/api/categories")
-      .then((res) => {
-        setTopic(res.data.categories);
+    interviewApis
+      .getCategories()
+      .then((categories) => {
+        setTopics(categories);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        console.log(error);
       });
   }, []);
 
@@ -34,7 +34,7 @@ const InterviewTopic = () => {
     <TopicBox>
       <p className="title">면접 주제를 선정해주세요.</p>
       <div className="topic">
-        {topic?.map((topic, index) => {
+        {topics?.map((topic, index) => {
           return (
             <label key={index}>
               <input

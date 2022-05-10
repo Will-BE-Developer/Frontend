@@ -252,30 +252,6 @@ const InputField = styled.form`
   }
 `;
 
-const Button = styled.button`
-  ${({ theme }) => {
-    const { colors, device, calRem } = theme;
-    return css`
-      border-radius: 4px;
-      background: ${colors.darkGrey};
-      color: ${colors.white};
-      width: 96px;
-      height: 60px;
-      font-size: ${calRem(16)};
-      margin: 0 0 6px 0;
-
-      ${device.mobile} {
-        width: 80px;
-        height: 30px;
-        font-size: ${calRem(12)};
-      }
-      &:hover {
-        background: ${colors.mediumGrey};
-      }
-    `;
-  }}
-`;
-
 const Label = styled.label`
   font-size: ${({ theme }) => theme.calRem(14)};
   color: ${({ theme }) => theme.colors.black};
@@ -334,9 +310,4 @@ const PreviousIcon = styled(FcPrevious)`
   }
 `;
 
-const Img = styled.img`
-  border-radius: 50%;
-  width: 80px;
-  height: 80px;
-`;
 export default SetInfo;

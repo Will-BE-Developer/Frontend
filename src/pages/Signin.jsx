@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { boxShadow } from "../styles/boxShadow";
-import styled, { css } from "styled-components";
-import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 // 회원가입 유효성 검사 api : react hook form
 import * as Yup from "yup";
@@ -136,7 +135,7 @@ const BoxContainer = styled.div`
     flex-direction: column;
   }
 
-  ${(props) => boxShadow()};
+  ${boxShadow()};
 
   ${({ theme }) => theme.device.mobile} {
     padding: 0 5%;

@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useRef } from "react";
+import { useDispatch } from "react-redux";
 
 import { boxShadow } from "../../styles/boxShadow";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 // 회원가입 유효성 검사 api : react hook form
@@ -11,7 +11,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import GlobalButton from "../UI/GlobalButton";
 import { signupEmail } from "../../store/slices/userSlice";
+<<<<<<< HEAD
 import { signupEmailCheck as emailCheckApi } from "../../apis/feedbackApis.js";
+=======
+import userApis from "../../apis/userApis";
+>>>>>>> e992065dd0e9c2b83be43669ad5bddf84d3bdb39
 
 const SignupForm = (props) => {
   const emailRef = useRef(null);
@@ -70,7 +74,7 @@ const SignupForm = (props) => {
   const checkEmailHandler = () => {
     const currentEmail = emailRef.current?.value;
     if (currentEmail) {
-      emailCheckApi(currentEmail).then((res) => {
+      userApis.signupEmailCheck(currentEmail).then((res) => {
         if (res.success) {
           setCheckEmail(true);
         } else {

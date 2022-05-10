@@ -73,7 +73,7 @@ const HeaderContainer = styled.div`
         max-width: 1200px;
         width: 100%;
         height: 60px;
-        padding: 0px 20px;
+        padding: 0px 1rem;
 
         & a {
           display: flex;

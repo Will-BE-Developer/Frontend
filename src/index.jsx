@@ -30,6 +30,7 @@ ReactDOM.render(
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Routes>
+            <Route path="" element={<Home />} />
             <Route path="/" element={<App />}>
               <Route path="" element={<Home />} />
               <Route path="feedback" element={<FeedBack />} />

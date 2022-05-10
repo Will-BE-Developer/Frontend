@@ -8,8 +8,8 @@ import styled from "styled-components";
 import { BsAlarm } from "react-icons/bs";
 import GlobalButton from "../components/UI/GlobalButton";
 import InterviewForm from "../components/interview/InterviewForm";
-import instance from "../apis/axios";
 import deniedError from "../assets/deniedError.png";
+import interviewApis from "../apis/interviewApis";
 
 const InterviewRecording = () => {
   const { state } = useLocation();
@@ -17,13 +17,13 @@ const InterviewRecording = () => {
   const videoRef = useRef(null);
   const recorderRef = useRef(null);
   const thumbnailRef = useRef(null);
-  const [thumbnail, setThumbnail] = useState();
   const [isStart, setIsStart] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
+  const [isDenied, setIsDenied] = useState(false);
   const [time, setTime] = useState();
+  const [thumbnail, setThumbnail] = useState();
   const [question, setQuestion] = useState({});
   const [firstTry, setIsFirstTry] = useState(true);
-  const [isDenied, setIsDenied] = useState(false);
 
   const recordingHandler = useCallback(async () => {
     try {
@@ -68,13 +68,13 @@ const InterviewRecording = () => {
     }
 
     if (firstTry) {
-      instance
-        .get(`/api/questions/${state}`)
-        .then((res) => {
-          setQuestion(res.data.question);
+      interviewApis
+        .getQuestion(state)
+        .then((question) => {
+          setQuestion(question);
         })
-        .catch((err) => {
-          console.log(err);
+        .catch((error) => {
+          console.log(error);
         });
     }
 
