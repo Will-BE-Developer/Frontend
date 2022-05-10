@@ -56,34 +56,32 @@ const GlobalCard = memo(({ card }) => {
 
       <CardBody onClick={linkToDetailHandler}>
         <img alt="img" src={thumbnail} />
-        <BodyContents>
-          <h2>{question.contents}</h2>
-
-          <span>{note}</span>
-        </BodyContents>
-        <p>{question.category}</p>
-        <TimeAgo timestamp={createdAt} />
+        <BodyContainer>
+          <div className="contents">
+            <div className="top">
+              <h2>{question.contents}</h2>
+              <span>{note}</span>
+            </div>
+            <div className="bottom">
+              <p>{question.category}</p>
+              <div className="date_comments">
+                <TimeAgo timestamp={createdAt} />
+                <span>· 3개의 댓글</span>
+              </div>
+            </div>
+          </div>
+        </BodyContainer>
       </CardBody>
 
       <CardFooter>
-        <div className="user_profile" onClick={showProfileHandler}>
+        <div className="user_container" onClick={showProfileHandler}>
           <ProfileImg src={user.profileImageUrl} />
-          <BtnCircleBg>
-            <CrownIcon />
-          </BtnCircleBg>
-          <span>{user.nickname}</span>
+          <span>by {user.nickname}</span>
         </div>
-
-        <IconBox>
-          <div>
-            <HeartCheck />
-            <span>{likesCount}</span>
-          </div>
-          <div>
-            <BeforeCheck />
-            <span>{scrapsCount}</span>
-          </div>
-        </IconBox>
+        <div className="icon_container">
+          <BeforeCheck />
+          <span>{scrapsCount}</span>
+        </div>
       </CardFooter>
     </Card>
   );
@@ -93,11 +91,15 @@ GlobalCard.defaultProps = {
   img_src: test_img,
 };
 
+// 면접왕 아이콘 (추후 추가할 수 있음)
+//  <BtnCircleBg>
+//    <CrownIcon />
+//  </BtnCircleBg>
+
 const Card = styled.article`
   ${({ theme }) => {
     const { colors, device } = theme;
     return css`
-      min-height: 100%;
       display: flex;
       flex-direction: column;
       margin-bottom: 20px;
@@ -106,45 +108,14 @@ const Card = styled.article`
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       overflow: hidden;
       &:hover {
-        top: -2px;
-        box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
+        transform: translateY(-8px);
+        box-shadow: rgb(0 0 0 / 8%) 0px 12px 20px 0px;
+        transition-property: box-shadow, transform;
+        transition-duration: 0.25s, 0.25s;
+        transition-timing-function: ease-in, ease-in;
+        transition-delay: 0s, 0s;
       }
       transition: 1000ms eash-in-out;
-    `;
-  }}
-`;
-
-const CardHeader = styled.div`
-  ${({ theme, bgColor }) => {
-    const { colors, device, calRem } = theme;
-
-    return css`
-      flex-grow: 1;
-      background: ${colors.white};
-      width: 100%;
-      background-size: cover;
-      display: flex;
-      justify-content: space-between;
-      font-size: ${calRem(24)};
-      color: ${colors.white};
-      font-weight: 600;
-      margin-bottom: 15px;
-
-      // category box
-      & div {
-        background: ${colors.black};
-        border-radius: 999px;
-        width: 5.5rem;
-        text-align: center;
-        vertical-align: middle;
-        height: 2rem;
-      }
-      // category text
-      & > div > span {
-        height: 2rem;
-        font-size: ${calRem(12)};
-        color: ${colors.white};
-      }
     `;
   }}
 `;
@@ -152,57 +123,70 @@ const CardHeader = styled.div`
 const CardBody = styled.div`
   flex-grow: 3;
   display: flex;
-  padding: 20px;
   flex-direction: column;
-  height: 70%;
   margin: 0 auto;
   width: 100%;
   cursor: pointer;
-  // 날짜시간
-  p {
-    font-size: ${({ theme }) => theme.calRem(12)};
-    margin-top: 10px;
-  }
 `;
 
-const BodyContents = styled.div`
-  flex-grow: 2;
-  align-items: space-around;
-
+const BodyContainer = styled.div`
   ${({ theme }) => {
     const { colors, device, calRem, fontWeight } = theme;
     return css`
-      // Card question
-      & > h2 {
-        font-size: ${calRem(16)};
-        font-weight: ${fontWeight.semiBold};
-        padding-top: 0.5rem;
-        margin: 10px 0;
-
-        // 텍스트 자르기
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 1; /* 라인수 */
-        -webkit-box-orient: vertical;
-        word-wrap: break-word;
+      padding: 20px;
+      & .contents {
+        display: flex;
+        flex: 1 1 0%;
+        flex-direction: column;
+        justify-content: space-between;
       }
-      // Card content
-      & > span {
-        font-size: ${calRem(14)};
 
-        // 텍스트 자르기
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 3; /* 라인수 */
-        -webkit-box-orient: vertical;
-        word-wrap: break-word;
-        line-height: 1.2em;
-        height: 3.6em;
+      & .contents .top {
+        display: block;
+
+        h2 {
+          font-size: ${calRem(16)};
+          font-weight: ${fontWeight.extraBold};
+          margin-bottom: 10px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          word-wrap: break-word;
+        }
+
+        span {
+          font-size: ${calRem(14)};
+          margin-bottom: 24px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          word-wrap: break-word;
+          line-height: 1.2em;
+          height: 3.6em;
+        }
+      }
+
+      & .contents .bottom {
+        padding: 0;
+
+        p {
+          margin-bottom: 5px;
+        }
+        & .date_comments {
+          display: flex;
+          font-size: ${calRem(12)};
+
+          & > span {
+            margin-right: 5px;
+          }
+        }
       }
     `;
-  }};
+  }}
 `;
 
 const CardFooter = styled.div`
@@ -211,24 +195,33 @@ const CardFooter = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 15px;
   padding: 12px 20px 12px 20px;
 
-  & .user_profile {
+  & .user_container {
     cursor: pointer;
     &:hover {
       transform: scale(1.02);
     }
+
+    span {
+      font-size: ${({ theme }) => theme.calRem(12)};
+    }
   }
-  // user info
+
+  & .icon_container {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+
+    span {
+      margin-left: 8px;
+      font-size: ${({ theme }) => theme.calRem(12)};
+    }
+  }
   & div:first-child {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    & > span {
-      font-size: ${({ theme }) => theme.calRem(12)};
-    }
   }
 `;
 
@@ -264,28 +257,6 @@ const CrownIcon = styled(AiTwotoneCrown)`
   padding: 0;
 `;
 
-// like & scrap
-const IconBox = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 4.5rem;
-  object-fit: cover;
-  vertical-align: middle;
-
-  & div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  & div > span {
-    margin: 0 5px;
-
-    font-size: ${({ theme }) => theme.calRem(12)};
-  }
-`;
-
 const BeforeCheck = styled(BsFillBookmarkFill)`
   /* font-size: 1rem; */
   height: 100%;
@@ -303,7 +274,6 @@ const HeartCheck = styled(BsHeartFill)`
 `;
 
 const AfterCheck = styled(BsFillBookmarkFill)`
-  /* font-size: 1.2rem; */
   height: 100%;
   vertical-align: middle;
   padding-bottom: 4px;
@@ -328,13 +298,6 @@ const Icons = css`
   color: ${({ theme }) => theme.colors.mediumGrey};
   font-size: ${({ theme }) => theme.fontSizes.xl};
   text-align: center;
-`;
-
-const Edit = styled(AiTwotoneEdit)`
-  ${Icons}
-`;
-const Delete = styled(TiTimes)`
-  ${Icons}
 `;
 
 export default GlobalCard;
