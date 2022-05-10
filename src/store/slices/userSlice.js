@@ -56,7 +56,7 @@ export const signout = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await userApis.signout();
-      return response.data;
+      return response;
     } catch (err) {
       return rejectWithValue(err.response.data);
     }

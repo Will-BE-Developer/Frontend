@@ -61,6 +61,7 @@ const userApis = {
           },
         }
       );
+      return { message: "success" };
     } catch (error) {
       return error.response;
     }
