@@ -84,10 +84,6 @@ const SetInfo = (props) => {
     navigate("/");
   };
 
-  const checkEmailHandler = () => {
-    alert("이미 사용중인 이메일입니다.");
-  };
-
   return (
     <div>
       {currentPage === 2 && (

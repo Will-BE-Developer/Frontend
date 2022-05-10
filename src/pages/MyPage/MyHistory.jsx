@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import GlobalCard from "../../components/UI/GlobalCard";
-import { getUserCard as getUserCardApi } from "../../apis/async.js";
+import { getUserCard as getUserCardApi } from "../../apis/feedbackApis.js";
 
 import Dropdown from "../../components/UI/GlobalDropDown";
 
@@ -74,6 +74,8 @@ const Container = styled.div`
 
     ${({ theme }) => theme.device.mobile} {
       grid-template-columns: repeat(1, 1fr);
+      gap: 40px;
+      padding: 0 20px;
     }
   }
 `;

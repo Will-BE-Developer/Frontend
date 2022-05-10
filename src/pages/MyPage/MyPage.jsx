@@ -60,16 +60,19 @@ const Sidebar = styled.div`
       background: ${({ theme }) => theme.colors.lightGrey};
     }
     ${({ theme }) => theme.device.mobile} {
-      width: 100px;
-      height: 30px;
+      width: 140px;
+      height: 50px;
+      padding: 10px 5px;
+      text-align: center;
     }
   }
 
   ${({ theme }) => theme.device.mobile} {
     display: flex;
-
+    justify-content: space-between;
     width: 100%;
     height: auto;
+    margin-bottom: 20px;
   }
 `;
 

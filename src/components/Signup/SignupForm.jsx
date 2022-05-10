@@ -11,7 +11,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import GlobalButton from "../UI/GlobalButton";
 import { signupEmail } from "../../store/slices/userSlice";
-import { signupEmailCheck as emailCheckApi } from "../../apis/async.js";
+import { signupEmailCheck as emailCheckApi } from "../../apis/feedbackApis.js";
 
 const SignupForm = (props) => {
   const emailRef = useRef(null);

@@ -7,7 +7,7 @@ export const getFeedback = async () => {
     const res = await instance.get("/api/interviews/");
     return res.data;
   } catch (err) {
-    return err;
+    return err.response;
   }
 };
 
@@ -20,8 +20,7 @@ export const getFeedbackDetail = async (cardId) => {
     });
     return res.data;
   } catch (err) {
-    console.log(err.response);
-    return err;
+    return err.response;
   }
 };
 
@@ -37,27 +36,21 @@ export const getFeedbackDetailVideo = async (cardId) => {
     });
     return convertVideo.data;
   } catch (err) {
-    console.log(err.response);
-    return err;
+    return err.response;
   }
 };
 export const updateFeedbackDetail = async (cardId, updateData) => {
   console.log(cardId, updateData);
   try {
-    const res = await instance.put(
-      `/api/interviews/${cardId}`,
-      { updateData },
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    );
+    const res = await instance.put(`/api/interviews/${cardId}`, updateData, {
+      headers: {
+        Authorization: token,
+      },
+    });
     console.log(res);
     return res.data;
   } catch (err) {
-    console.log(err.response);
-    return err;
+    return err.response;
   }
 };
 
@@ -72,25 +65,7 @@ export const deleteFeedbackDetail = async (cardId) => {
     console.log(res);
     return res.data;
   } catch (err) {
-    console.log(err.response);
-    return err;
-  }
-};
-
-export const signupEmailCheck = async (email) => {
-  try {
-    const res = await instance.get(`/signup/${email}`);
-    if (res.status === 200) {
-      alert(res.data.msg);
-      return res.data;
-    }
-  } catch (err) {
-    if (err.response.status === 409) {
-      alert(err.response.data.msg);
-      return err.response.data;
-    }
-    console.log("이메일 중복 체크 오류: ", err.response);
-    return err;
+    return err.response;
   }
 };
 
@@ -150,5 +125,22 @@ export const undoScrap = async (id) => {
     return res.data;
   } catch (err) {
     return err.response;
+  }
+};
+
+export const signupEmailCheck = async (email) => {
+  try {
+    const res = await instance.get(`/signup/${email}`);
+    if (res.status === 200) {
+      alert(res.data.msg);
+      return res.data;
+    }
+  } catch (err) {
+    if (err.response.status === 409) {
+      alert(err.response.data.msg);
+      return err.response.data;
+    }
+    console.log("이메일 중복 체크 오류: ", err.response);
+    return err;
   }
 };

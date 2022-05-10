@@ -13,7 +13,7 @@ import {
   deleteFeedbackDetail as deleteDetailApi,
   addScrap as addScrapApi,
   undoScrap as undoScrapApi,
-} from "../../apis/async.js";
+} from "../../apis/feedbackApis.js";
 
 import TimeAgo from "../../components/FeedBack/TimeAgo";
 
@@ -29,9 +29,11 @@ const FeedBackDetail = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [video, setVideo] = useState("");
   const [data, setData] = useState([]);
+
   const [isScrapped, setIsScrapped] = useState();
   const [scrapCount, setScrapCount] = useState();
 
+  console.log(data);
   useEffect(() => {
     getVideoApi(cardId).then((data) => {
       setVideo(URL.createObjectURL(data));
@@ -39,6 +41,7 @@ const FeedBackDetail = (props) => {
     getDetailApi(cardId).then((data) => {
       setData(data.interview);
       setIsScrapped(data.interview.scrapsMe);
+      setScrapCount(data.interview.scrapsCount);
     });
   }, [cardId]);
 
@@ -62,7 +65,7 @@ const FeedBackDetail = (props) => {
     alert("felfij");
     setShowModal(!showModal);
   };
-  // , { state: data }
+
   const editHandler = () => {
     navigate(`/feedback/update/${cardId}`, { state: { data, video } });
   };
@@ -79,16 +82,19 @@ const FeedBackDetail = (props) => {
       addScrapApi(cardId).then((data) => {
         console.log(data, "데이터");
         setIsScrapped(data.scrap.scrapsMe);
+        setScrapCount(data.scrap.scrapsCount);
       });
     } else {
       undoScrapApi(cardId).then((data) => {
         console.log(data, "데이터 삭제");
         setIsScrapped(data.scrap.scrapsMe);
+        setScrapCount(data.scrap.scrapsCount);
       });
     }
   };
 
   console.log("북마크유무", isScrapped);
+  console.log("북마크 개수", scrapCount);
 
   return (
     <Container>
@@ -140,7 +146,7 @@ const FeedBackDetail = (props) => {
                 <BeforeCheck />
               </button>
 
-              <span>{scrapsCount}</span>
+              <span>{scrapCount} 개</span>
             </div>
           </IconBox>
         </TitleContainer>
@@ -237,7 +243,6 @@ const IconBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 4.5rem;
   object-fit: cover;
   vertical-align: middle;
 

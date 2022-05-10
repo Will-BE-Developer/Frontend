@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 import GlobalCard from "../../components/UI/GlobalCard";
 
 import Dropdown from "../../components/UI/GlobalDropDown";
-import { getFeedback as getFeedbackApi } from "../../apis/async.js";
+import { getFeedback as getFeedbackApi } from "../../apis/feedbackApis.js";
 
 const FeedBack = () => {
   const [data, setData] = useState([]);
