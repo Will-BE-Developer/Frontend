@@ -23,8 +23,6 @@ import TimeAgo from "../../components/FeedBack/TimeAgo";
 
 // react = icons
 import { BsFillBookmarkFill, BsHeartFill } from "react-icons/bs";
-import { AiTwotoneCrown } from "react-icons/ai";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
 const FeedBackDetail = (props) => {
   const navigate = useNavigate();
@@ -110,75 +108,73 @@ const FeedBackDetail = (props) => {
   };
 
   return (
-    <Container>
-      <div className="contents_wrap">
-        <div className="video_layout">
-          <video controls src={video}></video>
+    <>
+      <Container>
+        <div className="contents_wrap">
+          <div className="video_layout">
+            <video controls src={video}></video>
+          </div>
+          {isMine && (
+            <div className="user_buttons">
+              <GlobalButton
+                onClick={editHandler}
+                background={theme.colors.white}
+                color={theme.colors.black}
+                border="1px solid rgba(130, 130, 130, 0.2)"
+                text="수정"
+                _width="64px"
+                _height="36px"
+              />
+              <GlobalButton
+                onClick={clickDeleteHandler}
+                background={theme.colors.lightGrey}
+                text="삭제"
+                _width="64px"
+                _height="36px"
+                padding="9px 16px"
+              />
+            </div>
+          )}
+
+          <TitleContainer>
+            <div className="title_box">
+              <span className="category">{question?.category}</span>
+              <div className="title_question">
+                <h2>{`Q.${question?.contents}`}</h2>
+                <TimeAgo timestamp={createdAt} />
+              </div>
+            </div>
+
+            <div className="icon_container">
+              <div className="button_wrap">
+                <button>
+                  <HeartCheck />
+                </button>
+
+                <span>{likesCount}</span>
+              </div>
+              <div className="button_wrap">
+                <button onClick={scrapHandler}>
+                  <ScrapButton isScrapped={isScrapped} />
+                </button>
+
+                <span>{scrapCount}</span>
+              </div>
+            </div>
+          </TitleContainer>
+
+          <AuthorContainer>
+            <div className="author_box">
+              <div className="user_profile" onClick={profileHandler}>
+                <ProfileImg src={user?.profileImageUrl} />
+                <span>{user?.nickname}</span>
+              </div>
+            </div>
+            <span className="author_note">{note}</span>
+          </AuthorContainer>
         </div>
-        {isMine && (
-          <div className="user_buttons">
-            <GlobalButton
-              onClick={editHandler}
-              background={theme.colors.white}
-              color={theme.colors.black}
-              border="1px solid rgba(130, 130, 130, 0.2)"
-              text="수정"
-              _width="64px"
-              _height="36px"
-            />
-            <GlobalButton
-              onClick={clickDeleteHandler}
-              background={theme.colors.lightGrey}
-              text="삭제"
-              _width="64px"
-              _height="36px"
-              padding="9px 16px"
-            />
-          </div>
-        )}
-
-        <TitleContainer>
-          <div className="title_box">
-            <span className="category">{question?.category}</span>
-
-            <div className="title_question">
-              <h2>{`Q.${question?.contents}`}</h2>
-              <TimeAgo timestamp={createdAt} />
-            </div>
-          </div>
-
-          <IconBox>
-            <div>
-              <button>
-                <HeartCheck />
-              </button>
-
-              <span>{likesCount}</span>
-            </div>
-            <div>
-              <button onClick={scrapHandler}>
-                <ScrapButton isScrapped={isScrapped} />
-              </button>
-
-              <span>{scrapCount}</span>
-            </div>
-          </IconBox>
-        </TitleContainer>
-
-        <AuthorContainer>
-          <div className="author_box">
-            <div className="user_profile" onClick={profileHandler}>
-              <ProfileImg src={user?.profileImageUrl} />
-              <BtnCircleBg>
-                <CrownIcon />
-              </BtnCircleBg>
-              <span>{user?.nickname}</span>
-            </div>
-          </div>
-          <span className="author_note">{note}</span>
-        </AuthorContainer>
-      </div>
-    </Container>
+      </Container>
+    </>
   );
 };
 
@@ -249,26 +245,21 @@ const TitleContainer = styled.div`
       }
     }
   }
-`;
 
-// like & scrap
-const IconBox = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  object-fit: cover;
-  vertical-align: middle;
-
-  & div {
+  & .icon_container {
     display: flex;
-    justify-content: space-between;
+    -webkit-box-align: center;
     align-items: center;
-  }
-
-  & div > span {
-    margin: 0 5px;
-
-    font-size: ${({ theme }) => theme.calRem(12)};
+    object-fit: cover;
+    & .button_wrap {
+      display: flex;
+      -webkit-box-align: center;
+      align-items: center;
+      margin: 0 5px;
+      span {
+        font-size: ${({ theme }) => theme.calRem(12)};
+      }
+    }
   }
 `;
 
@@ -292,17 +283,6 @@ const HeartCheck = styled(BsHeartFill)`
   font-size: ${({ theme }) => theme.calRem(18)};
   padding: 0;
 `;
-
-const HeartIcon = styled(AiOutlineHeart)`
-  & svg {
-    height: 100%;
-  }
-
-  cursor: pointer;
-  color: "#686ef3";
-`;
-
-// btn
 
 const AuthorContainer = styled.div`
   width: 100%;
@@ -351,28 +331,28 @@ const ProfileImg = styled.img`
   margin-right: 5px;
 `;
 
-// btn
-const BtnCircleBg = styled.button`
-  width: 1.6em;
-  height: 1.6em;
-  padding: 0;
-  margin-right: 6px;
-  border-radius: 50%;
-  background-color: ${({ theme }) => theme.colors.lightGrey};
-  ${({ theme }) => theme.device.tablet} {
-    width: 1.2em;
-    height: 1.2em;
-    margin-right: 4px;
-  }
-`;
+// 면접왕 아이콘
+// const BtnCircleBg = styled.button`
+//   width: 1.6em;
+//   height: 1.6em;
+//   padding: 0;
+//   margin-right: 6px;
+//   border-radius: 50%;
+//   background-color: ${({ theme }) => theme.colors.lightGrey};
+//   ${({ theme }) => theme.device.tablet} {
+//     width: 1.2em;
+//     height: 1.2em;
+//     margin-right: 4px;
+//   }
+// `;
 
-const CrownIcon = styled(AiTwotoneCrown)`
-  height: 100%;
-  color: ${({ theme }) => theme.colors.darkGrey};
-  cursor: pointer;
+// const CrownIcon = styled(AiTwotoneCrown)`
+//   height: 100%;
+//   color: ${({ theme }) => theme.colors.darkGrey};
+//   cursor: pointer;
 
-  font-size: ${({ theme }) => theme.calRem(18)};
-  padding: 0;
-`;
+//   font-size: ${({ theme }) => theme.calRem(18)};
+//   padding: 0;
+// `;
 
 export default FeedBackDetail;
