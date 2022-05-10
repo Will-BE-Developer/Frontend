@@ -20,7 +20,7 @@ const MyHistory = () => {
     <Container>
       <div className="title">
         <h1>면접 기록</h1>
-        <span>총 {data.length}개</span>
+        <span>총 {data?.length}개</span>
       </div>
 
       <div className="card_wrap">
