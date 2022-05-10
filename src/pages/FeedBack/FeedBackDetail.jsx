@@ -122,9 +122,10 @@ const FeedBackDetail = (props) => {
 
         <TitleContainer>
           <div className="title_box">
-            <div className="category">{question?.category}</div>
+            <span className="category">{question?.category}</span>
+
             <div className="title_question">
-              <h2>{question?.contents}</h2>
+              <h2>{`Q.${question?.contents}`}</h2>
               <TimeAgo timestamp={createdAt} />
             </div>
           </div>
@@ -142,7 +143,7 @@ const FeedBackDetail = (props) => {
                 <BeforeCheck />
               </button>
 
-              <span>{scrapCount} 개</span>
+              <span>{scrapCount}</span>
             </div>
           </IconBox>
         </TitleContainer>
@@ -206,22 +207,21 @@ const TitleContainer = styled.div`
 
   & .title_box {
     & .category {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #e6e6e6;
-      border-radius: 999px;
+      font-size: ${({ theme }) => theme.fontSize["12"]};
+      color: ${({ theme }) => theme.colors.white};
+      background-color: ${({ theme }) => theme.colors.lightGrey};
+      border-radius: 15px;
+      padding: 5px 12px;
       width: 87px;
       height: 24px;
-      font-size: ${({ theme }) => theme.calRem(12)};
     }
 
     & .title_question {
       & > h2 {
-        font-size: ${({ theme }) => theme.calRem(20)};
-        font-weight: ${({ theme }) => theme.fontWeight.semiBold};
+        font-size: ${({ theme }) => theme.fontSize["20"]};
+        font-weight: ${({ theme }) => theme.fontWeight.extraBold};
 
-        margin: 12px 0;
+        margin: 18px 0 8px 0;
         // 텍스트 자르기
         overflow: hidden;
         text-overflow: ellipsis;

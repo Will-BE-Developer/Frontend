@@ -4,7 +4,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import theme from "../../styles/theme";
 import styled from "styled-components";
 import GlobalButton from "../../components/UI/GlobalButton";
-import { GrRefresh } from "react-icons/gr";
 import { updateFeedbackDetail as updateDetailApi } from "../../apis/feedbackApis.js";
 
 const FeedbackUpdate = () => {
@@ -36,7 +35,7 @@ const FeedbackUpdate = () => {
 
   const clickCancleHandler = () => {
     if (isPublic === true) {
-      navigate(`/feedback/detail/${data.id}`, { replace: true });
+      navigate(`/feedback/${data.id}`, { replace: true });
     } else {
       navigate("/mypage/history", { replace: true });
     }
@@ -133,7 +132,7 @@ const FormLayout = styled.div`
   }
 
   & .header {
-    padding: 40px 0 20px 0px;
+    padding: 20px 0px;
     border-bottom: 1px solid #e6e6e6;
   }
 
@@ -143,6 +142,8 @@ const FormLayout = styled.div`
     background-color: ${({ theme }) => theme.colors.lightGrey};
     border-radius: 15px;
     padding: 5px 12px;
+    width: 87px;
+    height: 24px;
   }
 
   & .header .title {
