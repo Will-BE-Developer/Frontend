@@ -6,19 +6,23 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import store from "./store/configStore";
 import theme from "./styles/theme";
 import App from "./App";
-import Signin from "./pages/Signin";
-import Signup from "./pages/Signup";
-import FeedBack from "./pages/FeedBack";
-import FeedBackDetail from "./pages/FeedBackDetail";
+import Home from "./pages/Home";
 import Interview from "./pages/Interview";
 import InterviewTopic from "./pages/InterviewTopic";
 import InterviewRecording from "./pages/InterviewRecording";
 import KakaoRedirect from "./pages/KakaoRedirect";
-import Home from "./pages/Home";
 
-import MyPage from "./pages/MyPage";
-import MyProfile from "./components/MyPage/MyProfile";
-import MyHistory from "./components/MyPage/MyHistory";
+import Signin from "./pages/Signin";
+import Signup from "./pages/Signup";
+
+import FeedBack from "./pages/FeedBack/FeedBack";
+import FeedBackDetail from "./pages/FeedBack/FeedBackDetail";
+import FeedbackUpdate from "./pages/FeedBack/FeedbackUpdate";
+
+import MyPage from "./pages/MyPage/MyPage";
+import MyProfile from "./pages/MyPage/MyProfile";
+import MyHistory from "./pages/MyPage/MyHistory";
+import MyScrap from "./pages/MyPage/MyScrap";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -30,6 +34,11 @@ ReactDOM.render(
               <Route path="" element={<Home />} />
               <Route path="feedback" element={<FeedBack />} />
               <Route path="feedback/:cardId" element={<FeedBackDetail />} />
+              <Route
+                path="feedback/update/:cardId"
+                element={<FeedbackUpdate />}
+              />
+
               <Route path="interview" element={<Interview />}>
                 <Route path="" element={<InterviewTopic />} />
                 <Route path="recording" element={<InterviewRecording />} />
@@ -38,11 +47,12 @@ ReactDOM.render(
               <Route path="mypage" element={<MyPage />}>
                 <Route path="" element={<MyProfile />} />
                 <Route path="history" element={<MyHistory />} />
+                <Route path="scrap" element={<MyScrap />} />
               </Route>
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/signin" element={<Signin />} />
-              <Route path="/user/kakao/callback" element={<KakaoRedirect />} />
             </Route>
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/signin" element={<Signin />} />
+            <Route path="/user/kakao/callback" element={<KakaoRedirect />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
