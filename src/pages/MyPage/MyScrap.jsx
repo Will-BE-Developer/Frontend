@@ -20,7 +20,7 @@ const MyScrap = () => {
     <Container>
       <div className="title">
         <h1>내 스크랩</h1>
-        <span>총 {data.length}개</span>
+        <span>총 {data?.length}개</span>
       </div>
 
       <div className="card_wrap">
