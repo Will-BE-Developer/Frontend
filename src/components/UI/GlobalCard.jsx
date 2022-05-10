@@ -1,7 +1,3 @@
-// 힘스향 component에 ref를 사용하여 넘기고 싶을 때 사용한다.
-// 함수형 컴포넌트는 인스턴스가 없어서 ref속성을 사용할 수 없다.
-// https://merrily-code.tistory.com/121
-
 import React, { useState } from "react";
 import { memo } from "react";
 import styled, { css } from "styled-components";
@@ -14,8 +10,6 @@ import { TiTimes } from "react-icons/ti";
 import { AiTwotoneEdit, AiTwotoneCrown } from "react-icons/ai";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
-import GlobalModal from "./GlobalModal";
-import GlobalButton from "./GlobalButton";
 // timeago function
 import TimeAgo from "../FeedBack/TimeAgo";
 
@@ -51,10 +45,6 @@ const GlobalCard = memo(({ card }) => {
     alert("felfij");
     setShowModal(!showModal);
   };
-  // 북마크 체크 toggle함수
-  // const toggleCheck = (word) => {
-  //   dispatch(addBookMarkFB(word));
-  // };
 
   return (
     <Card>
@@ -104,7 +94,7 @@ GlobalCard.defaultProps = {
 };
 
 const Card = styled.article`
-  ${({ bookmark, theme }) => {
+  ${({ theme }) => {
     const { colors, device } = theme;
     return css`
       min-height: 100%;
@@ -125,7 +115,7 @@ const Card = styled.article`
 `;
 
 const CardHeader = styled.div`
-  ${({ bookmark, theme, bgColor }) => {
+  ${({ theme, bgColor }) => {
     const { colors, device, calRem } = theme;
 
     return css`
