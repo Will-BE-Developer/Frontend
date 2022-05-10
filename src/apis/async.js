@@ -61,22 +61,3 @@ export const deleteFeedbackDetail = async (cardId) => {
     return err;
   }
 };
-
-export const signupEmailCheck = async (email) => {
-  try {
-    const res = await instance.get(
-      `${process.env.REACT_APP_API_JURI_URL}/signup/${email}`
-    );
-    if (res.status === 200) {
-      alert(res.data.msg);
-      return res.data;
-    }
-  } catch (err) {
-    if (err.response.status === 409) {
-      alert(err.response.data.msg);
-      return err.response.data;
-    }
-    console.log("이메일 중복 체크 오류: ", err.response);
-    return err;
-  }
-};

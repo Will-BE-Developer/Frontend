@@ -26,50 +26,71 @@ const DailyQuestions = () => {
 
   return (
     <DailyQuestionLayout>
-      <div className="header">
-        <h2 className="title">오늘의 추천 면접 질문</h2>
-        <p className="subTitle">질문을 선택해서 면접을 녹화해보세요</p>
-      </div>
-      <div className="main">
-        {DUMMY_QUESTIONS.map((ele, idx) => {
-          return (
-            <div className="card" key={idx}>
-              <img className="logo" alt="logo" src={face} />
-              <div className="contents">
-                <GlobalBadge background={theme.colors.pink} text={ele.title} />
-                <p>{ele.question}</p>
+      <section>
+        <div className="header">
+          <h2 className="title">오늘의 추천 면접 질문</h2>
+          <p className="subTitle">질문을 선택해서 면접을 녹화해보세요</p>
+        </div>
+        <div className="main">
+          {DUMMY_QUESTIONS.map((ele, idx) => {
+            return (
+              <div className="card" key={idx}>
+                <img className="logo" alt="logo" src={face} />
+                <div className="contents">
+                  <GlobalBadge
+                    background={theme.colors.pink}
+                    text={ele.title}
+                  />
+                  <p>{ele.question}</p>
+                </div>
+                <button className="startBtn">
+                  시작하기
+                  <HiChevronRight size="20px" />
+                </button>
               </div>
-              <button className="startBtn">
-                시작하기
-                <HiChevronRight size="20px" />
-              </button>
-            </div>
-          );
-        })}
-      </div>
-      <button onClick={() => navigate("/interview")} className="interviewBtn">
-        면접 보러가기
-      </button>
+            );
+          })}
+        </div>
+        <button onClick={() => navigate("/interview")} className="interviewBtn">
+          면접 보러가기
+        </button>
+      </section>
     </DailyQuestionLayout>
   );
 };
 
 const DailyQuestionLayout = styled.div`
   ${({ theme }) => {
-    const { colors, fontSize, fontWeight } = theme;
+    const { colors, fontSize, fontWeight, device } = theme;
 
     return css`
       display: flex;
-      flex-direction: column;
       justify-content: center;
-      align-items: center;
       margin: 140px 0px;
+      width: 100%;
+
+      ${device.tablet} {
+        padding: 0px 1rem;
+      }
+
+      section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        max-width: 1200px;
+        width: 100%;
+      }
 
       .main {
         width: 100%;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         margin-bottom: 25px;
+
+        @media screen and (max-width: 700px) {
+          grid-template-columns: repeat(1, 1fr);
+        }
       }
 
       .card {

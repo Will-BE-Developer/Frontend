@@ -15,6 +15,10 @@ const AppLayout = ({ children }) => {
 const MainContainer = styled.main`
   max-width: 1200px;
   margin: 0 auto;
+
+  ${({ theme }) => theme.device.tablet} {
+    padding: 0px 1rem;
+  }
 `;
 
 export default AppLayout;

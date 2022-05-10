@@ -16,7 +16,6 @@ const KakaoBtn = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  /* max-width: 560px; */
   height: 50px;
 
   border-radius: 4px;

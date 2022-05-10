@@ -86,9 +86,9 @@ const BannerContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0px 60px;
+  align-items: center;
   width: 100%;
-  height: 300px;
+  height: 400px;
   background-position: center;
   background-image: url(${bannerBackground});
   background-size: cover;
@@ -102,6 +102,14 @@ const BannerContainer = styled.div`
 
   p {
     font-size: ${({ theme }) => theme.fontSize["16"]};
+  }
+
+  .slick-slider {
+    max-width: 1200px;
+    width: 100%;
+    ${({ theme }) => theme.device.tablet} {
+      padding: 0px 1rem;
+    }
   }
 `;
 
@@ -122,7 +130,7 @@ const StyledSlider = styled(Slider)`
     text-align: start;
     max-width: 400px;
     width: 100%;
-    height: 250px;
+    height: 300px;
   }
 
   .slick-slide div .card {
