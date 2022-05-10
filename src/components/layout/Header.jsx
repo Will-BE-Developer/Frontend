@@ -13,7 +13,7 @@ const Header = () => {
   const logoutHandler = () => {
     const signoutDispatch = async () => {
       try {
-        await dispatch(signout(token)).unwrap();
+        await dispatch(signout()).unwrap();
         navigate("/", { replace: true });
       } catch (err) {
         console.log(err);

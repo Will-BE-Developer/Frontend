@@ -10,8 +10,8 @@ import Home from "./pages/Home";
 import Interview from "./pages/Interview";
 import InterviewTopic from "./pages/InterviewTopic";
 import InterviewRecording from "./pages/InterviewRecording";
-import KakaoRedirect from "./pages/KakaoRedirect";
 
+import KakaoRedirect from "./pages/KakaoRedirect";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 
@@ -41,12 +41,10 @@ ReactDOM.render(
                 path="feedback/update/:cardId"
                 element={<FeedbackUpdate />}
               />
-
               <Route path="interview" element={<Interview />}>
                 <Route path="" element={<InterviewTopic />} />
                 <Route path="recording" element={<InterviewRecording />} />
               </Route>
-
               <Route path="mypage" element={<MyPage />}>
                 <Route path="" element={<MyProfile />} />
                 <Route path="history" element={<MyHistory />} />
