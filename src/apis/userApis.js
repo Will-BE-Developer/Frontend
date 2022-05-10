@@ -14,7 +14,6 @@ const userApis = {
         alert(err.response.data.msg);
         return err.response.data;
       }
-      console.log("이메일 중복 체크 오류: ", err.response);
       return err;
     }
   },

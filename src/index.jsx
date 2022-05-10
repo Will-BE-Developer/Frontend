@@ -15,6 +15,7 @@ import InterviewTopic from "./pages/InterviewTopic";
 import InterviewRecording from "./pages/InterviewRecording";
 import KakaoRedirect from "./pages/KakaoRedirect";
 import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -34,6 +35,7 @@ ReactDOM.render(
             <Route path="/signup" element={<Signup />} />
             <Route path="/signin" element={<Signin />} />
             <Route path="/user/kakao/callback" element={<KakaoRedirect />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
