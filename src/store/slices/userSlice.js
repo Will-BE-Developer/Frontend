@@ -32,7 +32,7 @@ export const signupEmail = createAsyncThunk(
     try {
       const response = await userApis.signupEmail(userData);
 
-      return response;
+      return response.data;
     } catch (err) {
       console.log("이메일 회원가입 오류: ", err.response);
       return rejectWithValue(err.response.data);
@@ -44,7 +44,7 @@ export const signinEmail = createAsyncThunk(
   "user/signinEmail",
   async (userData, { rejectWithValue }) => {
     try {
-      const result = await userApis.signinEmail();
+      const result = await userApis.signinEmail(userData);
       return result;
     } catch (err) {
       return rejectWithValue(err.response.data);

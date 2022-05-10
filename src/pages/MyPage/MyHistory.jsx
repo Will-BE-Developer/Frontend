@@ -16,8 +16,6 @@ const MyHistory = () => {
     });
   }, []);
 
-  console.log(data);
-
   return (
     <Container>
       <div className="title">

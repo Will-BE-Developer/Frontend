@@ -40,14 +40,12 @@ export const getFeedbackDetailVideo = async (cardId) => {
   }
 };
 export const updateFeedbackDetail = async (cardId, updateData) => {
-  console.log(cardId, updateData);
   try {
     const res = await instance.put(`/api/interviews/${cardId}`, updateData, {
       headers: {
         Authorization: token,
       },
     });
-    console.log(res);
     return res.data;
   } catch (err) {
     return err.response;
@@ -55,14 +53,12 @@ export const updateFeedbackDetail = async (cardId, updateData) => {
 };
 
 export const deleteFeedbackDetail = async (cardId) => {
-  console.log(cardId);
   try {
     const res = await instance.delete(`/api/interviews/${cardId}`, {
       headers: {
         Authorization: token,
       },
     });
-    console.log(res);
     return res.data;
   } catch (err) {
     return err.response;
@@ -107,7 +103,6 @@ export const addScrap = async (id) => {
         },
       }
     );
-    console.log(res.data);
     return res.data;
   } catch (err) {
     return err.response;
@@ -121,7 +116,6 @@ export const undoScrap = async (id) => {
         Authorization: token,
       },
     });
-    console.log(res.data);
     return res.data;
   } catch (err) {
     return err.response;
