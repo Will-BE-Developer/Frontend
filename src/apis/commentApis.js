@@ -1,33 +1,33 @@
 import instance from "./axios.js";
 import { getCookie } from "../shared/cookies";
 
-const commentApi = {
+const commentApis = {
   getComments: async (cardId) => {
     try {
-      const res = await instance.get(`/api/comments/${cardId}`, {
+      const response = await instance.get(`/api/comments/${cardId}`, {
         headers: {
           Authorization: getCookie("token"),
         },
       });
-      return res.data;
+      return response.data;
     } catch (err) {
       return err.response;
     }
   },
 
-  addComment: async (centents, rootId) => {
-    const data = { centents, rootId };
+  addComment: async (data) => {
+    console.log(data);
     try {
-      const res = await instance.post(`/api/comments`, data, {
+      const response = await instance.post(`/api/comments`, data, {
         headers: {
           Authorization: getCookie("token"),
         },
       });
-      console.log(res.data);
-      return res.data;
+      console.log(response.data);
+      return response.data;
     } catch (err) {
-      console.log(err.response);
-      return err.response;
+      console.log(err);
+      return err.response.data;
     }
   },
 
@@ -160,4 +160,4 @@ const commentApi = {
     return testData.data;
   },
 };
-export default commentApi;
+export default commentApis;

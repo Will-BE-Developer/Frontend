@@ -7,12 +7,17 @@ import GlobalTextArea from "../UI/GlobalTextArea";
 import GlobalButton from "../UI/GlobalButton";
 
 const NestedComment = ({ nestedComment }) => {
-  const { id, user, createdAt, contents } = nestedComment;
+  const { id, user, createdAt, contents, isMine } = nestedComment;
   const [isShowReply, setIsShowReply] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [updateComment, setUpdateComment] = useState(contents);
 
   const profileHandler = () => {
     alert("유저정보 보여주는 모달창 띄우기");
   };
+
+  const clickUpdateHandler = () => {};
+  const clickDeleteHandler = () => {};
 
   return (
     <CommentContainer>
@@ -26,8 +31,8 @@ const NestedComment = ({ nestedComment }) => {
             </div>
           </div>
           <div className="button_box">
-            <button>수정</button>
-            <button>삭제</button>
+            <button onClick={clickUpdateHandler}>수정</button>
+            <button onClick={clickDeleteHandler}>삭제</button>
           </div>
         </div>
       </AuthorContainer>

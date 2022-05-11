@@ -2,20 +2,39 @@ import { useState } from "react";
 import styled from "styled-components";
 import GlobalTextArea from "../UI/GlobalTextArea";
 import GlobalButton from "../UI/GlobalButton";
+import commentApis from "../../apis/commentApis";
 
-const CommentForm = ({
-  handleSubmit,
-  hasCancelButton = false,
-  handleCancel,
-  initialText = "",
-}) => {
+const RootForm = (props) => {
+  const { handleSubmit, initialText = "", rootId, setAllComments } = props;
   const [text, setText] = useState(initialText);
+  console.log(text);
   const isTextareaDisabled = text.length === 0;
-  const onSubmitHandler = (event) => {
+
+  const onSubmitHandler = async (event) => {
     event.preventDefault();
-    handleSubmit(text);
-    setText("");
+    console.log(event.target.value);
+
+    const rootData = {
+      contents: text,
+      rootId: 1,
+    };
+
+    // try {
+    //   const addDataResponse = await commentApis.addComment(rootData).unwrap();
+    //   console.log(addDataResponse);
+    //   setText("");
+    //   try {
+    //     const getDataResponse = await commentApis.getComments(1);
+    //     console.log(getDataResponse);
+    //     setAllComments(getDataResponse);
+    //   } catch (err) {
+    //     console.log("댓글 불러오기 오류", err.response);
+    //   }
+    // } catch (err) {
+    //   console.log("댓글 작성 오류", err.message);
+    // }
   };
+
   return (
     <Form onSubmit={onSubmitHandler}>
       <div className="textarea_box">
@@ -30,6 +49,7 @@ const CommentForm = ({
       </div>
       <div className="button_box">
         <GlobalButton
+          disabled={isTextareaDisabled}
           type="submit"
           _width="70px"
           _height="15px"
@@ -58,4 +78,4 @@ const Form = styled.form`
   }
 `;
 
-export default CommentForm;
+export default RootForm;

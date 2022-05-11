@@ -1,14 +1,18 @@
 import { useState, useEffect } from "react";
-import CommentForm from "./CommentForm";
 import RootComment from "./RootComment";
 
 import styled from "styled-components";
 import commentApis from "../../apis/commentApis";
 import TimeAgo from "../FeedBack/TimeAgo";
-const Comments = ({ commentsUrl, currentUserId }) => {
+
+import GlobalTextArea from "../UI/GlobalTextArea";
+import GlobalButton from "../UI/GlobalButton";
+
+const Comments = ({ cardId }) => {
   const [allComments, setAllComments] = useState([]);
   const [activeComment, setActiveComment] = useState(null);
-
+  const [content, setContent] = useState("");
+  const isTextareaDisabled = content.length === 0;
   // 부모, 자식 댓글 분리 및 최신순 정렬
 
   // const sortAllComments = allComments.sort(
@@ -16,22 +20,72 @@ const Comments = ({ commentsUrl, currentUserId }) => {
   // );
 
   useEffect(() => {
-    // commentApis.testGetComments().then((data) => {
-    //   setAllComments(data.comments);
-    // });
-    commentApis.getComments(1).then((data) => {
+    commentApis.getComments(cardId).then((data) => {
       setAllComments(data.comments);
       // console.log(data.comments);
     });
   }, []);
 
+  const onSubmitHandler = async (event) => {
+    event.preventDefault();
+    console.log(content);
+
+    const data = { contents: content, rootId: cardId, rootName: "interview" };
+    try {
+      const addDataResponse = await commentApis.addComment(data);
+      console.log(addDataResponse);
+      setContent("");
+      try {
+        const getDataResponse = await commentApis.getComments(1);
+        console.log(getDataResponse);
+        setAllComments(getDataResponse);
+      } catch (err) {
+        console.log("댓글 불러오기 오류", err);
+      }
+    } catch (err) {
+      console.log("댓글 작성 오류", err);
+    }
+  };
+
+  // console.log("allComments~~~~",allComments)
   return (
     <CommentsContainer>
       <div className="title">피드백 n개</div>
-      <CommentForm submitLabel="Write" />
+      <Form>
+        <div className="textarea_box">
+          <textarea
+            onChange={(e) => setContent(e.target.value)}
+            placeholder="내용을 작성해주세요"
+            maxLength={500}
+            rows={5}
+            value={content}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                onSubmitHandler();
+              }
+            }}
+          ></textarea>
+        </div>
+        <div className="button_box">
+          <GlobalButton
+            disabled={isTextareaDisabled}
+            type="submit"
+            _width="70px"
+            _height="15px"
+            hover
+            text="작성"
+            onClick={onSubmitHandler}
+          />
+        </div>
+      </Form>
       <div className="comments-container">
-        {allComments.map((rootComment) => (
-          <RootComment key={rootComment.id} rootComment={rootComment} />
+        {allComments?.map((rootComment) => (
+          <RootComment
+            key={rootComment.id}
+            rootComment={rootComment}
+            cardId={cardId}
+            setAllComments={setAllComments}
+          />
         ))}
       </div>
     </CommentsContainer>
@@ -46,6 +100,27 @@ const CommentsContainer = styled.div`
   }
 
   & .comments-container {
+  }
+`;
+
+const Form = styled.form`
+  padding: 30px 0;
+  & textarea {
+    margin-top: 8px;
+    padding: 11px 16px;
+    border: 1px solid rgba(130, 130, 130, 0.2);
+    border-radius: 4px;
+    width: 100%;
+  }
+  & .textarea_box {
+    padding-bottom: 10px;
+  }
+  & .button_box {
+    display: flex;
+    justify-content: flex-end;
+    button {
+      font-size: ${({ theme }) => theme.calRem(12)};
+    }
   }
 `;
 export default Comments;

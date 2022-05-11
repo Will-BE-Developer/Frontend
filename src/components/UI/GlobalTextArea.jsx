@@ -8,7 +8,7 @@ const GlobalTextArea = (props) => {
   const PLACEHOLDER = props.placeholder;
 
   const [isError, setIsError] = useState(false);
-  // const [value, setValue] = useState("");
+  const [value, setValue] = useState("");
 
   const [remainingChars, setRemainingChars] = useState(CHAR_LIMIT);
 
@@ -20,7 +20,7 @@ const GlobalTextArea = (props) => {
   }, [remainingChars, isError]);
 
   const inputHandler = (e) => {
-    const value = e.target.value;
+    setValue(e.target.value);
     const characterCount = value?.length;
     setRemainingChars(parseInt(CHAR_LIMIT, 10) - parseInt(characterCount, 10));
 
@@ -34,6 +34,7 @@ const GlobalTextArea = (props) => {
         maxLength={CHAR_LIMIT}
         placeholder={PLACEHOLDER}
         onChange={inputHandler}
+        value={value}
       />
       <ErrorMSG>{isError && "글자 수를 초과하였습니다."}</ErrorMSG>
       <div style={{ textAlign: "right", fontSize: "14px" }}>

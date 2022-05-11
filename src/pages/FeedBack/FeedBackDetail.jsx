@@ -7,7 +7,6 @@ import styled, { css } from "styled-components";
 import GlobalButton from "../../components/UI/GlobalButton";
 
 import feedbackApis from "../../apis/feedbackApis.js";
-import commentApis from "../../apis/commentApis";
 
 import TimeAgo from "../../components/FeedBack/TimeAgo";
 
@@ -89,17 +88,6 @@ const FeedBackDetail = (props) => {
     }
   };
 
-  const addCommentHandelr = () => {
-    const commentData = {
-      constents: "댓글 추가",
-      rootId: 12,
-      rootName: "interview",
-    };
-    commentApis.addCommentApi(commentData).then((data) => {
-      console.log(data);
-    });
-  };
-
   return (
     <>
       <Container>
@@ -128,9 +116,7 @@ const FeedBackDetail = (props) => {
               />
             </div>
           )}
-          <GlobalButton onClick={addCommentHandelr} margin="0 0 20px 0">
-            addCommentHandelr
-          </GlobalButton>
+
           <TitleContainer>
             <div className="title_box">
               <span className="category">{question?.category}</span>
@@ -175,7 +161,7 @@ const FeedBackDetail = (props) => {
           </AuthorContainer>
 
           <CommentsContainer>
-            <Comments />
+            <Comments cardId={cardId} />
           </CommentsContainer>
         </div>
       </Container>
