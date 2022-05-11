@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { memo } from "react";
+import { useState, memo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import styled, { css } from "styled-components";
