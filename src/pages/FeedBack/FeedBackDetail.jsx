@@ -2,19 +2,33 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import theme from "../../styles/theme";
-
 import styled, { css } from "styled-components";
 import GlobalButton from "../../components/UI/GlobalButton";
+import { BsFillBookmarkFill, BsHeartFill } from "react-icons/bs";
 
 import feedbackApis from "../../apis/feedbackApis.js";
 import commentApis from "../../apis/commentApis";
-
 import TimeAgo from "../../components/FeedBack/TimeAgo";
 
-// react = icons
-import { BsFillBookmarkFill, BsHeartFill } from "react-icons/bs";
-
 const FeedBackDetail = (props) => {
+  // const hasFastConnection = () => {
+  //   const connection =
+  //     navigator.connection ||
+  //     navigator.mozConnection ||
+  //     navigator.webkitConnection;
+
+  //   return (
+  //     !connection ||
+  //     (!connection.savaData &&
+  //       connection.type !== "none" &&
+  //       connection.effectiveType !== "slow-2g" &&
+  //       connection.effectiveType !== "2g" &&
+  //       connection.effectiveType !== "slow-3g")
+  //   );
+  // };
+
+  // console.log(hasFastConnection());
+
   const navigate = useNavigate();
   const { cardId } = useParams();
   const [showModal, setShowModal] = useState(false);

@@ -11,15 +11,12 @@ export const signinKakao = createAsyncThunk(
   "user/signin",
   async (code, { rejectWithValue }) => {
     try {
-      const response = await instance.get(
-        `${process.env.REACT_APP_API_JURI_URL}/user/kakao/callback`,
-        {
-          params: { code },
-          headers: {
-            Authorization: getCookie("token"),
-          },
-        }
-      );
+      const response = await instance.get("/user/kakao/callback", {
+        params: { code },
+        headers: {
+          Authorization: getCookie("token"),
+        },
+      });
 
       const result = {
         user: response.data.user,

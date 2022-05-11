@@ -5,8 +5,12 @@ import theme from "../../styles/theme";
 import GlobalButton from "../UI/GlobalButton";
 import { GrRefresh } from "react-icons/gr";
 import interviewApis from "../../apis/interviewApis";
+import { css } from "styled-components";
 
-const InterviewForm = ({ thumbnail, questionId, reset }, recorderRef) => {
+const InterviewForm = (
+  { thumbnail, questionId, reset, category, question },
+  recorderRef
+) => {
   const navigate = useNavigate();
   const [isPublic, setIsPublic] = useState("");
   const [noteInfo, setNoteInfo] = useState({ noteCount: 0 });
@@ -53,6 +57,11 @@ const InterviewForm = ({ thumbnail, questionId, reset }, recorderRef) => {
 
   return (
     <FormLayout>
+      <div className="header">
+        <span className="badge">{category}</span>
+        <h2>{`Q. ${question}`}</h2>
+        <hr />
+      </div>
       <p>공개 여부</p>
       <div className="radioGroup">
         <label>
@@ -113,57 +122,77 @@ const InterviewForm = ({ thumbnail, questionId, reset }, recorderRef) => {
             주제 수정
           </GlobalButton>
         </div>
-        <GlobalButton onClick={createInterviewHandler}>저장</GlobalButton>
+        <GlobalButton
+          onClick={createInterviewHandler}
+          background={theme.colors.blue}
+        >
+          저장
+        </GlobalButton>
       </div>
     </FormLayout>
   );
 };
 
 const FormLayout = styled.div`
-  width: 100%;
+  ${({ theme }) => {
+    const { fontSize, fontWeight, colors } = theme;
 
-  text-align: start;
+    return css`
+      width: 100%;
+      text-align: start;
 
-  & p {
-    margin-top: 8px;
-    font-size: ${({ theme }) => theme.fontSize["12"]};
-  }
+      & .header h2 {
+        margin: 20px 0px;
+        font-size: ${fontSize["20"]};
+        font-weight: ${fontWeight.extraBold};
+      }
 
-  & textarea {
-    margin-top: 8px;
-    padding: 11px 16px;
-    border: 1px solid rgba(130, 130, 130, 0.2);
-    border-radius: 4px;
-    width: 100%;
-  }
+      & .header hr {
+        border: solid 1px ${colors.lightestGrey};
+      }
 
-  & .radioGroup {
-    display: flex;
-    gap: 10px;
-    margin: 8px 0px 20px 0px;
-    font-size: ${({ theme }) => theme.fontSize["14"]};
-  }
+      & p {
+        margin-top: 8px;
+        font-size: ${fontSize["12"]};
+      }
 
-  & .radioGroup input {
-    margin: 0px 5px 0px 0px;
-  }
+      & textarea {
+        margin-top: 8px;
+        padding: 11px 16px;
+        border: 1px solid rgba(130, 130, 130, 0.2);
+        border-radius: 4px;
+        width: 100%;
+      }
 
-  & .radioGroup label {
-    display: flex;
-    align-items: center;
-  }
+      & .radioGroup {
+        display: flex;
+        gap: 10px;
+        margin: 8px 0px 20px 0px;
+        font-size: ${fontSize["14"]};
+      }
 
-  & .noti {
-    font-size: ${({ theme }) => theme.fontSize["12"]};
-    color: #666666;
-    margin-left: 5px;
-  }
+      & .radioGroup input {
+        margin: 0px 5px 0px 0px;
+      }
 
-  & .btnWrapper {
-    display: flex;
-    justify-content: space-between;
-    margin: 20px 0px;
-  }
+      & .radioGroup label {
+        display: flex;
+        align-items: center;
+      }
+
+      & .noti {
+        font-size: ${fontSize["12"]};
+        color: #666666;
+        margin-left: 5px;
+      }
+
+      & .btnWrapper {
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0px;
+      }
+    `;
+  }}
 `;
 
 export default forwardRef(InterviewForm);

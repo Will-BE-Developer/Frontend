@@ -13,14 +13,11 @@ const SigninValidation = () => {
   const email = new URL(window.location.href).searchParams.get("email");
 
   useEffect(() => {
-    // const url = `${process.env.REACT_APP_API_JURI_URL}/login/validation`;
-
     const singinDispatch = async () => {
       try {
         await dispatch(emailValidation({ token, email })).unwrap();
-        navigate("/", { replace: true });
+        navigate("/signup", { replace: true, state: 3 });
       } catch (err) {
-        console.log(err.response);
         navigate("/signin", { replace: true });
         alert("로그인에 실패하였습니다");
       }

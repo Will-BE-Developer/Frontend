@@ -1,8 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { boxShadow } from "../../styles/boxShadow";
-import styled, { css } from "styled-components";
-import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 import GlobalButton from "../UI/GlobalButton";
 import SocialSignin from "./SocialSignin";
@@ -33,9 +32,15 @@ const SignupStart = (props) => {
           >
             이메일로 시작하기
           </GlobalButton>
-
-          <GlobalButton onClick={goToSignUpHandler} _width="100%">
+          <GlobalButton
+            onClick={goToSignUpHandler}
+            margin="12px auto"
+            _width="100%"
+          >
             회원가입 하기
+          </GlobalButton>
+          <GlobalButton onClick={() => navigate("/")} _width="100%">
+            홈으로 되돌아가기
           </GlobalButton>
         </div>
       </BoxContainer>
@@ -76,7 +81,7 @@ const BoxContainer = styled.div`
   justify-content: center;
   margin: 0 auto;
   width: 672px;
-  height: 252px;
+  height: 322px;
 
   & .sign_btn {
     width: 520px;

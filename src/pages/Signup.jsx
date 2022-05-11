@@ -1,13 +1,13 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import GlobalStyles from "../styles/GlobalStyles";
-
 import SetInfo from "../components/Signup/SetInfo";
-
 import SignupForm from "../components/Signup/SignupForm";
 
 const Signup = () => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const { state } = useLocation();
+  const [currentPage, setCurrentPage] = useState(state ? state : 1);
 
   return (
     <>

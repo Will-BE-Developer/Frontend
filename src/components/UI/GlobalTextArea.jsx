@@ -1,43 +1,41 @@
+import { ro } from "date-fns/locale";
 import React, { useState, useEffect } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 const GlobalTextArea = (props) => {
-  const CHAR_LIMIT = props.charLimit;
-  const ROWS = props.rows;
-  const COLS = props.cols;
-  const PLACEHOLDER = props.placeholder;
+  const { charLimit, rows, cols, placeHolder, _value, _onChange } = props;
 
   const [isError, setIsError] = useState(false);
-  // const [value, setValue] = useState("");
 
-  const [remainingChars, setRemainingChars] = useState(CHAR_LIMIT);
+  const [remainingChars, setRemainingChars] = useState(0);
 
   useEffect(() => {
-    if (remainingChars <= 0) {
-      setRemainingChars(0);
+    if (remainingChars === 50) {
+      setRemainingChars(50);
       setIsError(true);
     }
   }, [remainingChars, isError]);
 
   const inputHandler = (e) => {
+    _onChange(e);
     const value = e.target.value;
     const characterCount = value?.length;
-    setRemainingChars(parseInt(CHAR_LIMIT, 10) - parseInt(characterCount, 10));
-
+    setRemainingChars(characterCount);
     setIsError(false);
   };
   return (
     <>
       <TextArea
-        rows={ROWS}
-        cols={COLS}
-        maxLength={CHAR_LIMIT}
-        placeholder={PLACEHOLDER}
+        value={_value}
+        rows={rows}
+        cols={cols}
+        maxLength={charLimit}
+        placeholder={placeHolder}
         onChange={inputHandler}
       />
       <ErrorMSG>{isError && "글자 수를 초과하였습니다."}</ErrorMSG>
       <div style={{ textAlign: "right", fontSize: "14px" }}>
-        {remainingChars} / {CHAR_LIMIT}
+        {remainingChars} / {charLimit}
       </div>
     </>
   );

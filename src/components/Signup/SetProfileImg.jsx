@@ -1,56 +1,34 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef } from "react";
 
-import test_img from "./test_img.jpg";
+import defaultUserImage from "../../assets/defaultUserImage.jpg";
 import styled, { css } from "styled-components";
 import GlobalButton from "../UI/GlobalButton";
-import HiCamera from "react-icons/hi";
 
 const SetProfileImg = (props) => {
-  // 기본이미지
-  const { img_src } = props;
-
-  // FileReader변환함
-  const [selectedImage, setSelectedImage] = useState(null);
-  // preview 이미지
-  const [preview, setPreview] = useState(null);
-  // 업로드파일 ref
+  const { getImage, image } = props;
   const inputFileRef = useRef(null);
-
-  // SignUp으로 이미지 보내기
-  const sendImgUrl = props.sendImgUrl;
-
-  // SignUp에서 업로드 가공된 이미지 받아오기
-  const getUrl = props.getUrl;
-
-  useEffect(() => {
-    if (selectedImage) {
-      sendImgUrl(selectedImage);
-    }
-  }, [sendImgUrl, selectedImage]);
 
   const handleImageUrl = (event) => {
     const file = event.target.files[0];
     const fileExt = file.name.split(".").pop();
-    const filetype = ["png", "PNG", "jpg", "JPG", "jpeg"];
+    const filetype = ["png", "PNG", "jpg", "JPG", "jpeg", "gif"];
     if (!filetype.includes(fileExt)) {
-      alert("jpg, png 파일만 Upload 가능합니다.");
+      alert("jpg, png, gif 파일만 Upload 가능합니다.");
       return;
     }
-    setPreview(file);
     setFileReader(file);
   };
 
-  // file to FileReader
   const setFileReader = (file) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
 
     reader.onloadend = () => {
-      setSelectedImage(reader.result);
+      console.log(file);
+      getImage({ image: reader.result, file });
     };
   };
 
-  // 업로드파일 클릭시 발생되는 함수
   const handleChangeImageBtn = (e) => {
     e.preventDefault();
     inputFileRef.current.click();
@@ -58,32 +36,22 @@ const SetProfileImg = (props) => {
 
   const DeleteImgHandler = (e) => {
     e.preventDefault();
-    setSelectedImage(null);
+    getImage(null);
   };
 
   return (
     <Div>
-      <div>
-        <Img
-          alt="not fount"
-          width={"250px"}
-          src={
-            selectedImage
-              ? URL.createObjectURL(preview)
-              : getUrl
-              ? getUrl
-              : img_src
-          }
-        />
-      </div>
-
+      <Img
+        alt="not fount"
+        width={"250px"}
+        src={image ? image : defaultUserImage}
+      />
       <Input
         type="file"
         name="myImage"
         ref={inputFileRef}
         onChange={handleImageUrl}
       />
-
       <div className="flex_colum">
         <GlobalButton
           onClick={handleChangeImageBtn}
@@ -91,9 +59,8 @@ const SetProfileImg = (props) => {
           _height="30px"
           hover
         >
-          {getUrl ? "다른 사진 등록" : "사진 등록"}
+          {getImage ? "다른 사진 등록" : "사진 등록"}
         </GlobalButton>
-
         <GlobalButton
           onClick={DeleteImgHandler}
           margin="0 0 6px 0"
@@ -108,7 +75,7 @@ const SetProfileImg = (props) => {
 };
 
 SetProfileImg.defaultProps = {
-  img_src: test_img,
+  img_src: defaultUserImage,
 };
 
 const Div = styled.div`
@@ -149,8 +116,8 @@ const Button = styled.button`
 
 const Img = styled.img`
   border-radius: 50%;
-  width: 80px;
-  height: 80px;
+  width: 120px;
+  height: 120px;
 `;
 
 const Input = styled.input`

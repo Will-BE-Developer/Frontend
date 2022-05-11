@@ -10,7 +10,7 @@ import { AiTwotoneEdit, AiTwotoneCrown } from "react-icons/ai";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
 import TimeAgo from "../FeedBack/TimeAgo";
-import test_img from "../Signup/test_img.jpg";
+import defaultUserImage from "../../assets/defaultUserImage.jpg";
 
 const GlobalCard = memo(({ card }) => {
   const [showModal, setShowModal] = useState(false);
@@ -81,7 +81,7 @@ const GlobalCard = memo(({ card }) => {
 });
 
 GlobalCard.defaultProps = {
-  img_src: test_img,
+  img_src: defaultUserImage,
 };
 
 // 면접왕 아이콘 (추후 추가할 수 있음)
@@ -91,7 +91,7 @@ GlobalCard.defaultProps = {
 
 const Card = styled.article`
   ${({ theme }) => {
-    const { colors, device } = theme;
+    const { colors } = theme;
     return css`
       display: flex;
       flex-direction: column;
@@ -124,7 +124,7 @@ const CardBody = styled.div`
 
 const BodyContainer = styled.div`
   ${({ theme }) => {
-    const { colors, device, calRem, fontWeight } = theme;
+    const { calRem, fontWeight } = theme;
     return css`
       padding: 20px;
       & .contents {
@@ -227,7 +227,7 @@ const ProfileImg = styled.img`
 `;
 
 const ScrapIcon = styled(BsFillBookmarkFill)`
-  ${({ isScrapped, theme }) => {
+  ${({ theme }) => {
     return css`
       height: 100%;
       font-size: ${theme.calRem(18)};
