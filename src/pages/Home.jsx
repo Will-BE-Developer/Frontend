@@ -5,17 +5,19 @@ import DailyQuestion from "../components/Home/DailyQuestions";
 import BestInterviews from "../components/Home/BestInterviews";
 import HotTopic from "../components/Home/HotTopic";
 import LatestFeedback from "../components/Home/LatestFeedback";
+import Footer from "../components/Home/Footer";
 
 const Home = () => {
   return (
     <div>
-      <GlobalStyles />
+      <GlobalStyles home />
       <Header />
       <Banner />
       <DailyQuestion />
       <HotTopic />
       <BestInterviews />
       <LatestFeedback />
+      <Footer />
     </div>
   );
 };
