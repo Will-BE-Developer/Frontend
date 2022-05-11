@@ -29,33 +29,38 @@ const Comments = ({ cardId }) => {
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     console.log(content);
+    if (isTextareaDisabled) {
+      alert("내용을 작성해주세요.");
+      return;
+    }
 
-    // const data = { contents: content, rootId: cardId, rootName: "interview" };
-    // try {
-    //   const addDataResponse = await commentApis.addComment(data);
-    //   console.log(addDataResponse);
-    //   setContent("");
-    //   try {
-    //     const getDataResponse = await commentApis.getComments(cardId);
-    //     console.log(getDataResponse.comments);
-    //     setAllComments(getDataResponse.comments);
-    //   } catch (err) {
-    //     console.log("댓글 불러오기 오류", err);
-    //   }
-    // } catch (err) {
-    //   console.log("댓글 작성 오류", err);
-    // }
+    const data = { contents: content, rootId: cardId, rootName: "interview" };
+    try {
+      const addDataResponse = await commentApis.addComment(data);
+      console.log(addDataResponse);
+      setContent("");
+      try {
+        const getDataResponse = await commentApis.getComments(cardId);
+        console.log(getDataResponse.comments);
+        setAllComments(getDataResponse.comments);
+      } catch (err) {
+        console.log("댓글 불러오기 오류", err);
+      }
+    } catch (err) {
+      console.log("댓글 작성 오류", err);
+    }
   };
 
-  console.log(allComments, "댓글 전체 목록");
-  console.log(content.length);
+  // const onClickSubmitHandler = (event) => {
+  //   event.preventDefault();
+  // };
+
   return (
     <CommentsContainer>
       <div className="title">피드백 n개</div>
       <Form>
         <div className="textarea_box">
           <textarea
-            disabled={isTextareaDisabled}
             onChange={(e) => setContent(e.target.value)}
             placeholder="내용을 작성해주세요"
             maxLength={500}
@@ -69,15 +74,22 @@ const Comments = ({ cardId }) => {
           ></textarea>
         </div>
         <div className="button_box">
-          <GlobalButton
-            disabled={isTextareaDisabled}
-            type="submit"
-            _width="70px"
-            _height="15px"
-            hover
-            text="작성"
-            onClick={onSubmitHandler}
-          />
+          {isTextareaDisabled ? (
+            <GlobalButton
+              _width="70px"
+              _height="15px"
+              text="작성"
+              onClick={onSubmitHandler}
+            />
+          ) : (
+            <GlobalButton
+              _width="70px"
+              _height="15px"
+              hover
+              text="작성"
+              onClick={onSubmitHandler}
+            />
+          )}
         </div>
       </Form>
       <div className="comments-container">

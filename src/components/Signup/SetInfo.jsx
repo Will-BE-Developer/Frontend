@@ -10,13 +10,8 @@ import { boxShadow } from "../../styles/boxShadow";
 
 import { FcNext } from "react-icons/fc";
 import { FcPrevious } from "react-icons/fc";
-<<<<<<< HEAD
-
-import GlobalTextArea from "../UI/GlobalTextArea";
-=======
 import GlobalTextarea from "../UI/GlobalTextArea";
 
->>>>>>> origin/dev
 const SetInfo = (props) => {
   const navigate = useNavigate();
   const token = getCookie("token");
