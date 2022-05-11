@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import GlobalCard from "../../components/UI/GlobalCard";
 

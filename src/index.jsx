@@ -12,6 +12,7 @@ import InterviewTopic from "./pages/InterviewTopic";
 import InterviewRecording from "./pages/InterviewRecording";
 
 import KakaoRedirect from "./pages/KakaoRedirect";
+import SigninValidation from "./pages/SigninValidation";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 
@@ -57,6 +58,7 @@ ReactDOM.render(
             <Route path="/signup" element={<Signup />} />
             <Route path="/signin" element={<Signin />} />
             <Route path="/user/kakao/callback" element={<KakaoRedirect />} />
+            <Route path="/signin/validation" element={<SigninValidation />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

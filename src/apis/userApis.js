@@ -4,7 +4,10 @@ import { getCookie } from "../shared/cookies";
 const userApis = {
   signupEmailCheck: async (email) => {
     try {
-      const res = await instance.get(`/signup/${email}`);
+      const res = await instance.get(
+        `${process.env.REACT_APP_API_JURI_URL}/signup/${email}`
+      );
+      console.log(res.data);
       if (res.status === 200) {
         alert(res.data.msg);
         return res.data;
@@ -19,8 +22,10 @@ const userApis = {
   },
   signupEmail: async (userData) => {
     try {
-      const response = await instance.post("/signup", userData);
-
+      const response = await instance.post(
+        `${process.env.REACT_APP_API_JURI_URL}/signup`,
+        userData
+      );
       return response;
     } catch (error) {
       return error;
@@ -28,18 +33,39 @@ const userApis = {
   },
   signinEmail: async (userData) => {
     try {
-      const response = await instance.post("/signin", userData);
+      const response = await instance.post(
+        `${process.env.REACT_APP_API_JURI_URL}/signin`,
+        userData
+      );
       const result = {
         user: response.data.user,
         token: response.headers.authorization,
       };
-
-      console.log(result, "로그인 ");
       return result;
     } catch (error) {
       return error.response;
     }
   },
+
+  emailValidation: async (token, email) => {
+    try {
+      const response = await instance.get(
+        `${process.env.REACT_APP_API_JURI_URL}/signin/validation`,
+        {
+          params: {
+            token,
+            email,
+          },
+        }
+      );
+
+      return response;
+    } catch (error) {
+      console.log(error.response);
+      return error.response;
+    }
+  },
+
   signinKakao: async (url, code) => {
     try {
       const response = instance.get(url, {
