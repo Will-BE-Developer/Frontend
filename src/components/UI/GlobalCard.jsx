@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { memo } from "react";
 import styled, { css } from "styled-components";
-
+import theme from "../../styles/theme";
 import { useNavigate, useParams } from "react-router-dom";
 
 // react = icons
@@ -39,7 +39,7 @@ const GlobalCard = memo(({ card }) => {
   };
 
   const showProfileHandler = () => {
-    alert("felfij");
+    alert("유저 정보 모달창");
     setShowModal(!showModal);
   };
 
@@ -70,7 +70,13 @@ const GlobalCard = memo(({ card }) => {
           <span>by {user.nickname}</span>
         </div>
         <div className="icon_container">
-          <ScrapButton isScrapped={scrapsMe} />
+          <div
+            style={{
+              color: scrapsMe ? theme.colors.yellow : theme.colors.lightGrey,
+            }}
+          >
+            <ScrapIcon />
+          </div>
           <span>{scrapsCount}</span>
         </div>
       </CardFooter>
@@ -224,13 +230,11 @@ const ProfileImg = styled.img`
   margin-right: 5px;
 `;
 
-const ScrapButton = styled(BsFillBookmarkFill)`
+const ScrapIcon = styled(BsFillBookmarkFill)`
   ${({ isScrapped, theme }) => {
     return css`
       height: 100%;
-      color: ${isScrapped ? theme.colors.yellow : theme.colors.lightGrey};
-      cursor: pointer;
-      font-size: ${({ theme }) => theme.calRem(18)};
+      font-size: ${theme.calRem(18)};
       padding: 0;
     `;
   }}
