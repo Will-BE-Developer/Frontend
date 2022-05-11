@@ -10,7 +10,7 @@ import NestedComment from "./NestedComment";
 
 import commentApis from "../../apis/commentApis";
 
-const RootComment = ({ rootComment, cardId, setAllComments }) => {
+const RootComment = ({ rootComment, cardId, setAllComments, allComments }) => {
   const { id, user, createdAt, contents, isMine } = rootComment;
   const nestedComments = rootComment.nestedComments;
   const [isShowReply, setIsShowReply] = useState(false);
@@ -24,6 +24,7 @@ const RootComment = ({ rootComment, cardId, setAllComments }) => {
     alert("유저정보 보여주는 모달창 띄우기");
   };
 
+  console.log(cardId);
   const replyToggleHandler = () => {
     setIsShowReply((isShowReply) => !isShowReply);
   };
@@ -33,18 +34,18 @@ const RootComment = ({ rootComment, cardId, setAllComments }) => {
 
     const data = { contents: content, rootId: id, rootName: "comment" };
     try {
-      const addDataResponse = await commentApis.addComment(data).unwrap();
+      const addDataResponse = await commentApis.addComment(data);
       console.log(addDataResponse);
       setContent("");
       try {
         const getDataResponse = await commentApis.getComments(cardId);
-        console.log(getDataResponse);
-        setAllComments(getDataResponse);
+        console.log(getDataResponse.comments);
+        setAllComments(getDataResponse.comments);
       } catch (err) {
         console.log("대댓글 불러오기 오류", err);
       }
     } catch (err) {
-      console.log("대댓글 작성 오류", err.data);
+      console.log("대댓글 작성 오류", err);
     }
   };
 

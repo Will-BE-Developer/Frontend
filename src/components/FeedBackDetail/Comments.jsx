@@ -24,36 +24,38 @@ const Comments = ({ cardId }) => {
       setAllComments(data.comments);
       // console.log(data.comments);
     });
-  }, []);
+  }, [cardId]);
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     console.log(content);
 
-    const data = { contents: content, rootId: cardId, rootName: "interview" };
-    try {
-      const addDataResponse = await commentApis.addComment(data);
-      console.log(addDataResponse);
-      setContent("");
-      try {
-        const getDataResponse = await commentApis.getComments(1);
-        console.log(getDataResponse);
-        setAllComments(getDataResponse);
-      } catch (err) {
-        console.log("댓글 불러오기 오류", err);
-      }
-    } catch (err) {
-      console.log("댓글 작성 오류", err);
-    }
+    // const data = { contents: content, rootId: cardId, rootName: "interview" };
+    // try {
+    //   const addDataResponse = await commentApis.addComment(data);
+    //   console.log(addDataResponse);
+    //   setContent("");
+    //   try {
+    //     const getDataResponse = await commentApis.getComments(cardId);
+    //     console.log(getDataResponse.comments);
+    //     setAllComments(getDataResponse.comments);
+    //   } catch (err) {
+    //     console.log("댓글 불러오기 오류", err);
+    //   }
+    // } catch (err) {
+    //   console.log("댓글 작성 오류", err);
+    // }
   };
 
-  // console.log("allComments~~~~",allComments)
+  console.log(allComments, "댓글 전체 목록");
+  console.log(content.length);
   return (
     <CommentsContainer>
       <div className="title">피드백 n개</div>
       <Form>
         <div className="textarea_box">
           <textarea
+            disabled={isTextareaDisabled}
             onChange={(e) => setContent(e.target.value)}
             placeholder="내용을 작성해주세요"
             maxLength={500}
@@ -84,6 +86,7 @@ const Comments = ({ cardId }) => {
             key={rootComment.id}
             rootComment={rootComment}
             cardId={cardId}
+            allComments={allComments}
             setAllComments={setAllComments}
           />
         ))}

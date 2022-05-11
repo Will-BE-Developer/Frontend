@@ -1,33 +1,36 @@
 import instance from "./axios.js";
 import { getCookie } from "../shared/cookies";
 
-const commentApis = {
+const commentApi = {
   getComments: async (cardId) => {
+    console.log(cardId);
     try {
-      const response = await instance.get(`/api/comments/${cardId}`, {
+      const res = await instance.get(`/api/comments/${cardId}`, {
+        // params: { per: 10 },
         headers: {
           Authorization: getCookie("token"),
         },
       });
-      return response.data;
+      console.log(res);
+      return res.data;
     } catch (err) {
       return err.response;
     }
   },
 
-  addComment: async (data) => {
-    console.log(data);
+  addComment: async (commentData) => {
+    console.log(commentData);
     try {
-      const response = await instance.post(`/api/comments`, data, {
+      const res = await instance.post(`/api/comments`, commentData, {
         headers: {
           Authorization: getCookie("token"),
         },
       });
-      console.log(response.data);
-      return response.data;
+      console.log(res.data);
+      return res.data;
     } catch (err) {
-      console.log(err);
-      return err.response.data;
+      console.log(err.response);
+      return err.response;
     }
   },
 
@@ -46,8 +49,7 @@ const commentApis = {
                 "https://firebasestorage.googleapis.com/v0/b/react-deep-99.appspot.com/o/images%2F1_1650953241454?alt=media&token=7e31bc8a-352c-48bf-90e6-1fce202e8935",
               introduce: "",
             },
-            contents:
-              "이렇게 하는건 어떨까요? 아니면 저렇게 하는건 어떰? 이렇게 하는건 어떨까요? 아니면 저렇게 하는건 어떰? 이렇게 하는건 어떨까요? 아니면 저렇게 하는건 어떰? 이렇게 하는건 어떨까요? 아니면 저렇게 하는건 어떰? 이렇게 하는건 어떨까요? 아니면 저렇게 하는건 어떰? 이렇게 하는건 어떨까요? 아니면 저렇게 하는건 어떰? 이렇게 하는건 어떨까요? 아니면 저렇게 하는건 어떰? 이렇게 하는건 어떨까요? 아니면 저렇게 하는건 어떰? 이렇게 하는건 어떨까요? 아니면 저렇게 하는건 어떰? 이렇게 하는건 어떨까요? 아니면 저렇게 하는건 어떰? 이렇게 하는건 어떨까요? 아니면 저렇게 하는건 어떰? 이렇게 하는건 어떨까요? 아니면 저렇게 하는건 어떰? 이렇게 하는건 어떨까요? 아니면 저렇게 하는건 어떰? 이렇게 하는건 어떨까요? 아니면 저렇게 하는건 어떰? 이렇게 하는건 어떨까요? 아니면 저렇게 하는건 어떰? 이렇게 하는건 어떨까요? 아니면 저렇게...",
+            contents: "첫 번째 댓글",
             nestedCommentsCount: 3,
             nestedComments: [
               {
@@ -160,4 +162,4 @@ const commentApis = {
     return testData.data;
   },
 };
-export default commentApis;
+export default commentApi;
