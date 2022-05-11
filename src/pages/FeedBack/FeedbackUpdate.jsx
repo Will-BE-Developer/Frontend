@@ -36,7 +36,7 @@ const FeedbackUpdate = () => {
 
   const clickCancleHandler = () => {
     if (isPublic === true) {
-      navigate(`/feedback/detail/${data.id}`, { replace: true });
+      navigate(`/feedback/${data.id}`, { replace: true });
     } else {
       navigate("/mypage/history", { replace: true });
     }

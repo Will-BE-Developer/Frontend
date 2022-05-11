@@ -2,9 +2,15 @@ import instance from "./axios.js";
 import { getCookie } from "../shared/cookies";
 const token = getCookie("token");
 
-export const getFeedback = async () => {
+export const getFeedback = async (page) => {
   try {
-    const res = await instance.get("/api/interviews/");
+    const res = await instance.get("/api/interviews/", {
+      params: {
+        page,
+      },
+    });
+
+    console.log(res.data);
     return res.data;
   } catch (err) {
     return err.response;

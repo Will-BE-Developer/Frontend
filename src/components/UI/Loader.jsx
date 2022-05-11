@@ -14,8 +14,8 @@ const LoaderLayout = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-
+  height: 50vh;
+  width: 100%;
   img {
     width: 207px;
     height: 90px;

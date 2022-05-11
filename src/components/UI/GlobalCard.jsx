@@ -66,13 +66,15 @@ const GlobalCard = memo(({ card }) => {
 
       <CardBody onClick={linkToDetailHandler}>
         <img alt="img" src={thumbnail} />
-        <BodyContents>
-          <h2>{question.contents}</h2>
+        <div className="bodyWrapper">
+          <BodyContents>
+            <h2>{question.contents}</h2>
 
-          <span>{note}</span>
-        </BodyContents>
-        <p>{question.category}</p>
-        <TimeAgo timestamp={createdAt} />
+            <span>{note}</span>
+          </BodyContents>
+          <p>{question.category}</p>
+          <TimeAgo timestamp={createdAt} />
+        </div>
       </CardBody>
 
       <CardFooter>
@@ -162,9 +164,8 @@ const CardHeader = styled.div`
 const CardBody = styled.div`
   flex-grow: 3;
   display: flex;
-  padding: 20px;
   flex-direction: column;
-  height: 70%;
+  height: 100%;
   margin: 0 auto;
   width: 100%;
   cursor: pointer;
@@ -172,6 +173,10 @@ const CardBody = styled.div`
   p {
     font-size: ${({ theme }) => theme.calRem(12)};
     margin-top: 10px;
+  }
+
+  & .bodyWrapper {
+    padding: 20px;
   }
 `;
 
@@ -186,8 +191,7 @@ const BodyContents = styled.div`
       & > h2 {
         font-size: ${calRem(16)};
         font-weight: ${fontWeight.semiBold};
-        padding-top: 0.5rem;
-        margin: 10px 0;
+        margin-bottom: 10px;
 
         // 텍스트 자르기
         overflow: hidden;
@@ -221,7 +225,7 @@ const CardFooter = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 15px;
+  /* margin-top: 15px; */
   padding: 12px 20px 12px 20px;
 
   & .user_profile {
