@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { boxShadow } from "../styles/boxShadow";
@@ -53,9 +53,13 @@ const Signin = (props) => {
     } catch (err) {
       if (err.message === "가입되지 않은 이메일 입니다.") {
         suggestSingUp(err);
-      } else {
+      }
+
+      if (err.message === "이메일 인증 후에 이용해주세요.") {
         alert(err.message);
       }
+
+      alert(err.message);
     }
   };
 

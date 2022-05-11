@@ -28,7 +28,7 @@ const userApis = {
       );
       return response;
     } catch (error) {
-      return error;
+      return error.response;
     }
   },
   signinEmail: async (userData) => {
@@ -41,9 +41,11 @@ const userApis = {
         user: response.data.user,
         token: response.headers.authorization,
       };
+      console.log(response);
       return result;
     } catch (error) {
-      return error.response;
+      console.log(error, "api error");
+      return error;
     }
   },
 
@@ -61,7 +63,6 @@ const userApis = {
 
       return response;
     } catch (error) {
-      console.log(error.response);
       return error.response;
     }
   },

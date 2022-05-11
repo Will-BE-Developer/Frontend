@@ -44,9 +44,11 @@ export const signinEmail = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const result = await userApis.signinEmail(userData);
+      console.log(result, "slice");
       return result;
     } catch (err) {
-      return rejectWithValue(err.response.data);
+      console.log(err);
+      return rejectWithValue(err.data);
     }
   }
 );
