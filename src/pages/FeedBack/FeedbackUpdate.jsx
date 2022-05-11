@@ -207,7 +207,7 @@ const FormLayout = styled.div`
 
   & .btnWrapper {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     margin: 20px 0px;
   }
 `;

@@ -22,24 +22,6 @@ const userApis = {
       return err;
     }
   },
-  emailValidation: async (token, email) => {
-    try {
-      const response = await instance.get("/signin/validation", {
-        params: {
-          token,
-          email,
-        },
-        headers: {
-          Authorization: getCookie("token"),
-        },
-      });
-
-      return response;
-    } catch (error) {
-      console.log(error.response);
-      return error.response;
-    }
-  },
 };
 
 export default userApis;

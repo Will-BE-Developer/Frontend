@@ -10,16 +10,14 @@ const initialState = {
 
 export const signinKakao = createAsyncThunk(
   "user/signin",
-  async (data, { rejectWithValue }) => {
-    const { url, code } = data;
+  async (code, { rejectWithValue }) => {
     try {
-      const response = await instance.get(url, {
+      const response = await instance.get("/user/kakao/callback", {
         params: { code },
         headers: {
           Authorization: getCookie("token"),
         },
       });
-      console.log(response);
 
       const result = {
         user: response.data.user,
@@ -28,7 +26,6 @@ export const signinKakao = createAsyncThunk(
 
       return result;
     } catch (err) {
-      console.log(err);
       return rejectWithValue(err.response.data);
     }
   }
@@ -73,14 +70,21 @@ export const signinEmail = createAsyncThunk(
     }
   }
 );
-
 export const emailValidation = createAsyncThunk(
   "user/emailValidation",
   async (data, { rejectWithValue }) => {
     const { token, email } = data;
     try {
-      const response = await userApis.emailValidation(token, email);
-      console.log(response);
+      const response = await instance.get("/signin/validation", {
+        params: {
+          token,
+          email,
+        },
+        headers: {
+          Authorization: getCookie("token"),
+        },
+      });
+
       const result = {
         user: response.data.user,
         token: response.headers.authorization,
@@ -118,7 +122,6 @@ const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(signupEmail.fulfilled, (state, action) => {});
     builder.addCase(emailValidation.fulfilled, (state, action) => {
       setCookie("token", action.payload.token);
       state.user = action.payload.user;

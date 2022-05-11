@@ -14,6 +14,8 @@ import TimeAgo from "../../components/FeedBack/TimeAgo";
 // react = icons
 import { BsFillBookmarkFill, BsHeartFill } from "react-icons/bs";
 
+import Comments from "../../components/FeedBackDetail/Comments.jsx";
+
 const FeedBackDetail = (props) => {
   const navigate = useNavigate();
   const { cardId } = useParams();
@@ -126,7 +128,9 @@ const FeedBackDetail = (props) => {
               />
             </div>
           )}
-
+          <GlobalButton onClick={addCommentHandelr} margin="0 0 20px 0">
+            addCommentHandelr
+          </GlobalButton>
           <TitleContainer>
             <div className="title_box">
               <span className="category">{question?.category}</span>
@@ -169,6 +173,10 @@ const FeedBackDetail = (props) => {
             </div>
             <span className="author_note">{note}</span>
           </AuthorContainer>
+
+          <CommentsContainer>
+            <Comments />
+          </CommentsContainer>
         </div>
       </Container>
     </>
@@ -204,7 +212,7 @@ const Container = styled.div`
 
   & .user_buttons {
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-end;
     width: 100%;
     gap: 10px;
     margin-bottom: 40px;
@@ -323,6 +331,8 @@ const ProfileImg = styled.img`
   height: 24px;
   margin-right: 5px;
 `;
+
+const CommentsContainer = styled.div``;
 
 // 면접왕 아이콘
 // const BtnCircleBg = styled.button`
