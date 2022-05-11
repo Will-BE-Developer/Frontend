@@ -9,16 +9,17 @@ const initialState = {
 
 export const signinKakao = createAsyncThunk(
   "user/signin",
-  async (data, { rejectWithValue }) => {
-    const { url, code } = data;
+  async (code, { rejectWithValue }) => {
     try {
-      const response = await instance.get(url, {
-        params: { code },
-        headers: {
-          Authorization: getCookie("token"),
-        },
-      });
-      console.log(response);
+      const response = await instance.get(
+        `${process.env.REACT_APP_API_JURI_URL}/user/kakao/callback`,
+        {
+          params: { code },
+          headers: {
+            Authorization: getCookie("token"),
+          },
+        }
+      );
 
       const result = {
         user: response.data.user,
@@ -27,7 +28,6 @@ export const signinKakao = createAsyncThunk(
 
       return result;
     } catch (err) {
-      console.log(err);
       return rejectWithValue(err.response.data);
     }
   }
@@ -73,6 +73,33 @@ export const signinEmail = createAsyncThunk(
   }
 );
 
+export const emailValidation = createAsyncThunk(
+  "user/emailValidation",
+  async (data, { rejectWithValue }) => {
+    const { token, email } = data;
+    try {
+      const response = await instance.get("/signin/validation", {
+        params: {
+          token,
+          email,
+        },
+        headers: {
+          Authorization: getCookie("token"),
+        },
+      });
+
+      const result = {
+        user: response.data.user,
+        token: response.headers.authorization,
+      };
+      return result;
+    } catch (err) {
+      console.log("로그인 인증 오류", err.response);
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 export const signout = createAsyncThunk(
   "user/signout",
   async (_, { rejectWithValue }) => {
@@ -98,7 +125,12 @@ const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(emailValidation.fulfilled, (state, action) => {
+      setCookie("token", action.payload.token);
+      state.user = action.payload.user;
+    });
     builder.addCase(signinEmail.fulfilled, (state, action) => {
+      console.log(action.payload);
       setCookie("token", action.payload.token);
       state.user = action.payload.user;
     });
@@ -106,6 +138,7 @@ const userSlice = createSlice({
       setCookie("token", action.payload.token);
       state.user = action.payload.user;
     });
+
     builder.addCase(signout.fulfilled, (state) => {
       deleteCookie("token");
       state.user = null;

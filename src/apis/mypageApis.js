@@ -1,13 +1,12 @@
 import instance from "./axios.js";
 import { getCookie } from "../shared/cookies";
-const token = getCookie("token");
 
 const mypageApis = {
   getUserCard: async () => {
     try {
       const res = await instance.get(`/api/users/me/interviews`, {
         headers: {
-          Authorization: token,
+          Authorization: getCookie("token"),
         },
       });
       return res.data;
@@ -20,7 +19,7 @@ const mypageApis = {
     try {
       const res = await instance.get(`/api/users/me/scraps`, {
         headers: {
-          Authorization: token,
+          Authorization: getCookie("token"),
         },
       });
       return res.data;
@@ -36,7 +35,7 @@ const mypageApis = {
         {},
         {
           headers: {
-            Authorization: token,
+            Authorization: getCookie("token"),
           },
         }
       );
@@ -51,7 +50,7 @@ const mypageApis = {
     try {
       const res = await instance.delete(`/api/scraps/${id}`, {
         headers: {
-          Authorization: token,
+          Authorization: getCookie("token"),
         },
       });
       console.log(res.data);

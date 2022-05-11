@@ -1,10 +1,12 @@
-import React, { useState } from "react";
-import styled, { css } from "styled-components";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import instance from "../../apis/axios";
+
+import GlobalButton from "../UI/GlobalButton";
+
+import styled, { css } from "styled-components";
 import SetProfileImg from "./SetProfileImg";
 import { boxShadow } from "../../styles/boxShadow";
-import instance from "../../apis/axios";
-import GlobalButton from "../UI/GlobalButton";
 
 import { FcNext } from "react-icons/fc";
 import { FcPrevious } from "react-icons/fc";
@@ -162,13 +164,33 @@ const SetInfo = (props) => {
                 placeholder="50자이내로 나를 표현해주세요."
               />
 
+              <GlobalButton onClick={nextPageHandler} _width="100%" hover>
+                다음 <NextIcon />
+              </GlobalButton>
+            </InputField>
+          </BoxContainer>
+        </Container>
+      )}
+
+      {currentPage === 5 && (
+        <Container>
+          <div>
+            <h2>회원가입 성공</h2>
+            <span>회원가입에 성공했습니다 이메일 인증을 완료해주세요.</span>
+          </div>
+
+          <BoxContainer>
+            <InputField>
+              <h1 className="h1_text">
+                회원가입에 성공했습니다 이메일 인증을 완료해주세요.
+              </h1>
               <GlobalButton
                 onClick={linkToHomeHandler}
                 _width="100%"
                 margin="18px 0 0 0"
                 hover
               >
-                가입 완료
+                홈으로 가기
               </GlobalButton>
             </InputField>
           </BoxContainer>
@@ -243,6 +265,11 @@ const InputField = styled.form`
 
   text-align: left;
 
+  & .h1_text {
+    font-size: 20px;
+    text-align: center;
+    margin: 10px 0;
+  }
   & > div {
     width: 100%;
     display: flex;

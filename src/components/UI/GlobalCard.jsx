@@ -1,25 +1,21 @@
 import React, { useState } from "react";
 import { memo } from "react";
-import styled, { css } from "styled-components";
-import theme from "../../styles/theme";
 import { useNavigate, useParams } from "react-router-dom";
 
-// react = icons
+import styled, { css } from "styled-components";
+import theme from "../../styles/theme";
+
 import { BsFillBookmarkFill, BsHeartFill } from "react-icons/bs";
-import { TiTimes } from "react-icons/ti";
 import { AiTwotoneEdit, AiTwotoneCrown } from "react-icons/ai";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
-// timeago function
 import TimeAgo from "../FeedBack/TimeAgo";
-
 import test_img from "../Signup/test_img.jpg";
 
 const GlobalCard = memo(({ card }) => {
   const [showModal, setShowModal] = useState(false);
   const { cardId } = useParams();
   const navigate = useNavigate();
-
   const {
     id,
     thumbnail,

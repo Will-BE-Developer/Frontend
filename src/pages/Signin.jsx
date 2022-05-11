@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { boxShadow } from "../styles/boxShadow";
@@ -51,9 +51,14 @@ const Signin = (props) => {
         navigate("/", { replace: true });
       }
     } catch (err) {
+      console.log(err.message);
       if (err.message === "가입되지 않은 이메일 입니다.") {
         suggestSingUp(err);
-      } else {
+      }
+
+      // alert(err.message);
+
+      if (err.message === "이메일 인증 후에 이용해주세요.") {
         alert(err.message);
       }
     }
@@ -61,7 +66,7 @@ const Signin = (props) => {
 
   // 회원가입 유도하는 모달창
   const suggestSingUp = (err) => {
-    alert(err.message);
+    alert(err);
     // navigate("/signup", { replace: true });
   };
 

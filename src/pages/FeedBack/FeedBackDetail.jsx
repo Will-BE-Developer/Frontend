@@ -1,4 +1,3 @@
-import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -35,9 +34,9 @@ const FeedBackDetail = (props) => {
       setScrapCount(data.interview.scrapsCount);
       setIsMine(data.interview.isMine);
     });
-    // commentApis.getCommentsApi(cardId).then((data) => {
-    //   console.log(data);
-    // });
+    commentApis.testGetComments(cardId).then((data) => {
+      console.log(data);
+    });
   }, [cardId]);
 
   const {
