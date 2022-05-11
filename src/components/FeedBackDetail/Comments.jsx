@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import CommentForm from "./CommentForm";
-import Comment from "./Comment";
+import RootComment from "./RootComment";
 
 import styled from "styled-components";
 import commentApis from "../../apis/commentApis";
@@ -10,22 +10,10 @@ const Comments = ({ commentsUrl, currentUserId }) => {
   const [activeComment, setActiveComment] = useState(null);
 
   // 부모, 자식 댓글 분리 및 최신순 정렬
-  const nestedComments = [];
-  allComments
-    .map((comment) => {
-      nestedComments.push(comment.nestedComments);
-    })
-    .sort(
-      (a, b) =>
-        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-    );
 
-  const rootComments = allComments.sort(
-    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-  );
-
-  console.log(rootComments);
-  console.log(nestedComments);
+  // const sortAllComments = allComments.sort(
+  //   (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+  // );
 
   useEffect(() => {
     commentApis.testGetComments().then((data) => {
@@ -33,21 +21,13 @@ const Comments = ({ commentsUrl, currentUserId }) => {
     });
   }, []);
 
-  const getReplies = (commentId) =>
-    allComments
-      .filter((comment) => comment.parentId === commentId)
-      .sort(
-        (a, b) =>
-          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-      );
-
   return (
     <CommentsContainer>
       <div className="title">피드백 n개</div>
       <CommentForm submitLabel="Write" />
       <div className="comments-container">
-        {rootComments.map((rootComment) => (
-          <Comment key={rootComment.id} rootComment={rootComment} />
+        {allComments.map((rootComment) => (
+          <RootComment key={rootComment.id} rootComment={rootComment} />
         ))}
       </div>
     </CommentsContainer>

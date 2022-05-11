@@ -36,9 +36,12 @@ const FeedBackDetail = (props) => {
       setScrapCount(data.interview.scrapsCount);
       setIsMine(data.interview.isMine);
     });
-    commentApis.testGetComments(cardId).then((data) => {
+    commentApis.getComments(cardId).then((data) => {
       console.log(data);
     });
+    // commentApis.testGetComments(cardId).then((data) => {
+    //   console.log(data);
+    // });
   }, [cardId]);
 
   const {
