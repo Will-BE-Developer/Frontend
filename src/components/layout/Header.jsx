@@ -63,7 +63,6 @@ const HeaderContainer = styled.div`
       padding: 0px;
       width: 100%;
       height: 60px;
-      background-color: ${colors.headerBgColor};
       box-shadow: 0 2px 5px rgba(130, 130, 130, 0.1);
 
       & .nav {

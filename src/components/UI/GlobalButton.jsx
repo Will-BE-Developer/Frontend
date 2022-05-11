@@ -57,7 +57,7 @@ const Button = styled.button`
       align-items: center;
       width: ${(props) => (props._width ? props._width : "max-content")};
       height: ${(props) => (props._height ? props._height : "50px")};
-      border-radius: 4px;
+      border-radius: 8px;
       border: ${(props) => (props.border ? props.border : "")};
       padding: ${(props) => (props.padding ? props.padding : "11px 18px")};
       margin: ${(props) => (props.margin ? props.margin : "")};
@@ -66,8 +66,7 @@ const Button = styled.button`
       background: ${(props) =>
         props.background ? props.background : colors.darkGrey};
       ${device.mobile} {
-        height: 30px;
-        font-size: ${calRem(12)};
+        height: 40px;
         padding: ${(props) => (props.padding ? props.padding : "0px 16px")};
       }
       &:hover {

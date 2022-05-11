@@ -5,6 +5,7 @@ import { HiChevronRight } from "react-icons/hi";
 import interviewApis from "../apis/interviewApis";
 import GlobalButton from "../components/UI/GlobalButton";
 import { boxShadow } from "../styles/boxShadow";
+import face from "../assets/face.png";
 
 const InterviewTopic = () => {
   const [topics, setTopics] = useState([]);
@@ -37,19 +38,27 @@ const InterviewTopic = () => {
         {topics?.map((topic, index) => {
           return (
             <label key={index}>
+              <div>
+                <img alt="logo" src={face} />
+                <span>{topic}</span>
+              </div>
               <input
                 onChange={() => setSelectTopic(topic)}
                 value={topic}
                 type="radio"
                 name="topic"
               />
-              <span>{topic}</span>
             </label>
           );
         })}
       </div>
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <GlobalButton margin="0px 0px 40px 0px" onClick={selectTopicHandler}>
+        <GlobalButton
+          _width="50%"
+          margin="0px 0px 40px 0px"
+          onClick={selectTopicHandler}
+          background="#567FE8"
+        >
           면접 시작하기
           <HiChevronRight size="25px" />
         </GlobalButton>
@@ -85,12 +94,42 @@ const TopicBox = styled.div`
         margin-bottom: 30px;
         white-space: nowrap;
 
+        @media screen and (max-width: 800px) {
+          padding: 20px;
+        }
+
         ${device.tablet} {
           grid-template-columns: repeat(3, 1fr);
         }
-        ${device.mobile} {
+        @media screen and (max-width: 650px) {
           grid-template-columns: repeat(2, 1fr);
         }
+
+        ${device.mobile} {
+          grid-template-columns: repeat(1, 1fr);
+        }
+      }
+
+      & .topic label {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        padding: 8px 12px;
+      }
+
+      & .topic label div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      & .topic label div img {
+        width: 36px;
+        height: 36px;
+        margin-right: 5px;
       }
     `;
   }}

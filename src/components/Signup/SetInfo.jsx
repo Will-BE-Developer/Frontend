@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import instance from "../../apis/axios";
-
+import { getCookie } from "../../shared/cookies";
 import GlobalButton from "../UI/GlobalButton";
 
 import styled, { css } from "styled-components";
@@ -10,169 +10,71 @@ import { boxShadow } from "../../styles/boxShadow";
 
 import { FcNext } from "react-icons/fc";
 import { FcPrevious } from "react-icons/fc";
+<<<<<<< HEAD
 
 import GlobalTextArea from "../UI/GlobalTextArea";
+=======
+import GlobalTextarea from "../UI/GlobalTextArea";
+
+>>>>>>> origin/dev
 const SetInfo = (props) => {
-  // 받아온 src url
-  const [imgUrl, setImgUrl] = useState("");
-  const [getUrl, setGetUrl] = useState("");
-  // const getImageRef = useRef(null);
   const navigate = useNavigate();
+  const token = getCookie("token");
+  const [getImage, setGetImage] = useState(null);
+  const [userData, setUserData] = useState({
+    nickname: "",
+    githubLink: "https://github.com/",
+    introduce: "",
+  });
 
   const currentPage = props.currentPage;
 
-  const getImgUrl = (url) => {
-    setImgUrl(url);
-  };
-
-  // 다음 페이지
-  const nextPageHandler = () => {
-    props.setCurrentPage(currentPage + 1);
+  const getImageHandler = (data) => {
+    setGetImage(data);
   };
 
   const previousPageHandler = () => {
     props.setCurrentPage(currentPage - 1);
   };
 
-  const s3PutPresignedUrl = async () => {
+  const nextPageWithUploadImgHandler = async () => {
+    props.setCurrentPage(currentPage + 1);
     try {
-      const res = await instance.get("/s3url-put", {
-        params: {
-          objKey: "kellyImg",
+      const formData = new FormData();
+
+      const img = getImage ? getImage.file : "";
+
+      formData.append("profileImage", img);
+      formData.append("nickname", JSON.stringify(userData.nickname));
+      formData.append("githubLink", JSON.stringify(userData.githubLink));
+      formData.append("introduce", JSON.stringify(userData.introduce));
+
+      const res = await instance.put("/api/users/me", formData, {
+        headers: {
+          Authorization: token,
+          "Content-Type": "multipart/form-data",
         },
       });
 
-      return res.data;
-    } catch (err) {
-      console.log(err.response);
-    }
-  };
-
-  // 프로필사진 보내기
-  const nextPageWithUploadImgHandler = async () => {
-    props.setCurrentPage(currentPage + 1);
-    // 여기서 프로필 현재 프로필사진 s3에 업로드하기
-
-    const s3Url = await s3PutPresignedUrl();
-    // s3Url 넣어서 업로드하기.
-    try {
-      const res = await instance.put(s3Url, imgUrl);
       console.log(res);
     } catch (err) {
       console.log(err);
     }
-    getImgFromS3();
-  };
-
-  // get presigned url받고 영상받는 핸들러
-  //
-  const getImgFromS3 = async () => {
-    const res = await instance.get("/s3url-get", {
-      params: {
-        objKey: "kellyImg",
-      },
-    });
-
-    const s3Url = res.data;
-
-    const getRealImgAxios = await instance.get(s3Url);
-
-    const realImgUrl = getRealImgAxios.data;
-
-    setGetUrl(realImgUrl);
   };
 
   const linkToHomeHandler = () => {
     navigate("/");
   };
 
+  const introChangeHandler = (e) => {
+    setUserData((prev) => {
+      return { ...prev, introduce: e.target.value };
+    });
+  };
+
   return (
     <div>
       {currentPage === 2 && (
-        <Container>
-          <div>
-            <h2>닉네임</h2>
-            <span>서비스 이용시 사용되는 닉네임입니다.</span>
-          </div>
-
-          <BoxContainer>
-            <InputField>
-              <Label htmlFor="nickname">닉네임</Label>
-              <div>
-                <Input type="text" placeholder="2-6자 이내로 입력해주세요." />
-              </div>
-              <ErrorMSG>공백 없이 한글/영문/숫자만 가능합니다. </ErrorMSG>
-
-              <GlobalButton
-                onClick={nextPageHandler}
-                _width="100%"
-                margin="18px 0 0 0"
-                hover
-              >
-                다음 <NextIcon />
-              </GlobalButton>
-            </InputField>
-          </BoxContainer>
-        </Container>
-      )}
-
-      {currentPage === 3 && (
-        <Container>
-          <div>
-            <h2>프로필</h2>
-            <span>서비스 이용시 사용되는 이미지입니다.</span>
-          </div>
-          <BoxContainer>
-            <InputField isCenter="center">
-              <PreviousIcon onClick={previousPageHandler} />
-              <FlexDiv>
-                <SetProfileImg sendImgUrl={getImgUrl} getUrl={getUrl} />
-              </FlexDiv>
-              <div>
-                <ErrorMSG>PNG, JPG파일만 업로드 가능합니다.</ErrorMSG>
-              </div>
-              <GlobalButton onClick={nextPageHandler} _width="100%" hover>
-                다음 <NextIcon />
-              </GlobalButton>
-            </InputField>
-          </BoxContainer>
-        </Container>
-      )}
-
-      {currentPage === 4 && (
-        <Container>
-          <div>
-            <h2>포트폴리오 URL</h2>
-            <span>
-              깃허브, 노션 등 본인의 포트폴리오 URL을 한 개만 작성해주세요.
-            </span>
-          </div>
-
-          <BoxContainer>
-            <InputField>
-              <div>
-                <PreviousIcon onClick={previousPageHandler} />
-              </div>
-
-              <Label htmlFor="github_url">포트폴리오 URL</Label>
-              <Input type="text" placeholder="https://github.com/" />
-              <Label htmlFor="pr">자기소개</Label>
-              <GlobalTextArea
-                charLimit="50"
-                rows="5"
-                cols="80"
-                placeholder="50자이내로 나를 표현해주세요."
-              />
-
-              <GlobalButton onClick={nextPageHandler} _width="100%" hover>
-                다음 <NextIcon />
-              </GlobalButton>
-            </InputField>
-          </BoxContainer>
-        </Container>
-      )}
-
-      {currentPage === 5 && (
         <Container>
           <div>
             <h2>회원가입 성공</h2>
@@ -184,6 +86,137 @@ const SetInfo = (props) => {
               <h1 className="h1_text">
                 회원가입에 성공했습니다 이메일 인증을 완료해주세요.
               </h1>
+              <GlobalButton
+                onClick={linkToHomeHandler}
+                _width="100%"
+                margin="18px 0 0 0"
+                hover
+              >
+                홈으로 가기
+              </GlobalButton>
+            </InputField>
+          </BoxContainer>
+        </Container>
+      )}
+      {currentPage === 3 && (
+        <Container>
+          <div>
+            <h2>닉네임</h2>
+            <span>서비스 이용시 사용되는 닉네임입니다.</span>
+          </div>
+
+          <BoxContainer>
+            <InputField>
+              <Label htmlFor="nickname">닉네임</Label>
+              <div>
+                <Input
+                  value={userData.nickname}
+                  type="text"
+                  placeholder="2-6자 이내로 입력해주세요."
+                  onChange={(e) => {
+                    setUserData((prev) => {
+                      return { ...prev, nickname: e.target.value };
+                    });
+                  }}
+                />
+              </div>
+              <ErrorMSG>공백 없이 한글/영문/숫자만 가능합니다. </ErrorMSG>
+              <GlobalButton
+                onClick={nextPageWithUploadImgHandler}
+                _width="100%"
+                margin="18px 0 0 0"
+                hover
+              >
+                다음 <NextIcon />
+              </GlobalButton>
+            </InputField>
+          </BoxContainer>
+        </Container>
+      )}
+
+      {currentPage === 4 && (
+        <Container>
+          <div>
+            <h2>프로필</h2>
+            <span>서비스 이용시 사용되는 이미지입니다.</span>
+          </div>
+          <BoxContainer>
+            <PreviousIcon onClick={previousPageHandler} />
+            <InputField isCenter="center">
+              <FlexDiv>
+                <SetProfileImg
+                  getImage={getImageHandler}
+                  image={getImage?.image}
+                />
+              </FlexDiv>
+              <div>
+                <ErrorMSG>PNG, JPG파일만 업로드 가능합니다.</ErrorMSG>
+              </div>
+              <GlobalButton
+                onClick={nextPageWithUploadImgHandler}
+                _width="100%"
+                hover
+              >
+                다음 <NextIcon />
+              </GlobalButton>
+            </InputField>
+          </BoxContainer>
+        </Container>
+      )}
+
+      {currentPage === 5 && (
+        <Container>
+          <div>
+            <h2>포트폴리오 URL</h2>
+            <span>
+              깃허브, 노션 등 본인의 포트폴리오 URL을 한 개만 작성해주세요.
+            </span>
+          </div>
+
+          <BoxContainer>
+            <PreviousIcon onClick={previousPageHandler} />
+            <InputField>
+              <Label htmlFor="github_url">포트폴리오 URL</Label>
+              <Input
+                value={userData.githubLink}
+                onChange={(e) => {
+                  setUserData((prev) => {
+                    return { ...prev, githubLink: e.target.value };
+                  });
+                }}
+                type="text"
+                placeholder="https://github.com/"
+              />
+              <Label htmlFor="pr">자기소개</Label>
+              <GlobalTextarea
+                value={userData.introduce}
+                _onChange={introChangeHandler}
+                charLimit="50"
+                rows="5"
+                cols="80"
+                placeholder="50자이내로 나를 표현해주세요."
+              />
+
+              <GlobalButton
+                onClick={nextPageWithUploadImgHandler}
+                _width="100%"
+                hover
+              >
+                다음 <NextIcon />
+              </GlobalButton>
+            </InputField>
+          </BoxContainer>
+        </Container>
+      )}
+      {currentPage === 6 && (
+        <Container>
+          <div>
+            <h2>회원가입 성공</h2>
+          </div>
+          <BoxContainer>
+            <InputField>
+              <h1 className="h1_text">회원가입 성공을 축하합니다</h1>
+              <p style={{ textAlign: "center" }}>회원가입에 성공했습니다.</p>
               <GlobalButton
                 onClick={linkToHomeHandler}
                 _width="100%"
@@ -244,14 +277,14 @@ const Container = styled.div`
 `;
 
 const BoxContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin: 0 auto;
   width: 672px;
   height: 400px;
-
-  ${(props) => boxShadow()};
+  ${boxShadow()};
   ${({ theme }) => theme.device.mobile} {
     padding: 0 5%;
     width: 100%;
@@ -321,7 +354,6 @@ const ErrorMSG = styled.span`
 const NextIcon = styled(FcNext)`
   margin-right: 5px;
   vertical-align: middle;
-  position: relative;
   bottom: 1px;
   & > polygon {
     fill: ${({ theme }) => theme.colors.white};
@@ -330,7 +362,10 @@ const NextIcon = styled(FcNext)`
 const PreviousIcon = styled(FcPrevious)`
   margin-bottom: 5px;
   vertical-align: middle;
-  position: relative;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 25px;
   cursor: pointer;
   & > polygon {
     fill: ${({ theme }) => theme.colors.lightGrey};

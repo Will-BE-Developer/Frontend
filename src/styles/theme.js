@@ -8,10 +8,12 @@ const colors = {
   white: "#FFFFFF",
   black: "#222222",
   headerBgColor: "#F9F9F9",
+  lightestGrey: "#F9F9F9",
 
   // 4 main colors
   green: "#92A094",
-  blue: "#798996",
+  blue: "#567FE8",
+  darkBlue: "#798996",
   warmGrey: "#A8A9AB",
   pink: "#dc7487",
   errorMsg: "red",

@@ -25,7 +25,7 @@ const GlobalStyles = createGlobalStyle`
   body {
     min-height: 100vh;
     font-family: 'Pretendard-Regular';
-    margin: 60px auto;
+    margin: ${(props) => (props.home ? "60px auto 0px auto" : "60px auto")};
   }
 
   &:focus,&:hover,&:active{

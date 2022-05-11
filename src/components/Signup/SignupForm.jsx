@@ -57,12 +57,11 @@ const SignupForm = (props) => {
   const { ref, ...rest } = register("email");
 
   const onSubmitHandler = (userData) => {
-    console.log(userData);
-
     if (!checkEmail) {
       alert("이메일 중복을 확인해주세요.");
       return;
     }
+
     dispatch(signupEmail(userData));
     props.setCurrentPage(2);
   };

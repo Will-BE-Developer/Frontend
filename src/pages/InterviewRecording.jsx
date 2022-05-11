@@ -8,7 +8,7 @@ import styled from "styled-components";
 import { BsAlarm } from "react-icons/bs";
 import GlobalButton from "../components/UI/GlobalButton";
 import InterviewForm from "../components/interview/InterviewForm";
-import deniedError from "../assets/deniedError.png";
+import webcamNotice from "../assets/webcamNotice.png";
 import interviewApis from "../apis/interviewApis";
 
 const InterviewRecording = () => {
@@ -121,23 +121,29 @@ const InterviewRecording = () => {
         }}
       >
         {isDenied ? (
-          <div style={{ textAlign: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "80vh",
+            }}
+          >
             <img
               style={{ width: "100%" }}
-              src={deniedError}
+              src={webcamNotice}
               alt="deniedError"
             />
-            <p>카메라 및 마이크 권한 허용 후 새로고침 해주세요</p>
           </div>
         ) : (
           <>
             <div className="header">
-              <span className="badge">{question.category}</span>
+              {!isEnd && <span className="badge">{question.category}</span>}
               <div className="title">
-                <span>{`Q.${question.contents}`}</span>
+                {!isEnd && <span>{`Q. ${question.contents}`}</span>}
                 {isStart && !isEnd && (
                   <span className="alarm">
-                    <BsAlarm />
+                    <BsAlarm size="18px" />
                     <Timer active duration={300000}>
                       <Timecode format="H:?mm:ss" style={{ color: "black" }} />
                     </Timer>
@@ -184,6 +190,8 @@ const InterviewRecording = () => {
               )}
               {isEnd && (
                 <InterviewForm
+                  category={question.category}
+                  question={question.contents}
                   reset={resetHandler}
                   questionId={question.id}
                   thumbnail={thumbnail}
@@ -205,15 +213,16 @@ const RecordWrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+  margin-top: 20px;
 
   & .header {
     margin: 20px 0px;
   }
 
   & .badge {
-    font-size: ${({ theme }) => theme.fontSize["12"]};
+    font-size: ${({ theme }) => theme.fontSize["14"]};
     color: ${({ theme }) => theme.colors.white};
-    background-color: ${({ theme }) => theme.colors.darkGrey};
+    background-color: ${({ theme }) => theme.colors.blue};
     border-radius: 15px;
     padding: 5px 12px;
   }
@@ -232,9 +241,9 @@ const RecordWrapper = styled.div`
     justify-content: center;
     align-items: center;
     align-content: center;
-    gap: 5px;
+    gap: 7px;
     border-radius: 4px;
-    border: 1px solid rgba(130, 130, 130, 0.2);
+    /* border: 1px solid rgba(130, 130, 130, 0.2); */
     padding: 8px 10px;
     font-size: ${({ theme }) => theme.fontSize["16"]};
     color: #b3b3b3;
