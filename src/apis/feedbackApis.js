@@ -1,6 +1,5 @@
 import instance from "./axios.js";
 import { getCookie } from "../shared/cookies";
-const token = getCookie("token");
 
 export const feedbackApis = {
   getFeedback: async (page) => {
@@ -22,7 +21,7 @@ export const feedbackApis = {
     try {
       const res = await instance.get(`/api/interviews/${cardId}`, {
         headers: {
-          Authorization: token,
+          Authorization: getCookie("token"),
         },
       });
       return res.data;
@@ -35,7 +34,7 @@ export const feedbackApis = {
     try {
       const res = await instance.get(`/api/interviews/${cardId}`, {
         headers: {
-          Authorization: token,
+          Authorization: getCookie("token"),
         },
       });
       const convertVideo = await instance.get(res.data.interview.video, {
@@ -50,7 +49,7 @@ export const feedbackApis = {
     try {
       const res = await instance.put(`/api/interviews/${cardId}`, updateData, {
         headers: {
-          Authorization: token,
+          Authorization: getCookie("token"),
         },
       });
       return res.data;
@@ -63,7 +62,7 @@ export const feedbackApis = {
     try {
       const res = await instance.delete(`/api/interviews/${cardId}`, {
         headers: {
-          Authorization: token,
+          Authorization: getCookie("token"),
         },
       });
       return res.data;
@@ -79,7 +78,7 @@ export const feedbackApis = {
         {},
         {
           headers: {
-            Authorization: token,
+            Authorization: getCookie("token"),
           },
         }
       );
@@ -93,7 +92,7 @@ export const feedbackApis = {
     try {
       const res = await instance.delete(`/api/scraps/${id}`, {
         headers: {
-          Authorization: token,
+          Authorization: getCookie("token"),
         },
       });
       return res.data;
