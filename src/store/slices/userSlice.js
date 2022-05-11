@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { deleteCookie, setCookie } from "../../shared/cookies";
 import userApis from "../../apis/userApis";
+import instance from "../../apis/axios";
+import { getCookie } from "../../shared/cookies";
 
 const initialState = {
   user: null,
-  isLoggedIn: false,
 };
 
 export const signinKakao = createAsyncThunk(
@@ -12,7 +13,13 @@ export const signinKakao = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     const { url, code } = data;
     try {
-      const response = await userApis.signinKakao(url, code);
+      const response = await instance.get(url, {
+        params: { code },
+        headers: {
+          Authorization: getCookie("token"),
+        },
+      });
+      console.log(response);
 
       const result = {
         user: response.data.user,
@@ -21,6 +28,7 @@ export const signinKakao = createAsyncThunk(
 
       return result;
     } catch (err) {
+      console.log(err);
       return rejectWithValue(err.response.data);
     }
   }
@@ -30,7 +38,11 @@ export const signupEmail = createAsyncThunk(
   "user/signupEmail",
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await userApis.signupEmail(userData);
+      const response = await instance.post("/signup", userData, {
+        headers: {
+          Authorization: getCookie("token"),
+        },
+      });
 
       return response.data;
     } catch (err) {
@@ -43,12 +55,21 @@ export const signinEmail = createAsyncThunk(
   "user/signinEmail",
   async (userData, { rejectWithValue }) => {
     try {
-      const result = await userApis.signinEmail(userData);
-      console.log(result, "slice");
+      const response = await instance.post("/signin", userData, {
+        headers: {
+          Authorization: getCookie("token"),
+        },
+      });
+
+      const result = {
+        user: response.data.user,
+        token: response.headers.authorization,
+      };
+
       return result;
     } catch (err) {
       console.log(err);
-      return rejectWithValue(err.data);
+      return rejectWithValue(err.response.data);
     }
   }
 );
@@ -56,7 +77,6 @@ export const signinEmail = createAsyncThunk(
 export const emailValidation = createAsyncThunk(
   "user/emailValidation",
   async (data, { rejectWithValue }) => {
-    console.log(data, "token, email : ");
     const { token, email } = data;
     try {
       const response = await userApis.emailValidation(token, email);
@@ -77,7 +97,15 @@ export const signout = createAsyncThunk(
   "user/signout",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await userApis.signout();
+      const response = await instance.post(
+        "/signout",
+        {},
+        {
+          headers: {
+            Authorization: getCookie("token"),
+          },
+        }
+      );
       return response;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -96,6 +124,7 @@ const userSlice = createSlice({
       state.user = action.payload.user;
     });
     builder.addCase(signinEmail.fulfilled, (state, action) => {
+      console.log(action.payload);
       setCookie("token", action.payload.token);
       state.user = action.payload.user;
     });

@@ -4,9 +4,11 @@ import { getCookie } from "../shared/cookies";
 const userApis = {
   signupEmailCheck: async (email) => {
     try {
-      const res = await instance.get(
-        `${process.env.REACT_APP_API_JURI_URL}/signup/${email}`
-      );
+      const res = await instance.get(`/signup/${email}`, {
+        headers: {
+          Authorization: getCookie("token"),
+        },
+      });
       console.log(res.data);
       if (res.status === 200) {
         alert(res.data.msg);
@@ -20,77 +22,21 @@ const userApis = {
       return err;
     }
   },
-  signupEmail: async (userData) => {
-    try {
-      const response = await instance.post(
-        `${process.env.REACT_APP_API_JURI_URL}/signup`,
-        userData
-      );
-      return response;
-    } catch (error) {
-      return error.response;
-    }
-  },
-  signinEmail: async (userData) => {
-    try {
-      const response = await instance.post(
-        `${process.env.REACT_APP_API_JURI_URL}/signin`,
-        userData
-      );
-      const result = {
-        user: response.data.user,
-        token: response.headers.authorization,
-      };
-      console.log(response);
-      return result;
-    } catch (error) {
-      console.log(error, "api error");
-      return error;
-    }
-  },
-
   emailValidation: async (token, email) => {
     try {
-      const response = await instance.get(
-        `${process.env.REACT_APP_API_JURI_URL}/signin/validation`,
-        {
-          params: {
-            token,
-            email,
-          },
-        }
-      );
-
-      return response;
-    } catch (error) {
-      return error.response;
-    }
-  },
-
-  signinKakao: async (url, code) => {
-    try {
-      const response = instance.get(url, {
-        params: { code },
+      const response = await instance.get("/signin/validation", {
+        params: {
+          token,
+          email,
+        },
+        headers: {
+          Authorization: getCookie("token"),
+        },
       });
 
       return response;
     } catch (error) {
-      return error;
-    }
-  },
-  signout: async () => {
-    try {
-      await instance.post(
-        "/signout",
-        {},
-        {
-          headers: {
-            Authorization: getCookie("token"),
-          },
-        }
-      );
-      return { message: "success" };
-    } catch (error) {
+      console.log(error.response);
       return error.response;
     }
   },
