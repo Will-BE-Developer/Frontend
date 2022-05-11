@@ -1,5 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
+import GlobalTextArea from "../UI/GlobalTextArea";
+import GlobalButton from "../UI/GlobalButton";
 
 const CommentForm = ({
   handleSubmit,
@@ -9,57 +11,50 @@ const CommentForm = ({
 }) => {
   const [text, setText] = useState(initialText);
   const isTextareaDisabled = text.length === 0;
-  const onSubmit = (event) => {
+  const onSubmitHandler = (event) => {
     event.preventDefault();
     handleSubmit(text);
     setText("");
   };
   return (
-    <Form onSubmit={onSubmit}>
-      <div></div>
-      <textarea
-        className="textarea"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder="댓글을 남겨주세요."
-      />
-      {hasCancelButton && (
-        <button type="button" className="cancel-button" onClick={handleCancel}>
-          Cancel
-        </button>
-      )}
+    <Form onSubmit={onSubmitHandler}>
+      <div className="textarea_box">
+        <GlobalTextArea
+          charLimit="50"
+          rows="5"
+          cols="80"
+          placeholder="댓글을 남겨주세요."
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
+      </div>
+      <div className="button_box">
+        <GlobalButton
+          type="submit"
+          _width="70px"
+          _height="15px"
+          hover
+          text="작성"
+        />
+      </div>
     </Form>
   );
 };
 
 const Form = styled.form`
-  & .textarea {
-    width: 100%;
-    height: 40px;
-    margin: 16px 0px;
-    border: 1px solid rgb(0, 5, 0.2);
+  padding: 30px 0;
+  textarea {
+    height: 100px;
   }
-
-  & .button {
-    font-size: 16px;
-    padding: 8px 16px;
-    background: rgb(59, 130, 246);
-    border-radius: 8px;
-    color: white;
-
-    :hover:enabled {
-      cursor: pointer;
-      background: rgb(37, 99, 235);
-    }
-
-    :disabled {
-      opacity: 0.7;
-      cursor: default;
-    }
+  & .textarea_box {
+    padding-bottom: 10px;
   }
-
-  & .cancel-button {
-    margin-left: 10px;
+  & .button_box {
+    display: flex;
+    justify-content: flex-end;
+    button {
+      font-size: ${({ theme }) => theme.calRem(12)};
+    }
   }
 `;
 

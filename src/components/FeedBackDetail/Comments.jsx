@@ -4,7 +4,7 @@ import RootComment from "./RootComment";
 
 import styled from "styled-components";
 import commentApis from "../../apis/commentApis";
-
+import TimeAgo from "../FeedBack/TimeAgo";
 const Comments = ({ commentsUrl, currentUserId }) => {
   const [allComments, setAllComments] = useState([]);
   const [activeComment, setActiveComment] = useState(null);
@@ -16,8 +16,12 @@ const Comments = ({ commentsUrl, currentUserId }) => {
   // );
 
   useEffect(() => {
-    commentApis.testGetComments().then((data) => {
+    // commentApis.testGetComments().then((data) => {
+    //   setAllComments(data.comments);
+    // });
+    commentApis.getComments(1).then((data) => {
       setAllComments(data.comments);
+      // console.log(data.comments);
     });
   }, []);
 
@@ -42,7 +46,6 @@ const CommentsContainer = styled.div`
   }
 
   & .comments-container {
-    margin-top: 40px;
   }
 `;
 export default Comments;

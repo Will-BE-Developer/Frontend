@@ -15,10 +15,10 @@ const commentApi = {
     }
   },
 
-  addComment: async (commentData) => {
-    console.log(commentData);
+  addComment: async (centents, rootId) => {
+    const data = { centents, rootId };
     try {
-      const res = await instance.post(`/api/comments`, commentData, {
+      const res = await instance.post(`/api/comments`, data, {
         headers: {
           Authorization: getCookie("token"),
         },

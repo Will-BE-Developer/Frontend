@@ -11,7 +11,7 @@ import { boxShadow } from "../../styles/boxShadow";
 import { FcNext } from "react-icons/fc";
 import { FcPrevious } from "react-icons/fc";
 
-import GlobalTextarea from "../UI/GlobalTextArea";
+import GlobalTextArea from "../UI/GlobalTextArea";
 const SetInfo = (props) => {
   // 받아온 src url
   const [imgUrl, setImgUrl] = useState("");
@@ -157,7 +157,7 @@ const SetInfo = (props) => {
               <Label htmlFor="github_url">포트폴리오 URL</Label>
               <Input type="text" placeholder="https://github.com/" />
               <Label htmlFor="pr">자기소개</Label>
-              <GlobalTextarea
+              <GlobalTextArea
                 charLimit="50"
                 rows="5"
                 cols="80"
