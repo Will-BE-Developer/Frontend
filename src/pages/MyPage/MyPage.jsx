@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { Outlet } from "react-router-dom";
-import GlobalCard from "../../components/UI/GlobalCard";
 
 const MyPage = () => {
   const navigate = useNavigate();

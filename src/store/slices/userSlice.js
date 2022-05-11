@@ -51,6 +51,26 @@ export const signinEmail = createAsyncThunk(
   }
 );
 
+export const emailValidation = createAsyncThunk(
+  "user/emailValidation",
+  async (data, { rejectWithValue }) => {
+    console.log(data, "token, email : ");
+    const { token, email } = data;
+    try {
+      const response = await userApis.emailValidation(token, email);
+      console.log(response);
+      const result = {
+        user: response.data.user,
+        token: response.headers.authorization,
+      };
+      return result;
+    } catch (err) {
+      console.log("로그인 인증 오류", err.response);
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 export const signout = createAsyncThunk(
   "user/signout",
   async (_, { rejectWithValue }) => {
@@ -69,6 +89,10 @@ const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(signupEmail.fulfilled, (state, action) => {});
+    builder.addCase(emailValidation.fulfilled, (state, action) => {
+      setCookie("token", action.payload.token);
+      state.user = action.payload.user;
+    });
     builder.addCase(signinEmail.fulfilled, (state, action) => {
       setCookie("token", action.payload.token);
       state.user = action.payload.user;
@@ -77,6 +101,7 @@ const userSlice = createSlice({
       setCookie("token", action.payload.token);
       state.user = action.payload.user;
     });
+
     builder.addCase(signout.fulfilled, (state) => {
       deleteCookie("token");
       state.user = null;

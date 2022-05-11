@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import GlobalButton from "../../components/UI/GlobalButton";
 import theme from "../../styles/theme";
