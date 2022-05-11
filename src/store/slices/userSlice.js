@@ -118,7 +118,6 @@ const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(signupEmail.fulfilled, (state, action) => {});
     builder.addCase(emailValidation.fulfilled, (state, action) => {
       setCookie("token", action.payload.token);
       state.user = action.payload.user;
