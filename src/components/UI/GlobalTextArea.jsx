@@ -50,6 +50,7 @@ const TextArea = styled.textarea`
   overflow: auto;
   border: 1px solid lightgrey;
   margin: 5px 0;
+  padding: 10px;
 
   ::placeholder {
     font-size: ${({ theme }) => theme.calRem(16)};
@@ -58,7 +59,7 @@ const TextArea = styled.textarea`
   }
 
   ${({ theme }) => theme.device.mobile} {
-    padding: 0 5%;
+    padding: 12px;
     width: 100%;
     height: 50px;
     ::placeholder {
