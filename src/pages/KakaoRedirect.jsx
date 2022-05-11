@@ -25,5 +25,4 @@ const KakaoRedirect = () => {
 
   return <Loader />;
 };
-
 export default KakaoRedirect;

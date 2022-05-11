@@ -7,8 +7,8 @@ import GlobalButton from "../../components/UI/GlobalButton";
 import { BsFillBookmarkFill, BsHeartFill } from "react-icons/bs";
 
 import feedbackApis from "../../apis/feedbackApis.js";
-import commentApis from "../../apis/commentApis";
 import TimeAgo from "../../components/FeedBack/TimeAgo";
+import Comments from "../../components/FeedBackDetail/Comments";
 
 const FeedBackDetail = (props) => {
   // const hasFastConnection = () => {
@@ -48,9 +48,9 @@ const FeedBackDetail = (props) => {
       setScrapCount(data.interview.scrapsCount);
       setIsMine(data.interview.isMine);
     });
-    commentApis.testGetComments(cardId).then((data) => {
-      console.log(data);
-    });
+    // commentApis.getComments(1).then((data) => {
+    //   console.log(data);
+    // });
   }, [cardId]);
 
   const {
@@ -99,17 +99,6 @@ const FeedBackDetail = (props) => {
         setScrapCount(data.scrap.scrapsCount);
       });
     }
-  };
-
-  const addCommentHandelr = () => {
-    const commentData = {
-      constents: "댓글 추가",
-      rootId: 12,
-      rootName: "interview",
-    };
-    commentApis.addCommentApi(commentData).then((data) => {
-      console.log(data);
-    });
   };
 
   return (
@@ -183,6 +172,10 @@ const FeedBackDetail = (props) => {
             </div>
             <span className="author_note">{note}</span>
           </AuthorContainer>
+
+          <CommentsContainer>
+            <Comments cardId={cardId} />
+          </CommentsContainer>
         </div>
       </Container>
     </>
@@ -218,7 +211,7 @@ const Container = styled.div`
 
   & .user_buttons {
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-end;
     width: 100%;
     gap: 10px;
     margin-bottom: 40px;
@@ -337,6 +330,8 @@ const ProfileImg = styled.img`
   height: 24px;
   margin-right: 5px;
 `;
+
+const CommentsContainer = styled.div``;
 
 // 면접왕 아이콘
 // const BtnCircleBg = styled.button`

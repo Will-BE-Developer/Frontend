@@ -3,12 +3,15 @@ import { getCookie } from "../shared/cookies";
 
 const commentApi = {
   getComments: async (cardId) => {
+    console.log(cardId);
     try {
       const res = await instance.get(`/api/comments/${cardId}`, {
+        // params: { per: 10 },
         headers: {
           Authorization: getCookie("token"),
         },
       });
+      console.log(res);
       return res.data;
     } catch (err) {
       return err.response;

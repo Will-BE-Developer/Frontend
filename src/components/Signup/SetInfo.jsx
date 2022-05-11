@@ -10,7 +10,7 @@ import { boxShadow } from "../../styles/boxShadow";
 
 import { FcNext } from "react-icons/fc";
 import { FcPrevious } from "react-icons/fc";
-import GlobalTextarea from "../UI/GlobalTextArea";
+import GlobalTextArea from "../UI/GlobalTextArea";
 
 const SetInfo = (props) => {
   const navigate = useNavigate();
@@ -183,9 +183,7 @@ const SetInfo = (props) => {
                 placeholder="https://github.com/"
               />
               <Label htmlFor="pr">자기소개</Label>
-              <GlobalTextarea
-                value={userData.introduce}
-                _onChange={introChangeHandler}
+              <GlobalTextArea
                 charLimit="50"
                 rows="5"
                 cols="80"
