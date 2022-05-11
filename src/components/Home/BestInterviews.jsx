@@ -53,6 +53,7 @@ const BestInterviews = () => {
     autoplay: true,
     autoplaySpeed: 4000,
     slidesToShow: 1,
+    beforeChange: (idx, newIdx) => console.log(idx, newIdx),
   };
 
   return (
