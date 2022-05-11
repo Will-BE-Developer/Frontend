@@ -7,18 +7,9 @@ import theme from "../../styles/theme";
 import styled, { css } from "styled-components";
 import GlobalButton from "../../components/UI/GlobalButton";
 
-import {
-  getFeedbackDetail as getDetailApi,
-  getFeedbackDetailVideo as getVideoApi,
-  deleteFeedbackDetail as deleteDetailApi,
-  addScrap as addScrapApi,
-  undoScrap as undoScrapApi,
-} from "../../apis/feedbackApis.js";
+import feedbackApis from "../../apis/feedbackApis.js";
+import commentApis from "../../apis/commentApis";
 
-import {
-  getComments as getCommentsApi,
-  addComment as addCommentApi,
-} from "../../apis/commentApis";
 import TimeAgo from "../../components/FeedBack/TimeAgo";
 
 // react = icons
@@ -33,19 +24,20 @@ const FeedBackDetail = (props) => {
   const [isMine, setIsMine] = useState();
   const [isScrapped, setIsScrapped] = useState();
   const [scrapCount, setScrapCount] = useState();
+
   useEffect(() => {
-    getVideoApi(cardId).then((data) => {
+    feedbackApis.getDetailVideo(cardId).then((data) => {
       setVideo(URL.createObjectURL(data));
     });
-    getDetailApi(cardId).then((data) => {
+    feedbackApis.getDetail(cardId).then((data) => {
       setData(data.interview);
       setIsScrapped(data.interview.scrapsMe);
       setScrapCount(data.interview.scrapsCount);
       setIsMine(data.interview.isMine);
     });
-    getCommentsApi(cardId).then((data) => {
-      console.log(data);
-    });
+    // commentApis.getCommentsApi(cardId).then((data) => {
+    //   console.log(data);
+    // });
   }, [cardId]);
 
   const {
@@ -73,7 +65,7 @@ const FeedBackDetail = (props) => {
   };
 
   const clickDeleteHandler = () => {
-    deleteDetailApi(cardId).then((data) => {
+    feedbackApis.deleteDetail(cardId).then((data) => {
       if (data.interview.isPublic === true) {
         navigate(`/feedback/`, { replace: true });
       } else {
@@ -84,12 +76,12 @@ const FeedBackDetail = (props) => {
 
   const scrapHandler = () => {
     if (isScrapped === false) {
-      addScrapApi(cardId).then((data) => {
+      feedbackApis.addScrap(cardId).then((data) => {
         setIsScrapped(data.scrap.scrapsMe);
         setScrapCount(data.scrap.scrapsCount);
       });
     } else {
-      undoScrapApi(cardId).then((data) => {
+      feedbackApis.undoScrap(cardId).then((data) => {
         setIsScrapped(data.scrap.scrapsMe);
         setScrapCount(data.scrap.scrapsCount);
       });
@@ -102,7 +94,7 @@ const FeedBackDetail = (props) => {
       rootId: 12,
       rootName: "interview",
     };
-    addCommentApi(commentData).then((data) => {
+    commentApis.addCommentApi(commentData).then((data) => {
       console.log(data);
     });
   };
@@ -241,11 +233,10 @@ const TitleContainer = styled.div`
         font-weight: ${({ theme }) => theme.fontWeight.extraBold};
 
         margin: 18px 0 8px 0;
-        // 텍스트 자르기
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
-        -webkit-line-clamp: 1; /* 라인수 */
+        -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
         word-wrap: break-word;
       }

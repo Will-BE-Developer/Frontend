@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import GlobalCard from "../../components/UI/GlobalCard";
-import { getUserScrap as getUserScrapApi } from "../../apis/mypageApis.js";
+import mypageApis from "../../apis/mypageApis.js";
 
 import Dropdown from "../../components/UI/GlobalDropDown";
 
@@ -11,7 +11,7 @@ const MyScrap = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    getUserScrapApi().then((data) => {
+    mypageApis.getUserScrap().then((data) => {
       setData(data.interviews);
     });
   }, []);

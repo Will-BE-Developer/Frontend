@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import theme from "../../styles/theme";
 import styled from "styled-components";
 import GlobalButton from "../../components/UI/GlobalButton";
-import { updateFeedbackDetail as updateDetailApi } from "../../apis/feedbackApis.js";
+import feedbackApis from "../../apis/feedbackApis.js";
 
 const FeedbackUpdate = () => {
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const FeedbackUpdate = () => {
       isPublic,
     };
 
-    updateDetailApi(cardId, updateData).then((data) => {
+    feedbackApis.updateDetail(cardId, updateData).then((data) => {
       if (isPublic === true) {
         navigate(`/feedback/${cardId}`, { replace: true });
       } else {

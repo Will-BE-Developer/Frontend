@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import GlobalCard from "../../components/UI/GlobalCard";
-import { getUserCard as getUserCardApi } from "../../apis/feedbackApis.js";
+import mypageApis from "../../apis/mypageApis.js";
 
 import Dropdown from "../../components/UI/GlobalDropDown";
 
@@ -11,7 +11,7 @@ const MyHistory = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    getUserCardApi().then((data) => {
+    mypageApis.getUserCard().then((data) => {
       setData(data.interviews);
     });
   }, []);

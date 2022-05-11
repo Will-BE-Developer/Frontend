@@ -4,16 +4,15 @@ import styled, { css } from "styled-components";
 import GlobalCard from "../../components/UI/GlobalCard";
 
 import Dropdown from "../../components/UI/GlobalDropDown";
-import { getFeedback as getFeedbackApi } from "../../apis/feedbackApis.js";
+import feedbackApis from "../../apis/feedbackApis.js";
 
 const FeedBack = () => {
   const [data, setData] = useState([]);
-  console.log(data);
   const [selectedDate, setSelectedDate] = useState("(정렬)");
   const [selectedCategory, setSelectedCategory] = useState("전체보기");
 
   useEffect(() => {
-    getFeedbackApi().then((data) => {
+    feedbackApis.getFeedback().then((data) => {
       setData(data.interviews);
     });
   }, []);
