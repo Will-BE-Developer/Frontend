@@ -116,13 +116,17 @@ const InterviewRecording = () => {
     <RecordWrapper isEnd={isEnd}>
       <div
         style={{
-          maxWidth: "1200px",
           width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         {isDenied ? (
           <div
             style={{
+              maxWidth: "1200px",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -137,30 +141,37 @@ const InterviewRecording = () => {
           </div>
         ) : (
           <>
-            <div className="header">
-              {!isEnd && <span className="badge">{question.category}</span>}
-              <div className="title">
-                {!isEnd && <span>{`Q. ${question.contents}`}</span>}
-                {isStart && !isEnd && (
-                  <span className="alarm">
-                    <BsAlarm size="18px" />
-                    <Timer active duration={300000}>
-                      <Timecode format="H:?mm:ss" style={{ color: "black" }} />
-                    </Timer>
-                    <span>/</span>
-                    <Timer
-                      style={{ display: "none" }}
-                      active
-                      onFinish={stopRecordingHandler}
-                      duration={300000}
-                      onTimeUpdate={({ time }) => setTime(time)}
-                    />
-                    <Timecode time={301000 - time} format="H:?mm:ss" />
-                  </span>
-                )}
+            {!isEnd && (
+              <div className="header">
+                <span className="badge">{question.category}</span>
+                <div className="title">
+                  <span>{`Q. ${question.contents}`}</span>
+                  {isStart && !isEnd && (
+                    <span className="alarm">
+                      <BsAlarm size="18px" />
+                      <Timer active duration={300000}>
+                        <Timecode
+                          format="H:?mm:ss"
+                          style={{ color: "black" }}
+                        />
+                      </Timer>
+                      <span>/</span>
+                      <Timer
+                        style={{ display: "none" }}
+                        active
+                        onFinish={stopRecordingHandler}
+                        duration={300000}
+                        onTimeUpdate={({ time }) => setTime(time)}
+                      />
+                      <Timecode time={301000 - time} format="H:?mm:ss" />
+                    </span>
+                  )}
+                </div>
               </div>
-            </div>
-            <div style={{ position: "relative", textAlign: "end" }}>
+            )}
+            <div
+              style={{ width: "100%", position: "relative", textAlign: "end" }}
+            >
               <div className="videoLayout">
                 <video controls autoPlay ref={videoRef} />
               </div>
@@ -175,6 +186,8 @@ const InterviewRecording = () => {
             </div>
             <div
               style={{
+                maxWidth: "1200px",
+                width: "100%",
                 display: "flex",
                 justifyContent: "center",
                 marginTop: "20px",
@@ -213,9 +226,10 @@ const RecordWrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-top: 20px;
 
   & .header {
+    max-width: 1200px;
+    width: 100%;
     margin: 20px 0px;
   }
 
@@ -244,7 +258,7 @@ const RecordWrapper = styled.div`
     gap: 7px;
     border-radius: 4px;
     /* border: 1px solid rgba(130, 130, 130, 0.2); */
-    padding: 8px 10px;
+    padding: 8px 0px 8px 10px;
     font-size: ${({ theme }) => theme.fontSize["16"]};
     color: #b3b3b3;
   }
@@ -263,6 +277,7 @@ const RecordWrapper = styled.div`
     justify-content: center;
     background-color: ${({ theme }) => theme.colors.headerBgColor};
     border-radius: 6px;
+    width: 100%;
   }
 
   canvas {

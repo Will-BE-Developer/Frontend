@@ -45,15 +45,15 @@ ReactDOM.render(
                 path="feedback/update/:cardId"
                 element={<FeedbackUpdate />}
               />
-              <Route path="interview" element={<Interview />}>
-                <Route path="" element={<InterviewTopic />} />
-                <Route path="recording" element={<InterviewRecording />} />
-              </Route>
               <Route path="mypage" element={<MyPage />}>
                 <Route path="" element={<MyProfile />} />
                 <Route path="history" element={<MyHistory />} />
                 <Route path="scrap" element={<MyScrap />} />
               </Route>
+            </Route>
+            <Route path="interview" element={<Interview />}>
+              <Route path="" element={<InterviewTopic />} />
+              <Route path="recording" element={<InterviewRecording />} />
             </Route>
             <Route path="/signup" element={<Signup />} />
             <Route path="/signin" element={<Signin />} />
