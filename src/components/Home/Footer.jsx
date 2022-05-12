@@ -2,8 +2,26 @@ import styled from "styled-components";
 import footerBanner from "../../assets/footerBanner.png";
 
 const Footer = () => {
-  const timing = PerformanceNavigationTiming;
-  console.log(timing);
+  // const timing = PerformanceNavigationTiming;
+  // console.log(timing);
+
+  // const hasFastConnection = () => {
+  //   const connection =
+  //     navigator.connection ||
+  //     navigator.mozConnection ||
+  //     navigator.webkitConnection;
+
+  //   return (
+  //     !connection ||
+  //     (!connection.savaData &&
+  //       connection.type !== "none" &&
+  //       connection.effectiveType !== "slow-2g" &&
+  //       connection.effectiveType !== "2g" &&
+  //       connection.effectiveType !== "slow-3g")
+  //   );
+  // };
+
+  // console.log(hasFastConnection());
   return (
     <FooterLayout>
       <img alt="footerBanner" src={footerBanner} />
