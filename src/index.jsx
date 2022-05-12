@@ -24,7 +24,9 @@ import MyPage from "./pages/MyPage/MyPage";
 import MyProfile from "./pages/MyPage/MyProfile";
 import MyHistory from "./pages/MyPage/MyHistory";
 import MyScrap from "./pages/MyPage/MyScrap";
-import Test from "./components/UI/Test";
+
+import Test from "./components/UI/ModalExample/DeleteModal";
+
 import NotFound from "./pages/NotFound";
 
 import ScrollToTop from "./components/UI/ScrollToTop";

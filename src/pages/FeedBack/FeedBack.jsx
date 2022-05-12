@@ -6,7 +6,6 @@ import Dropdown from "../../components/UI/GlobalDropDown";
 import { feedbackApis } from "../../apis/feedbackApis.js";
 import InfiniteScroll from "react-infinite-scroller";
 import Loader from "../../components/UI/Loader";
-import ScrollToTop from "../../components/UI/ScrollToTop";
 
 const FeedBack = () => {
   const [data, setData] = useState({ feedback: [], pagination: {} });
