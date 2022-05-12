@@ -8,13 +8,20 @@ import GlobalButton from "../UI/GlobalButton";
 const Comments = ({ cardId }) => {
   const [allComments, setAllComments] = useState([]);
   const [content, setContent] = useState("");
+  const [totalCount, setTotalCount] = useState(0);
   const isTextareaDisabled = content.length === 0;
 
   useEffect(() => {
     commentApis.getComments(cardId).then((data) => {
       setAllComments(data.comments);
     });
-  }, [cardId]);
+    const nestedCountArr = allComments
+      .map((i) => Number(i.nestedCommentsCount))
+      .reduce((a, b) => a + b, 0);
+    const rootCount = Number(allComments.length);
+
+    setTotalCount(rootCount + nestedCountArr);
+  }, [allComments, cardId]);
 
   const sendCommentdataHandler = (data) => {
     setAllComments(data);
@@ -29,22 +36,20 @@ const Comments = ({ cardId }) => {
 
     const data = { contents: content, rootId: cardId, rootName: "interview" };
     try {
-      await commentApis.addComment(data);
+      const response = await commentApis.addComment(data);
+      console.log(response);
       setContent("");
-      try {
-        const getDataResponse = await commentApis.getComments(cardId);
-        setAllComments(getDataResponse.comments);
-      } catch (err) {
-        console.log("댓글 불러오기 오류", err);
-      }
+      setAllComments(response.comments);
     } catch (err) {
       console.log("댓글 작성 오류", err);
     }
   };
+  // const n = 23;
 
   return (
     <CommentsContainer>
       <Form>
+        <div className="comment_count">피드백 {totalCount}개</div>
         <div className="textarea_box">
           <textarea
             onChange={(e) => setContent(e.target.value)}
@@ -107,6 +112,11 @@ const CommentsContainer = styled.div`
 
 const Form = styled.form`
   padding: 30px 0;
+
+  & .comment_count {
+    font-size: ${({ theme }) => theme.calRem(16)};
+    margin-bottom: 10px;
+  }
   & textarea {
     margin-top: 8px;
     padding: 11px 16px;

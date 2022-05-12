@@ -44,6 +44,7 @@ const Container = styled.button`
       z-index: 50;
 
       & .btn {
+        border-radius: 8px;
         padding: 15px;
         background: ${colors.white};
         border: 1px solid #e6e6e6;
@@ -56,6 +57,8 @@ const Container = styled.button`
       }
 
       & .content {
+        border-radius: 8px;
+        text-align: left;
         position: absolute;
         top: 110%;
         left: 0;
@@ -68,13 +71,14 @@ const Container = styled.button`
       }
 
       & .content .item {
-        padding: 10px;
+        padding: 12px 10px;
         cursor: pointer;
         transition: all 0.2s;
       }
 
       & .content .item:hover {
         background: #f4f4f4;
+        border-radius: 8px;
       }
     `;
   }}

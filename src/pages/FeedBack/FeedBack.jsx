@@ -10,35 +10,68 @@ import Loader from "../../components/UI/Loader";
 const FeedBack = () => {
   const [data, setData] = useState({ feedback: [], pagination: {} });
 
-  const [selectedDate, setSelectedDate] = useState("(정렬)");
+  const [selectedSort, setSelectedSort] = useState("최신순");
   const [selectedCategory, setSelectedCategory] = useState("전체보기");
+  let sort = selectedSort;
+  let category = selectedCategory;
+
+  if (selectedSort === "최신순") {
+    sort = "new";
+  }
+  if (selectedSort === "오래된순") {
+    sort = "old";
+  }
+  if (selectedSort === "스크랩이 많은순") {
+    sort = "scrap";
+  }
+  console.log(sort, category);
 
   const fetchFeedback = useCallback(async () => {
     if (data?.pagination?.nextPage === null) {
       return;
     }
-
+    console.log(sort, category);
     const page = data?.pagination?.nextPage ? data.pagination.nextPage : 1;
-    const response = await feedbackApis.getFeedback(page);
 
-    setData((prev) => {
-      return {
-        feedback: [...prev.feedback, ...response?.interviews],
-        pagination: response.pagination,
-      };
-    });
-  }, [data]);
+    try {
+      const response = await feedbackApis.getFeedback(page, sort, category);
+      setData((prev) => {
+        return {
+          feedback: [...prev.feedback, ...response?.interviews],
+          pagination: response.pagination,
+        };
+      });
+      console.log(response);
+    } catch (err) {
+      console.log("피드백 불러오기 오류", err);
+    }
+  }, [category, data, sort]);
 
-  const dateList = ["최신순", "오래된순"];
-  const categoryList = ["Frontend", "Backend"];
+  const sortList = ["최신순", "오래된순", "스크랩이 많은순"];
+  const categoryList = [
+    "Algorithm",
+    "DataStructure",
+    "Database",
+    "General",
+    "Java",
+    "Network",
+    "OS",
+    "React",
+    "General",
+    "Spring",
+  ];
+
+  // useEffect(() => {
+  //   getCardListData();
+  // }, [getCardListData]);
 
   return (
     <Container>
       <div className="dropDown_container">
         <Dropdown
-          selected={selectedDate}
-          setSelected={setSelectedDate}
-          options={dateList}
+          selected={selectedSort}
+          setSelected={setSelectedSort}
+          options={sortList}
         />
         <Dropdown
           selected={selectedCategory}

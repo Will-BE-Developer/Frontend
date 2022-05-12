@@ -52,7 +52,7 @@ const GlobalCard = memo(({ card }) => {
               <p>{question.category}</p>
               <div className="date_comments">
                 <TimeAgo timestamp={createdAt} />
-                <span>· 3개의 댓글</span>
+                <span>· 3개의 피드백</span>
               </div>
             </div>
           </div>

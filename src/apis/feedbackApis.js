@@ -2,11 +2,14 @@ import instance from "./axios.js";
 import { getCookie } from "../shared/cookies";
 
 export const feedbackApis = {
-  getFeedback: async (page) => {
+  getFeedback: async (page, sort, category) => {
+    console.log(page, sort, category);
     try {
       const res = await instance.get("/api/interviews/", {
         params: {
           page,
+          sort,
+          category,
         },
       });
 
