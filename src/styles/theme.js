@@ -8,6 +8,8 @@ const colors = {
   white: "#FFFFFF",
   black: "#222222",
   headerBgColor: "#F9F9F9",
+  subTitle: "#9297A0",
+  lightGrey: "#F4F6F9",
   lightestGrey: "#F9F9F9",
 
   // 4 main colors
@@ -20,7 +22,6 @@ const colors = {
   yellow: "#F0F354",
 
   //btn
-  lightGrey: "#F4F6F9",
   mediumGrey: "#888888",
 
   // add btn

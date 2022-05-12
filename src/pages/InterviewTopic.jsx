@@ -76,16 +76,15 @@ const TopicBox = styled.div`
       max-width: 980px;
       margin-top: 15vh;
       text-align: center;
-      ${boxShadow()}
 
-      ${device.tablet} {
-        padding: 0px 1rem;
-      }
+      ${boxShadow()}
 
       & .title {
         padding: 23px 0px;
         background-color: ${colors.lightGrey};
         font-size: ${fontSize["20"]};
+        border-start-end-radius: 12px;
+        border-start-start-radius: 12px;
       }
 
       & .topic {

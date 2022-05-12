@@ -144,6 +144,10 @@ const FormLayout = styled.div`
         padding: 0px 1rem;
       }
 
+      & .header {
+        padding: 0px !important;
+      }
+
       & .header h2 {
         margin: 20px 0px;
         font-size: ${fontSize["20"]};

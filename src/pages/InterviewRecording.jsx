@@ -231,6 +231,9 @@ const RecordWrapper = styled.div`
     max-width: 1200px;
     width: 100%;
     margin: 20px 0px;
+    ${({ theme }) => theme.device.tablet} {
+      padding: 0px 1rem;
+    }
   }
 
   & .badge {

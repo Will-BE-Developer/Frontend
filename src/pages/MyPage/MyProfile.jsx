@@ -20,11 +20,12 @@ const MyProfile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       const data = await mypageApis.getUser();
+
       const userData = {
         profileImageUrl: data.user.profileImageUrl,
         nickname: data.user.nickname.replaceAll('"', ""),
-        githubLink: data.user.nickname.replaceAll('"', ""),
-        introduce: data.user.nickname.replaceAll('"', ""),
+        githubLink: data.user.githubLink.replaceAll('"', ""),
+        introduce: data.user.introduce.replaceAll('"', ""),
       };
       setUser(userData);
       setGetImage({ image: data.user.profileImageUrl });
