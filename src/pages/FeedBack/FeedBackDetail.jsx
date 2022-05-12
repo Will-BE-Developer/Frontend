@@ -120,21 +120,21 @@ const FeedBackDetail = (props) => {
           {isMine && (
             <div className="user_buttons">
               <GlobalButton
-                onClick={editHandler}
+                text="수정"
                 background={theme.colors.white}
                 color={theme.colors.black}
                 border="1px solid rgba(130, 130, 130, 0.2)"
-                text="수정"
-                _width="64px"
-                _height="36px"
+                _height="40px"
+                onClick={editHandler}
               />
               <GlobalButton
+                text="저장"
+                margin="0px 10px 0px 0px"
+                background={theme.colors.blue}
+                border="1px solid rgba(130, 130, 130, 0.2)"
+                _height="40px"
                 onClick={() => setOpenModal(true)}
-                background={theme.colors.lightGrey}
                 text="삭제"
-                _width="64px"
-                _height="36px"
-                padding="9px 16px"
               />
             </div>
           )}
