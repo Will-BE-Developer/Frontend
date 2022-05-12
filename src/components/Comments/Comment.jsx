@@ -3,12 +3,12 @@ import styled, { css } from "styled-components";
 import TimeAgo from "../FeedBack/TimeAgo";
 import commentApis from "../../apis/commentApis";
 
-const NestedComment = ({ nestedComment, cardId, setAllComments }) => {
-  const { id, user, createdAt, contents, isMine, parentId } = nestedComment;
+const Comment = ({ currentComment, cardId, setAllComments }) => {
+  const { user, createdAt, contents, isMine, parentId } = currentComment;
 
+  const isRootComment = parentId === null;
   const [isEdit, setIsEdit] = useState(false);
   const [updateContent, setUpdateContent] = useState(contents);
-
   const isUpdateTextareaDisabled = updateContent.length === 0;
   const profileHandler = () => {
     alert("유저정보 보여주는 모달창 띄우기");
@@ -28,11 +28,22 @@ const NestedComment = ({ nestedComment, cardId, setAllComments }) => {
       alert("수정할 내용을 작성해주세요.");
       return;
     }
-    const updateData = {
-      contents: updateContent,
-      rootId: parentId,
-      rootName: "interview",
-    };
+
+    let updateData = {};
+    if (isRootComment) {
+      updateData = {
+        contents: updateContent,
+        rootId: cardId,
+        rootName: "interview",
+      };
+    } else {
+      updateData = {
+        contents: updateContent,
+        rootId: parentId,
+        rootName: "comment",
+      };
+    }
+
     try {
       const res = await commentApis.updateComment(updateData, cardId);
       console.log(res);
@@ -104,8 +115,7 @@ const NestedComment = ({ nestedComment, cardId, setAllComments }) => {
 };
 
 const CommentContainer = styled.div`
-  border-bottom: 1px solid lightgrey;
-  padding: 20px 12px;
+  padding: 12px;
 `;
 
 const ContentBox = styled.div`
@@ -194,4 +204,4 @@ const ProfileImg = styled.img`
 //   }}
 // `;
 
-export default NestedComment;
+export default Comment;
