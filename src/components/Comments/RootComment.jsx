@@ -62,7 +62,7 @@ const RootComment = ({ rootComment, cardId, setAllComments, allComments }) => {
                   {nestedComments.map((nestedComment) => (
                     <>
                       <Comment
-                        key={nestedComment.id}
+                        key={nestedComment?.id}
                         currentComment={nestedComment}
                         cardId={cardId}
                         setAllComments={setAllComments}
@@ -144,7 +144,7 @@ const NestedContentsBox = styled.div`
         align-items: center;
         font-size: ${theme.calRem(14)};
         width: max-content;
-        padding: 20px 0 0 0;
+        padding: 10px 12px 0 12px;
         span {
           margin-left: 5px;
         }
