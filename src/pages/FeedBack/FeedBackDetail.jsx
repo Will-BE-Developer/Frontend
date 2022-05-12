@@ -48,9 +48,6 @@ const FeedBackDetail = (props) => {
       setScrapCount(data.interview.scrapsCount);
       setIsMine(data.interview.isMine);
     });
-    // commentApis.getComments(1).then((data) => {
-    //   console.log(data);
-    // });
   }, [cardId]);
 
   const {
@@ -174,6 +171,7 @@ const FeedBackDetail = (props) => {
           </AuthorContainer>
 
           <CommentsContainer>
+            <div className="title">피드백 n개</div>
             <Comments cardId={cardId} />
           </CommentsContainer>
         </div>
@@ -331,7 +329,9 @@ const ProfileImg = styled.img`
   margin-right: 5px;
 `;
 
-const CommentsContainer = styled.div``;
+const CommentsContainer = styled.div`
+  margin-top: 100px;
+`;
 
 // 면접왕 아이콘
 // const BtnCircleBg = styled.button`

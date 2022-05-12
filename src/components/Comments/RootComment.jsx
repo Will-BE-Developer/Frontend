@@ -7,7 +7,7 @@ import Comment from "./Comment";
 import commentApis from "../../apis/commentApis";
 
 const RootComment = ({ rootComment, cardId, setAllComments, allComments }) => {
-  const { id, user, createdAt, contents, isMine } = rootComment;
+  const { id } = rootComment;
   const nestedComments = rootComment.nestedComments;
   const [isShowReply, setIsShowReply] = useState(false);
   const [content, setContent] = useState("");
@@ -40,7 +40,6 @@ const RootComment = ({ rootComment, cardId, setAllComments, allComments }) => {
       console.log("대댓글 작성 오류", err);
     }
   };
-
   return (
     <CommentContainer>
       <Comment currentComment={rootComment} cardId={cardId} />
@@ -59,17 +58,18 @@ const RootComment = ({ rootComment, cardId, setAllComments, allComments }) => {
               </div>
               <div className="nested_box">
                 <div>
-                  {nestedComments.map((nestedComment) => (
-                    <>
-                      <Comment
-                        key={nestedComment?.id}
-                        currentComment={nestedComment}
-                        cardId={cardId}
-                        setAllComments={setAllComments}
-                      />
-                      <Divider />
-                    </>
-                  ))}
+                  {nestedComments.map((nestedComment) => {
+                    return (
+                      <div key={nestedComment.id}>
+                        <Comment
+                          currentComment={nestedComment}
+                          cardId={cardId}
+                          setAllComments={setAllComments}
+                        />
+                        <Divider />
+                      </div>
+                    );
+                  })}
                 </div>
 
                 <div className="nested_textarea_box">
@@ -144,7 +144,7 @@ const NestedContentsBox = styled.div`
         align-items: center;
         font-size: ${theme.calRem(14)};
         width: max-content;
-        padding: 10px 12px 0 12px;
+        padding: 5px 12px;
         span {
           margin-left: 5px;
         }
