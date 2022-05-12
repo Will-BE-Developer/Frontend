@@ -16,9 +16,9 @@ const Comments = ({ cardId }) => {
       setAllComments(data.comments);
     });
     const nestedCountArr = allComments
-      .map((i) => Number(i.nestedCommentsCount))
+      ?.map((i) => Number(i.nestedCommentsCount))
       .reduce((a, b) => a + b, 0);
-    const rootCount = Number(allComments.length);
+    const rootCount = Number(allComments?.length);
 
     setTotalCount(rootCount + nestedCountArr);
   }, [allComments, cardId]);

@@ -7,9 +7,9 @@ import store from "./store/configStore";
 import theme from "./styles/theme";
 import App from "./App";
 import Home from "./pages/Home";
-import Interview from "./pages/Interview";
-import InterviewTopic from "./pages/InterviewTopic";
-import InterviewRecording from "./pages/InterviewRecording";
+import Interview from "./pages/Interview/Interview";
+import InterviewTopic from "./pages/Interview/InterviewTopic";
+import InterviewRecording from "./pages/Interview/InterviewRecording";
 
 import KakaoRedirect from "./pages/KakaoRedirect";
 import SigninValidation from "./pages/SigninValidation";

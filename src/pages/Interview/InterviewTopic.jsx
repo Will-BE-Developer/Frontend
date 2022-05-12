@@ -2,10 +2,10 @@ import styled, { css } from "styled-components";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiChevronRight } from "react-icons/hi";
-import interviewApis from "../apis/interviewApis";
-import GlobalButton from "../components/UI/GlobalButton";
-import { boxShadow } from "../styles/boxShadow";
-import face from "../assets/face.png";
+import interviewApis from "../../apis/interviewApis";
+import GlobalButton from "../../components/UI/GlobalButton";
+import { boxShadow } from "../../styles/boxShadow";
+import face from "../../assets/face.png";
 
 const InterviewTopic = () => {
   const [topics, setTopics] = useState([]);
