@@ -11,6 +11,24 @@ import TimeAgo from "../../components/FeedBack/TimeAgo";
 import Comments from "../../components/Comments/Comments";
 
 const FeedBackDetail = (props) => {
+  // const hasFastConnection = () => {
+  //   const connection =
+  //     navigator.connection ||
+  //     navigator.mozConnection ||
+  //     navigator.webkitConnection;
+
+  //   return (
+  //     !connection ||
+  //     (!connection.savaData &&
+  //       connection.type !== "none" &&
+  //       connection.effectiveType !== "slow-2g" &&
+  //       connection.effectiveType !== "2g" &&
+  //       connection.effectiveType !== "slow-3g")
+  //   );
+  // };
+
+  // console.log(hasFastConnection());
+
   const navigate = useNavigate();
   const { cardId } = useParams();
   const [showModal, setShowModal] = useState(false);
