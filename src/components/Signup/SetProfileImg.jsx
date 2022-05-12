@@ -3,9 +3,10 @@ import React, { useRef } from "react";
 import defaultUserImage from "../../assets/defaultUserImage.jpg";
 import styled, { css } from "styled-components";
 import GlobalButton from "../UI/GlobalButton";
+import theme from "../../styles/theme";
 
 const SetProfileImg = (props) => {
-  const { getImage, image } = props;
+  const { getImage, image, isEdit } = props;
   const inputFileRef = useRef(null);
 
   const handleImageUrl = (event) => {
@@ -34,14 +35,15 @@ const SetProfileImg = (props) => {
     inputFileRef.current.click();
   };
 
-  const DeleteImgHandler = (e) => {
+  const deleteImgHandler = (e) => {
     e.preventDefault();
     getImage(null);
   };
 
   return (
-    <Div>
+    <Div isEdit>
       <Img
+        isEdit
         alt="not fount"
         width={"250px"}
         src={image ? image : defaultUserImage}
@@ -52,23 +54,49 @@ const SetProfileImg = (props) => {
         ref={inputFileRef}
         onChange={handleImageUrl}
       />
-      <div className="flex_colum">
-        <GlobalButton
-          onClick={handleChangeImageBtn}
-          margin="0 0 6px 0"
-          _height="30px"
-          hover
-        >
-          {getImage ? "다른 사진 등록" : "사진 등록"}
-        </GlobalButton>
-        <GlobalButton
-          onClick={DeleteImgHandler}
-          margin="0 0 6px 0"
-          _height="30px"
-          hover
-        >
-          사진 삭제
-        </GlobalButton>
+      <div isEdit className="btnWrapper">
+        {isEdit ? (
+          <>
+            <GlobalButton
+              text="사진 편집"
+              margin="0px 10px 0px 0px"
+              background={theme.colors.white}
+              color={theme.colors.blue}
+              border={`1px solid ${theme.colors.blue}`}
+              _height="40px"
+              onClick={handleChangeImageBtn}
+            />
+            <GlobalButton
+              text="사진 삭제"
+              margin="0px 10px 0px 0px"
+              background={theme.colors.white}
+              color={theme.colors.black}
+              border="1px solid rgba(130, 130, 130, 0.2)"
+              _height="40px"
+              hover
+              onClick={deleteImgHandler}
+            />
+          </>
+        ) : (
+          <>
+            <GlobalButton
+              onClick={handleChangeImageBtn}
+              margin="0 0 6px 0"
+              _height="30px"
+              hover
+            >
+              {getImage ? "다른 사진 등록" : "사진 등록"}
+            </GlobalButton>
+            <GlobalButton
+              onClick={deleteImgHandler}
+              margin="0 0 6px 0"
+              _height="30px"
+              hover
+            >
+              사진 삭제
+            </GlobalButton>
+          </>
+        )}
       </div>
     </Div>
   );
@@ -80,13 +108,15 @@ SetProfileImg.defaultProps = {
 
 const Div = styled.div`
   display: flex;
-  justify-content: space-around;
-  align-items: center;
+  flex-direction: ${({ isEdit }) => (isEdit ? "column" : "")};
+  justify-content: ${({ isEdit }) => (isEdit ? "flex-start" : "space-around")};
+  align-items: ${({ isEdit }) => (isEdit ? "" : "center")};
   width: 100%;
 
-  & .flex_colum {
+  & .btnWrapper {
     display: flex;
-    flex-direction: column;
+    flex-direction: ${({ isEdit }) => (isEdit ? "row" : "column")};
+    margin-top: ${({ isEdit }) => (isEdit ? "20px" : "")};
   }
 `;
 
@@ -116,8 +146,8 @@ const Button = styled.button`
 
 const Img = styled.img`
   border-radius: 50%;
-  width: 120px;
-  height: 120px;
+  width: ${({ isEdit }) => (isEdit ? "160px" : "120px")};
+  height: ${({ isEdit }) => (isEdit ? "160px" : "120px")};
 `;
 
 const Input = styled.input`

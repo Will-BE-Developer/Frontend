@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import Slider from "react-slick";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { HiChevronRight, HiChevronLeft } from "react-icons/hi";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -37,6 +37,7 @@ const DUMMY_BEST_INTERVIEWS = [
 
 const BestInterviews = () => {
   const slider = useRef(null);
+  const [title, setTitle] = useState(DUMMY_BEST_INTERVIEWS[0].title);
 
   const nextBtn = () => {
     slider.current.slickNext();
@@ -53,22 +54,13 @@ const BestInterviews = () => {
     autoplay: true,
     autoplaySpeed: 4000,
     slidesToShow: 1,
-    beforeChange: (idx, newIdx) => console.log(idx, newIdx),
+    beforeChange: (_, newIdx) => setTitle(DUMMY_BEST_INTERVIEWS[newIdx].title),
   };
 
   return (
-    <div>
-      <h2
-        style={{
-          textAlign: "center",
-          fontSize: theme.fontSize["20"],
-          fontWeight: theme.fontWeight.extraBold,
-          marginBottom: "20px",
-        }}
-      >
-        주간 면접왕
-      </h2>
-      <BestInterviewsLayout>
+    <BestInterviewsLayout>
+      <h2 className="title">{title}</h2>
+      <SliderLayout>
         <div className="background" />
         <div className="btnWrapper">
           <button onClick={prevBtn}>
@@ -87,7 +79,7 @@ const BestInterviews = () => {
                 <div className="card" key={idx}>
                   <img className="thumbnail" src={ele.imageUrl} alt="user" />
                   <div className="interview">
-                    <h2 className="title">{ele.title}</h2>
+                    {/* <h2 className="title">{ele.title}</h2> */}
                     <GlobalBadge
                       background={theme.colors.pink}
                       text={ele.badge}
@@ -106,12 +98,29 @@ const BestInterviews = () => {
             <HiChevronRight size="20px" />
           </button>
         </div>
-      </BestInterviewsLayout>
-    </div>
+      </SliderLayout>
+    </BestInterviewsLayout>
   );
 };
 
 const BestInterviewsLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  & .title {
+    text-align: "center";
+    font-size: ${theme.fontSize["20"]};
+    font-weight: ${theme.fontWeight.extraBold};
+    margin-bottom: "20px";
+    @media screen and (max-width: 700px) {
+      margin-bottom: 40px;
+    }
+  }
+`;
+
+const SliderLayout = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -166,6 +175,9 @@ const StyledSlider = styled(Slider)`
 
       .slick-dots {
         bottom: -60px;
+        @media screen and (max-width: 700px) {
+          bottom: -30px;
+        }
       }
 
       .slick- .slick-dots li button::before {
@@ -202,14 +214,15 @@ const StyledSlider = styled(Slider)`
         }
       }
 
-      .title {
+      /* .title {
         font-size: ${fontSize["20"]};
         font-weight: ${fontWeight.extraBold};
         margin-bottom: 30px;
-      }
+      } */
 
       .question {
-        margin-top: 12px;
+        margin-top: 20px;
+        font-weight: ${fontWeight.extraBold};
       }
 
       .description {

@@ -110,7 +110,25 @@ export const signout = createAsyncThunk(
           },
         }
       );
-      return response;
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const deleteUser = createAsyncThunk(
+  "user/deleteUser",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await instance.delete("/users/me", {
+        headers: {
+          Authorization: getCookie("token"),
+        },
+      });
+
+      return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
@@ -135,8 +153,11 @@ const userSlice = createSlice({
       setCookie("token", action.payload.token);
       state.user = action.payload.user;
     });
-
     builder.addCase(signout.fulfilled, (state) => {
+      deleteCookie("token");
+      state.user = null;
+    });
+    builder.addCase(deleteUser.fulfilled, (state) => {
       deleteCookie("token");
       state.user = null;
     });
