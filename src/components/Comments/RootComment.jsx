@@ -6,13 +6,12 @@ import GlobalButton from "../UI/GlobalButton";
 import Comment from "./Comment";
 import commentApis from "../../apis/commentApis";
 
-const RootComment = ({ rootComment, cardId, setAllComments, allComments }) => {
+const RootComment = ({ rootComment, cardId, setAllComments }) => {
   const { id } = rootComment;
   const nestedComments = rootComment.nestedComments;
   const [isShowReply, setIsShowReply] = useState(false);
   const [content, setContent] = useState("");
   const isTextareaDisabled = content.length === 0;
-
   const profileHandler = () => {
     alert("유저정보 보여주는 모달창 띄우기");
   };
@@ -42,7 +41,11 @@ const RootComment = ({ rootComment, cardId, setAllComments, allComments }) => {
   };
   return (
     <CommentContainer>
-      <Comment currentComment={rootComment} cardId={cardId} />
+      <Comment
+        currentComment={rootComment}
+        cardId={cardId}
+        setAllComments={setAllComments}
+      />
       <NestedContentsBox>
         <div>
           {!isShowReply ? (
@@ -89,12 +92,6 @@ const RootComment = ({ rootComment, cardId, setAllComments, allComments }) => {
                       ></textarea>
                     </div>
                     <div className="button_box">
-                      <GlobalButton
-                        _width="70px"
-                        _height="15px"
-                        hover
-                        text="취소"
-                      />
                       {isTextareaDisabled ? (
                         <GlobalButton
                           _width="70px"
