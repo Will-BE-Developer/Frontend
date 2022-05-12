@@ -20,7 +20,13 @@ const MyProfile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       const data = await mypageApis.getUser();
-      setUser(data.user);
+      const userData = {
+        profileImageUrl: data.user.profileImageUrl,
+        nickname: data.user.nickname.replaceAll('"', ""),
+        githubLink: data.user.nickname.replaceAll('"', ""),
+        introduce: data.user.nickname.replaceAll('"', ""),
+      };
+      setUser(userData);
     };
 
     if (isComplited) {
@@ -128,7 +134,7 @@ const MyProfile = () => {
             <SetProfileImg
               getImage={getImageHandler}
               image={getImage?.image}
-              isEdit
+              isEdit={isEdit}
             />
           ) : (
             <img

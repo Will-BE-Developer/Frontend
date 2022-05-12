@@ -41,9 +41,9 @@ const SetProfileImg = (props) => {
   };
 
   return (
-    <Div isEdit>
+    <Div isedit="true">
       <Img
-        isEdit
+        isedit="true"
         alt="not fount"
         width={"250px"}
         src={image ? image : defaultUserImage}
@@ -54,7 +54,7 @@ const SetProfileImg = (props) => {
         ref={inputFileRef}
         onChange={handleImageUrl}
       />
-      <div isEdit className="btnWrapper">
+      <div isedit="true" className="btnWrapper">
         {isEdit ? (
           <>
             <GlobalButton
@@ -108,15 +108,15 @@ SetProfileImg.defaultProps = {
 
 const Div = styled.div`
   display: flex;
-  flex-direction: ${({ isEdit }) => (isEdit ? "column" : "")};
-  justify-content: ${({ isEdit }) => (isEdit ? "flex-start" : "space-around")};
-  align-items: ${({ isEdit }) => (isEdit ? "" : "center")};
+  flex-direction: ${({ isedit }) => (isedit ? "column" : "")};
+  justify-content: ${({ isedit }) => (isedit ? "flex-start" : "space-around")};
+  align-items: ${({ isedit }) => (isedit ? "" : "center")};
   width: 100%;
 
   & .btnWrapper {
     display: flex;
-    flex-direction: ${({ isEdit }) => (isEdit ? "row" : "column")};
-    margin-top: ${({ isEdit }) => (isEdit ? "20px" : "")};
+    flex-direction: ${({ isedit }) => (isedit ? "row" : "column")};
+    margin-top: ${({ isedit }) => (isedit ? "20px" : "")};
   }
 `;
 
@@ -146,8 +146,8 @@ const Button = styled.button`
 
 const Img = styled.img`
   border-radius: 50%;
-  width: ${({ isEdit }) => (isEdit ? "160px" : "120px")};
-  height: ${({ isEdit }) => (isEdit ? "160px" : "120px")};
+  width: ${({ isedit }) => (isedit ? "160px" : "120px")};
+  height: ${({ isedit }) => (isedit ? "160px" : "120px")};
 `;
 
 const Input = styled.input`
