@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { memo } from "react";
+import { useState, memo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import styled, { css } from "styled-components";
@@ -53,7 +52,7 @@ const GlobalCard = memo(({ card }) => {
               <p>{question.category}</p>
               <div className="date_comments">
                 <TimeAgo timestamp={createdAt} />
-                <span>· 3개의 댓글</span>
+                <span>· 3개의 피드백</span>
               </div>
             </div>
           </div>

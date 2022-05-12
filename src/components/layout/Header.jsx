@@ -64,6 +64,7 @@ const HeaderContainer = styled.div`
       width: 100%;
       height: 60px;
       box-shadow: 0 2px 5px rgba(130, 130, 130, 0.1);
+      background: white;
 
       & .nav {
         display: flex;

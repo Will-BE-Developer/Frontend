@@ -104,13 +104,13 @@ const DailyQuestionLayout = styled.div`
         ${boxShadow()}
 
         .startBtn {
-          background-color: ${colors.headerBgColor};
+          background-color: ${colors.lightestGrey};
         }
       }
 
       .logo {
         padding: 10px;
-        background-color: ${colors.headerBgColor};
+        background-color: ${colors.lightestGrey};
         border-radius: 8px;
         margin-bottom: 24px;
       }
@@ -135,7 +135,7 @@ const DailyQuestionLayout = styled.div`
 
       & .subTitle {
         font-size: ${fontSize["14"]};
-        color: ${colors.lightGrey};
+        color: ${colors.subTitle};
         margin-bottom: 25px;
       }
 

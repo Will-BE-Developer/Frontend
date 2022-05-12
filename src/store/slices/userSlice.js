@@ -69,7 +69,6 @@ export const signinEmail = createAsyncThunk(
     }
   }
 );
-
 export const emailValidation = createAsyncThunk(
   "user/emailValidation",
   async (data, { rejectWithValue }) => {

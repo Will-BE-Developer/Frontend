@@ -25,6 +25,8 @@ import MyProfile from "./pages/MyPage/MyProfile";
 import MyHistory from "./pages/MyPage/MyHistory";
 import MyScrap from "./pages/MyPage/MyScrap";
 
+import Test from "./components/UI/ModalExample/DeleteModal";
+
 import NotFound from "./pages/NotFound";
 
 import ScrollToTop from "./components/UI/ScrollToTop";
@@ -39,21 +41,22 @@ ReactDOM.render(
             <Route path="" element={<Home />} />
             <Route path="/" element={<App />}>
               <Route path="" element={<Home />} />
+              <Route path="test" element={<Test />} />
               <Route path="feedback" element={<FeedBack />} />
               <Route path="feedback/:cardId" element={<FeedBackDetail />} />
               <Route
                 path="feedback/update/:cardId"
                 element={<FeedbackUpdate />}
               />
-              <Route path="interview" element={<Interview />}>
-                <Route path="" element={<InterviewTopic />} />
-                <Route path="recording" element={<InterviewRecording />} />
-              </Route>
               <Route path="mypage" element={<MyPage />}>
                 <Route path="" element={<MyProfile />} />
                 <Route path="history" element={<MyHistory />} />
                 <Route path="scrap" element={<MyScrap />} />
               </Route>
+            </Route>
+            <Route path="interview" element={<Interview />}>
+              <Route path="" element={<InterviewTopic />} />
+              <Route path="recording" element={<InterviewRecording />} />
             </Route>
             <Route path="/signup" element={<Signup />} />
             <Route path="/signin" element={<Signin />} />

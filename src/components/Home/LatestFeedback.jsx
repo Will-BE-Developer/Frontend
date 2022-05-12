@@ -76,7 +76,7 @@ const LatestFeedbackLayout = styled.div`
 
       & .subTitle {
         font-size: ${fontSize["14"]};
-        color: ${colors.lightGrey};
+        color: ${colors.subTitle};
         margin-bottom: 25px;
       }
 

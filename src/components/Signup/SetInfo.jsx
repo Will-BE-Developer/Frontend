@@ -10,7 +10,7 @@ import { boxShadow } from "../../styles/boxShadow";
 
 import { FcNext } from "react-icons/fc";
 import { FcPrevious } from "react-icons/fc";
-import GlobalTextarea from "../UI/GlobalTextArea";
+import GlobalTextArea from "../UI/GlobalTextArea";
 
 const SetInfo = (props) => {
   const navigate = useNavigate();
@@ -183,9 +183,7 @@ const SetInfo = (props) => {
                 placeholder="https://github.com/"
               />
               <Label htmlFor="pr">자기소개</Label>
-              <GlobalTextarea
-                value={userData.introduce}
-                _onChange={introChangeHandler}
+              <GlobalTextArea
                 charLimit="50"
                 rows="5"
                 cols="80"
@@ -251,7 +249,7 @@ const Container = styled.div`
         & > span {
           font-size: ${calRem(14)};
           font-weight: ${fontWeight.regular};
-          color: ${colors.lightGrey};
+          color: ${colors.mediumGrey};
           margin: 32px 0;
         }
       }
@@ -363,7 +361,7 @@ const PreviousIcon = styled(FcPrevious)`
   font-size: 25px;
   cursor: pointer;
   & > polygon {
-    fill: ${({ theme }) => theme.colors.lightGrey};
+    fill: ${({ theme }) => theme.colors.mediumGrey};
   }
 `;
 
