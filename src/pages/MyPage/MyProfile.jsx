@@ -26,7 +26,6 @@ const MyProfile = () => {
         githubLink: data.user.nickname.replaceAll('"', ""),
         introduce: data.user.nickname.replaceAll('"', ""),
       };
-
       setUser(userData);
     };
 
@@ -135,7 +134,7 @@ const MyProfile = () => {
             <SetProfileImg
               getImage={getImageHandler}
               image={getImage?.image}
-              isEdit
+              isEdit={isEdit}
             />
           ) : (
             <img
