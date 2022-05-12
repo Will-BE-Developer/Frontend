@@ -43,14 +43,9 @@ const Comment = ({ currentComment, cardId, setAllComments }) => {
     }
 
     try {
-      await commentApis.updateComment(updateData, id);
+      const response = await commentApis.updateComment(updateData, id);
       setIsEdit(false);
-      try {
-        const getDataResponse = await commentApis.getComments(cardId);
-        setAllComments(getDataResponse.comments);
-      } catch (err) {
-        console.log("모든 댓글 불러오기 오류", err);
-      }
+      setAllComments(response.comments);
     } catch (err) {
       console.log("댓글 수정 오류", err);
     }
@@ -58,13 +53,8 @@ const Comment = ({ currentComment, cardId, setAllComments }) => {
 
   const clickDeleteHandler = async () => {
     try {
-      await commentApis.deleteComment(id);
-      try {
-        const getDataResponse = await commentApis.getComments(cardId);
-        setAllComments(getDataResponse.comments);
-      } catch (err) {
-        console.log("대댓글 불러오기 오류", err);
-      }
+      const response = await commentApis.deleteComment(id);
+      setAllComments(response.comments);
     } catch (err) {
       console.log("댓글 삭제 오류", err);
     }

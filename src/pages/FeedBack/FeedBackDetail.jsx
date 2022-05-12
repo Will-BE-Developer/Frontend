@@ -64,7 +64,6 @@ const FeedBackDetail = (props) => {
     updatedAt,
     isPublic,
   } = data;
-
   const profileHandler = () => {
     alert("프로필 정보 불러오기");
     setShowModal(!showModal);
@@ -171,7 +170,6 @@ const FeedBackDetail = (props) => {
           </AuthorContainer>
 
           <CommentsContainer>
-            <div className="title">피드백 n개</div>
             <Comments cardId={cardId} />
           </CommentsContainer>
         </div>
