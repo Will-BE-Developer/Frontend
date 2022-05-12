@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { Outlet } from "react-router-dom";
+import { getCookie } from "../../shared/cookies";
+import NotAvailable from "../NotAvailable";
 
 const MyPage = () => {
   const navigate = useNavigate();
+  const token = getCookie("token");
 
   const myinfoHandler = () => {
     navigate("/mypage");
@@ -17,14 +19,20 @@ const MyPage = () => {
   };
 
   return (
-    <Container>
-      <Sidebar>
-        <button onClick={myinfoHandler}>내 정보</button>
-        <button onClick={historyHandler}>면접 기록</button>
-        <button onClick={scrapHandeler}>내 스크랩</button>
-      </Sidebar>
-      <Outlet />
-    </Container>
+    <>
+      {token ? (
+        <Container>
+          <Sidebar>
+            <button onClick={myinfoHandler}>내 정보</button>
+            <button onClick={historyHandler}>면접 기록</button>
+            <button onClick={scrapHandeler}>내 스크랩</button>
+          </Sidebar>
+          <Outlet />
+        </Container>
+      ) : (
+        <NotAvailable />
+      )}
+    </>
   );
 };
 const Container = styled.div`

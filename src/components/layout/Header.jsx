@@ -34,7 +34,7 @@ const Header = () => {
           </Link>
           <Link to="/feedback">피드백</Link>
           <Link to="/interview">면접보기</Link>
-          <Link to="/mypage">마이페이지</Link>
+          {token ? <Link to="/mypage">마이페이지</Link> : ""}
         </div>
         <div>
           {token ? (

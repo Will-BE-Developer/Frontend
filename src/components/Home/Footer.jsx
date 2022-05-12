@@ -6,9 +6,7 @@ const Footer = () => {
   console.log(timing);
   return (
     <FooterLayout>
-      <div>
-        <img alt="footerBanner" src={footerBanner} />
-      </div>
+      <img alt="footerBanner" src={footerBanner} />
       <div className="service"></div>
     </FooterLayout>
   );
