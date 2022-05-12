@@ -18,7 +18,6 @@ const Comments = ({ cardId }) => {
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log(content);
     if (isTextareaDisabled) {
       alert("내용을 작성해주세요.");
       return;
@@ -26,12 +25,10 @@ const Comments = ({ cardId }) => {
 
     const data = { contents: content, rootId: cardId, rootName: "interview" };
     try {
-      const addDataResponse = await commentApis.addComment(data);
-      console.log(addDataResponse);
+      await commentApis.addComment(data);
       setContent("");
       try {
         const getDataResponse = await commentApis.getComments(cardId);
-        console.log(getDataResponse.comments);
         setAllComments(getDataResponse.comments);
       } catch (err) {
         console.log("댓글 불러오기 오류", err);
@@ -43,7 +40,6 @@ const Comments = ({ cardId }) => {
 
   return (
     <CommentsContainer>
-      <div className="title">피드백 n개</div>
       <Form>
         <div className="textarea_box">
           <textarea
@@ -79,15 +75,17 @@ const Comments = ({ cardId }) => {
         </div>
       </Form>
       <div className="comments-container">
-        {allComments?.map((rootComment) => (
-          <RootComment
-            key={rootComment?.id}
-            rootComment={rootComment}
-            cardId={cardId}
-            allComments={allComments}
-            setAllComments={setAllComments}
-          />
-        ))}
+        {allComments?.map((rootComment) => {
+          return (
+            <RootComment
+              key={rootComment.id}
+              rootComment={rootComment}
+              cardId={cardId}
+              allComments={allComments}
+              setAllComments={setAllComments}
+            />
+          );
+        })}
       </div>
     </CommentsContainer>
   );

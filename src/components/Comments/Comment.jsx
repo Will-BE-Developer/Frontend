@@ -15,11 +15,11 @@ const Comment = ({ currentComment, cardId, setAllComments }) => {
   };
 
   const clickCancelEditHandlr = () => {
-    setIsEdit(false);
+    return setIsEdit(false);
   };
 
   const clickUpdateHandler = () => {
-    setIsEdit(true);
+    return setIsEdit(true);
   };
 
   const clickUpdatePostHandler = async (event) => {
