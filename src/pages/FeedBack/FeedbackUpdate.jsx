@@ -46,23 +46,24 @@ const FeedbackUpdate = () => {
         <video controls src={video}></video>
       </div>
       <div className="btnWrapper">
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        <div
+          style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}
+        >
           <GlobalButton
-            onClick={clickCancleHandler}
             text="취소"
             background={theme.colors.white}
             color={theme.colors.black}
             border="1px solid rgba(130, 130, 130, 0.2)"
-            _width="64px"
-            _height="36px"
+            _height="40px"
+            onClick={clickCancleHandler}
           />
           <GlobalButton
-            onClick={clickUpdateHandler}
-            background={theme.colors.lightGrey}
-            _width="64px"
-            _height="36px"
-            padding="9px 16px"
             text="저장"
+            margin="0px 10px 0px 0px"
+            background={theme.colors.blue}
+            border="1px solid rgba(130, 130, 130, 0.2)"
+            _height="40px"
+            onClick={clickUpdateHandler}
           />
         </div>
       </div>
