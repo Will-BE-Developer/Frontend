@@ -4,7 +4,7 @@ import { getCookie } from "../shared/cookies";
 const mypageApis = {
   getUser: async () => {
     try {
-      const response = await instance.get("/api/users/me", {
+      const response = await instance.get("/users/me", {
         headers: {
           Authorization: getCookie("token"),
         },

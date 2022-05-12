@@ -249,7 +249,7 @@ const Container = styled.div`
         & > span {
           font-size: ${calRem(14)};
           font-weight: ${fontWeight.regular};
-          color: ${colors.lightGrey};
+          color: ${colors.mediumGrey};
           margin: 32px 0;
         }
       }
@@ -361,7 +361,7 @@ const PreviousIcon = styled(FcPrevious)`
   font-size: 25px;
   cursor: pointer;
   & > polygon {
-    fill: ${({ theme }) => theme.colors.lightGrey};
+    fill: ${({ theme }) => theme.colors.mediumGrey};
   }
 `;
 

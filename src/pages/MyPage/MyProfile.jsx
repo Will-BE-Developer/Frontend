@@ -116,7 +116,6 @@ const MyProfile = () => {
                 border="1px solid rgba(130, 130, 130, 0.2)"
                 _height="40px"
                 onClick={() => {
-                  console.log(user?.profileImageUrl);
                   setGetImage({ image: user?.profileImageUrl });
                   setIsEdit(false);
                 }}
