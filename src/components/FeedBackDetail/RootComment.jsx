@@ -15,31 +15,30 @@ const RootComment = ({ rootComment, cardId, setAllComments, allComments }) => {
   const nestedComments = rootComment.nestedComments;
   const [isShowReply, setIsShowReply] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [updateComment, setUpdateComment] = useState(contents);
-
-  const [activeComment, setActiveComment] = useState(null);
+  const [updateContent, setUpdateContent] = useState(contents);
+  console.log(allComments);
   const [content, setContent] = useState("");
   const isTextareaDisabled = content.length === 0;
+  const isUpdateTextareaDisabled = updateContent.length === 0;
   const profileHandler = () => {
     alert("유저정보 보여주는 모달창 띄우기");
   };
 
-  console.log(cardId);
   const replyToggleHandler = () => {
     setIsShowReply((isShowReply) => !isShowReply);
   };
   const onSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log(content);
-
+    if (isTextareaDisabled) {
+      alert("내용을 작성해주세요.");
+      return;
+    }
     const data = { contents: content, rootId: id, rootName: "comment" };
     try {
-      const addDataResponse = await commentApis.addComment(data);
-      console.log(addDataResponse);
+      await commentApis.addComment(data);
       setContent("");
       try {
         const getDataResponse = await commentApis.getComments(cardId);
-        console.log(getDataResponse.comments);
         setAllComments(getDataResponse.comments);
       } catch (err) {
         console.log("대댓글 불러오기 오류", err);
@@ -49,8 +48,53 @@ const RootComment = ({ rootComment, cardId, setAllComments, allComments }) => {
     }
   };
 
-  const clickUpdateHandler = () => {};
-  const clickDeleteHandler = () => {};
+  const clickUpdateHandler = () => {
+    setIsEdit(true);
+  };
+
+  const clickCancelEditHandlr = () => {
+    setIsEdit(false);
+  };
+
+  const clickUpdatePostHandler = async (event) => {
+    event.preventDefault();
+    if (isUpdateTextareaDisabled) {
+      alert("수정할 내용을 작성해주세요.");
+      return;
+    }
+    const updateData = {
+      contents: updateContent,
+      rootId: cardId,
+      rootName: "interview",
+    };
+    try {
+      const res = await commentApis.updateComment(updateData, cardId);
+      console.log(res);
+      try {
+        const getDataResponse = await commentApis.getComments(cardId);
+        setAllComments(getDataResponse.comments);
+      } catch (err) {
+        console.log("모든 댓글 불러오기 오류", err);
+      }
+    } catch (err) {
+      console.log("댓글 수정 오류", err);
+    }
+  };
+
+  const clickDeleteHandler = async () => {
+    try {
+      const res = await commentApis.deleteComment(cardId);
+      console.log(res);
+      try {
+        const getDataResponse = await commentApis.getComments(cardId);
+        setAllComments(getDataResponse.comments);
+      } catch (err) {
+        console.log("대댓글 불러오기 오류", err);
+      }
+    } catch (err) {
+      console.log("댓글 삭제 오류", err);
+    }
+  };
 
   return (
     <CommentContainer>
@@ -63,17 +107,33 @@ const RootComment = ({ rootComment, cardId, setAllComments, allComments }) => {
               <TimeAgo timestamp={createdAt} />
             </div>
           </div>
-
-          <div className="button_box">
-            <button onClick={clickUpdateHandler}>수정</button>
-            <button onClick={clickDeleteHandler}>삭제</button>
-          </div>
+          {isMine && (
+            <div className="button_box">
+              <button onClick={clickUpdateHandler}>수정</button>
+              <button onClick={clickDeleteHandler}>삭제</button>
+            </div>
+          )}
         </div>
       </AuthorContainer>
-
-      <ContentBox>
-        <span>{contents}</span>
-      </ContentBox>
+      {isEdit ? (
+        <ContentBox>
+          <textarea
+            className="edit_box"
+            value={updateContent}
+            onChange={(e) => setUpdateContent(e.target.value)}
+            maxLength={500}
+            rows={5}
+          />
+          <div className="cancel_box">
+            <button onClick={clickCancelEditHandlr}>취소</button>
+            <button onClick={clickUpdatePostHandler}>작성</button>
+          </div>
+        </ContentBox>
+      ) : (
+        <ContentBox>
+          <span>{contents}</span>
+        </ContentBox>
+      )}
 
       <NestedContentsBox>
         <div>
@@ -94,6 +154,8 @@ const RootComment = ({ rootComment, cardId, setAllComments, allComments }) => {
                     <NestedComment
                       key={nestedComment.id}
                       nestedComment={nestedComment}
+                      cardId={cardId}
+                      setAllComments={setAllComments}
                     />
                   ))}
                 </div>
@@ -121,13 +183,22 @@ const RootComment = ({ rootComment, cardId, setAllComments, allComments }) => {
                         hover
                         text="취소"
                       />
-                      <GlobalButton
-                        _width="70px"
-                        _height="15px"
-                        hover
-                        text="작성"
-                        onClick={onSubmitHandler}
-                      />
+                      {isTextareaDisabled ? (
+                        <GlobalButton
+                          _width="70px"
+                          _height="15px"
+                          text="작성"
+                          onClick={onSubmitHandler}
+                        />
+                      ) : (
+                        <GlobalButton
+                          _width="70px"
+                          _height="15px"
+                          hover
+                          text="작성"
+                          onClick={onSubmitHandler}
+                        />
+                      )}
                     </div>
                   </Form>
                 </div>
@@ -150,6 +221,22 @@ const ContentBox = styled.div`
   font-size: ${({ theme }) => theme.calRem(14)};
   line-height: 1.5;
   margin: 16px 0px;
+
+  & .edit_box {
+    margin-top: 8px;
+    padding: 11px 16px;
+    border: 1px solid rgba(130, 130, 130, 0.2);
+    border-radius: 4px;
+    width: 100%;
+  }
+
+  & .cancel_box {
+    display: flex;
+    justify-content: flex-end;
+    button {
+      font-size: ${({ theme }) => theme.calRem(12)};
+    }
+  }
 `;
 
 const AuthorContainer = styled.div`
@@ -227,6 +314,7 @@ const NestedContentsBox = styled.div`
         -webkit-box-align: center;
         align-items: center;
         font-size: ${theme.calRem(14)};
+        width: max-content;
 
         span {
           margin-left: 5px;

@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import TimeAgo from "../FeedBack/TimeAgo";
 import commentApis from "../../apis/commentApis";
 
-const NestedComment = ({ nestedComment, cardId, setAllComments }) => {
+const Comment = ({ nestedComment, cardId, setAllComments }) => {
   const { id, user, createdAt, contents, isMine, parentId } = nestedComment;
 
   const [isEdit, setIsEdit] = useState(false);
@@ -194,4 +194,4 @@ const ProfileImg = styled.img`
 //   }}
 // `;
 
-export default NestedComment;
+export default Comment;

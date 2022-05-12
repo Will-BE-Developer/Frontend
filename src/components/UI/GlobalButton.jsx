@@ -14,6 +14,7 @@ const GlobalButton = (props) => {
     _height,
     border,
     hover,
+    disabled,
   } = props;
 
   const styles = {
@@ -25,6 +26,7 @@ const GlobalButton = (props) => {
     _height,
     border,
     hover,
+    disabled,
   };
 
   return (
@@ -46,12 +48,14 @@ GlobalButton.defaultProps = {
   onClick: () => {},
   color: "white",
   marginBottom: "12px",
+  disabled: false,
 };
 
 const Button = styled.button`
   ${({ theme }) => {
     const { colors, device, calRem } = theme;
     return css`
+      :disabled: ${(props) => (props.disabled ? true : false)};
       display: flex;
       justify-content: center;
       align-items: center;

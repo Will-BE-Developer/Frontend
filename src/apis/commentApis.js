@@ -34,6 +34,36 @@ const commentApi = {
     }
   },
 
+  deleteComment: async (cardId) => {
+    try {
+      const res = await instance.delete(`/api/comments/${cardId}`, {
+        headers: {
+          Authorization: getCookie("token"),
+        },
+      });
+      console.log(res.data);
+      return res.data;
+    } catch (err) {
+      console.log(err.response);
+      return err.response;
+    }
+  },
+
+  updateComment: async (commentData, cardId) => {
+    console.log(commentData, cardId);
+    try {
+      const res = await instance.post(`/api/comments/${cardId}`, commentData, {
+        headers: {
+          Authorization: getCookie("token"),
+        },
+      });
+      console.log(res.data);
+      return res.data;
+    } catch (err) {
+      console.log(err.response);
+      return err.response;
+    }
+  },
   testGetComments: async () => {
     const testData = {
       data: {
