@@ -4,7 +4,7 @@ import TimeAgo from "../FeedBack/TimeAgo";
 import commentApis from "../../apis/commentApis";
 
 const Comment = ({ currentComment, cardId, setAllComments }) => {
-  const { user, createdAt, contents, isMine, parentId } = currentComment;
+  const { id, user, createdAt, contents, isMine, parentId } = currentComment;
 
   const isRootComment = parentId === null;
   const [isEdit, setIsEdit] = useState(false);
@@ -13,15 +13,13 @@ const Comment = ({ currentComment, cardId, setAllComments }) => {
   const profileHandler = () => {
     alert("유저정보 보여주는 모달창 띄우기");
   };
-
-  const clickCancelEditHandlr = () => {
+  const clickCancelEditHandler = () => {
     return setIsEdit(false);
   };
 
   const clickUpdateHandler = () => {
     return setIsEdit(true);
   };
-
   const clickUpdatePostHandler = async (event) => {
     event.preventDefault();
     if (isUpdateTextareaDisabled) {
@@ -45,8 +43,8 @@ const Comment = ({ currentComment, cardId, setAllComments }) => {
     }
 
     try {
-      const res = await commentApis.updateComment(updateData, cardId);
-      console.log(res);
+      await commentApis.updateComment(updateData, id);
+      setIsEdit(false);
       try {
         const getDataResponse = await commentApis.getComments(cardId);
         setAllComments(getDataResponse.comments);
@@ -57,10 +55,10 @@ const Comment = ({ currentComment, cardId, setAllComments }) => {
       console.log("댓글 수정 오류", err);
     }
   };
+
   const clickDeleteHandler = async () => {
     try {
-      const res = await commentApis.deleteComment(cardId);
-      console.log(res);
+      await commentApis.deleteComment(id);
       try {
         const getDataResponse = await commentApis.getComments(cardId);
         setAllComments(getDataResponse.comments);
@@ -101,7 +99,7 @@ const Comment = ({ currentComment, cardId, setAllComments }) => {
             rows={5}
           />
           <div className="cancel_box">
-            <button onClick={clickCancelEditHandlr}>취소</button>
+            <button onClick={clickCancelEditHandler}>취소</button>
             <button onClick={clickUpdatePostHandler}>수정</button>
           </div>
         </ContentBox>

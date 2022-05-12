@@ -16,6 +16,10 @@ const Comments = ({ cardId }) => {
     });
   }, [cardId]);
 
+  const sendCommentdataHandler = (data) => {
+    setAllComments(data);
+  };
+
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     if (isTextareaDisabled) {
@@ -81,8 +85,7 @@ const Comments = ({ cardId }) => {
               key={rootComment.id}
               rootComment={rootComment}
               cardId={cardId}
-              allComments={allComments}
-              setAllComments={setAllComments}
+              setAllComments={sendCommentdataHandler}
             />
           );
         })}
