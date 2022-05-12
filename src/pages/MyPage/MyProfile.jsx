@@ -127,7 +127,7 @@ const MyProfile = () => {
           {isEdit ? (
             <SetProfileImg
               getImage={getImageHandler}
-              image={getImage?.image}
+              image={getImage?.image ? getImage?.image : user?.profileImageUrl}
               isEdit
             />
           ) : (

@@ -41,7 +41,7 @@ const SetProfileImg = (props) => {
   };
 
   return (
-    <Div isEdit>
+    <Div isEdit={isEdit}>
       <Img
         isEdit
         alt="not fount"
