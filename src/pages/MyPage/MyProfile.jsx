@@ -20,13 +20,15 @@ const MyProfile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       const data = await mypageApis.getUser();
+
       const userData = {
         profileImageUrl: data.user.profileImageUrl,
         nickname: data.user.nickname.replaceAll('"', ""),
-        githubLink: data.user.nickname.replaceAll('"', ""),
-        introduce: data.user.nickname.replaceAll('"', ""),
+        githubLink: data.user.githubLink.replaceAll('"', ""),
+        introduce: data.user.introduce.replaceAll('"', ""),
       };
       setUser(userData);
+      setGetImage({ image: data.user.profileImageUrl });
     };
 
     if (isComplited) {
@@ -113,7 +115,11 @@ const MyProfile = () => {
                 color={theme.colors.black}
                 border="1px solid rgba(130, 130, 130, 0.2)"
                 _height="40px"
-                onClick={() => setIsEdit(false)}
+                onClick={() => {
+                  console.log(user?.profileImageUrl);
+                  setGetImage({ image: user?.profileImageUrl });
+                  setIsEdit(false);
+                }}
               />
             </div>
           ) : (

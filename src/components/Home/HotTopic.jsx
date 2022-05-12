@@ -69,7 +69,7 @@ const HotTopicLayout = styled.div`
 
       & .description {
         font-size: ${fontSize["14"]};
-        color: ${colors.lightGrey};
+        color: ${colors.subTitle};
         margin-bottom: 36px;
       }
 

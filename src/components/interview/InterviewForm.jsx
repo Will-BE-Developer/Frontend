@@ -140,6 +140,13 @@ const FormLayout = styled.div`
     return css`
       width: 100%;
       text-align: start;
+      ${({ theme }) => theme.device.tablet} {
+        padding: 0px 1rem;
+      }
+
+      & .header {
+        padding: 0px !important;
+      }
 
       & .header h2 {
         margin: 20px 0px;

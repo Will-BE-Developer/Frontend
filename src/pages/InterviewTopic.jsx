@@ -33,7 +33,7 @@ const InterviewTopic = () => {
 
   return (
     <TopicBox>
-      <p className="title">면접 주제를 선정해주세요.</p>
+      <p className="title">면접 주제를 선정해주세요</p>
       <div className="topic">
         {topics?.map((topic, index) => {
           return (
@@ -76,12 +76,15 @@ const TopicBox = styled.div`
       max-width: 980px;
       margin-top: 15vh;
       text-align: center;
+
       ${boxShadow()}
 
       & .title {
         padding: 23px 0px;
-        background-color: ${colors.headerBgColor};
+        background-color: ${colors.lightGrey};
         font-size: ${fontSize["20"]};
+        border-start-end-radius: 12px;
+        border-start-start-radius: 12px;
       }
 
       & .topic {
@@ -131,6 +134,15 @@ const TopicBox = styled.div`
         height: 36px;
         margin-right: 5px;
       }
+
+      input[type="radio"]:checked {
+        .topic label {
+          background-color: #567fe8;
+        }
+      }
+
+      /* & .topic label {
+      } */
     `;
   }}
 `;
