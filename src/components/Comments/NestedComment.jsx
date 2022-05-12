@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import TimeAgo from "../FeedBack/TimeAgo";
 import commentApis from "../../apis/commentApis";
 
-const Comment = ({ nestedComment, cardId, setAllComments }) => {
+const NestedComment = ({ nestedComment, cardId, setAllComments }) => {
   const { id, user, createdAt, contents, isMine, parentId } = nestedComment;
 
   const [isEdit, setIsEdit] = useState(false);
@@ -46,6 +46,7 @@ const Comment = ({ nestedComment, cardId, setAllComments }) => {
       console.log("댓글 수정 오류", err);
     }
   };
+
   const clickDeleteHandler = async () => {
     try {
       const res = await commentApis.deleteComment(cardId);
@@ -194,4 +195,4 @@ const ProfileImg = styled.img`
 //   }}
 // `;
 
-export default Comment;
+export default NestedComment;

@@ -8,7 +8,7 @@ import { BsFillBookmarkFill, BsHeartFill } from "react-icons/bs";
 
 import feedbackApis from "../../apis/feedbackApis.js";
 import TimeAgo from "../../components/FeedBack/TimeAgo";
-import Comments from "../../components/FeedBackDetail/Comments";
+import Comments from "../../components/Comments/Comments";
 
 const FeedBackDetail = (props) => {
   // const hasFastConnection = () => {

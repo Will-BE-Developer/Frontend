@@ -3,26 +3,16 @@ import RootComment from "./RootComment";
 
 import styled from "styled-components";
 import commentApis from "../../apis/commentApis";
-import TimeAgo from "../FeedBack/TimeAgo";
-
-import GlobalTextArea from "../UI/GlobalTextArea";
 import GlobalButton from "../UI/GlobalButton";
 
 const Comments = ({ cardId }) => {
   const [allComments, setAllComments] = useState([]);
-  const [activeComment, setActiveComment] = useState(null);
   const [content, setContent] = useState("");
   const isTextareaDisabled = content.length === 0;
-  // 부모, 자식 댓글 분리 및 최신순 정렬
-
-  // const sortAllComments = allComments.sort(
-  //   (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-  // );
 
   useEffect(() => {
     commentApis.getComments(cardId).then((data) => {
       setAllComments(data.comments);
-      // console.log(data.comments);
     });
   }, [cardId]);
 
@@ -50,10 +40,6 @@ const Comments = ({ cardId }) => {
       console.log("댓글 작성 오류", err);
     }
   };
-
-  // const onClickSubmitHandler = (event) => {
-  //   event.preventDefault();
-  // };
 
   return (
     <CommentsContainer>
@@ -95,7 +81,7 @@ const Comments = ({ cardId }) => {
       <div className="comments-container">
         {allComments?.map((rootComment) => (
           <RootComment
-            key={rootComment.id}
+            key={rootComment?.id}
             rootComment={rootComment}
             cardId={cardId}
             allComments={allComments}
