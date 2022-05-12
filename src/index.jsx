@@ -25,6 +25,8 @@ import MyProfile from "./pages/MyPage/MyProfile";
 import MyHistory from "./pages/MyPage/MyHistory";
 import MyScrap from "./pages/MyPage/MyScrap";
 
+import Test from "./components/UI/ModalExample/DeleteModal";
+
 import NotFound from "./pages/NotFound";
 
 import ScrollToTop from "./components/UI/ScrollToTop";
@@ -39,6 +41,7 @@ ReactDOM.render(
             <Route path="" element={<Home />} />
             <Route path="/" element={<App />}>
               <Route path="" element={<Home />} />
+              <Route path="test" element={<Test />} />
               <Route path="feedback" element={<FeedBack />} />
               <Route path="feedback/:cardId" element={<FeedBackDetail />} />
               <Route

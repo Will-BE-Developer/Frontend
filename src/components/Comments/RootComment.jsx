@@ -27,14 +27,10 @@ const RootComment = ({ rootComment, cardId, setAllComments }) => {
     }
     const data = { contents: content, rootId: id, rootName: "comment" };
     try {
-      await commentApis.addComment(data);
+      const response = await commentApis.addComment(data);
+      console.log(response);
       setContent("");
-      try {
-        const getDataResponse = await commentApis.getComments(cardId);
-        setAllComments(getDataResponse.comments);
-      } catch (err) {
-        console.log("대댓글 불러오기 오류", err);
-      }
+      setAllComments(response.comments);
     } catch (err) {
       console.log("대댓글 작성 오류", err);
     }

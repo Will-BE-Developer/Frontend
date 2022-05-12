@@ -5,6 +5,8 @@ import theme from "../../styles/theme";
 import styled, { css } from "styled-components";
 import GlobalButton from "../../components/UI/GlobalButton";
 import { BsFillBookmarkFill, BsHeartFill } from "react-icons/bs";
+import { IoAlertCircle } from "react-icons/io5";
+import GlobalModal from "../../components/UI/GlobalModal";
 
 import feedbackApis from "../../apis/feedbackApis.js";
 import TimeAgo from "../../components/FeedBack/TimeAgo";
@@ -31,12 +33,14 @@ const FeedBackDetail = (props) => {
 
   const navigate = useNavigate();
   const { cardId } = useParams();
-  const [showModal, setShowModal] = useState(false);
+
   const [video, setVideo] = useState("");
   const [data, setData] = useState([]);
   const [isMine, setIsMine] = useState();
   const [isScrapped, setIsScrapped] = useState();
   const [scrapCount, setScrapCount] = useState();
+
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     feedbackApis.getDetailVideo(cardId).then((data) => {
@@ -64,11 +68,6 @@ const FeedBackDetail = (props) => {
     updatedAt,
     isPublic,
   } = data;
-
-  const profileHandler = () => {
-    alert("프로필 정보 불러오기");
-    setShowModal(!showModal);
-  };
 
   const editHandler = () => {
     navigate(`/feedback/update/${cardId}`, { state: { data, video } });
@@ -101,6 +100,19 @@ const FeedBackDetail = (props) => {
   return (
     <>
       <Container>
+        <GlobalModal
+          title="삭제"
+          confirmText="삭제"
+          open={openModal}
+          onClose={() => setOpenModal(false)}
+          onConfirm={() => clickDeleteHandler()}
+          isConfirm
+          isIcon
+          icon={<AlertIcon />}
+        >
+          영상을 정말 삭제하시겠습니까?
+        </GlobalModal>
+
         <div className="contents_wrap">
           <div className="video_layout">
             <video controls src={video}></video>
@@ -108,21 +120,21 @@ const FeedBackDetail = (props) => {
           {isMine && (
             <div className="user_buttons">
               <GlobalButton
-                onClick={editHandler}
+                text="수정"
                 background={theme.colors.white}
                 color={theme.colors.black}
                 border="1px solid rgba(130, 130, 130, 0.2)"
-                text="수정"
-                _width="64px"
-                _height="36px"
+                _height="40px"
+                onClick={editHandler}
               />
               <GlobalButton
-                onClick={clickDeleteHandler}
-                background={theme.colors.lightGrey}
+                text="저장"
+                margin="0px 10px 0px 0px"
+                background={theme.colors.blue}
+                border="1px solid rgba(130, 130, 130, 0.2)"
+                _height="40px"
+                onClick={() => setOpenModal(true)}
                 text="삭제"
-                _width="64px"
-                _height="36px"
-                padding="9px 16px"
               />
             </div>
           )}
@@ -162,7 +174,7 @@ const FeedBackDetail = (props) => {
 
           <AuthorContainer>
             <div className="author_box">
-              <div className="user_profile" onClick={profileHandler}>
+              <div className="user_profile" onClick={() => setOpenModal(true)}>
                 <ProfileImg src={user?.profileImageUrl} />
                 <span>{user?.nickname}</span>
               </div>
@@ -171,7 +183,6 @@ const FeedBackDetail = (props) => {
           </AuthorContainer>
 
           <CommentsContainer>
-            <div className="title">피드백 n개</div>
             <Comments cardId={cardId} />
           </CommentsContainer>
         </div>
@@ -179,6 +190,10 @@ const FeedBackDetail = (props) => {
     </>
   );
 };
+const AlertIcon = styled(IoAlertCircle)`
+  font-size: 24px;
+  color: #ec5959;
+`;
 
 const Container = styled.div`
   display: flex;
