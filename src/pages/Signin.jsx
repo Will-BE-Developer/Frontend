@@ -51,24 +51,15 @@ const Signin = (props) => {
         navigate("/", { replace: true });
       }
     } catch (err) {
-      console.log(err.message);
-      if (err.message === "가입되지 않은 이메일 입니다.") {
-        suggestSingUp(err);
-      }
-
-      // alert(err.message);
-
-      if (err.message === "이메일 인증 후에 이용해주세요.") {
-        alert(err.message);
-      }
+      alert(err.message);
     }
   };
 
   // 회원가입 유도하는 모달창
-  const suggestSingUp = (err) => {
-    alert(err);
-    // navigate("/signup", { replace: true });
-  };
+  // const suggestSingUp = (err) => {
+  //   alert(err);
+  //   navigate("/signup", { replace: true });
+  // };
 
   return (
     <>

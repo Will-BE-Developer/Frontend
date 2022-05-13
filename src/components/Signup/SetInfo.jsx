@@ -61,12 +61,6 @@ const SetInfo = (props) => {
     navigate("/");
   };
 
-  const introChangeHandler = (e) => {
-    setUserData((prev) => {
-      return { ...prev, introduce: e.target.value };
-    });
-  };
-
   return (
     <div>
       {currentPage === 2 && (
@@ -184,6 +178,12 @@ const SetInfo = (props) => {
               />
               <Label htmlFor="pr">자기소개</Label>
               <GlobalTextArea
+                value={userData.introduce}
+                onChange={(e) => {
+                  setUserData((prev) => {
+                    return { ...prev, introduce: e.target.value };
+                  });
+                }}
                 charLimit="50"
                 rows="5"
                 cols="80"

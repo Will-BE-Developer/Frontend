@@ -64,7 +64,6 @@ export const signinEmail = createAsyncThunk(
 
       return result;
     } catch (err) {
-      console.log(err);
       return rejectWithValue(err.response.data);
     }
   }
