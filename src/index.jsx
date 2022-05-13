@@ -44,7 +44,7 @@ ReactDOM.render(
                 <Route path="feedback" element={<FeedBack />} />
                 <Route path="feedback/:cardId" element={<FeedBackDetail />} />
                 <Route
-                  path="feedback/update/:cardId"
+                  path="feedback/:cardId/update"
                   element={<FeedbackUpdate />}
                 />
                 <Route path="mypage" element={<MyPage />}>
