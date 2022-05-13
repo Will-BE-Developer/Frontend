@@ -1,34 +1,44 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import RootComment from "./RootComment";
 
 import styled from "styled-components";
 import commentApis from "../../apis/commentApis";
 import GlobalButton from "../UI/GlobalButton";
 
+import { IoAlertCircle } from "react-icons/io5";
+import GlobalModal from "../../components/UI/GlobalModal";
+
+import { getCookie } from "../../shared/cookies";
+
 const Comments = ({ cardId }) => {
+  const token = getCookie("token");
+  const navigate = useNavigate();
   const [allComments, setAllComments] = useState([]);
   const [content, setContent] = useState("");
-  const [totalCount, setTotalCount] = useState(0);
   const isTextareaDisabled = content.length === 0;
-
+  const [openModal, setOpenModal] = useState(false);
   useEffect(() => {
-    commentApis.getComments(cardId).then((data) => {
-      setAllComments(data.comments);
-    });
-    const nestedCountArr = allComments
-      .map((i) => Number(i.nestedCommentsCount))
-      .reduce((a, b) => a + b, 0);
-    const rootCount = Number(allComments.length);
-
-    setTotalCount(rootCount + nestedCountArr);
-  }, [allComments, cardId]);
+    commentApis
+      .getComments(cardId)
+      .then((data) => {
+        setAllComments(data.comments);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [cardId]);
 
   const sendCommentdataHandler = (data) => {
     setAllComments(data);
   };
 
-  const onSubmitHandler = async (event) => {
-    event.preventDefault();
+  const onSubmitHandler = async () => {
+    if (!token) {
+      alert("로그인이 필요한 기능입니다. ");
+      return;
+    }
     if (isTextareaDisabled) {
       alert("내용을 작성해주세요.");
       return;
@@ -44,12 +54,31 @@ const Comments = ({ cardId }) => {
       console.log("댓글 작성 오류", err);
     }
   };
-  // const n = 23;
 
+  const linkToSignInHandler = () => {
+    navigate("/signin");
+  };
+
+  const openModalHandler = () => {
+    setOpenModal(true);
+  };
   return (
     <CommentsContainer>
+      <GlobalModal
+        title="알림"
+        confirmText="로그인하러 가기"
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        onConfirm={() => linkToSignInHandler()}
+        isConfirm
+        isIcon
+        icon={<AlertIcon />}
+      >
+        로그인이 필요한 기능입니다.
+      </GlobalModal>
       <Form>
-        <div className="comment_count">피드백 {totalCount}개</div>
+        <div className="comment_count">피드백 {0}개</div>
+
         <div className="textarea_box">
           <textarea
             onChange={(e) => setContent(e.target.value)}
@@ -64,13 +93,14 @@ const Comments = ({ cardId }) => {
             }}
           ></textarea>
         </div>
+
         <div className="button_box">
           {isTextareaDisabled ? (
             <GlobalButton
               _width="70px"
               _height="15px"
               text="작성"
-              onClick={onSubmitHandler}
+              onClick={token ? onSubmitHandler : openModalHandler}
             />
           ) : (
             <GlobalButton
@@ -78,7 +108,7 @@ const Comments = ({ cardId }) => {
               _height="15px"
               hover
               text="작성"
-              onClick={onSubmitHandler}
+              onClick={token ? onSubmitHandler : openModalHandler}
             />
           )}
         </div>
@@ -99,6 +129,11 @@ const Comments = ({ cardId }) => {
   );
 };
 
+const AlertIcon = styled(IoAlertCircle)`
+  font-size: 24px;
+  color: #ec5959;
+`;
+
 const CommentsContainer = styled.div`
   font-size: 30px;
   margin-bottom: 20px;
@@ -110,7 +145,7 @@ const CommentsContainer = styled.div`
   }
 `;
 
-const Form = styled.form`
+const Form = styled.div`
   padding: 30px 0;
 
   & .comment_count {

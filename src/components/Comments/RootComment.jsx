@@ -2,14 +2,16 @@ import { useState } from "react";
 import styled, { css } from "styled-components";
 import { FiPlusSquare, FiMinusSquare } from "react-icons/fi";
 import GlobalButton from "../UI/GlobalButton";
-
+import { getCookie } from "../../shared/cookies";
 import Comment from "./Comment";
 import commentApis from "../../apis/commentApis";
 
 const RootComment = ({ rootComment, cardId, setAllComments }) => {
+  const token = getCookie("token");
   const { id } = rootComment;
   const nestedComments = rootComment.nestedComments;
   const [isShowReply, setIsShowReply] = useState(false);
+  const nestedCount = nestedComments.length;
   const [content, setContent] = useState("");
   const isTextareaDisabled = content.length === 0;
   const profileHandler = () => {
@@ -42,12 +44,13 @@ const RootComment = ({ rootComment, cardId, setAllComments }) => {
         cardId={cardId}
         setAllComments={setAllComments}
       />
+
       <NestedContentsBox>
         <div>
           {!isShowReply ? (
             <div onClick={replyToggleHandler} className="toggle_box">
               <FiPlusSquare />
-              <span>답글 달기</span>
+              <span>답글 작성하기</span>
             </div>
           ) : (
             <>
@@ -70,43 +73,44 @@ const RootComment = ({ rootComment, cardId, setAllComments }) => {
                     );
                   })}
                 </div>
-
-                <div className="nested_textarea_box">
-                  <Form>
-                    <div className="textarea_box">
-                      <textarea
-                        onChange={(e) => setContent(e.target.value)}
-                        placeholder="내용을 작성해주세요"
-                        maxLength={500}
-                        rows={5}
-                        value={content}
-                        onKeyPress={(e) => {
-                          if (e.key === "Enter") {
-                            onSubmitHandler();
-                          }
-                        }}
-                      ></textarea>
-                    </div>
-                    <div className="button_box">
-                      {isTextareaDisabled ? (
-                        <GlobalButton
-                          _width="70px"
-                          _height="15px"
-                          text="작성"
-                          onClick={onSubmitHandler}
-                        />
-                      ) : (
-                        <GlobalButton
-                          _width="70px"
-                          _height="15px"
-                          hover
-                          text="작성"
-                          onClick={onSubmitHandler}
-                        />
-                      )}
-                    </div>
-                  </Form>
-                </div>
+                {token && (
+                  <div className="nested_textarea_box">
+                    <Form>
+                      <div className="textarea_box">
+                        <textarea
+                          onChange={(e) => setContent(e.target.value)}
+                          placeholder="내용을 작성해주세요"
+                          maxLength={500}
+                          rows={5}
+                          value={content}
+                          onKeyPress={(e) => {
+                            if (e.key === "Enter") {
+                              onSubmitHandler();
+                            }
+                          }}
+                        ></textarea>
+                      </div>
+                      <div className="button_box">
+                        {isTextareaDisabled ? (
+                          <GlobalButton
+                            _width="70px"
+                            _height="15px"
+                            text="작성"
+                            onClick={onSubmitHandler}
+                          />
+                        ) : (
+                          <GlobalButton
+                            _width="70px"
+                            _height="15px"
+                            hover
+                            text="작성"
+                            onClick={onSubmitHandler}
+                          />
+                        )}
+                      </div>
+                    </Form>
+                  </div>
+                )}
               </div>
             </>
           )}

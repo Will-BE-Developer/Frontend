@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled, { css } from "styled-components";
 import { BiChevronDown } from "react-icons/bi";
 
-function Dropdown({ selected, setSelected, options }) {
+function Dropdown({ selected, setSelected, options, onChange }) {
   const [isActive, setIsActive] = useState(false);
 
   return (
@@ -18,10 +18,10 @@ function Dropdown({ selected, setSelected, options }) {
               key={index}
               onClick={(e) => {
                 setSelected(option);
-
                 setIsActive(false);
               }}
               className="item"
+              onChange={onChange}
             >
               {option}
             </div>

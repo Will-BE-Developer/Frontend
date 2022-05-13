@@ -11,6 +11,9 @@ export const feedbackApis = {
           sort,
           category,
         },
+        headers: {
+          Authorization: getCookie("token"),
+        },
       });
 
       console.log(res.data);
