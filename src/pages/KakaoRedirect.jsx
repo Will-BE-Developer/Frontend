@@ -15,9 +15,7 @@ const KakaoRedirect = () => {
         await dispatch(signinKakao(code)).unwrap();
         navigate("/", { replace: true });
       } catch (err) {
-        navigate("/signin", { replace: true });
         console.log(err);
-        alert("로그인에 실패하였습니다");
       }
     };
     singinDispatch();

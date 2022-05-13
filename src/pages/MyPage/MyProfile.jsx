@@ -23,8 +23,6 @@ const MyProfile = () => {
     introduce: user.introduce,
   });
 
-  console.log(getImage);
-
   const [openModal, setOpenModal] = useState(false);
 
   const updateUserHandler = async () => {
