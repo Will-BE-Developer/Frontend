@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 import Slider from "react-slick";
+import { useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
 import { HiChevronRight, HiChevronLeft } from "react-icons/hi";
 import "slick-carousel/slick/slick.css";
@@ -12,6 +13,7 @@ import silver from "../../assets/icons/silver.png";
 import bronze from "../../assets/icons/bronze.png";
 
 const BestInterviews = ({ weeklyInterviews }) => {
+  const navigate = useNavigate();
   const slider = useRef(null);
   const [title, setTitle] = useState(
     `5월 둘째주 면접왕 1등 '${weeklyInterviews[0].user.nickname}'`
@@ -67,6 +69,12 @@ const BestInterviews = ({ weeklyInterviews }) => {
                     <span className="question">
                       {interview.question.contents}
                     </span>
+                    <button
+                      onClick={() => navigate(`/feedback/${interview.id}`)}
+                      className="interviewBtn"
+                    >
+                      피드백 보러가기
+                    </button>
                   </div>
                 </div>
               </div>
@@ -195,7 +203,7 @@ const StyledSlider = styled(Slider)`
       }
 
       .question {
-        margin-top: 20px;
+        margin-top: 10px;
         font-weight: ${fontWeight.extraBold};
       }
 
@@ -233,6 +241,17 @@ const StyledSlider = styled(Slider)`
 
       .badge {
         margin-bottom: 10px;
+      }
+
+      .interviewBtn {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 15px;
+        color: ${({ theme }) => theme.colors.black};
+        border: 1px solid ${({ theme }) => theme.colors.darkGrey};
+        border-radius: 25px;
       }
     `;
   }}

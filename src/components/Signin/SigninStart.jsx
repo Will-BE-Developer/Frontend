@@ -40,7 +40,7 @@ const SignupStart = (props) => {
             회원가입 하기
           </GlobalButton>
           <GlobalButton onClick={() => navigate("/")} _width="100%">
-            홈으로 되돌아가기
+            되돌아가기
           </GlobalButton>
         </div>
       </BoxContainer>
