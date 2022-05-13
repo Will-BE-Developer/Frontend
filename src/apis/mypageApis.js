@@ -1,14 +1,9 @@
 import instance from "./axios.js";
-import { getCookie } from "../shared/cookies";
 
 const mypageApis = {
   getUserCard: async () => {
     try {
-      const res = await instance.get(`/api/users/me/interviews`, {
-        headers: {
-          Authorization: getCookie("token"),
-        },
-      });
+      const res = await instance.get(`/api/users/me/interviews`);
       return res.data;
     } catch (err) {
       return err.response;
@@ -17,11 +12,7 @@ const mypageApis = {
 
   getUserScrap: async () => {
     try {
-      const res = await instance.get(`/api/users/me/scraps`, {
-        headers: {
-          Authorization: getCookie("token"),
-        },
-      });
+      const res = await instance.get(`/api/users/me/scraps`);
       return res.data;
     } catch (err) {
       return err.response;
@@ -30,16 +21,7 @@ const mypageApis = {
 
   addScrap: async (id) => {
     try {
-      const res = await instance.post(
-        `/api/scraps/${id}`,
-        {},
-        {
-          headers: {
-            Authorization: getCookie("token"),
-          },
-        }
-      );
-      console.log(res.data);
+      const res = await instance.post(`/api/scraps/${id}`);
       return res.data;
     } catch (err) {
       return err.response;
@@ -48,12 +30,7 @@ const mypageApis = {
 
   undoScrap: async (id) => {
     try {
-      const res = await instance.delete(`/api/scraps/${id}`, {
-        headers: {
-          Authorization: getCookie("token"),
-        },
-      });
-      console.log(res.data);
+      const res = await instance.delete(`/api/scraps/${id}`);
       return res.data;
     } catch (err) {
       return err.response;

@@ -1,15 +1,9 @@
 import instance from "./axios";
-import { getCookie } from "../shared/cookies";
 
 const userApis = {
   signupEmailCheck: async (email) => {
     try {
-      const res = await instance.get(`/signup/${email}`, {
-        headers: {
-          Authorization: getCookie("token"),
-        },
-      });
-      console.log(res.data);
+      const res = await instance.get(`/signup/${email}`);
       if (res.status === 200) {
         alert(res.data.msg);
         return res.data;

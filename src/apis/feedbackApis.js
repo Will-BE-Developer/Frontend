@@ -1,5 +1,5 @@
+import axios from "axios";
 import instance from "./axios.js";
-import { getCookie } from "../shared/cookies";
 
 export const feedbackApis = {
   getFeedback: async (page, sort, filter) => {
@@ -10,9 +10,6 @@ export const feedbackApis = {
           sort,
           filter,
         },
-        headers: {
-          Authorization: getCookie("token"),
-        },
       });
       return res.data;
     } catch (err) {
@@ -22,11 +19,7 @@ export const feedbackApis = {
 
   getDetail: async (cardId) => {
     try {
-      const res = await instance.get(`/api/interviews/${cardId}`, {
-        headers: {
-          Authorization: getCookie("token"),
-        },
-      });
+      const res = await instance.get(`/api/interviews/${cardId}`);
       return res.data;
     } catch (err) {
       return err.response;
@@ -35,12 +28,12 @@ export const feedbackApis = {
 
   getDetailVideo: async (cardId) => {
     try {
-      const res = await instance.get(`/api/interviews/${cardId}`, {
+      const res = await instance.get(`/api/interviews/${cardId}`);
+      const convertVideo = await axios.get(res.data.interview.video, {
         headers: {
-          Authorization: getCookie("token"),
+          accept: "application/json,",
+          "Access-Control-Allow-Origin": "*",
         },
-      });
-      const convertVideo = await instance.get(res.data.interview.video, {
         responseType: "blob",
       });
       return convertVideo.data;
@@ -50,11 +43,7 @@ export const feedbackApis = {
   },
   updateDetail: async (cardId, updateData) => {
     try {
-      const res = await instance.put(`/api/interviews/${cardId}`, updateData, {
-        headers: {
-          Authorization: getCookie("token"),
-        },
-      });
+      const res = await instance.put(`/api/interviews/${cardId}`, updateData);
       return res.data;
     } catch (err) {
       return err.response;
@@ -63,11 +52,7 @@ export const feedbackApis = {
 
   deleteDetail: async (cardId) => {
     try {
-      const res = await instance.delete(`/api/interviews/${cardId}`, {
-        headers: {
-          Authorization: getCookie("token"),
-        },
-      });
+      const res = await instance.delete(`/api/interviews/${cardId}`);
       return res.data;
     } catch (err) {
       return err.response;
@@ -76,15 +61,7 @@ export const feedbackApis = {
 
   addScrap: async (id) => {
     try {
-      const res = await instance.post(
-        `/api/scraps/${id}`,
-        {},
-        {
-          headers: {
-            Authorization: getCookie("token"),
-          },
-        }
-      );
+      const res = await instance.post(`/api/scraps/${id}`);
       return res.data;
     } catch (err) {
       return err.response;
@@ -93,11 +70,7 @@ export const feedbackApis = {
 
   undoScrap: async (id) => {
     try {
-      const res = await instance.delete(`/api/scraps/${id}`, {
-        headers: {
-          Authorization: getCookie("token"),
-        },
-      });
+      const res = await instance.delete(`/api/scraps/${id}`);
       return res.data;
     } catch (err) {
       return err.response;

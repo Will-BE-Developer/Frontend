@@ -1,5 +1,5 @@
 import instance from "./axios";
-import { getCookie } from "../shared/cookies";
+import axios from "axios";
 
 const interviewApis = {
   getCategories: async () => {
@@ -24,15 +24,7 @@ const interviewApis = {
   },
   getPresignedUrl: async () => {
     try {
-      const { data } = await instance.post(
-        "/api/interviews/draft",
-        {},
-        {
-          headers: {
-            Authorization: getCookie("token"),
-          },
-        }
-      );
+      const { data } = await instance.post("/api/interviews/draft");
       return data;
     } catch (error) {
       return error.response;
@@ -40,9 +32,11 @@ const interviewApis = {
   },
   s3VideoUpload: async (presignedUrl, video) => {
     try {
-      await instance.put(presignedUrl, video, {
+      await axios.put(presignedUrl, video, {
         headers: {
           "Content-Type": "video/webm",
+          accept: "application/json,",
+          "Access-Control-Allow-Origin": "*",
         },
       });
     } catch (error) {
@@ -51,9 +45,11 @@ const interviewApis = {
   },
   s3ThumbnailUpload: async (presignedUrl, thumbnail) => {
     try {
-      await instance.put(presignedUrl, thumbnail, {
+      await axios.put(presignedUrl, thumbnail, {
         headers: {
           "Content-Type": "image/png",
+          accept: "application/json,",
+          "Access-Control-Allow-Origin": "*",
         },
       });
     } catch (error) {
@@ -64,11 +60,7 @@ const interviewApis = {
     const data = { note, questionId, isPublic };
 
     try {
-      await instance.post(`/api/interviews/${interviewId}`, data, {
-        headers: {
-          Authorization: getCookie("token"),
-        },
-      });
+      await instance.post(`/api/interviews/${interviewId}`, data);
     } catch (error) {
       return error.response;
     }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
@@ -6,31 +6,31 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import store from "./store/configStore";
 import theme from "./styles/theme";
 import App from "./App";
-import Home from "./pages/Home";
-import Interview from "./pages/Interview/Interview";
-import InterviewTopic from "./pages/Interview/InterviewTopic";
-import InterviewRecording from "./pages/Interview/InterviewRecording";
-
-import KakaoRedirect from "./pages/KakaoRedirect";
-import SigninValidation from "./pages/SigninValidation";
-import Signin from "./pages/Signin";
-import Signup from "./pages/Signup";
-
-import FeedBack from "./pages/FeedBack/FeedBack";
-import FeedBackDetail from "./pages/FeedBack/FeedBackDetail";
-import FeedbackUpdate from "./pages/FeedBack/FeedbackUpdate";
-
-import MyPage from "./pages/MyPage/MyPage";
-import MyProfile from "./pages/MyPage/MyProfile";
-import MyHistory from "./pages/MyPage/MyHistory";
-import MyScrap from "./pages/MyPage/MyScrap";
 
 import Test from "./components/UI/ModalExample/DeleteModal";
 
-import NotFound from "./pages/NotFound";
-
 import ScrollToTop from "./components/UI/ScrollToTop";
 import RequireAuth from "./components/Auth/RequireAuth";
+import Loader from "./components/UI/Loader";
+
+const Home = lazy(() => import("./pages/Home"));
+const Interview = lazy(() => import("./pages/Interview/Interview"));
+const InterviewTopic = lazy(() => import("./pages/Interview/InterviewTopic"));
+const InterviewRecording = lazy(() =>
+  import("./pages/Interview/InterviewRecording")
+);
+const KakaoRedirect = lazy(() => import("./pages/KakaoRedirect"));
+const SigninValidation = lazy(() => import("./pages/SigninValidation"));
+const Signin = lazy(() => import("./pages/Signin"));
+const Signup = lazy(() => import("./pages/Signup"));
+const FeedBack = lazy(() => import("./pages/FeedBack/FeedBack"));
+const FeedBackDetail = lazy(() => import("./pages/FeedBack/FeedBackDetail"));
+const FeedbackUpdate = lazy(() => import("./pages/FeedBack/FeedbackUpdate"));
+const MyPage = lazy(() => import("./pages/MyPage/MyPage"));
+const MyProfile = lazy(() => import("./pages/MyPage/MyProfile"));
+const MyHistory = lazy(() => import("./pages/MyPage/MyHistory"));
+const MyScrap = lazy(() => import("./pages/MyPage/MyScrap"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 ReactDOM.render(
   <React.StrictMode>
@@ -38,40 +38,42 @@ ReactDOM.render(
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <ScrollToTop />
-          <Routes>
-            <Route path="" element={<Home />} />
-            <Route path="/" element={<App />}>
+          <Suspense fallback={<Loader />}>
+            <Routes>
               <Route path="" element={<Home />} />
-              <Route path="test" element={<Test />} />
-              <Route path="feedback" element={<FeedBack />} />
-              <Route path="feedback/:cardId" element={<FeedBackDetail />} />
-              <Route
-                path="feedback/update/:cardId"
-                element={<FeedbackUpdate />}
-              />
-              <Route path="mypage" element={<MyPage />}>
+              <Route path="/" element={<App />}>
+                <Route path="" element={<Home />} />
+                <Route path="test" element={<Test />} />
+                <Route path="feedback" element={<FeedBack />} />
+                <Route path="feedback/:cardId" element={<FeedBackDetail />} />
                 <Route
-                  path=""
-                  element={
-                    <RequireAuth>
-                      <MyProfile />
-                    </RequireAuth>
-                  }
+                  path="feedback/update/:cardId"
+                  element={<FeedbackUpdate />}
                 />
-                <Route path="history" element={<MyHistory />} />
-                <Route path="scrap" element={<MyScrap />} />
+                <Route path="mypage" element={<MyPage />}>
+                  <Route
+                    path=""
+                    element={
+                      <RequireAuth>
+                        <MyProfile />
+                      </RequireAuth>
+                    }
+                  />
+                  <Route path="history" element={<MyHistory />} />
+                  <Route path="scrap" element={<MyScrap />} />
+                </Route>
               </Route>
-            </Route>
-            <Route path="interview" element={<Interview />}>
-              <Route path="" element={<InterviewTopic />} />
-              <Route path="recording" element={<InterviewRecording />} />
-            </Route>
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/signin" element={<Signin />} />
-            <Route path="/user/kakao/callback" element={<KakaoRedirect />} />
-            <Route path="/signin/validation" element={<SigninValidation />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+              <Route path="interview" element={<Interview />}>
+                <Route path="" element={<InterviewTopic />} />
+                <Route path="recording" element={<InterviewRecording />} />
+              </Route>
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/signin" element={<Signin />} />
+              <Route path="/user/kakao/callback" element={<KakaoRedirect />} />
+              <Route path="/signin/validation" element={<SigninValidation />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
         </BrowserRouter>
       </ThemeProvider>
     </Provider>
