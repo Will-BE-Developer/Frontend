@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getCookie } from "../shared/cookies";
+import { deleteCookie, getCookie } from "../shared/cookies";
 
 const instance = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
@@ -14,5 +14,24 @@ instance.interceptors.request.use((config) => {
   config.headers.common["Authorization"] = getCookie("token");
   return config;
 });
+
+instance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response.status === "401" || error.response.status === "403") {
+      deleteCookie("token");
+      alert("로그인이 만료되었습니다");
+      window.location.href = "/login";
+    }
+
+    if (error.response.status === "404") {
+      window.location.href = "/notFound";
+    }
+
+    return Promise.reject(error);
+  }
+);
 
 export default instance;

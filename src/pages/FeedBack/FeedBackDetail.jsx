@@ -29,16 +29,29 @@ const FeedBackDetail = (props) => {
     setOpenProfileModal(boolean);
   };
   useEffect(() => {
-    feedbackApis.getDetailVideo(cardId).then((data) => {
-      setVideo(URL.createObjectURL(data));
-    });
-    feedbackApis.getDetail(cardId).then((data) => {
-      setData(data.interview);
-      setIsScrapped(data.interview.scrapsMe);
-      setScrapCount(data.interview.scrapsCount);
-      setIsMine(data.interview.isMine);
-    });
-  }, [cardId]);
+    feedbackApis
+      .getDetailVideo(cardId)
+      .then((data) => {
+        setVideo(URL.createObjectURL(data));
+      })
+      .catch(() => {
+        navigate("/notFound");
+        return;
+      });
+
+    feedbackApis
+      .getDetail(cardId)
+      .then((data) => {
+        setData(data.interview);
+        setIsScrapped(data.interview.scrapsMe);
+        setScrapCount(data.interview.scrapsCount);
+        setIsMine(data.interview.isMine);
+      })
+      .catch(() => {
+        navigate("/notFound");
+        return;
+      });
+  }, [cardId, navigate]);
 
   const {
     id,
