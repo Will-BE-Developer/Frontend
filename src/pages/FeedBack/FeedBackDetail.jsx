@@ -7,6 +7,7 @@ import GlobalButton from "../../components/UI/GlobalButton";
 import { BsFillBookmarkFill, BsHeartFill } from "react-icons/bs";
 import { IoAlertCircle } from "react-icons/io5";
 import GlobalModal from "../../components/UI/GlobalModal";
+import UserProfileModal from "../../components/UI/ModalSample/UserProfileModal";
 
 import feedbackApis from "../../apis/feedbackApis.js";
 import TimeAgo from "../../components/FeedBack/TimeAgo";
@@ -22,8 +23,11 @@ const FeedBackDetail = (props) => {
   const [isScrapped, setIsScrapped] = useState();
   const [scrapCount, setScrapCount] = useState();
 
-  const [openModal, setOpenModal] = useState(false);
-
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openProfileModal, setOpenProfileModal] = useState(false);
+  const sendProfileModalHandler = (boolean) => {
+    setOpenProfileModal(boolean);
+  };
   useEffect(() => {
     feedbackApis.getDetailVideo(cardId).then((data) => {
       setVideo(URL.createObjectURL(data));
@@ -50,6 +54,8 @@ const FeedBackDetail = (props) => {
     updatedAt,
     isPublic,
   } = data;
+
+  // const { githubLink, introduce, nickname, profileImageUrl } = data.user;
 
   const editHandler = () => {
     navigate(`/feedback/update/${cardId}`, { state: { data, video } });
@@ -85,8 +91,8 @@ const FeedBackDetail = (props) => {
         <GlobalModal
           title="삭제"
           confirmText="삭제"
-          open={openModal}
-          onClose={() => setOpenModal(false)}
+          open={openDeleteModal}
+          onClose={() => setOpenDeleteModal(false)}
           onConfirm={() => clickDeleteHandler()}
           isConfirm
           isIcon
@@ -94,7 +100,15 @@ const FeedBackDetail = (props) => {
         >
           영상을 정말 삭제하시겠습니까?
         </GlobalModal>
-
+        <UserProfileModal
+          img={user?.profileImageUrl}
+          nickname={user?.nickname}
+          githubLink={user?.githubLink}
+          introduce={user?.introduce}
+          setOpenProfileModal={sendProfileModalHandler}
+          openProfileModal={openProfileModal}
+          isMine={isMine}
+        />
         <div className="contents_wrap">
           <div className="video_layout">
             <video controls src={video}></video>
@@ -114,7 +128,7 @@ const FeedBackDetail = (props) => {
                 background={theme.colors.blue}
                 border="1px solid rgba(130, 130, 130, 0.2)"
                 _height="40px"
-                onClick={() => setOpenModal(true)}
+                onClick={() => setOpenDeleteModal(true)}
                 text="삭제"
               />
             </div>
@@ -155,7 +169,10 @@ const FeedBackDetail = (props) => {
 
           <AuthorContainer>
             <div className="author_box">
-              <div className="user_profile" onClick={() => setOpenModal(true)}>
+              <div
+                className="user_profile"
+                onClick={() => setOpenProfileModal(true)}
+              >
                 <ProfileImg src={user?.profileImageUrl} />
                 <span>{user?.nickname}</span>
               </div>

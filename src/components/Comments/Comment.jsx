@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled, { css } from "styled-components";
 import TimeAgo from "../FeedBack/TimeAgo";
 import commentApis from "../../apis/commentApis";
+import UserProfileModal from "../UI/ModalSample/UserProfileModal";
 
 const Comment = ({ currentComment, cardId, setAllComments }) => {
   const { id, user, createdAt, contents, isMine, parentId } = currentComment;
@@ -10,8 +11,11 @@ const Comment = ({ currentComment, cardId, setAllComments }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [updateContent, setUpdateContent] = useState(contents);
   const isUpdateTextareaDisabled = updateContent.length === 0;
-  const profileHandler = () => {
-    alert("유저정보 보여주는 모달창 띄우기");
+
+  const [openProfileModal, setOpenProfileModal] = useState(false);
+
+  const sendProfileModalHandler = (boolean) => {
+    setOpenProfileModal(boolean);
   };
   const clickCancelEditHandler = () => {
     return setIsEdit(false);
@@ -62,9 +66,21 @@ const Comment = ({ currentComment, cardId, setAllComments }) => {
 
   return (
     <CommentContainer>
+      <UserProfileModal
+        img={user?.profileImageUrl}
+        nickname={user?.nickname}
+        githubLink={user?.githubLink}
+        introduce={user?.introduce}
+        setOpenProfileModal={sendProfileModalHandler}
+        openProfileModal={openProfileModal}
+        isMine={isMine}
+      />
       <AuthorContainer>
         <div className="author_box">
-          <div className="user_profile" onClick={profileHandler}>
+          <div
+            className="user_profile"
+            onClick={() => setOpenProfileModal(true)}
+          >
             <ProfileImg src={user?.profileImageUrl} />
             <div className="name_date">
               <span>{user?.nickname}</span>

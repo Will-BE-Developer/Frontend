@@ -12,6 +12,7 @@ const GlobalModal = (props) => {
     padding,
     _width,
     _height,
+    _mobileHeight,
     hover,
     onClick,
     confirmText,
@@ -25,6 +26,7 @@ const GlobalModal = (props) => {
     _width,
     _height,
     hover,
+    _mobileHeight,
   };
 
   // useEffect(() => {
@@ -44,7 +46,7 @@ const GlobalModal = (props) => {
   return ReactDOM.createPortal(
     <>
       <Overlay {...styles} onClick={onClick} />
-      <ModalContainer>
+      <ModalContainer {...styles}>
         <Wrap>
           <Header>
             <div className="title_box">
@@ -106,6 +108,8 @@ const ModalContainer = styled.div`
       ${device.mobile} {
         min-width: 350px;
         min-height: 40px;
+        height: ${(props) =>
+          props._mobileHeight ? props._mobileHeight : "228px"};
         padding: ${(props) => (props.padding ? props.padding : "20px")};
       }
     `;
@@ -150,6 +154,10 @@ const Body = styled.div`
   padding: 30px 0;
   flex-grow: 3;
   height: 50%;
+
+  ${({ theme }) => theme.device.mobile} {
+    padding: 10px 0;
+  }
 `;
 const Footer = styled.div`
   flex-grow: 1;
@@ -162,6 +170,10 @@ const Footer = styled.div`
 
     border: 1px solid #e6e9f1;
     border-radius: 8px;
+
+    ${({ theme }) => theme.device.mobile} {
+      padding: 2px 10px;
+    }
   }
   & .close_btn {
   }

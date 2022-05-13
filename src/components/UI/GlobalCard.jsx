@@ -10,9 +10,12 @@ import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
 import TimeAgo from "../FeedBack/TimeAgo";
 import defaultUserImage from "../../assets/defaultUserImage.jpg";
+import UserProfileModal from "../UI/ModalSample/UserProfileModal";
 
 const GlobalCard = memo(({ card }) => {
   const [showModal, setShowModal] = useState(false);
+  const [openProfileModal, setOpenProfileModal] = useState(false);
+
   const { cardId } = useParams();
   const navigate = useNavigate();
   const {
@@ -29,17 +32,24 @@ const GlobalCard = memo(({ card }) => {
     isPublic,
   } = card;
 
+  const sendProfileModalHandler = (boolean) => {
+    setOpenProfileModal(boolean);
+  };
   const linkToDetailHandler = () => {
     navigate(`/feedback/${id}`, { cardId });
   };
 
-  const showProfileHandler = () => {
-    alert("유저 정보 모달창");
-    setShowModal(!showModal);
-  };
-
   return (
     <Card>
+      <UserProfileModal
+        img={user?.profileImageUrl}
+        nickname={user?.nickname}
+        githubLink={user?.githubLink}
+        introduce={user?.introduce}
+        setOpenProfileModal={sendProfileModalHandler}
+        openProfileModal={openProfileModal}
+        isMine={isMine}
+      />
       <CardBody onClick={linkToDetailHandler}>
         <img alt="img" src={thumbnail} />
         <BodyContainer>
@@ -60,7 +70,10 @@ const GlobalCard = memo(({ card }) => {
       </CardBody>
 
       <CardFooter>
-        <div className="user_container" onClick={showProfileHandler}>
+        <div
+          className="user_container"
+          onClick={() => setOpenProfileModal(true)}
+        >
           <ProfileImg src={user.profileImageUrl} />
           <span>by {user.nickname}</span>
         </div>
