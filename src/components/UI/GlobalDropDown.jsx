@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled, { css } from "styled-components";
 import { BiChevronDown } from "react-icons/bi";
 
-function Dropdown({ selected, setSelected, options, onChange }) {
+function Dropdown({ selected, setSelected, options, onChangeHandler }) {
   const [isActive, setIsActive] = useState(false);
 
   return (
@@ -19,9 +19,9 @@ function Dropdown({ selected, setSelected, options, onChange }) {
               onClick={(e) => {
                 setSelected(option);
                 setIsActive(false);
+                onChangeHandler();
               }}
               className="item"
-              onChange={onChange}
             >
               {option}
             </div>
@@ -30,6 +30,36 @@ function Dropdown({ selected, setSelected, options, onChange }) {
       )}
     </Container>
   );
+  //   return (
+  //     <Container>
+  //       <div
+  //         name="전체보기"
+  //         className="btn"
+  //         onClick={(e) => setIsActive(!isActive)}
+  //       >
+  //         {selected}
+  //         <DownIcon />
+  //       </div>
+  //       {isActive && (
+  //         <div className="content">
+  //           {options.map((option, index) => (
+  //             <option
+  //               key={index}
+  //               onClick={(e) => {
+  //                 setSelected(option);
+  //                 setIsActive(false);
+  //               }}
+  //               className="item"
+  //               onChange={onChange}
+  //               value={value}
+  //             >
+  //               {option}
+  //             </option>
+  //           ))}
+  //         </div>
+  //       )}
+  //     </Container>
+  //   );
 }
 
 const Container = styled.button`
