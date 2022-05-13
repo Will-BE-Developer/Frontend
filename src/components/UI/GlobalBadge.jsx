@@ -1,7 +1,16 @@
 import styled, { css } from "styled-components";
 
 const GlobalBadge = (props) => {
-  const { color, background, text, border, children, padding, onClick } = props;
+  const {
+    color,
+    background,
+    text,
+    border,
+    children,
+    padding,
+    onClick,
+    fontSize,
+  } = props;
 
   const styles = {
     color,
@@ -9,6 +18,7 @@ const GlobalBadge = (props) => {
     text,
     border,
     padding,
+    fontSize,
   };
 
   return (
@@ -31,7 +41,8 @@ const BadgeLayout = styled.span`
       border: ${(props) => (props.border ? props.border : "none")};
       border-radius: 20px;
       padding: ${(props) => (props.padding ? props.padding : "5px 12px")};
-      font-size: ${fontSize["12"]};
+      font-size: ${(props) =>
+        props.fontSize ? props.fontSize : fontSize["14"]};
     `;
   }}
 `;

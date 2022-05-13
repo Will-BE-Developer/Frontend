@@ -28,7 +28,7 @@ const InterviewTopic = () => {
       alert("주제를 선택해주세요");
       return;
     }
-    navigate("/interview/recording", { state: selectTopic });
+    navigate("/interview/recording", { state: { selectTopic } });
   };
 
   return (

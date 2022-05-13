@@ -6,22 +6,7 @@ import theme from "../../styles/theme";
 import GlobalBadge from "../UI/GlobalBadge";
 import face from "../../assets/face.png";
 
-const DUMMY_QUESTIONS = [
-  {
-    title: "FRONTEND",
-    question: "Q.리액트란 무엇인가요?",
-  },
-  {
-    title: "BACKEND",
-    question: "Q.스프링이란 무엇인가요?",
-  },
-  {
-    title: "일반",
-    question: "자기소개 해주세요",
-  },
-];
-
-const DailyQuestions = () => {
+const DailyQuestions = ({ todaysQuestions }) => {
   const navigate = useNavigate();
 
   return (
@@ -32,18 +17,23 @@ const DailyQuestions = () => {
           <p className="subTitle">질문을 선택해서 면접을 녹화해보세요</p>
         </div>
         <div className="main">
-          {DUMMY_QUESTIONS.map((ele, idx) => {
+          {todaysQuestions.map(({ question }) => {
             return (
-              <div className="card" key={idx}>
+              <div className="card" key={question.id}>
                 <img className="logo" alt="logo" src={face} />
                 <div className="contents">
                   <GlobalBadge
                     background={theme.colors.pink}
-                    text={ele.title}
+                    text={question.category}
                   />
-                  <p>{ele.question}</p>
+                  <p>{question.contents}</p>
                 </div>
-                <button className="startBtn">
+                <button
+                  onClick={() =>
+                    navigate("/interview/recording", { state: { question } })
+                  }
+                  className="startBtn"
+                >
                   시작하기
                   <HiChevronRight size="20px" />
                 </button>

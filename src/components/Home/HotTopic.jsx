@@ -3,16 +3,7 @@ import { useNavigate } from "react-router-dom";
 import GlobalBadge from "../UI/GlobalBadge";
 import theme from "../../styles/theme";
 
-const DUMMY_TOPICS = [
-  "#Spring",
-  "#React",
-  "#Java",
-  "#General",
-  "#Database",
-  "Javascript",
-];
-
-const HotTopic = () => {
+const HotTopic = ({ hotCategories }) => {
   const navigate = useNavigate();
 
   return (
@@ -22,14 +13,17 @@ const HotTopic = () => {
         <p className="description">주제별로 피드백 영상을 볼 수 있습니다</p>
         <div className="topics">
           <div>
-            {DUMMY_TOPICS.map((ele, idx) => {
+            {hotCategories.map((topic) => {
               return (
                 <GlobalBadge
-                  onClick={() => navigate("/feedback", { state: ele })}
+                  fontSize="14px"
+                  onClick={() =>
+                    navigate("/feedback", { state: topic.category })
+                  }
                   padding="11px 16px"
                   background={theme.colors.blue}
-                  text={ele}
-                  key={idx}
+                  text={`#${topic.category}`}
+                  key={topic.id}
                 />
               );
             })}
@@ -82,7 +76,7 @@ const HotTopicLayout = styled.div`
         align-items: center;
         padding: 35px;
         width: 100%;
-        background: ${colors.headerBgColor};
+        background-color: rgba(86, 127, 232, 0.06);
         border-radius: 4px;
       }
 

@@ -7,37 +7,17 @@ import "slick-carousel/slick/slick-theme.css";
 import bestUser from "../../assets/bestUser.png";
 import GlobalBadge from "../UI/GlobalBadge";
 import theme from "../../styles/theme";
+import gold from "../../assets/icons/gold.png";
+import silver from "../../assets/icons/silver.png";
+import bronze from "../../assets/icons/bronze.png";
 
-const DUMMY_BEST_INTERVIEWS = [
-  {
-    imageUrl: bestUser,
-    title: "5월 첫째주 면접왕 1등 '김일등'",
-    description: "좋아요를 가장 많이 받은 순위로 추려졌습니다",
-    question: "Q.Recoil의 장점에 대해서 말해주세요",
-    badge: "FRONTEND",
-    rank: "1",
-  },
-  {
-    imageUrl: bestUser,
-    title: "5월 첫째주 면접왕 2등 '김이등'",
-    description: "좋아요를 가장 많이 받은 순위로 추려졌습니다",
-    question: "Q.Recoil의 장점에 대해서 말해주세요",
-    badge: "FRONTEND",
-    rank: "2",
-  },
-  {
-    imageUrl: bestUser,
-    title: "5월 첫째주 면접왕 3등 '김삼등'",
-    description: "좋아요를 가장 많이 받은 순위로 추려졌습니다",
-    question: "Q.Recoil의 장점에 대해서 말해주세요",
-    badge: "FRONTEND",
-    rank: "3",
-  },
-];
-
-const BestInterviews = () => {
+const BestInterviews = ({ weeklyInterviews }) => {
   const slider = useRef(null);
-  const [title, setTitle] = useState(DUMMY_BEST_INTERVIEWS[0].title);
+  const [title, setTitle] = useState(
+    `5월 둘째주 면접왕 1등 '${weeklyInterviews[0].user.nickname}'`
+  );
+
+  const badgeIcon = [gold, silver, bronze];
 
   const nextBtn = () => {
     slider.current.slickNext();
@@ -54,7 +34,12 @@ const BestInterviews = () => {
     autoplay: true,
     autoplaySpeed: 4000,
     slidesToShow: 1,
-    beforeChange: (_, newIdx) => setTitle(DUMMY_BEST_INTERVIEWS[newIdx].title),
+    beforeChange: (_, newIdx) =>
+      setTitle(
+        `5월 둘째주 면접왕 ${Number(newIdx) + 1}등 '${
+          weeklyInterviews[newIdx].user.nickname
+        }'`
+      ),
   };
 
   return (
@@ -68,28 +53,23 @@ const BestInterviews = () => {
           </button>
         </div>
         <StyledSlider ref={slider} {...settings}>
-          {DUMMY_BEST_INTERVIEWS.map((ele, idx) => {
+          {weeklyInterviews.map((interview, idx) => {
             return (
-              // <section key={idx}>
-              //   <div className="header">
-              //     <h2 className="title">{ele.title}</h2>
-              //     <p className="description">{ele.description}</p>
-              //   </div>
-              <div key={idx} className="main">
-                <div className="card" key={idx}>
-                  <img className="thumbnail" src={ele.imageUrl} alt="user" />
+              <div key={interview.id} className="main">
+                <div className="card">
+                  <img className="thumbnail" src={bestUser} alt="user" />
                   <div className="interview">
-                    {/* <h2 className="title">{ele.title}</h2> */}
+                    <img className="badge" alt="badge" src={badgeIcon[idx]} />
                     <GlobalBadge
                       background={theme.colors.pink}
-                      text={ele.badge}
+                      text={interview.question.category}
                     />
-                    {/* <p className="description">{ele.description}</p> */}
-                    <span className="question">{ele.question}</span>
+                    <span className="question">
+                      {interview.question.contents}
+                    </span>
                   </div>
                 </div>
               </div>
-              // </section>
             );
           })}
         </StyledSlider>
@@ -214,12 +194,6 @@ const StyledSlider = styled(Slider)`
         }
       }
 
-      /* .title {
-        font-size: ${fontSize["20"]};
-        font-weight: ${fontWeight.extraBold};
-        margin-bottom: 30px;
-      } */
-
       .question {
         margin-top: 20px;
         font-weight: ${fontWeight.extraBold};
@@ -255,6 +229,10 @@ const StyledSlider = styled(Slider)`
           width: 100%;
           text-align: center;
         }
+      }
+
+      .badge {
+        margin-bottom: 10px;
       }
     `;
   }}

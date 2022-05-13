@@ -3,6 +3,7 @@ import Header from "../components/layout/Header";
 import GlobalButton from "../components/UI/GlobalButton";
 import { useNavigate } from "react-router-dom";
 import GlobalStyles from "../styles/GlobalStyles";
+import notFoundImg from "../assets/notFound.png";
 
 const NotFound = () => {
   const navigate = useNavigate();
@@ -11,10 +12,14 @@ const NotFound = () => {
     <NotFoundLayout>
       <GlobalStyles />
       <Header />
+      <img className="notFound" src={notFoundImg} alt="notFound" />
       <h2>페이지를 찾을 수 없습니다</h2>
       <GlobalButton
-        onClick={() => navigate("/", { replace: true })}
+        padding="15px 35px"
+        background="#567FE8"
+        _fontSize={16}
         text="되돌아가기"
+        onClick={() => navigate("/", { replace: true })}
       />
     </NotFoundLayout>
   );
@@ -27,10 +32,14 @@ const NotFoundLayout = styled.div`
   align-items: center;
   height: 80vh;
 
+  .notFound {
+    max-width: 60%;
+  }
+
   h2 {
-    font-size: ${({ theme }) => theme.fontSize["40"]};
+    font-size: ${({ theme }) => theme.fontSize["20"]};
     font-weight: ${({ theme }) => theme.fontWeight.extraBold};
-    margin-bottom: 30px;
+    margin: 30px 0px;
   }
 `;
 
