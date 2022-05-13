@@ -19,10 +19,12 @@ const Comments = ({ cardId }) => {
   const [content, setContent] = useState("");
   const isTextareaDisabled = content.length === 0;
   const [openModal, setOpenModal] = useState(false);
+
   useEffect(() => {
     commentApis
       .getComments(cardId)
       .then((data) => {
+        console.log(data.comments);
         setAllComments(data.comments);
       })
       .catch((error) => {
