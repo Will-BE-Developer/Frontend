@@ -58,7 +58,7 @@ const FeedBackDetail = (props) => {
   // const { githubLink, introduce, nickname, profileImageUrl } = data.user;
 
   const editHandler = () => {
-    navigate(`/feedback/update/${cardId}`, { state: { data, video } });
+    navigate(`/feedback/${cardId}/update`, { state: { data, video } });
   };
 
   const clickDeleteHandler = () => {
