@@ -8,6 +8,9 @@ import defaultUserImage from "../../assets/defaultUserImage.jpg";
 import { signout, deleteUser, updateUser } from "../../store/slices/userSlice";
 import SetProfileImg from "../../components/Signup/SetProfileImg";
 
+import { IoAlertCircle } from "react-icons/io5";
+import GlobalModal from "../../components/UI/GlobalModal";
+
 const MyProfile = () => {
   const user = useSelector((state) => state.user.user);
   const navigate = useNavigate();
@@ -21,6 +24,8 @@ const MyProfile = () => {
   });
 
   console.log(getImage);
+
+  const [openModal, setOpenModal] = useState(false);
 
   const updateUserHandler = async () => {
     try {
@@ -58,24 +63,31 @@ const MyProfile = () => {
   };
 
   const deleteUserHandler = async () => {
-    const isConfirm = window.confirm("정말로 회원탈퇴를 하시겠습니까?");
-
-    if (isConfirm) {
-      try {
-        const res = await dispatch(deleteUser()).unwrap();
-        alert("회원탈퇴가 완료되었습니다");
-        navigate("/", { replace: true });
-        console.log(res);
-      } catch (err) {
-        console.log(err);
-      }
-    } else {
-      return;
+    console.log("계정삭제함수");
+    try {
+      const res = await dispatch(deleteUser()).unwrap();
+      alert("계정삭제가 완료되었습니다");
+      navigate("/", { replace: true });
+      console.log(res);
+    } catch (err) {
+      console.log(err);
     }
   };
 
   return (
     <Container>
+      <GlobalModal
+        title="계정삭제"
+        confirmText="계정삭제"
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        onConfirm={deleteUserHandler}
+        isConfirm
+        isIcon
+        icon={<AlertIcon />}
+      >
+        계정을 삭제하시겠습니까?
+      </GlobalModal>
       <BodyContainer>
         <div className="title">
           <h1>내 정보</h1>
@@ -203,7 +215,7 @@ const MyProfile = () => {
             border="1px solid rgba(130, 130, 130, 0.2)"
             _height="40px"
             hover
-            onClick={deleteUserHandler}
+            onClick={() => setOpenModal(true)}
           >
             회원탈퇴
           </GlobalButton>
@@ -212,6 +224,11 @@ const MyProfile = () => {
     </Container>
   );
 };
+
+const AlertIcon = styled(IoAlertCircle)`
+  font-size: 24px;
+  color: #ec5959;
+`;
 const Container = styled.div`
   width: 100%;
   padding: 0;

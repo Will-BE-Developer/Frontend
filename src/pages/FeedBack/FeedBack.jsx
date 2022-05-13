@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled, { css } from "styled-components";
 import GlobalCard from "../../components/UI/GlobalCard";
 import Dropdown from "../../components/UI/GlobalDropDown";
@@ -9,8 +9,13 @@ import Loader from "../../components/UI/Loader";
 
 const FeedBack = () => {
   const [data, setData] = useState({ feedback: [], pagination: {} });
+  const { state } = useLocation();
+  const hotKeyword = state?.replace("#", "");
+
   const [selectedSort, setSelectedSort] = useState("최신순");
-  const [selectedCategory, setSelectedCategory] = useState("전체보기");
+  const [selectedCategory, setSelectedCategory] = useState(
+    state ? hotKeyword : "전체보기"
+  );
 
   console.log(selectedSort);
 
