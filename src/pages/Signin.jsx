@@ -57,13 +57,14 @@ const Signin = (props) => {
       if (err.message === "이메일 인증 후에 이용해주세요.") {
         alert(err.message);
       }
+      alert(err.message);
     }
   };
 
   // 회원가입 유도하는 모달창
   const suggestSingUpHandler = (err) => {
-    alert(err);
-    // navigate("/signup", { replace: true });
+    return alert(err);
+    navigate("/signup", { replace: true });
   };
 
   const previousPageHandler = () => {

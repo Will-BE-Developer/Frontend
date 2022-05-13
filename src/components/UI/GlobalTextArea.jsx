@@ -1,9 +1,8 @@
-import { ro } from "date-fns/locale";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const GlobalTextArea = (props) => {
-  const { charLimit, rows, cols, placeHolder, _value } = props;
+  const { charLimit, rows, cols, placeHolder, value, onChange } = props;
 
   const [isError, setIsError] = useState(false);
 
@@ -16,16 +15,16 @@ const GlobalTextArea = (props) => {
   }, [remainingChars, isError]);
 
   const inputHandler = (e) => {
-    console.log("object");
+    onChange(e);
     const value = e.target.value;
-    const characterCount = value?.length;
+    const characterCount = value.length;
     setRemainingChars(characterCount);
     setIsError(false);
   };
   return (
     <>
       <TextArea
-        value={_value}
+        value={value}
         rows={rows}
         cols={cols}
         maxLength={charLimit}
