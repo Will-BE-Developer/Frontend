@@ -7,9 +7,9 @@ import store from "./store/configStore";
 import theme from "./styles/theme";
 import App from "./App";
 import Home from "./pages/Home";
-import Interview from "./pages/Interview";
-import InterviewTopic from "./pages/InterviewTopic";
-import InterviewRecording from "./pages/InterviewRecording";
+import Interview from "./pages/Interview/Interview";
+import InterviewTopic from "./pages/Interview/InterviewTopic";
+import InterviewRecording from "./pages/Interview/InterviewRecording";
 
 import KakaoRedirect from "./pages/KakaoRedirect";
 import SigninValidation from "./pages/SigninValidation";
@@ -30,6 +30,7 @@ import Test from "./components/UI/ModalExample/DeleteModal";
 import NotFound from "./pages/NotFound";
 
 import ScrollToTop from "./components/UI/ScrollToTop";
+import RequireAuth from "./components/Auth/RequireAuth";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -49,7 +50,14 @@ ReactDOM.render(
                 element={<FeedbackUpdate />}
               />
               <Route path="mypage" element={<MyPage />}>
-                <Route path="" element={<MyProfile />} />
+                <Route
+                  path=""
+                  element={
+                    <RequireAuth>
+                      <MyProfile />
+                    </RequireAuth>
+                  }
+                />
                 <Route path="history" element={<MyHistory />} />
                 <Route path="scrap" element={<MyScrap />} />
               </Route>

@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 
 const GlobalBadge = (props) => {
-  const { color, background, text, border, children, padding } = props;
+  const { color, background, text, border, children, padding, onClick } = props;
 
   const styles = {
     color,
@@ -11,13 +11,20 @@ const GlobalBadge = (props) => {
     padding,
   };
 
-  return <BadgeLayout {...styles}>{text ? text : children}</BadgeLayout>;
+  return (
+    <BadgeLayout onClick={onClick} {...styles}>
+      {text ? text : children}
+    </BadgeLayout>
+  );
 };
 
 const BadgeLayout = styled.span`
   ${({ theme }) => {
     const { colors, fontSize } = theme;
     return css`
+      &:hover {
+        cursor: ${({ onClick }) => (onClick ? "pointer" : "")};
+      }
       color: ${(props) => (props.color ? props.color : colors.white)};
       background: ${(props) =>
         props.background ? props.background : colors.white};

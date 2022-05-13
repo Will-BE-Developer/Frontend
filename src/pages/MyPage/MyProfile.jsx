@@ -1,59 +1,40 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import GlobalButton from "../../components/UI/GlobalButton";
 import theme from "../../styles/theme";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import mypageApis from "../../apis/mypageApis";
+import { useDispatch, useSelector } from "react-redux";
 import defaultUserImage from "../../assets/defaultUserImage.jpg";
-import { signout, deleteUser } from "../../store/slices/userSlice";
+import { signout, deleteUser, updateUser } from "../../store/slices/userSlice";
 import SetProfileImg from "../../components/Signup/SetProfileImg";
 
 const MyProfile = () => {
+  const user = useSelector((state) => state.user.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [user, setUser] = useState();
   const [isEdit, setIsEdit] = useState(false);
-  const [getImage, setGetImage] = useState(null);
-  const [isComplited, setIsComplited] = useState(false);
+  const [getImage, setGetImage] = useState({ image: user.profileImageUrl });
+  const [updateUserData, setUpdateUserData] = useState({
+    nickname: user.nickname,
+    githubLink: user.githubLink,
+    introduce: user.introduce,
+  });
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const data = await mypageApis.getUser();
+  console.log(getImage);
 
-      const userData = {
-        profileImageUrl: data.user.profileImageUrl,
-        nickname: data.user.nickname.replaceAll('"', ""),
-        githubLink: data.user.githubLink.replaceAll('"', ""),
-        introduce: data.user.introduce.replaceAll('"', ""),
-      };
-      setUser(userData);
-      setGetImage({ image: data.user.profileImageUrl });
-    };
-
-    if (isComplited) {
-      fetchUser();
-      return;
-    }
-
-    fetchUser();
-  }, [isComplited]);
-
-  const updateUser = async () => {
+  const updateUserHandler = async () => {
     try {
       const formData = new FormData();
       const img = getImage ? getImage.file : "";
 
       formData.append("profileImage", img);
-      formData.append("nickname", JSON.stringify(user?.nickname));
-      formData.append("githubLink", JSON.stringify(user?.githubLink));
-      formData.append("introduce", JSON.stringify(user?.introduce));
+      formData.append("nickname", JSON.stringify(updateUserData.nickname));
+      formData.append("githubLink", JSON.stringify(updateUserData.githubLink));
+      formData.append("introduce", JSON.stringify(updateUserData.introduce));
 
-      const res = await mypageApis.updateUser(formData);
+      await dispatch(updateUser(formData)).unwrap();
 
-      console.log(res);
       setIsEdit(false);
-      setIsComplited(true);
     } catch (err) {
       console.log(err);
     }
@@ -65,7 +46,6 @@ const MyProfile = () => {
 
   const editHandler = () => {
     setIsEdit(true);
-    setIsComplited(false);
   };
 
   const signoutHandler = async () => {
@@ -107,7 +87,7 @@ const MyProfile = () => {
                 background={theme.colors.blue}
                 border="1px solid rgba(130, 130, 130, 0.2)"
                 _height="40px"
-                onClick={updateUser}
+                onClick={updateUserHandler}
               />
               <GlobalButton
                 text="X"
@@ -116,8 +96,7 @@ const MyProfile = () => {
                 border="1px solid rgba(130, 130, 130, 0.2)"
                 _height="40px"
                 onClick={() => {
-                  console.log(user?.profileImageUrl);
-                  setGetImage({ image: user?.profileImageUrl });
+                  setGetImage({ image: user.profileImageUrl });
                   setIsEdit(false);
                 }}
               />
@@ -147,7 +126,7 @@ const MyProfile = () => {
               className="userImage"
               alt="userImage"
               src={
-                user?.profileImageUrl ? user.profileImageUrl : defaultUserImage
+                user.profileImageUrl ? user.profileImageUrl : defaultUserImage
               }
             />
           )}
@@ -155,9 +134,12 @@ const MyProfile = () => {
             <p>닉네임</p>
             {isEdit ? (
               <textarea
-                value={user ? user.nickname : ""}
+                value={updateUserData.nickname}
                 onChange={(e) =>
-                  setUser((prev) => ({ ...prev, nickname: e.target.value }))
+                  setUpdateUserData((prev) => ({
+                    ...prev,
+                    nickname: e.target.value,
+                  }))
                 }
               />
             ) : (
@@ -169,31 +151,35 @@ const MyProfile = () => {
             <p>포트폴리오 URL</p>
             {isEdit ? (
               <textarea
-                value={user ? user.githubLink : ""}
+                value={updateUserData.githubLink}
                 placeholder="Github URL을 넣어주세요"
                 onChange={(e) =>
-                  setUser((prev) => ({ ...prev, githubLink: e.target.value }))
+                  setUpdateUserData((prev) => ({
+                    ...prev,
+                    githubLink: e.target.value,
+                  }))
                 }
               />
             ) : (
               <div className="githubLink">
-                <p>{user?.githubLink ? user?.githubLink : "URL이 없습니다"}</p>
+                <p>{user.githubLink ? user.githubLink : "URL이 없습니다"}</p>
               </div>
             )}
             <p>소개글</p>
             {isEdit ? (
               <textarea
-                value={user ? user.introduce : ""}
+                value={updateUserData.introduce}
                 placeholder="소개글을 작성해주세요"
                 onChange={(e) =>
-                  setUser((prev) => ({ ...prev, introduce: e.target.value }))
+                  setUpdateUserData((prev) => ({
+                    ...prev,
+                    introduce: e.target.value,
+                  }))
                 }
               />
             ) : (
               <div className="introduce">
-                <p>
-                  {user?.introduce ? user?.introduce : "자기소개가 없습니다"}
-                </p>
+                <p>{user.introduce ? user.introduce : "자기소개가 없습니다"}</p>
               </div>
             )}
           </div>
