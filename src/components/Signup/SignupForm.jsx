@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
-
+import { useNavigate } from "react-router-dom";
 import { boxShadow } from "../../styles/boxShadow";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
@@ -12,8 +12,10 @@ import { useForm } from "react-hook-form";
 import GlobalButton from "../UI/GlobalButton";
 import { signupEmail } from "../../store/slices/userSlice";
 import userApis from "../../apis/userApis";
+import { FcPrevious } from "react-icons/fc";
 
 const SignupForm = (props) => {
+  const navigate = useNavigate();
   const emailRef = useRef(null);
   const [checkEmail, setCheckEmail] = useState(false);
 
@@ -56,27 +58,38 @@ const SignupForm = (props) => {
 
   const { ref, ...rest } = register("email");
 
-  const onSubmitHandler = (userData) => {
+  const onSubmitHandler = async (userData) => {
+    console.log(checkEmail);
     if (!checkEmail) {
       alert("이메일 중복을 확인해주세요.");
       return;
     }
-
-    dispatch(signupEmail(userData));
-    props.setCurrentPage(2);
+    try {
+      await dispatch(signupEmail(userData)).unwrap();
+      props.setCurrentPage(2);
+    } catch (err) {
+      return alert(err.message);
+    }
   };
 
-  const checkEmailHandler = () => {
+  const checkEmailHandler = async () => {
     const currentEmail = emailRef.current?.value;
     if (currentEmail) {
-      userApis.signupEmailCheck(currentEmail).then((res) => {
-        if (res.success) {
-          setCheckEmail(true);
-        } else {
-          setCheckEmail(false);
-        }
-      });
+      try {
+        const res = await userApis.signupEmailCheck(currentEmail);
+        console.log(res, "중복체크 결과 ");
+        setCheckEmail(true);
+        return;
+      } catch (err) {
+        console.log(err, "중복체크 에러 ");
+        setCheckEmail(false);
+      }
     }
+    console.log(checkEmail, "중복체크");
+  };
+
+  const previousPageHandler = () => {
+    navigate("/signin");
   };
 
   return (
@@ -84,6 +97,7 @@ const SignupForm = (props) => {
       <div>이메일 회원가입</div>
       <BoxContainer>
         <SignUpForm onSubmit={handleSubmit(onSubmitHandler)}>
+          <PreviousIcon onClick={previousPageHandler} />
           <Label htmlFor="email">이메일</Label>
           <div>
             <Input
@@ -254,5 +268,14 @@ const TermsShow = styled.span`
   text-decoration: underline;
   color: ${({ theme }) => theme.colors.black};
   font-weight: ${({ theme }) => theme.fontWeight.semiExtraBold};
+`;
+
+const PreviousIcon = styled(FcPrevious)`
+  margin-bottom: 30px;
+  font-size: 20px;
+  cursor: pointer;
+  & > polygon {
+    fill: ${({ theme }) => theme.colors.darkGrey};
+  }
 `;
 export default SignupForm;

@@ -3,13 +3,14 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { boxShadow } from "../styles/boxShadow";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
-// 회원가입 유효성 검사 api : react hook form
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import GlobalButton from "../components/UI/GlobalButton";
 import GlobalStyles from "../styles/GlobalStyles";
+import { FcPrevious } from "react-icons/fc";
 
 import SignupStart from "../components/Signin/SigninStart";
 
@@ -20,7 +21,6 @@ const Signin = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // 회원가입 유효성 검사
   const schema = Yup.object().shape({
     email: Yup.string()
       .email("이메일 형식이 맞지 않습니다.")
@@ -28,7 +28,6 @@ const Signin = (props) => {
     password: Yup.string().required("비밀번호를 입력해주세요."),
   });
 
-  // react hook form
   const {
     register,
     handleSubmit,
@@ -42,7 +41,6 @@ const Signin = (props) => {
     resolver: yupResolver(schema),
   });
 
-  // 회원가입 폼 제출
   const onSubmitHandler = async (userData) => {
     try {
       const res = await dispatch(signinEmail(userData)).unwrap();
@@ -53,10 +51,8 @@ const Signin = (props) => {
     } catch (err) {
       console.log(err.message);
       if (err.message === "가입되지 않은 이메일 입니다.") {
-        suggestSingUp(err);
+        suggestSingUpHandler(err);
       }
-
-      // alert(err.message);
 
       if (err.message === "이메일 인증 후에 이용해주세요.") {
         alert(err.message);
@@ -65,11 +61,18 @@ const Signin = (props) => {
   };
 
   // 회원가입 유도하는 모달창
-  const suggestSingUp = (err) => {
+  const suggestSingUpHandler = (err) => {
     alert(err);
     // navigate("/signup", { replace: true });
   };
 
+  const previousPageHandler = () => {
+    setCurrentPage(0);
+  };
+
+  const linkToSignUpHandler = () => {
+    navigate("/signup");
+  };
   return (
     <>
       <GlobalStyles />
@@ -83,7 +86,9 @@ const Signin = (props) => {
           <div>이메일 로그인</div>
           <BoxContainer>
             <SignUpForm onSubmit={handleSubmit(onSubmitHandler)}>
+              <PreviousIcon onClick={previousPageHandler} />
               <Label htmlFor="email">이메일</Label>
+
               <Input
                 type="email"
                 placeholder="이메일을 입력해주세요."
@@ -102,6 +107,13 @@ const Signin = (props) => {
                   로그인
                 </GlobalButton>
               </div>
+
+              <Terms>
+                <span>계정이 없으신가요?</span>
+                <TermsShow onClick={linkToSignUpHandler}>
+                  회원가입하러 가기
+                </TermsShow>
+              </Terms>
             </SignUpForm>
           </BoxContainer>
         </Container>
@@ -159,7 +171,6 @@ const SignUpForm = styled.form`
   & > div {
     width: 100%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
   }
 
@@ -214,4 +225,32 @@ const ErrorMSG = styled.span`
   margin-bottom: 16px;
 `;
 
+const Terms = styled.div`
+  display: flex;
+  justify-content: center;
+  font-size: ${({ theme }) => theme.calRem(14)};
+  font-weight: ${({ theme }) => theme.fontWeight.semiExtraBold};
+  margin-top: 10px;
+
+  ${({ theme }) => theme.device.mobile} {
+    font-size: ${({ theme }) => theme.calRem(12)};
+  }
+`;
+
+const TermsShow = styled.span`
+  margin-left: 5px;
+  text-decoration: underline;
+  color: ${({ theme }) => theme.colors.blue};
+  font-weight: ${({ theme }) => theme.fontWeight.semiExtraBold};
+  cursor: pointer;
+`;
+
+const PreviousIcon = styled(FcPrevious)`
+  margin-bottom: 30px;
+  font-size: 20px;
+  cursor: pointer;
+  & > polygon {
+    fill: ${({ theme }) => theme.colors.darkGrey};
+  }
+`;
 export default Signin;

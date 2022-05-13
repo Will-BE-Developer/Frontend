@@ -30,6 +30,7 @@ const GlobalCard = memo(({ card }) => {
     createdAt,
     isMine,
     isPublic,
+    commentsCount,
   } = card;
 
   const sendProfileModalHandler = (boolean) => {
@@ -62,7 +63,7 @@ const GlobalCard = memo(({ card }) => {
               <p>{question.category}</p>
               <div className="date_comments">
                 <TimeAgo timestamp={createdAt} />
-                <span>· 3개의 피드백</span>
+                <span>· {commentsCount}개의 피드백</span>
               </div>
             </div>
           </div>

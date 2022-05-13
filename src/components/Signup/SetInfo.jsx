@@ -107,7 +107,9 @@ const SetInfo = (props) => {
                 <Input
                   value={userData.nickname}
                   type="text"
-                  placeholder="2-6자 이내로 입력해주세요."
+                  placeholder="2-15자 이내로 입력해주세요."
+                  minLength="2"
+                  maxLength="15"
                   onChange={(e) => {
                     setUserData((prev) => {
                       return { ...prev, nickname: e.target.value };
@@ -118,6 +120,7 @@ const SetInfo = (props) => {
               <ErrorMSG>공백 없이 한글/영문/숫자만 가능합니다. </ErrorMSG>
               <GlobalButton
                 onClick={nextPageWithUploadImgHandler}
+                // onClick={() => alert("clicked")}
                 _width="100%"
                 margin="18px 0 0 0"
                 hover

@@ -10,7 +10,8 @@ const userApis = {
       }
     } catch (err) {
       if (err.response.status === 409) {
-        alert(err.response.data.msg);
+        console.log(err.response);
+        // alert(err.response.data.msg);
         return err.response.data;
       }
       return err;

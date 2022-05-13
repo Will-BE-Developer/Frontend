@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const GlobalTextArea = (props) => {
-  const { charLimit, rows, cols, placeHolder, _value, _onChange } = props;
+  const { charLimit, rows, cols, placeHolder, _value } = props;
 
   const [isError, setIsError] = useState(false);
 
@@ -11,13 +11,12 @@ const GlobalTextArea = (props) => {
 
   useEffect(() => {
     if (remainingChars === 50) {
-      setRemainingChars(50);
       setIsError(true);
     }
   }, [remainingChars, isError]);
 
   const inputHandler = (e) => {
-    _onChange(e);
+    console.log("object");
     const value = e.target.value;
     const characterCount = value?.length;
     setRemainingChars(characterCount);
