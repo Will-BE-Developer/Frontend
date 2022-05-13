@@ -18,7 +18,6 @@ function Dropdown({ selected, setSelected, options }) {
               key={index}
               onClick={(e) => {
                 setSelected(option);
-
                 setIsActive(false);
               }}
               className="item"

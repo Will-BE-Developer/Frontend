@@ -128,7 +128,6 @@ const FeedBackDetail = (props) => {
                 onClick={editHandler}
               />
               <GlobalButton
-                text="저장"
                 margin="0px 10px 0px 0px"
                 background={theme.colors.blue}
                 border="1px solid rgba(130, 130, 130, 0.2)"

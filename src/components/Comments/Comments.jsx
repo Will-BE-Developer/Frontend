@@ -11,14 +11,30 @@ const Comments = ({ cardId }) => {
   const [totalCount, setTotalCount] = useState(0);
   const isTextareaDisabled = content.length === 0;
 
+  // useEffect(() => {
+  //   commentApis
+  //     .getComments(cardId)
+  //     .then((data) => {
+  //       setAllComments(data.comments);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, [cardId]);
+
   useEffect(() => {
-    commentApis.getComments(cardId).then((data) => {
-      setAllComments(data.comments);
-    });
+    commentApis
+      .getComments(cardId)
+      .then((data) => {
+        setAllComments(data.comments);
+      })
+      .catch((err) => {
+        console.log("댓글 불러오기 실패 : count용도", err);
+      });
     const nestedCountArr = allComments
-      .map((i) => Number(i.nestedCommentsCount))
+      ?.map((i) => Number(i.nestedCommentsCount))
       .reduce((a, b) => a + b, 0);
-    const rootCount = Number(allComments.length);
+    const rootCount = Number(allComments?.length);
 
     setTotalCount(rootCount + nestedCountArr);
   }, [allComments, cardId]);
