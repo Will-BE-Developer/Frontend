@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import GlobalButton from "../components/UI/GlobalButton";
 import GlobalStyles from "../styles/GlobalStyles";
 
-import SignupStart from "../components/signin/SigninStart";
+import SignupStart from "../components/Signin/SigninStart";
 
 import { signinEmail } from "../store/slices/userSlice";
 

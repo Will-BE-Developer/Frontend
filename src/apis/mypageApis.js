@@ -2,34 +2,6 @@ import instance from "./axios.js";
 import { getCookie } from "../shared/cookies";
 
 const mypageApis = {
-  getUser: async () => {
-    try {
-      const response = await instance.get("/users/me", {
-        headers: {
-          Authorization: getCookie("token"),
-        },
-      });
-
-      return response.data;
-    } catch (error) {
-      return error.response;
-    }
-  },
-  updateUser: async (formData) => {
-    try {
-      const res = await instance.put("/api/users/me", formData, {
-        headers: {
-          Authorization: getCookie("token"),
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      console.log(res);
-      return res;
-    } catch (err) {
-      return err.response;
-    }
-  },
   getUserCard: async () => {
     try {
       const res = await instance.get(`/api/users/me/interviews`, {

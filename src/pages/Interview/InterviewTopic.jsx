@@ -2,10 +2,10 @@ import styled, { css } from "styled-components";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiChevronRight } from "react-icons/hi";
-import interviewApis from "../apis/interviewApis";
-import GlobalButton from "../components/UI/GlobalButton";
-import { boxShadow } from "../styles/boxShadow";
-import face from "../assets/face.png";
+import interviewApis from "../../apis/interviewApis";
+import GlobalButton from "../../components/UI/GlobalButton";
+import { boxShadow } from "../../styles/boxShadow";
+import face from "../../assets/face.png";
 
 const InterviewTopic = () => {
   const [topics, setTopics] = useState([]);
@@ -37,7 +37,7 @@ const InterviewTopic = () => {
       <div className="topic">
         {topics?.map((topic, index) => {
           return (
-            <label key={index}>
+            <label htmlFor={topic} key={index}>
               <div>
                 <img alt="logo" src={face} />
                 <span>{topic}</span>
@@ -47,6 +47,7 @@ const InterviewTopic = () => {
                 value={topic}
                 type="radio"
                 name="topic"
+                id={topic}
               />
             </label>
           );
@@ -113,6 +114,10 @@ const TopicBox = styled.div`
         }
       }
 
+      input:checked + label {
+        background-color: black;
+      }
+
       & .topic label {
         display: flex;
         justify-content: space-between;
@@ -134,15 +139,6 @@ const TopicBox = styled.div`
         height: 36px;
         margin-right: 5px;
       }
-
-      input[type="radio"]:checked {
-        .topic label {
-          background-color: #567fe8;
-        }
-      }
-
-      /* & .topic label {
-      } */
     `;
   }}
 `;

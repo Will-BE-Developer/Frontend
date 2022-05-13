@@ -96,6 +96,55 @@ export const emailValidation = createAsyncThunk(
   }
 );
 
+export const getUser = createAsyncThunk(
+  "user/getUser",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await instance.get("/api/users/me", {
+        headers: {
+          Authorization: getCookie("token"),
+        },
+      });
+
+      const userData = {
+        profileImageUrl: data.user.profileImageUrl,
+        nickname: data.user.nickname.replaceAll('"', ""),
+        githubLink: data.user.githubLink.replaceAll('"', ""),
+        introduce: data.user.introduce.replaceAll('"', ""),
+      };
+
+      return userData;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const updateUser = createAsyncThunk(
+  "user/updateUser",
+  async (formData, { rejectWithValue }) => {
+    try {
+      const { data } = await instance.put("/api/users/me", formData, {
+        headers: {
+          Authorization: getCookie("token"),
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(data);
+      const userData = {
+        profileImageUrl: data.user.profileImageUrl,
+        nickname: data.user.nickname.replaceAll('"', ""),
+        githubLink: data.user.githubLink.replaceAll('"', ""),
+        introduce: data.user.introduce.replaceAll('"', ""),
+      };
+
+      return userData;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 export const signout = createAsyncThunk(
   "user/signout",
   async (_, { rejectWithValue }) => {
@@ -151,6 +200,12 @@ const userSlice = createSlice({
     builder.addCase(signinKakao.fulfilled, (state, action) => {
       setCookie("token", action.payload.token);
       state.user = action.payload.user;
+    });
+    builder.addCase(getUser.fulfilled, (state, action) => {
+      state.user = action.payload;
+    });
+    builder.addCase(updateUser.fulfilled, (state, action) => {
+      state.user = action.payload;
     });
     builder.addCase(signout.fulfilled, (state) => {
       deleteCookie("token");
