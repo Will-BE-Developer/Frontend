@@ -30,6 +30,7 @@ import Test from "./components/UI/ModalExample/DeleteModal";
 import NotFound from "./pages/NotFound";
 
 import ScrollToTop from "./components/UI/ScrollToTop";
+import RequireAuth from "./components/Auth/RequireAuth";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -49,7 +50,14 @@ ReactDOM.render(
                 element={<FeedbackUpdate />}
               />
               <Route path="mypage" element={<MyPage />}>
-                <Route path="" element={<MyProfile />} />
+                <Route
+                  path=""
+                  element={
+                    <RequireAuth>
+                      <MyProfile />
+                    </RequireAuth>
+                  }
+                />
                 <Route path="history" element={<MyHistory />} />
                 <Route path="scrap" element={<MyScrap />} />
               </Route>

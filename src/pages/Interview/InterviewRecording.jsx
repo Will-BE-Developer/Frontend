@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import RecordRTC from "recordrtc";
-import Countdown from "react-countdown";
 import Timer from "react-timer-wrapper";
 import Timecode from "react-timecode";
 import styled from "styled-components";
@@ -10,6 +9,7 @@ import GlobalButton from "../../components/UI/GlobalButton";
 import InterviewForm from "../../components/Interview/InterviewForm";
 import webcamNotice from "../../assets/webcamNotice.png";
 import interviewApis from "../../apis/interviewApis";
+import Countdown from "react-countdown";
 
 const InterviewRecording = () => {
   const { state } = useLocation();
@@ -32,8 +32,6 @@ const InterviewRecording = () => {
         audio: true,
       });
 
-      console.log("1");
-
       recorderRef.current = new RecordRTC(stream, {
         type: "video",
         mimeType: "video/webm;codecs=vp8,opus",
@@ -54,7 +52,7 @@ const InterviewRecording = () => {
 
   useEffect(() => {
     if (isEnd) {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         const { videoWidth, videoHeight } = videoRef.current;
         thumbnailRef.current.width = videoWidth;
         thumbnailRef.current.height = videoHeight;
@@ -64,7 +62,9 @@ const InterviewRecording = () => {
         thumbnailRef.current.toBlob((blob) => setThumbnail(blob));
       }, 1000);
 
-      return;
+      return () => {
+        clearTimeout(timer);
+      };
     }
 
     if (firstTry) {
@@ -77,16 +77,6 @@ const InterviewRecording = () => {
           console.log(error);
         });
     }
-
-    const timer = setTimeout(() => {
-      if (videoRef.current.srcObject === null) {
-        recordingHandler();
-      }
-    }, 5000);
-
-    return () => {
-      clearTimeout(timer);
-    };
   }, [recordingHandler, isEnd, state, firstTry]);
 
   const stopRecordingHandler = () => {
@@ -164,6 +154,11 @@ const InterviewRecording = () => {
                   <Countdown
                     date={Date.now() + 5000}
                     renderer={({ seconds }) => seconds}
+                    onComplete={() => {
+                      if (videoRef.current.srcObject === null) {
+                        recordingHandler();
+                      }
+                    }}
                   />
                 </h1>
               )}
@@ -289,7 +284,7 @@ const RecordWrapper = styled.div`
 
   & .count {
     color: white;
-    font-size: 80px;
+    font-size: 60px;
     position: absolute;
     top: 50%;
     left: 50%;

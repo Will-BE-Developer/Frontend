@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { css } from "styled-components";
+import styled, { css } from "styled-components";
+import { useNavigate } from "react-router-dom";
 import GlobalBadge from "../UI/GlobalBadge";
 import theme from "../../styles/theme";
 
@@ -7,12 +7,14 @@ const DUMMY_TOPICS = [
   "#Spring",
   "#React",
   "#Java",
-  "#Web",
+  "#General",
   "#Database",
   "Javascript",
 ];
 
 const HotTopic = () => {
+  const navigate = useNavigate();
+
   return (
     <HotTopicLayout>
       <section>
@@ -23,6 +25,7 @@ const HotTopic = () => {
             {DUMMY_TOPICS.map((ele, idx) => {
               return (
                 <GlobalBadge
+                  onClick={() => navigate("/feedback", { state: ele })}
                   padding="11px 16px"
                   background={theme.colors.blue}
                   text={ele}
