@@ -44,7 +44,7 @@ const SetProfileImg = (props) => {
     <Div isedit="true">
       <Img
         isedit="true"
-        alt="not fount"
+        alt="not found"
         width={"250px"}
         src={image ? image : defaultUserImage}
       />

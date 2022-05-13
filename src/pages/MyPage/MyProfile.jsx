@@ -13,12 +13,14 @@ const MyProfile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isEdit, setIsEdit] = useState(false);
-  const [getImage, setGetImage] = useState({ image: user?.profileImageUrl });
+  const [getImage, setGetImage] = useState({ image: user.profileImageUrl });
   const [updateUserData, setUpdateUserData] = useState({
     nickname: user.nickname,
     githubLink: user.githubLink,
     introduce: user.introduce,
   });
+
+  console.log(getImage);
 
   const updateUserHandler = async () => {
     try {

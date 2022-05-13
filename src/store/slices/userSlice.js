@@ -108,9 +108,9 @@ export const getUser = createAsyncThunk(
 
       const userData = {
         profileImageUrl: data.user.profileImageUrl,
-        nickname: data.user.nickname.replaceAll('"', ""),
-        githubLink: data.user.githubLink.replaceAll('"', ""),
-        introduce: data.user.introduce.replaceAll('"', ""),
+        nickname: data.user.nickname,
+        githubLink: data.user.githubLink,
+        introduce: data.user.introduce,
       };
 
       return userData;
@@ -130,12 +130,12 @@ export const updateUser = createAsyncThunk(
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(data);
+
       const userData = {
         profileImageUrl: data.user.profileImageUrl,
-        nickname: data.user.nickname.replaceAll('"', ""),
-        githubLink: data.user.githubLink.replaceAll('"', ""),
-        introduce: data.user.introduce.replaceAll('"', ""),
+        nickname: data.user.nickname,
+        githubLink: data.user.githubLink,
+        introduce: data.user.introduce,
       };
 
       return userData;
