@@ -15,6 +15,7 @@ const GlobalButton = (props) => {
     border,
     hover,
     disabled,
+    _fontSize,
   } = props;
 
   const styles = {
@@ -27,6 +28,7 @@ const GlobalButton = (props) => {
     border,
     hover,
     disabled,
+    _fontSize,
   };
 
   return (
@@ -45,6 +47,7 @@ GlobalButton.defaultProps = {
   _height: false,
   border: false,
   hover: false,
+  _fontSize: false,
   onClick: () => {},
   color: "white",
   marginBottom: "12px",
@@ -65,7 +68,8 @@ const Button = styled.button`
       border: ${(props) => (props.border ? props.border : "")};
       padding: ${(props) => (props.padding ? props.padding : "11px 18px")};
       margin: ${(props) => (props.margin ? props.margin : "")};
-      font-size: ${calRem(14)};
+      font-size: ${(props) =>
+        props._fontSize ? calRem(props._fontSize) : calRem(14)};
       color: ${(props) => (props.color ? props.color : colors.white)};
       background: ${(props) =>
         props.background ? props.background : colors.darkGrey};

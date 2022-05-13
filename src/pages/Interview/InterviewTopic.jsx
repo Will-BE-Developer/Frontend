@@ -37,10 +37,14 @@ const InterviewTopic = () => {
       <div className="topic">
         {topics?.map((topic, index) => {
           return (
-            <label htmlFor={topic} key={index}>
+            <label
+              className={topic === selectTopic ? "select" : "false"}
+              htmlFor={topic}
+              key={index}
+            >
               <div>
                 <img alt="logo" src={face} />
-                <span>{topic}</span>
+                <span style={{ fontSize: "14px" }}>{topic}</span>
               </div>
               <input
                 onChange={() => setSelectTopic(topic)}
@@ -59,8 +63,9 @@ const InterviewTopic = () => {
           margin="0px 0px 40px 0px"
           onClick={selectTopicHandler}
           background="#567FE8"
+          _fontSize={16}
+          text="면접 시작하기"
         >
-          면접 시작하기
           <HiChevronRight size="25px" />
         </GlobalButton>
       </div>
@@ -114,10 +119,6 @@ const TopicBox = styled.div`
         }
       }
 
-      input:checked + label {
-        background-color: black;
-      }
-
       & .topic label {
         display: flex;
         justify-content: space-between;
@@ -138,6 +139,11 @@ const TopicBox = styled.div`
         width: 36px;
         height: 36px;
         margin-right: 5px;
+      }
+
+      .select {
+        background-color: rgba(86, 127, 232, 0.06);
+        border: 1px solid ${colors.blue} !important;
       }
     `;
   }}

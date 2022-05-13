@@ -12,6 +12,8 @@ const FeedBack = () => {
   const [selectedSort, setSelectedSort] = useState("최신순");
   const [selectedCategory, setSelectedCategory] = useState("전체보기");
 
+  console.log(selectedSort);
+
   const sortList = ["최신순", "오래된순", "스크랩순"];
   const categoryList = [
     "전체보기",

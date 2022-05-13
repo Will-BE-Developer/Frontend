@@ -170,7 +170,7 @@ export const deleteUser = createAsyncThunk(
   "user/deleteUser",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await instance.delete("/api/users/me", {
+      const response = await instance.delete("/users/me", {
         headers: {
           Authorization: getCookie("token"),
         },
