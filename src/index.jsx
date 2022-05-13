@@ -7,8 +7,6 @@ import store from "./store/configStore";
 import theme from "./styles/theme";
 import App from "./App";
 
-import Test from "./components/UI/ModalExample/DeleteModal";
-
 import ScrollToTop from "./components/UI/ScrollToTop";
 import RequireAuth from "./components/Auth/RequireAuth";
 import Loader from "./components/UI/Loader";
@@ -43,7 +41,6 @@ ReactDOM.render(
               <Route path="" element={<Home />} />
               <Route path="/" element={<App />}>
                 <Route path="" element={<Home />} />
-                <Route path="test" element={<Test />} />
                 <Route path="feedback" element={<FeedBack />} />
                 <Route path="feedback/:cardId" element={<FeedBackDetail />} />
                 <Route
