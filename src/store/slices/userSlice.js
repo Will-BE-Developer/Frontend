@@ -159,7 +159,6 @@ export const signout = createAsyncThunk(
       );
       return response.data;
     } catch (err) {
-      console.log(err);
       return rejectWithValue(err.response.data);
     }
   }
@@ -192,7 +191,6 @@ const userSlice = createSlice({
       state.user = action.payload.user;
     });
     builder.addCase(signinEmail.fulfilled, (state, action) => {
-      console.log(action.payload);
       setCookie("token", action.payload.token);
       state.user = action.payload.user;
     });

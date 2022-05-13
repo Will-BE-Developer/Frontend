@@ -4,7 +4,6 @@ import GlobalCard from "../UI/GlobalCard";
 import { useNavigate } from "react-router-dom";
 
 const LatestFeedback = ({ latestInterviews }) => {
-  console.log(latestInterviews);
   const navigate = useNavigate();
 
   return (

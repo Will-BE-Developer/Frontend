@@ -44,7 +44,6 @@ const Signin = (props) => {
   const onSubmitHandler = async (userData) => {
     try {
       const res = await dispatch(signinEmail(userData)).unwrap();
-      console.log(res);
       if (res.token) {
         navigate("/", { replace: true });
       }

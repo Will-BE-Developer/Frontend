@@ -13,7 +13,6 @@ import Countdown from "react-countdown";
 
 const InterviewRecording = () => {
   const { state } = useLocation();
-  console.log(state);
   const navigate = useNavigate();
   const videoRef = useRef(null);
   const recorderRef = useRef(null);
@@ -77,7 +76,6 @@ const InterviewRecording = () => {
       interviewApis
         .getQuestion(state.selectTopic)
         .then((question) => {
-          console.log(question);
           setQuestion(question);
         })
         .catch((error) => {
