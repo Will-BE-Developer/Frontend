@@ -28,6 +28,7 @@ const FeedBackDetail = (props) => {
   const sendProfileModalHandler = (boolean) => {
     setOpenProfileModal(boolean);
   };
+
   useEffect(() => {
     feedbackApis
       .getDetailVideo(cardId)
