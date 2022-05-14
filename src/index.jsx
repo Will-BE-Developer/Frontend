@@ -26,6 +26,7 @@ import MyProfile from "./pages/MyPage/MyProfile";
 import MyHistory from "./pages/MyPage/MyHistory";
 import MyScrap from "./pages/MyPage/MyScrap";
 import NotFound from "./pages/NotFound";
+import ServerError from "./pages/ServerError";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -64,6 +65,7 @@ ReactDOM.render(
             <Route path="/signin" element={<Signin />} />
             <Route path="/user/kakao/callback" element={<KakaoRedirect />} />
             <Route path="/signin/validation" element={<SigninValidation />} />
+            <Route path="/notice" element={<ServerError />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

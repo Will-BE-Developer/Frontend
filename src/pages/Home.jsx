@@ -30,7 +30,10 @@ const Home = () => {
             weeklyInterviews,
           });
         }
-      );
+      )
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (
