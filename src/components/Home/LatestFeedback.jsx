@@ -20,7 +20,7 @@ const LatestFeedback = ({ latestInterviews }) => {
         </div>
         <button onClick={() => navigate("/feedback")} className="interviewBtn">
           더 보기
-          <HiChevronRight size="20px" />
+          <HiChevronRight size="25px" />
         </button>
       </section>
     </LatestFeedbackLayout>
@@ -87,6 +87,8 @@ const LatestFeedbackLayout = styled.div`
         color: ${colors.black};
         border: 2px solid ${colors.headerBgColor};
         border-radius: 25px;
+        line-height: 0px;
+        font-size: 15px;
       }
     `;
   }}

@@ -3,8 +3,15 @@ import { HiChevronRight } from "react-icons/hi";
 import { boxShadow } from "../../styles/boxShadow";
 import { useNavigate } from "react-router-dom";
 import theme from "../../styles/theme";
-import GlobalBadge from "../UI/GlobalBadge";
-import face from "../../assets/face.png";
+import face from "../../assets/categoriesIcon/some.png";
+import React from "../../assets/categoriesIcon/react.png";
+import Network from "../../assets/categoriesIcon/network.png";
+
+const icons = {
+  Etc: face,
+  React,
+  Network,
+};
 
 const DailyQuestions = ({ todaysQuestions }) => {
   const navigate = useNavigate();
@@ -20,13 +27,27 @@ const DailyQuestions = ({ todaysQuestions }) => {
           {todaysQuestions.map(({ question }) => {
             return (
               <div className="card" key={question.id}>
-                <img className="logo" alt="logo" src={face} />
+                <img
+                  className="logo"
+                  alt="logo"
+                  src={
+                    !!icons[question.category]
+                      ? icons[question.category]
+                      : icons.Etc
+                  }
+                />
                 <div className="contents">
-                  <GlobalBadge
-                    background={theme.colors.pink}
-                    text={question.category}
-                  />
-                  <p>{question.contents}</p>
+                  <p
+                    style={{
+                      color: theme.colors.mediumGrey,
+                      marginBottom: "20px",
+                    }}
+                  >
+                    {question.category}
+                  </p>
+                  <p style={{ fontSize: "20px", marginBottom: "20px" }}>
+                    Q. {question.contents}
+                  </p>
                 </div>
                 <button
                   onClick={() =>
@@ -35,14 +56,14 @@ const DailyQuestions = ({ todaysQuestions }) => {
                   className="startBtn"
                 >
                   시작하기
-                  <HiChevronRight size="20px" />
+                  <HiChevronRight size="25px" />
                 </button>
               </div>
             );
           })}
         </div>
         <button onClick={() => navigate("/interview")} className="interviewBtn">
-          면접 보러가기
+          다른 면접 보러가기
         </button>
       </section>
     </DailyQuestionLayout>
@@ -75,6 +96,7 @@ const DailyQuestionLayout = styled.div`
       .main {
         width: 100%;
         display: grid;
+        gap: 10px;
         grid-template-columns: repeat(3, 1fr);
         margin-bottom: 25px;
 
@@ -94,7 +116,7 @@ const DailyQuestionLayout = styled.div`
         ${boxShadow()}
 
         .startBtn {
-          background-color: ${colors.lightestGrey};
+          background-color: #f4f6f9;
         }
       }
 
@@ -102,7 +124,7 @@ const DailyQuestionLayout = styled.div`
         padding: 10px;
         background-color: ${colors.lightestGrey};
         border-radius: 8px;
-        margin-bottom: 24px;
+        margin-bottom: 10px;
       }
 
       .contents {
@@ -137,6 +159,7 @@ const DailyQuestionLayout = styled.div`
         padding: 11px 0px;
         border-radius: 4px;
         font-size: ${fontSize["16"]};
+        line-height: 0px;
       }
 
       .interviewBtn {

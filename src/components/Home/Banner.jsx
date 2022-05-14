@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useRef } from "react";
 import { HiChevronRight, HiChevronLeft } from "react-icons/hi";
-import bannerBackground from "../../assets/bannerBackground.png";
+import bannerBackground from "../../assets/banner.png";
 
 const DUMMY_CONTENTS = [
   {
@@ -66,9 +66,11 @@ const Banner = () => {
                   <HiChevronLeft size="16px" />
                 </button>
                 <span>
-                  <span style={{ color: "green" }}>{`${idx + 1}`}</span>
+                  <span style={{ color: "black", fontSize: "16px" }}>{`${
+                    idx + 1
+                  }`}</span>
                   <span style={{ color: "rgba(0,0,0,0.3)" }}> / </span>
-                  <span>{`${totalCount}`}</span>
+                  <span style={{ fontSize: "16px" }}>{`${totalCount}`}</span>
                 </span>
                 <button onClick={nextBtn}>
                   <HiChevronRight size="16px" />
@@ -140,8 +142,7 @@ const StyledSlider = styled(Slider)`
     padding: 25px;
     border-radius: 4px;
     border-start-start-radius: 30px;
-    background-color: ${({ theme }) => theme.colors.white};
-    box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 1);
   }
 
   .badge {
@@ -176,7 +177,11 @@ const StyledSlider = styled(Slider)`
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid lightgray;
+    /* background-color: white;
+    border: 1px solid white;
+     */
+    /* background-color: rgba(255, 255, 255, 0.4); */
+    border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 50%;
     padding: 3px;
   }
