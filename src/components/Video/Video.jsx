@@ -1,20 +1,77 @@
-import styled from "styled-components";
-import ReactPlayer from "react-player";
-
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import feedbackApis from "../../apis/feedbackApis.js";
-import logo from "../../assets/logo.png";
 
+import styled from "styled-components";
+import ReactPlayer from "react-player";
+import screenfull from "screenfull";
+import VideoControl from "./VideoControl.jsx";
+import feedbackApis from "../../apis/feedbackApis.js";
+
+import { useTheme } from "@mui/material/styles";
+import Slider from "@mui/material/Slider";
+import Tooltip from "@mui/material/Tooltip";
+// import ValueLabelComponent from "./ValueLabelComponent";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
+import { BiFullscreen } from "react-icons/bi";
 import { MdFavorite, MdFastRewind, MdFastForward } from "react-icons/md";
+import { HiVolumeUp } from "react-icons/hi";
+
+// React player demo 모음
+// https://github.com/cookpete/react-player/blob/master/src/demo/App.js
+
+// const format = (seconds) => {
+//   if (isNaN(seconds)) {
+//     return "00:00";
+//   }
+//   const date = new Date(seconds * 1000);
+//   const mm = date.getUTCMinutes();
+//   const ss = date.getUTCSeconds().toString.padStart(2, "0");
+
+//   return `${mm}: ${ss}`;
+// };
+
+const format = (seconds) => {
+  console.log(seconds, "seconds");
+
+  if (isNaN(seconds)) {
+    return `00:00`;
+  }
+
+  const date = new Date(seconds * 1000);
+  const hh = date.getUTCHours();
+  const mm = date.getUTCMinutes();
+  const ss = date.getUTCSeconds().toString().padStart(2, "0");
+  if (hh) {
+    return `${hh}:${mm.toString().padStart(2, "0")}:${ss}`;
+  }
+  return `${mm}:${ss}`;
+};
+
+let count = 0;
 
 const Video = (props) => {
+  const videoRef = useRef(null);
+  const videoControllerRef = useRef(null);
+  const canvasRef = useRef(null);
+  const controlsRef = useRef(null);
+
   console.log(props);
   const { cardId } = props;
   const navigate = useNavigate();
   const [video, setVideo] = useState("");
+  const [timeDisplayFormat, setTimeDisplayFormat] = useState("normal");
+  const [likes, setLikes] = useState([]);
+  const [state, setState] = useState({
+    playing: true,
+    muted: true,
+    volume: 0.5,
+    playbackRate: 1.0,
+    played: 0,
+    seeking: false,
+  });
 
+  const { playing, muted, volume, playbackRate, played, seeking } = state;
   useEffect(() => {
     feedbackApis
       .getDetailVideo(cardId)
@@ -27,61 +84,221 @@ const Video = (props) => {
       });
   }, [cardId, navigate]);
 
+  const playPauseHandler = () => {
+    setState({ ...state, playing: !state.playing });
+  };
+
+  const rewindHandler = () => {
+    videoRef.current.seekTo(videoRef.current.getCurrentTime() - 5);
+  };
+
+  const forwardHandler = () => {
+    videoRef.current.seekTo(videoRef.current.getCurrentTime() + 5);
+  };
+  const muteHandler = () => {
+    setState({ ...state, muted: !state.muted });
+  };
+
+  const durationHandelr = (duration) => {
+    setState({ ...state, duration });
+  };
+
+  const volumeChangeHandler = (e, newValue) => {
+    setState({
+      ...state,
+      volume: parseFloat(newValue / 100),
+      muted: newValue === 0 ? true : false,
+    });
+  };
+
+  const volumeSeekUpHandler = (e, newValue) => {
+    setState({
+      ...state,
+      volume: parseFloat(newValue / 100),
+      muted: newValue === 0 ? true : false,
+    });
+  };
+
+  const playBackChangeHandler = (rate) => {
+    setState({
+      ...state,
+      playbackRate: rate,
+    });
+  };
+
+  const toggleFullScreenHandler = () => {
+    screenfull.toggle(videoControllerRef.current);
+  };
+
+  const progressHandler = (changeState) => {
+    console.log("onProgress", state);
+
+    if (count > 3) {
+      controlsRef.current.style.visibility = "hidden";
+      count = 0;
+    }
+    if ((controlsRef.current.style.visibility = "visible")) {
+      count += 1;
+    }
+    if (!state.seeking) {
+      setState({ ...state, ...changeState });
+    }
+  };
+
+  // We only want to update time slider if we are not currently seeking
+  const onSeekChangeHandler = (e, newValue) => {
+    console.log({ newValue });
+    setState({ ...state, played: parseFloat(newValue / 100) });
+  };
+
+  const seekMouseDownHandler = (e) => {
+    setState({ ...state, seeking: true });
+  };
+
+  const seekMouseUpHandler = (e, newValue) => {
+    console.log({ value: e.target });
+    setState({ ...state, seeking: false });
+    // console.log(sliderRef.current.value)
+    videoRef.current.seekTo(newValue / 100, "fraction");
+  };
+
+  const displayFormatHandler = () => {
+    setTimeDisplayFormat(
+      timeDisplayFormat == "normal" ? "remaining" : "normal"
+    );
+  };
+
+  const currentTime =
+    videoRef && videoRef.current ? videoRef.current.getCurrentTime() : "00:00";
+
+  const duration =
+    videoRef && videoRef.current ? videoRef.current.getDuration() : "00:00";
+
+  // 현재시간
+  const elapsedTime =
+    timeDisplayFormat == "normal"
+      ? format(currentTime)
+      : `-${format(duration - currentTime)}`;
+
+  const totalDuration = format(duration);
+
+  const addLike = () => {
+    const canvas = canvasRef.current;
+    canvas.width = 160;
+    canvas.height = 90;
+    const ctx = canvas.getContext("2d");
+
+    ctx.drawImage(
+      videoRef.current.getInternalPlayer(),
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+    const dataUri = canvas.toDataURL();
+    canvas.width = 0;
+    canvas.height = 0;
+    const likeCopy = [...likes];
+    likeCopy.push({
+      time: videoRef.current.getCurrentTime(),
+      display: format(videoRef.current.getCurrentTime()),
+      image: dataUri,
+    });
+    setLikes(likeCopy);
+  };
+
+  const mouseMoveHandelr = () => {
+    console.log("mousemove");
+    controlsRef.current.style.visibility = "visible";
+    count = 0;
+  };
+
+  const mouseLeaveHandler = () => {
+    controlsRef.current.style.visibility = "hidden";
+    count = 0;
+  };
+
   return (
     <Container>
-      <div className="player-wrapper">
+      <div
+        ref={videoControllerRef}
+        className="player-wrapper"
+        onMouseMove={mouseMoveHandelr}
+        onMouseLeave={mouseLeaveHandler}
+      >
         <ReactPlayer
+          ref={videoRef}
           url={video}
-          playing
+          playing={playing}
+          controls={false}
+          muted={muted}
+          volume={volume}
+          playbackRate={playbackRate}
           className="react-player"
-          width={"100%"}
-          height={"100%"}
+          width="100%"
+          height="100%"
+          // onSeek={(e) => console.log("onSeek", e)}
+          onProgress={progressHandler}
+          config={{
+            file: {
+              attributes: {
+                crossOrigin: "anonymous",
+              },
+            },
+          }}
         />
+        <VideoControl
+          ref={controlsRef}
+          onPlayPause={playPauseHandler}
+          playing={playing}
+          onRewind={rewindHandler}
+          onForward={forwardHandler}
+          muted={muted}
+          onMute={muteHandler}
+          onVolumeChange={volumeChangeHandler}
+          onVolumeSeekUp={volumeSeekUpHandler}
+          volume={volume}
+          playbackRate={playbackRate}
+          onPlaybackRateChange={playBackChangeHandler}
+          onToggleFullScreen={toggleFullScreenHandler}
+          played={played}
+          onSeek={onSeekChangeHandler}
+          onSeekMouseDown={seekMouseDownHandler}
+          onSeekMouseUp={seekMouseUpHandler}
+          elapsedTime={elapsedTime}
+          totalDuration={totalDuration}
+          onDuration={durationHandelr}
+          onChangeDisplayFormat={displayFormatHandler}
+          onLike={addLike}
+        />
+      </div>
+      <HightLight>
+        {" "}
+        <div className="highlight_bar">
+          <h2>Highlight</h2>
+          <div className="timestamp_box">
+            {likes.map((like, index) => (
+              <div
+                className="timestamp"
+                key={index}
+                onClick={() => {
+                  videoRef.current.seekTo(like.time);
+                  controlsRef.current.style.visibility = "visible";
 
-        <div className="controls_wrapper">
-          <div className="control_box">
-            {/* header */}
-            <div className="header">
-              <div className="logo">
-                <img alt="logo" src={logo} />
+                  setTimeout(() => {
+                    controlsRef.current.style.visibility = "hidden";
+                  }, 1000);
+                }}
+                elevation={3}
+              >
+                {/* <img alt="likes" crossOrigin="anonymous" src={like.image} /> */}
+                <span>{like.display}</span>
               </div>
-              <button className="like_btn">
-                <LikeIcon />
-              </button>
-            </div>
-
-            {/* body */}
-            <div className="body">
-              <button>
-                <RewindIcon />
-              </button>
-              <button>
-                <PlayIcon />
-              </button>
-              <button>
-                <ForwardIcon />
-              </button>
-            </div>
-
-            {/* footer */}
-            <div className="footer">
-              <div className="play_control_box">
-                <input
-                  className="range"
-                  type="range"
-                  min={0}
-                  max={100}
-                  step="any"
-                  // value={played}
-                  // onMouseDown={this.handleSeekMouseDown}
-                  // onChange={this.handleSeekChange}
-                  // onMouseUp={this.handleSeekMouseUp}
-                />
-              </div>
-            </div>
+            ))}
           </div>
         </div>
-      </div>
+      </HightLight>
+      <canvas ref={canvasRef} />
     </Container>
   );
 };
@@ -99,105 +316,35 @@ const Container = styled.div`
 
     .react-player {
     }
+  }
+`;
 
-    .controls_wrapper {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.6);
+const HightLight = styled.div`
+  margin-top: 20px;
+  h2 {
+    font-size: 16px;
+  }
+  .highlight_bar {
+    margin-top: 10px;
+
+    display: flex;
+    justify-content: space-around;
+
+    .timestamp_box {
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      width: 85%;
 
-      z-index: 1;
+      justify-content: space-around;
+      background: #ea617a;
+      border-radius: 4px;
+      color: white;
 
-      & .control_box {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        padding: 16px;
-        width: 100%;
-        height: 100%;
-
-        .header {
-          width: 100%;
-          display: flex;
-          justify-content: space-between;
-
-          .title {
-            color: white;
-          }
-
-          .like_btn {
-            background: rgba(30, 30, 30, 0.9);
-            border-radius: 0.5em;
-            padding: 8px;
-          }
-        }
-
-        .body {
-          width: 60%;
-          display: flex;
-          justify-content: space-around;
-
-          button {
-            font-size: 40px;
-            /* color: ${({ theme }) => theme.colors.pink}; */
-            color: #777;
-            transform: scale(0.9);
-            &:hover {
-              color: white;
-              transform: scale(1);
-              transition: all 0.2s ease-in-out;
-            }
-          }
-        }
-
-        .footer {
-          width: 100%;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 12px;
-
-          .play_control_box {
-            width: 100%;
-
-            input[type="range"] {
-              -webkit-appearance: none;
-              display: block;
-              appearance: none;
-              max-width: 750px;
-              width: 100%;
-              margin: 0;
-
-              background: rgba(255, 255, 255, 0.6);
-              cursor: pointer;
-              border: 1px solid #000000;
-              height: 6px;
-              &:focus {
-                outline: none;
-              }
-            }
-
-            input[type="range"]::-webkit-slider-thumb {
-              -webkit-appearance: none;
-              height: 15px;
-              width: 15px;
-              border-radius: 50%;
-              background: #567fe8;
-              color: #567fe8;
-            }
-          }
-        }
+      .timestamp {
+        cursor: pointer;
       }
     }
   }
 `;
-
 // pink : #EA617A
 // main : ##567FE8
 // yellow : #EAB90D
