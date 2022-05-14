@@ -34,7 +34,6 @@ const Video = (props) => {
           url={video}
           playing
           className="react-player"
-          controls
           width={"100%"}
           height={"100%"}
         />
@@ -162,7 +161,7 @@ const Container = styled.div`
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 16px;
+          padding: 12px;
 
           .play_control_box {
             width: 100%;
@@ -171,10 +170,11 @@ const Container = styled.div`
               -webkit-appearance: none;
               display: block;
               appearance: none;
-              max-width: 700px;
+              max-width: 750px;
               width: 100%;
               margin: 0;
-              background: #ffffff;
+
+              background: rgba(255, 255, 255, 0.6);
               cursor: pointer;
               border: 1px solid #000000;
               height: 6px;
