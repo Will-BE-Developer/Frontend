@@ -136,9 +136,7 @@ const TopicBox = styled.div`
       }
 
       & .topic label div img {
-        /* width: 36px;
-        height: 36px; */
-        margin-right: 5px;
+        margin-right: 8px;
       }
 
       .select {
