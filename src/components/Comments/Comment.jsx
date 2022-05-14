@@ -4,7 +4,12 @@ import TimeAgo from "../FeedBack/TimeAgo";
 import commentApis from "../../apis/commentApis";
 import UserProfileModal from "../UI/ModalSample/UserProfileModal";
 import GlobalTextArea from "../UI/GlobalTextArea";
-const Comment = ({ currentComment, cardId, setAllComments }) => {
+const Comment = ({
+  currentComment,
+  cardId,
+  setAllComments,
+  setCommentCount,
+}) => {
   const { id, user, createdAt, contents, isMine, parentId } = currentComment;
 
   const isRootComment = parentId === null;
@@ -51,6 +56,7 @@ const Comment = ({ currentComment, cardId, setAllComments }) => {
       const response = await commentApis.updateComment(updateData, id);
       setIsEdit(false);
       setAllComments(response.comments);
+      setCommentCount(response.totalComments);
     } catch (err) {
       console.log("댓글 수정 오류", err);
     }
@@ -59,7 +65,9 @@ const Comment = ({ currentComment, cardId, setAllComments }) => {
   const clickDeleteHandler = async () => {
     try {
       const response = await commentApis.deleteComment(id);
+      console.log(response.totalComments);
       setAllComments(response.comments);
+      setCommentCount(response.totalComments);
     } catch (err) {
       console.log("댓글 삭제 오류", err);
     }

@@ -65,13 +65,16 @@ const Video = (props) => {
   const [state, setState] = useState({
     playing: true,
     muted: true,
+    controls: false,
     volume: 0.5,
     playbackRate: 1.0,
     played: 0,
     seeking: false,
+    duration: 0,
+    pip: false,
   });
 
-  const { playing, muted, volume, playbackRate, played, seeking } = state;
+  const { playing, muted, volume, playbackRate, played, pip, seeking } = state;
   useEffect(() => {
     feedbackApis
       .getDetailVideo(cardId)
@@ -229,6 +232,7 @@ const Video = (props) => {
         <ReactPlayer
           ref={videoRef}
           url={video}
+          pip={pip}
           playing={playing}
           controls={false}
           muted={muted}

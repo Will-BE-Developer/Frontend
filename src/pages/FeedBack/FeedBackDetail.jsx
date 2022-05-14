@@ -220,7 +220,6 @@ const FeedBackDetail = (props) => {
           </AuthorContainer>
 
           <CommentsContainer>
-            <div>피드백 {commentsCount}개</div>
             <Comments cardId={cardId} />
           </CommentsContainer>
         </div>
