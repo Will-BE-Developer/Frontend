@@ -55,7 +55,6 @@ const BestInterviews = ({ weeklyInterviews }) => {
         </div>
         <StyledSlider ref={slider} {...settings}>
           {weeklyInterviews.map((interview, idx) => {
-            console.log(interview.thumbnail);
             return (
               <div key={interview.id} className="main">
                 <div className="card">
