@@ -5,7 +5,6 @@ import { useRef, useState } from "react";
 import { HiChevronRight, HiChevronLeft } from "react-icons/hi";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import bestUser from "../../assets/bestUser.png";
 import GlobalBadge from "../UI/GlobalBadge";
 import theme from "../../styles/theme";
 import gold from "../../assets/icons/gold.png";
@@ -56,10 +55,15 @@ const BestInterviews = ({ weeklyInterviews }) => {
         </div>
         <StyledSlider ref={slider} {...settings}>
           {weeklyInterviews.map((interview, idx) => {
+            console.log(interview.thumbnail);
             return (
               <div key={interview.id} className="main">
                 <div className="card">
-                  <img className="thumbnail" src={bestUser} alt="user" />
+                  <img
+                    className="thumbnail"
+                    src={interview.thumbnail}
+                    alt="user"
+                  />
                   <div className="interview">
                     <img className="badge" alt="badge" src={badgeIcon[idx]} />
                     <GlobalBadge
