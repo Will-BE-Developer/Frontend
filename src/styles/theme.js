@@ -17,7 +17,8 @@ const colors = {
   blue: "#567FE8",
   darkBlue: "#798996",
   warmGrey: "#A8A9AB",
-  pink: "#dc7487",
+  pink: "#EA617A",
+  yellow: "EAB90D",
   errorMsg: "red",
   yellow: "#F0F354",
 

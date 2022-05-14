@@ -12,6 +12,7 @@ import GlobalBadge from "../../components/UI/GlobalBadge";
 import feedbackApis from "../../apis/feedbackApis.js";
 import TimeAgo from "../../components/FeedBack/TimeAgo";
 import Comments from "../../components/Comments/Comments";
+import Video from "../../components/Video/Video";
 
 import Gold from "../../assets/icons/gold.png";
 import Silver from "../../assets/icons/silver.png";
@@ -141,9 +142,9 @@ const FeedBackDetail = (props) => {
           isMine={isMine}
         />
         <div className="contents_wrap">
-          <div className="video_layout">
-            <video controls src={video}></video>
-          </div>
+          {/* <div className="video_layout"> */}
+          <Video cardId={cardId} />
+          {/* </div> */}
           {isMine && (
             <div className="user_buttons">
               <GlobalButton
@@ -251,8 +252,6 @@ const Container = styled.div`
   }
 
   & .video_layout {
-    display: flex;
-    justify-content: center;
     background-color: ${({ theme }) => theme.colors.headerBgColor};
     border-radius: 6px;
     margin-bottom: 20px;

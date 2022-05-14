@@ -52,7 +52,7 @@ const GlobalCard = memo(({ card }) => {
         isMine={isMine}
       />
       <CardBody onClick={linkToDetailHandler}>
-        <img alt="img" src={thumbnail} />
+        <Img alt="img" src={thumbnail} />
         <BodyContainer>
           <div className="contents">
             <div className="top">
@@ -101,7 +101,7 @@ GlobalCard.defaultProps = {
 //  <BtnCircleBg>
 //    <CrownIcon />
 //  </BtnCircleBg>
-
+const Img = styled.img``;
 const Card = styled.article`
   ${({ theme }) => {
     const { colors } = theme;
