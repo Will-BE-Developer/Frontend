@@ -94,6 +94,7 @@ const BannerContainer = styled.div`
   background-position: center;
   background-image: url(${bannerBackground});
   background-size: cover;
+  background-repeat: no-repeat;
   color: ${({ theme }) => theme.colors.black};
   box-shadow: 0 2px 5px rgba(130, 130, 130, 0.1);
 

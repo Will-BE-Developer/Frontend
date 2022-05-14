@@ -51,7 +51,7 @@ const BestInterviews = ({ weeklyInterviews }) => {
       <SliderLayout>
         <div className="background">
           {/* <div className="leftCircle"></div> */}
-          <div className="rightCircle"></div>
+          {/* <div className="rightCircle"></div> */}
         </div>
         <div className="btnWrapper">
           <button onClick={prevBtn}>
@@ -70,16 +70,17 @@ const BestInterviews = ({ weeklyInterviews }) => {
                   />
                   <div className="interview">
                     <div className="header">
-                      <span style={{ fontSize: "18px" }}>
-                        {Number(idx) + 1}등 {interview.user?.nickname}
-                        <span
-                          style={{
-                            color: theme.colors.mediumGrey,
-                            fontSize: theme.fontSize["16"],
-                          }}
-                        >
-                          &nbsp;님
-                        </span>
+                      <span
+                        style={{
+                          fontSize: "18px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          gap: "8px",
+                        }}
+                      >
+                        {interview.user?.nickname}님
+                        <img src={badgeIcon[idx]} alt="badge" />
                       </span>
                       <span style={{ fontSize: theme.fontSize["14"] }}>
                         누적 스크랩
@@ -134,9 +135,9 @@ const BestInterviewsLayout = styled.div`
     align-items: center;
     font-size: ${theme.fontSize["20"]};
     font-weight: ${theme.fontWeight.extraBold};
-    margin-bottom: "20px";
+    margin-bottom: "25px";
     @media screen and (max-width: 700px) {
-      margin-bottom: 40px;
+      margin-bottom: 50px;
     }
     h3 {
       margin-top: 8px;

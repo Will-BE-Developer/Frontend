@@ -3,15 +3,7 @@ import { HiChevronRight } from "react-icons/hi";
 import { boxShadow } from "../../styles/boxShadow";
 import { useNavigate } from "react-router-dom";
 import theme from "../../styles/theme";
-import face from "../../assets/categoriesIcon/some.png";
-import React from "../../assets/categoriesIcon/react.png";
-import Network from "../../assets/categoriesIcon/network.png";
-
-const icons = {
-  Etc: face,
-  React,
-  Network,
-};
+import { bigIcons } from "../../shared/categoryIcons";
 
 const DailyQuestions = ({ todaysQuestions }) => {
   const navigate = useNavigate();
@@ -30,11 +22,7 @@ const DailyQuestions = ({ todaysQuestions }) => {
                 <img
                   className="logo"
                   alt="logo"
-                  src={
-                    !!icons[question.category]
-                      ? icons[question.category]
-                      : icons.Etc
-                  }
+                  src={bigIcons[question.category]}
                 />
                 <div className="contents">
                   <p
@@ -96,10 +84,9 @@ const DailyQuestionLayout = styled.div`
       .main {
         width: 100%;
         display: grid;
-        gap: 10px;
+        margin: 36px 0px;
+        gap: 1rem;
         grid-template-columns: repeat(3, 1fr);
-        margin-bottom: 25px;
-
         @media screen and (max-width: 700px) {
           grid-template-columns: repeat(1, 1fr);
         }
@@ -110,17 +97,21 @@ const DailyQuestionLayout = styled.div`
         flex-direction: column;
         align-items: center;
         padding: 36px;
+        ${boxShadow()}
       }
 
-      & .card:hover {
-        ${boxShadow()}
+      .card:hover {
+        border: 1px solid #7599f3;
+      }
 
-        .startBtn {
-          background-color: #f4f6f9;
-        }
+      .startBtn:hover {
+        background-color: #7599f3;
+        color: ${colors.white};
       }
 
       .logo {
+        width: 60px;
+        height: 60px;
         padding: 10px;
         background-color: ${colors.lightestGrey};
         border-radius: 8px;
@@ -148,7 +139,6 @@ const DailyQuestionLayout = styled.div`
       & .subTitle {
         font-size: ${fontSize["14"]};
         color: ${colors.subTitle};
-        margin-bottom: 25px;
       }
 
       .startBtn {
@@ -156,7 +146,7 @@ const DailyQuestionLayout = styled.div`
         justify-content: center;
         align-items: center;
         width: 100%;
-        padding: 11px 0px;
+        padding: 11px 0px 11px 15px;
         border-radius: 4px;
         font-size: ${fontSize["16"]};
         line-height: 0px;
@@ -167,6 +157,11 @@ const DailyQuestionLayout = styled.div`
         color: #3771d3;
         border: 1px solid #3771d3;
         border-radius: 25px;
+      }
+
+      .interviewBtn:hover {
+        color: white;
+        background-color: #3771d3;
       }
     `;
   }}

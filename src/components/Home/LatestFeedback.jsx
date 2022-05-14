@@ -63,14 +63,13 @@ const LatestFeedbackLayout = styled.div`
       & .subTitle {
         font-size: ${fontSize["14"]};
         color: ${colors.subTitle};
-        margin-bottom: 25px;
       }
 
       .cardWrapper {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 20px;
-        margin-bottom: 20px;
+        margin: 36px 0px 20px 0px;
         @media screen and (max-width: 900px) {
           grid-template-columns: repeat(2, 1fr);
         }
