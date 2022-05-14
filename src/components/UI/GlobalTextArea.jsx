@@ -13,7 +13,6 @@ const GlobalTextArea = (props) => {
     sendResetRemainingHandler,
   } = props;
 
-  console.log(value.length);
   const [isError, setIsError] = useState(false);
 
   const [remainingChars, setRemainingChars] = useState(
@@ -23,7 +22,6 @@ const GlobalTextArea = (props) => {
   // if (value?.length === 0) {
   //   setRemainingChars(charLimit - value?.length);
   // }
-  console.log(remainingChars);
 
   useEffect(() => {
     if (remainingChars <= 0) {
