@@ -142,7 +142,7 @@ const StyledSlider = styled(Slider)`
     padding: 25px;
     border-radius: 4px;
     border-start-start-radius: 30px;
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 1);
   }
 
   .badge {

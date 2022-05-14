@@ -56,13 +56,11 @@ const FooterLayout = styled.div`
   }
 
   .interviewBtn {
-    overflow: visible;
     padding: 0px;
     display: flex;
     justify-content: center;
     align-items: center;
     color: ${theme.colors.white};
-    border-radius: 25px;
     font-size: 15px;
     line-height: 0px;
   }

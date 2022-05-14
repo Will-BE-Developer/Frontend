@@ -5,7 +5,6 @@ import { useRef, useState } from "react";
 import { HiChevronRight, HiChevronLeft } from "react-icons/hi";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import GlobalBadge from "../UI/GlobalBadge";
 import theme from "../../styles/theme";
 import gold from "../../assets/icons/gold.png";
 import silver from "../../assets/icons/silver.png";
@@ -51,7 +50,7 @@ const BestInterviews = ({ weeklyInterviews }) => {
       </div>
       <SliderLayout>
         <div className="background">
-          <div className="leftCircle"></div>
+          {/* <div className="leftCircle"></div> */}
           <div className="rightCircle"></div>
         </div>
         <div className="btnWrapper">
@@ -71,30 +70,41 @@ const BestInterviews = ({ weeklyInterviews }) => {
                   />
                   <div className="interview">
                     <div className="header">
-                      <span>
+                      <span style={{ fontSize: "18px" }}>
                         {Number(idx) + 1}등 {interview.user?.nickname}
-                        <span>님</span>
+                        <span
+                          style={{
+                            color: theme.colors.mediumGrey,
+                            fontSize: theme.fontSize["16"],
+                          }}
+                        >
+                          &nbsp;님
+                        </span>
                       </span>
-                      <span>
-                        누적 스크랩 <span>9999+</span>개 달성
+                      <span style={{ fontSize: theme.fontSize["14"] }}>
+                        누적 스크랩
+                        <span style={{ color: theme.colors.blue }}>9999+</span>
+                        개 달성!
                       </span>
                     </div>
                     <div className="hr" />
-                    <div>
-                      <GlobalBadge
-                        background={theme.colors.pink}
-                        text={interview.question.category}
-                      />
+                    <div className="interviewContents">
+                      <span className="interviewTopic">
+                        {interview.question.category}
+                      </span>
                       <span className="question">
-                        {interview.question.contents}
+                        Q. {interview.question.contents}
                       </span>
                     </div>
-                    <button
-                      onClick={() => navigate(`/feedback/${interview.id}`)}
-                      className="interviewBtn"
-                    >
-                      피드백 보러가기
-                    </button>
+                    <div className="feedbackBtn">
+                      <button
+                        onClick={() => navigate(`/feedback/${interview.id}`)}
+                        className="interviewBtn"
+                      >
+                        영상 보러가기
+                        <HiChevronRight size="25px" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -145,7 +155,6 @@ const SliderLayout = styled.div`
   margin-bottom: 140px;
   border-radius: 4px;
   position: relative;
-  overflow: hidden;
   @media screen and (max-width: 700px) {
     padding: 0px 2rem;
   }
@@ -161,26 +170,31 @@ const SliderLayout = styled.div`
     position: absolute;
     overflow: hidden;
     right: 0;
-    width: 100%;
+    width: 60%;
     height: 350px;
     z-index: -2;
     background-color: ${({ theme }) => theme.colors.headerBgColor};
-    /* border-start-start-radius: 50px; */
+    border-start-start-radius: 50px;
 
     @media screen and (max-width: 700px) {
-      height: 450px;
+      height: 470px;
     }
   }
 
   .rightCircle {
     position: absolute;
-    right: 70px;
-    bottom: -80px;
-    width: 200px;
-    height: 200px;
+    right: 250px;
+    bottom: -60px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
-    background-color: #eab90d;
+    /* background-color: #eab90d; */
+    background-color: #567fe8;
     z-index: -1;
+
+    @media screen and (max-width: 700px) {
+      right: 100px;
+    }
   }
 
   .leftCircle {
@@ -303,18 +317,35 @@ const StyledSlider = styled(Slider)`
 
       .hr {
         margin: 10px 0px;
-        border: 1px solid rgba(0, 0, 0, 0.2);
+        height: 1px;
+        background: rgba(0, 0, 0, 0.1);
       }
 
       .interviewBtn {
-        margin-top: 20px;
+        padding: 0px;
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 10px 15px;
-        color: ${({ theme }) => theme.colors.black};
-        border: 1px solid ${({ theme }) => theme.colors.darkGrey};
-        border-radius: 25px;
+        color: ${theme.colors.mediumGrey};
+        font-size: 15px;
+        line-height: 0px;
+      }
+
+      .interviewTopic {
+        color: ${theme.colors.blue};
+      }
+
+      .interviewContents {
+        display: flex !important;
+        align-items: flex-start !important;
+        margin-top: 20px;
+      }
+
+      .feedbackBtn {
+        width: 100%;
+        display: flex !important;
+        align-items: flex-start !important;
+        margin-top: 20px;
       }
     `;
   }}

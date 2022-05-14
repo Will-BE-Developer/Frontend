@@ -23,7 +23,6 @@ const Home = () => {
             weeklyInterviews,
           },
         }) => {
-          console.log(weeklyInterviews);
           setHomedata({
             latestInterviews,
             todaysQuestions,
