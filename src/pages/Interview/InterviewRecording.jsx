@@ -67,9 +67,14 @@ const InterviewRecording = () => {
       };
     }
 
-    if (firstTry) {
+    if (state.question) {
+      setQuestion(state.question);
+      return;
+    }
+
+    if (firstTry && !state.todayQuestion) {
       interviewApis
-        .getQuestion(state)
+        .getQuestion(state.selectTopic)
         .then((question) => {
           setQuestion(question);
         })

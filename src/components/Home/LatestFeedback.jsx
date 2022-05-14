@@ -1,24 +1,10 @@
 import styled, { css } from "styled-components";
 import { HiChevronRight } from "react-icons/hi";
 import GlobalCard from "../UI/GlobalCard";
-import instance from "../../apis/axios";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const LatestFeedback = () => {
+const LatestFeedback = ({ latestInterviews }) => {
   const navigate = useNavigate();
-  const [feedbackList, setFeedbackList] = useState([]);
-
-  useEffect(() => {
-    instance
-      .get("/api/interviews?per=3")
-      .then((response) => {
-        setFeedbackList(response.data.interviews);
-      })
-      .catch((error) => {
-        console.log(error.response);
-      });
-  }, []);
 
   return (
     <LatestFeedbackLayout>
@@ -28,8 +14,8 @@ const LatestFeedback = () => {
           <p className="subTitle">최근에 등록된 피드백 먼저 확인해보세요</p>
         </div>
         <div className="cardWrapper">
-          {feedbackList.map((ele, idx) => {
-            return <GlobalCard card={ele} key={idx} />;
+          {latestInterviews.map((interview) => {
+            return <GlobalCard card={interview} key={interview.id} />;
           })}
         </div>
         <button onClick={() => navigate("/feedback")} className="interviewBtn">

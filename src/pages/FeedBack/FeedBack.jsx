@@ -17,8 +17,6 @@ const FeedBack = () => {
     state ? hotKeyword : "전체보기"
   );
 
-  console.log(selectedSort);
-
   const sortList = ["최신순", "오래된순", "스크랩순"];
   const categoryList = [
     "전체보기",
@@ -57,7 +55,6 @@ const FeedBack = () => {
           pagination: response.pagination,
         };
       });
-      console.log(response);
     } catch (err) {
       console.log("피드백 불러오기 오류", err);
     }

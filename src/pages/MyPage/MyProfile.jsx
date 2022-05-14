@@ -255,7 +255,6 @@ const BodyContainer = styled.div`
 
   & .myInfo {
     padding: 30px;
-    height: 70vh;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 8px;
   }
