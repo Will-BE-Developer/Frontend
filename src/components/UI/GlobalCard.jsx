@@ -81,7 +81,7 @@ const GlobalCard = memo(({ card }) => {
         <div className="icon_container">
           <div
             style={{
-              color: scrapsMe ? theme.colors.yellow : theme.colors.lightGrey,
+              color: scrapsMe ? theme.colors.pink : theme.colors.lightGrey,
             }}
           >
             <ScrapIcon />

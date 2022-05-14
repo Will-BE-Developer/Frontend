@@ -45,7 +45,7 @@ const SetProfileImg = (props) => {
       <Img
         isedit="true"
         alt="not found"
-        width={"250px"}
+        width={"200px"}
         src={image ? image : defaultUserImage}
       />
       <Input
@@ -81,11 +81,11 @@ const SetProfileImg = (props) => {
           <>
             <GlobalButton
               onClick={handleChangeImageBtn}
-              margin="0 0 6px 0"
+              margin="0 8px 6px 0"
               _height="30px"
               hover
             >
-              {getImage ? "다른 사진 등록" : "사진 등록"}
+              {getImage ? "사진 편집" : "사진 등록"}
             </GlobalButton>
             <GlobalButton
               onClick={deleteImgHandler}
@@ -108,9 +108,10 @@ SetProfileImg.defaultProps = {
 
 const Div = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: ${({ isedit }) => (isedit ? "column" : "")};
-  justify-content: ${({ isedit }) => (isedit ? "flex-start" : "space-around")};
-  align-items: ${({ isedit }) => (isedit ? "" : "center")};
+
   width: 100%;
 
   & .btnWrapper {
@@ -146,8 +147,10 @@ const Button = styled.button`
 
 const Img = styled.img`
   border-radius: 50%;
-  width: ${({ isedit }) => (isedit ? "160px" : "120px")};
-  height: ${({ isedit }) => (isedit ? "160px" : "120px")};
+  width: 120px;
+  height: 120px;
+  /* width: ${({ isedit }) => (isedit ? "160px" : "120px")};
+  height: ${({ isedit }) => (isedit ? "160px" : "120px")}; */
 `;
 
 const Input = styled.input`

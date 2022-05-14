@@ -8,10 +8,14 @@ import { BsFillBookmarkFill, BsHeartFill } from "react-icons/bs";
 import { IoAlertCircle } from "react-icons/io5";
 import GlobalModal from "../../components/UI/GlobalModal";
 import UserProfileModal from "../../components/UI/ModalSample/UserProfileModal";
-
+import GlobalBadge from "../../components/UI/GlobalBadge";
 import feedbackApis from "../../apis/feedbackApis.js";
 import TimeAgo from "../../components/FeedBack/TimeAgo";
 import Comments from "../../components/Comments/Comments";
+
+import Gold from "../../assets/icons/gold.png";
+import Silver from "../../assets/icons/silver.png";
+import Bronze from "../../assets/icons/bronze.png";
 
 const FeedBackDetail = (props) => {
   const navigate = useNavigate();
@@ -25,11 +29,24 @@ const FeedBackDetail = (props) => {
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openProfileModal, setOpenProfileModal] = useState(false);
+
+  const [cardBadge, setCardBadge] = useState("");
   const sendProfileModalHandler = (boolean) => {
     setOpenProfileModal(boolean);
   };
 
-  console.log(data);
+  const badgeIcon = [Gold, Silver, Bronze];
+  let badge;
+  if (cardBadge === "Gold") {
+    badge = badgeIcon[0];
+  }
+  if (cardBadge === "Silver") {
+    badge = badgeIcon[1];
+  }
+  if (cardBadge === "Bronze") {
+    badge = badgeIcon[2];
+  }
+
   useEffect(() => {
     feedbackApis
       .getDetailVideo(cardId)
@@ -48,6 +65,7 @@ const FeedBackDetail = (props) => {
         setIsScrapped(data.interview.scrapsMe);
         setScrapCount(data.interview.scrapsCount);
         setIsMine(data.interview.isMine);
+        setCardBadge(data.interview.badge);
       })
       .catch(() => {
         navigate("/notFound");
@@ -60,17 +78,15 @@ const FeedBackDetail = (props) => {
     thumbnail,
     question,
     user,
-    badge,
     note,
     scrapsMe,
     scrapsCount,
     likesCount,
+    commentsCount,
     createdAt,
     updatedAt,
     isPublic,
   } = data;
-
-  // const { githubLink, introduce, nickname, profileImageUrl } = data.user;
 
   const editHandler = () => {
     navigate(`/feedback/${cardId}/update`, { state: { data, video } });
@@ -151,7 +167,13 @@ const FeedBackDetail = (props) => {
 
           <TitleContainer>
             <div className="title_box">
-              <span className="category">{question?.category}</span>
+              <div className="catetory_box">
+                {cardBadge !== "NONE" && (
+                  <img className="badge" alt="badge" src={badge} />
+                )}
+                <span className="category">{question?.category}</span>
+              </div>
+
               <div className="title_question">
                 <h2>{`Q.${question?.contents}`}</h2>
                 <TimeAgo timestamp={createdAt} />
@@ -170,7 +192,7 @@ const FeedBackDetail = (props) => {
                 <button
                   style={{
                     color: isScrapped
-                      ? theme.colors.yellow
+                      ? theme.colors.pink
                       : theme.colors.lightGrey,
                   }}
                   onClick={scrapHandler}
@@ -196,6 +218,7 @@ const FeedBackDetail = (props) => {
           </AuthorContainer>
 
           <CommentsContainer>
+            <div>피드백 {commentsCount}개</div>
             <Comments cardId={cardId} />
           </CommentsContainer>
         </div>
@@ -249,14 +272,17 @@ const TitleContainer = styled.div`
   justify-content: space-between;
 
   & .title_box {
-    & .category {
+    & .catetory_box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    & .catetory_box .category {
       font-size: ${({ theme }) => theme.fontSize["12"]};
       color: ${({ theme }) => theme.colors.white};
-      background-color: ${({ theme }) => theme.colors.lightGrey};
+      background-color: ${({ theme }) => theme.colors.blue};
       border-radius: 15px;
       padding: 5px 12px;
-      width: 87px;
-      height: 24px;
     }
 
     & .title_question {
@@ -305,7 +331,7 @@ const ScrapIcon = styled(BsFillBookmarkFill)`
 
 const HeartCheck = styled(BsHeartFill)`
   height: 100%;
-  color: ${({ theme }) => theme.colors.yellow};
+  color: ${({ theme }) => theme.colors.pink};
   cursor: pointer;
 
   font-size: ${({ theme }) => theme.calRem(18)};
