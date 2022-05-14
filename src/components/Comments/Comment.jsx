@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import TimeAgo from "../FeedBack/TimeAgo";
 import commentApis from "../../apis/commentApis";
 import UserProfileModal from "../UI/ModalSample/UserProfileModal";
-
+import GlobalTextArea from "../UI/GlobalTextArea";
 const Comment = ({ currentComment, cardId, setAllComments }) => {
   const { id, user, createdAt, contents, isMine, parentId } = currentComment;
 
@@ -18,6 +18,7 @@ const Comment = ({ currentComment, cardId, setAllComments }) => {
     setOpenProfileModal(boolean);
   };
   const clickCancelEditHandler = () => {
+    setUpdateContent(contents);
     return setIsEdit(false);
   };
 
@@ -97,12 +98,13 @@ const Comment = ({ currentComment, cardId, setAllComments }) => {
       </AuthorContainer>
       {isEdit ? (
         <ContentBox>
-          <textarea
-            className="edit_box"
+          <GlobalTextArea
             value={updateContent}
             onChange={(e) => setUpdateContent(e.target.value)}
-            maxLength={500}
-            rows={5}
+            charLimit="256"
+            rows="5"
+            cols="80"
+            placeholder="50자이내로 나를 표현해주세요."
           />
           <div className="cancel_box">
             <button onClick={clickCancelEditHandler}>취소</button>
@@ -111,7 +113,7 @@ const Comment = ({ currentComment, cardId, setAllComments }) => {
         </ContentBox>
       ) : (
         <ContentBox>
-          <span>{contents}</span>
+          <span className="contents">{contents}</span>
         </ContentBox>
       )}
     </CommentContainer>
@@ -126,6 +128,8 @@ const ContentBox = styled.div`
   font-size: ${({ theme }) => theme.calRem(14)};
   line-height: 1.5;
   margin: 16px 0px;
+  resize: none;
+  overflow: auto;
   & .edit_box {
     margin-top: 8px;
     padding: 11px 16px;
@@ -140,6 +144,12 @@ const ContentBox = styled.div`
     button {
       font-size: ${({ theme }) => theme.calRem(12)};
     }
+  }
+
+  & .contents {
+    /* width: 100%; */
+    overflow: auto;
+    word-break: break-all;
   }
 `;
 

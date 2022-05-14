@@ -6,7 +6,7 @@ import RootComment from "./RootComment";
 import styled from "styled-components";
 import commentApis from "../../apis/commentApis";
 import GlobalButton from "../UI/GlobalButton";
-
+import GlobalTextArea from "../UI/GlobalTextArea";
 import { IoAlertCircle } from "react-icons/io5";
 import GlobalModal from "../../components/UI/GlobalModal";
 
@@ -81,20 +81,14 @@ const Comments = ({ cardId }) => {
       <Form>
         <div className="comment_count">피드백 {0}개</div>
 
-        <div className="textarea_box">
-          <textarea
-            onChange={(e) => setContent(e.target.value)}
-            placeholder="내용을 작성해주세요"
-            maxLength={500}
-            rows={5}
-            value={content}
-            onKeyPress={(e) => {
-              if (e.key === "Enter") {
-                onSubmitHandler();
-              }
-            }}
-          ></textarea>
-        </div>
+        <GlobalTextArea
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          charLimit="255"
+          rows="5"
+          cols="80"
+          placeholder="내용을 작성해주세요"
+        />
 
         <div className="button_box">
           {isTextareaDisabled ? (
@@ -102,6 +96,7 @@ const Comments = ({ cardId }) => {
               _width="70px"
               _height="15px"
               text="작성"
+              margin="8px 0"
               onClick={token ? onSubmitHandler : openModalHandler}
             />
           ) : (
@@ -110,6 +105,7 @@ const Comments = ({ cardId }) => {
               _height="15px"
               hover
               text="작성"
+              margin="8px 0"
               onClick={token ? onSubmitHandler : openModalHandler}
             />
           )}

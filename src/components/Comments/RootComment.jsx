@@ -5,7 +5,7 @@ import GlobalButton from "../UI/GlobalButton";
 import { getCookie } from "../../shared/cookies";
 import Comment from "./Comment";
 import commentApis from "../../apis/commentApis";
-
+import GlobalTextArea from "../UI/GlobalTextArea";
 const RootComment = ({ rootComment, cardId, setAllComments }) => {
   const token = getCookie("token");
   const { id } = rootComment;
@@ -76,20 +76,15 @@ const RootComment = ({ rootComment, cardId, setAllComments }) => {
                 {token && (
                   <div className="nested_textarea_box">
                     <Form>
-                      <div className="textarea_box">
-                        <textarea
-                          onChange={(e) => setContent(e.target.value)}
-                          placeholder="내용을 작성해주세요"
-                          maxLength={500}
-                          rows={5}
-                          value={content}
-                          onKeyPress={(e) => {
-                            if (e.key === "Enter") {
-                              onSubmitHandler();
-                            }
-                          }}
-                        ></textarea>
-                      </div>
+                      <GlobalTextArea
+                        value={content}
+                        onChange={(e) => setContent(e.target.value)}
+                        charLimit="255"
+                        rows="5"
+                        cols="80"
+                        placeholder="내용을 작성해주세요"
+                      />
+
                       <div className="button_box">
                         {isTextareaDisabled ? (
                           <GlobalButton
@@ -97,6 +92,7 @@ const RootComment = ({ rootComment, cardId, setAllComments }) => {
                             _height="15px"
                             text="작성"
                             onClick={onSubmitHandler}
+                            margin="8px 0"
                           />
                         ) : (
                           <GlobalButton
@@ -105,6 +101,7 @@ const RootComment = ({ rootComment, cardId, setAllComments }) => {
                             hover
                             text="작성"
                             onClick={onSubmitHandler}
+                            margin="8px 0"
                           />
                         )}
                       </div>
