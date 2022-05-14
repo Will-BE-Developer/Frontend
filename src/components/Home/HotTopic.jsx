@@ -13,7 +13,7 @@ const HotTopic = ({ hotCategories }) => {
         <p className="description">주제별로 피드백 영상을 볼 수 있습니다</p>
         <div className="topics">
           <div>
-            {hotCategories.map((topic) => {
+            {hotCategories.map((topic, idx) => {
               return (
                 <GlobalBadge
                   fontSize="14px"
@@ -21,7 +21,11 @@ const HotTopic = ({ hotCategories }) => {
                     navigate("/feedback", { state: topic.category })
                   }
                   padding="11px 16px"
-                  background={theme.colors.blue}
+                  background={
+                    idx % 2 === 0 ? theme.colors.blue : theme.colors.white
+                  }
+                  color={idx % 2 === 0 ? theme.colors.white : theme.colors.blue}
+                  border={idx % 2 !== 0 && "1px solid rgba(86, 127,	232, 0.6)"}
                   text={`#${topic.category}`}
                   key={topic.id}
                 />
