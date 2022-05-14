@@ -31,7 +31,7 @@ instance.interceptors.response.use(
     }
 
     if (error.response.status === 500) {
-      window.location.href = "/notice";
+      // window.location.href = "/notice";
     }
 
     return Promise.reject(error);
