@@ -89,11 +89,11 @@ const Video = (props) => {
   };
 
   const rewindHandler = () => {
-    videoRef.current.seekTo(videoRef.current.getCurrentTime() - 5);
+    videoRef.current.seekTo(videoRef.current.getCurrentTime() - 3);
   };
 
   const forwardHandler = () => {
-    videoRef.current.seekTo(videoRef.current.getCurrentTime() + 5);
+    videoRef.current.seekTo(videoRef.current.getCurrentTime() + 3);
   };
   const muteHandler = () => {
     setState({ ...state, muted: !state.muted });
