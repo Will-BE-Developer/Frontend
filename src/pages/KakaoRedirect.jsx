@@ -8,18 +8,21 @@ const KakaoRedirect = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const code = new URL(window.location.href).searchParams.get("code");
+  const error = new URL(window.location.href).searchParams.get("error");
 
   useEffect(() => {
+    if (error) {
+      navigate("/", { replace: true });
+    }
+
     const singinDispatch = async () => {
       try {
         await dispatch(signinKakao(code)).unwrap();
         navigate("/", { replace: true });
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     };
     singinDispatch();
-  }, [code, navigate, dispatch]);
+  }, [code, navigate, dispatch, error]);
 
   return <Loader />;
 };
