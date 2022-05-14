@@ -20,7 +20,7 @@ const LatestFeedback = ({ latestInterviews }) => {
         </div>
         <button onClick={() => navigate("/feedback")} className="interviewBtn">
           더 보기
-          <HiChevronRight size="20px" />
+          <HiChevronRight size="25px" />
         </button>
       </section>
     </LatestFeedbackLayout>
@@ -63,14 +63,13 @@ const LatestFeedbackLayout = styled.div`
       & .subTitle {
         font-size: ${fontSize["14"]};
         color: ${colors.subTitle};
-        margin-bottom: 25px;
       }
 
       .cardWrapper {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 20px;
-        margin-bottom: 20px;
+        margin: 36px 0px 20px 0px;
         @media screen and (max-width: 900px) {
           grid-template-columns: repeat(2, 1fr);
         }
@@ -87,6 +86,8 @@ const LatestFeedbackLayout = styled.div`
         color: ${colors.black};
         border: 2px solid ${colors.headerBgColor};
         border-radius: 25px;
+        line-height: 0px;
+        font-size: 15px;
       }
     `;
   }}

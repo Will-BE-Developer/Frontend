@@ -5,7 +5,7 @@ import { HiChevronRight } from "react-icons/hi";
 import interviewApis from "../../apis/interviewApis";
 import GlobalButton from "../../components/UI/GlobalButton";
 import { boxShadow } from "../../styles/boxShadow";
-import face from "../../assets/face.png";
+import { smallIcons } from "../../shared/categoryIcons";
 
 const InterviewTopic = () => {
   const [topics, setTopics] = useState([]);
@@ -43,7 +43,7 @@ const InterviewTopic = () => {
               key={index}
             >
               <div>
-                <img alt="logo" src={face} />
+                <img alt="logo" src={smallIcons[topic]} />
                 <span style={{ fontSize: "14px" }}>{topic}</span>
               </div>
               <input
@@ -136,9 +136,7 @@ const TopicBox = styled.div`
       }
 
       & .topic label div img {
-        width: 36px;
-        height: 36px;
-        margin-right: 5px;
+        margin-right: 8px;
       }
 
       .select {

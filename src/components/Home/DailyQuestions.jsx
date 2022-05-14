@@ -3,8 +3,7 @@ import { HiChevronRight } from "react-icons/hi";
 import { boxShadow } from "../../styles/boxShadow";
 import { useNavigate } from "react-router-dom";
 import theme from "../../styles/theme";
-import GlobalBadge from "../UI/GlobalBadge";
-import face from "../../assets/face.png";
+import { bigIcons } from "../../shared/categoryIcons";
 
 const DailyQuestions = ({ todaysQuestions }) => {
   const navigate = useNavigate();
@@ -20,13 +19,23 @@ const DailyQuestions = ({ todaysQuestions }) => {
           {todaysQuestions.map(({ question }) => {
             return (
               <div className="card" key={question.id}>
-                <img className="logo" alt="logo" src={face} />
+                <img
+                  className="logo"
+                  alt="logo"
+                  src={bigIcons[question.category]}
+                />
                 <div className="contents">
-                  <GlobalBadge
-                    background={theme.colors.pink}
-                    text={question.category}
-                  />
-                  <p>{question.contents}</p>
+                  <p
+                    style={{
+                      color: theme.colors.mediumGrey,
+                      marginBottom: "20px",
+                    }}
+                  >
+                    {question.category}
+                  </p>
+                  <p style={{ fontSize: "20px", marginBottom: "20px" }}>
+                    Q. {question.contents}
+                  </p>
                 </div>
                 <button
                   onClick={() =>
@@ -35,14 +44,14 @@ const DailyQuestions = ({ todaysQuestions }) => {
                   className="startBtn"
                 >
                   시작하기
-                  <HiChevronRight size="20px" />
+                  <HiChevronRight size="25px" />
                 </button>
               </div>
             );
           })}
         </div>
         <button onClick={() => navigate("/interview")} className="interviewBtn">
-          면접 보러가기
+          다른 면접 보러가기
         </button>
       </section>
     </DailyQuestionLayout>
@@ -75,9 +84,9 @@ const DailyQuestionLayout = styled.div`
       .main {
         width: 100%;
         display: grid;
+        margin: 36px 0px;
+        gap: 1rem;
         grid-template-columns: repeat(3, 1fr);
-        margin-bottom: 25px;
-
         @media screen and (max-width: 700px) {
           grid-template-columns: repeat(1, 1fr);
         }
@@ -88,21 +97,25 @@ const DailyQuestionLayout = styled.div`
         flex-direction: column;
         align-items: center;
         padding: 36px;
+        ${boxShadow()}
       }
 
-      & .card:hover {
-        ${boxShadow()}
+      .card:hover {
+        border: 1px solid #7599f3;
+      }
 
-        .startBtn {
-          background-color: ${colors.lightestGrey};
-        }
+      .startBtn:hover {
+        background-color: #7599f3;
+        color: ${colors.white};
       }
 
       .logo {
+        width: 60px;
+        height: 60px;
         padding: 10px;
         background-color: ${colors.lightestGrey};
         border-radius: 8px;
-        margin-bottom: 24px;
+        margin-bottom: 10px;
       }
 
       .contents {
@@ -126,7 +139,6 @@ const DailyQuestionLayout = styled.div`
       & .subTitle {
         font-size: ${fontSize["14"]};
         color: ${colors.subTitle};
-        margin-bottom: 25px;
       }
 
       .startBtn {
@@ -134,9 +146,10 @@ const DailyQuestionLayout = styled.div`
         justify-content: center;
         align-items: center;
         width: 100%;
-        padding: 11px 0px;
+        padding: 11px 0px 11px 15px;
         border-radius: 4px;
         font-size: ${fontSize["16"]};
+        line-height: 0px;
       }
 
       .interviewBtn {
@@ -144,6 +157,11 @@ const DailyQuestionLayout = styled.div`
         color: #3771d3;
         border: 1px solid #3771d3;
         border-radius: 25px;
+      }
+
+      .interviewBtn:hover {
+        color: white;
+        background-color: #3771d3;
       }
     `;
   }}

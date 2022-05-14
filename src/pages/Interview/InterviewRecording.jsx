@@ -108,7 +108,7 @@ const InterviewRecording = () => {
   };
 
   return (
-    <RecordWrapper isEnd={isEnd}>
+    <RecordWrapper isstart={isStart.toString()} isEnd={isEnd}>
       <div className="innerLayout">
         {isDenied ? (
           <div className="denied">
@@ -229,18 +229,18 @@ const RecordWrapper = styled.div`
   }
 
   & .badge {
-    font-size: ${({ theme }) => theme.fontSize["14"]};
-    color: ${({ theme }) => theme.colors.white};
-    background-color: ${({ theme }) => theme.colors.blue};
-    border-radius: 15px;
-    padding: 5px 12px;
+    font-size: ${({ theme }) => theme.fontSize["16"]};
+    color: ${({ theme }) => theme.colors.blue};
+    /* background-color: ${({ theme }) => theme.colors.blue}; */
+    /* border-radius: 15px; */
+    /* padding: 5px 12px; */
   }
 
   & .header .title {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    margin-top: 12px;
+    margin-top: ${({ isstart }) => (isstart === "true" ? "0px" : "12px")};
     font-size: ${({ theme }) => theme.fontSize["20"]};
     font-weight: ${({ theme }) => theme.fontWeight.extraBold};
   }
