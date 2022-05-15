@@ -3,18 +3,26 @@ import GlobalButton from "../components/UI/GlobalButton";
 import { useNavigate } from "react-router-dom";
 import bigLogo from "../assets/bigLogo.png";
 
-const NotAvailable = () => {
+const NotAvailable = (props) => {
   const navigate = useNavigate();
+  const { text, btnText, path } = props;
 
+  const navigateHandler = (path) => {
+    navigate(path, { replace: true });
+  };
   return (
     <NotAvailableLayout>
-      <h2>로그인이 필요한 기능입니다</h2>
+      <h2>{text ? text : "로그인이 필요한 기능입니다"}</h2>
       <GlobalButton
         padding="15px 35px"
         background="#567FE8"
         _fontSize={16}
-        text="로그인하기"
-        onClick={() => navigate("/signin", { replace: true })}
+        text={btnText ? btnText : "로그인하기"}
+        onClick={() =>
+          path
+            ? navigateHandler(path, { replace: true })
+            : navigateHandler("/signin", { replace: true })
+        }
       />
     </NotAvailableLayout>
   );
