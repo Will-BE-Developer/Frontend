@@ -54,7 +54,6 @@ const SetInfo = (props) => {
           "Content-Type": "multipart/form-data",
         },
       });
-
       console.log(res);
     } catch (err) {
       console.log(err);

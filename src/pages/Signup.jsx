@@ -18,7 +18,16 @@ const Signup = () => {
   return (
     <>
       <GlobalStyles />
-      {!token ? (
+      {token && currentPage === 1 ? (
+        <>
+          <Header />
+          <NotAvailable
+            text="이미 로그인을 하셨습니다."
+            btnText="홈으로 가기"
+            path="/"
+          />
+        </>
+      ) : (
         <Wrap pathname={pathname}>
           {currentPage === 1 ? (
             <SignupForm
@@ -32,15 +41,6 @@ const Signup = () => {
             />
           )}
         </Wrap>
-      ) : (
-        <>
-          <Header />
-          <NotAvailable
-            text="이미 로그인을 하셨습니다."
-            btnText="홈으로 가기"
-            path="/"
-          />
-        </>
       )}
     </>
   );
