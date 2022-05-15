@@ -101,7 +101,11 @@ GlobalCard.defaultProps = {
 //  <BtnCircleBg>
 //    <CrownIcon />
 //  </BtnCircleBg>
-const Img = styled.img``;
+const Img = styled.img`
+  ${({ theme }) => theme.device.mobile} {
+    max-height: 200px;
+  }
+`;
 const Card = styled.article`
   ${({ theme }) => {
     const { colors } = theme;
