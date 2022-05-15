@@ -56,11 +56,16 @@ const GlobalCard = memo(({ card }) => {
         <BodyContainer>
           <div className="contents">
             <div className="top">
-              <h2>{question.contents}</h2>
-              <span>{note}</span>
+              <div className="category_name">
+                <span className="category">{question.category} </span>·
+                <span className="nickname">{user.nickname}</span>
+              </div>
+              <div className="question_box">
+                <h2>{question.contents}</h2>
+                <span>{note}</span>
+              </div>
             </div>
             <div className="bottom">
-              <p>{question.category}</p>
               <div className="date_comments">
                 <TimeAgo timestamp={createdAt} />
                 <span>· {commentsCount}개의 피드백</span>
@@ -144,7 +149,7 @@ const CardBody = styled.div`
 
 const BodyContainer = styled.div`
   ${({ theme }) => {
-    const { calRem, fontWeight } = theme;
+    const { calRem, fontWeight, colors, fontSize } = theme;
     return css`
       padding: 20px;
       & .contents {
@@ -156,6 +161,17 @@ const BodyContainer = styled.div`
 
       & .contents .top {
         display: block;
+        .category_name {
+          display: flex;
+          gap: 3px;
+          font-size: ${fontSize["12"]};
+          .category {
+            color: ${colors.main};
+          }
+          .nickname {
+            color: ${colors.grey70};
+          }
+        }
 
         h2 {
           font-size: ${calRem(16)};

@@ -21,7 +21,8 @@ const SignupStart = (props) => {
   return (
     <Container>
       <h2 className="title">
-        여러 유저들과 공유하면서 준비하는 화상 면접 <span>Will be</span>
+        <span>Will be</span>
+        <div>여러 유저들과 공유하면서 준비하는 화상 면접플랫폼</div>
       </h2>
       <BoxContainer>
         <div className="sign_btn">
@@ -36,6 +37,7 @@ const SignupStart = (props) => {
           >
             이메일로 시작하기
           </GlobalButton>
+
           <GlobalButton
             onClick={goToSignUpHandler}
             margin="12px auto"
@@ -69,12 +71,14 @@ const Container = styled.div`
 
       .title {
         text-align: center;
-        margin-bottom: 32px;
+
         font-size: ${fontSize["24"]};
         font-weight: ${fontWeight.semiExtraBold};
-
         span {
           color: ${colors.main};
+        }
+        div {
+          margin-top: 8px;
         }
       }
       font-size: ${fontSize["24"]};
@@ -121,11 +125,11 @@ const BoxContainer = styled.div`
       ${(props) => boxShadow()};
 
       ${device.mobile} {
-        padding: 0 5%;
+        padding: 0 30px;
         width: 100%;
         height: 250px;
         & .sign_btn {
-          width: 300px;
+          width: 100%;
           margin: 0 auto;
           text-align: center;
         }

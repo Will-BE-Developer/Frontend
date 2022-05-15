@@ -13,7 +13,7 @@ const Signup = () => {
   const token = getCookie("token");
   const { pathname } = useLocation();
   const { state } = useLocation();
-  const [currentPage, setCurrentPage] = useState(state ? state : 1);
+  const [currentPage, setCurrentPage] = useState(state ? state : 5);
 
   return (
     <>

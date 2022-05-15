@@ -31,23 +31,36 @@ import { HiVolumeUp } from "react-icons/hi";
 //   return `${mm}: ${ss}`;
 // };
 
-const format = (seconds) => {
-  console.log(seconds, "seconds");
+// const format = (seconds) => {
+//   console.log(seconds, "seconds");
 
-  if (isNaN(seconds)) {
-    return `00:00`;
-  }
+//   if (isNaN(seconds)) {
+//     return `00:00`;
+//   }
 
+//   const date = new Date(seconds * 1000);
+//   const hh = date.getUTCHours();
+//   const mm = date.getUTCMinutes();
+//   const ss = date.getUTCSeconds().toString().padStart(2, "0");
+//   if (hh) {
+//     return `${hh}:${mm.toString().padStart(2, "0")}:${ss}`;
+//   }
+//   return `${mm}:${ss}`;
+// };
+function format(seconds) {
   const date = new Date(seconds * 1000);
   const hh = date.getUTCHours();
   const mm = date.getUTCMinutes();
-  const ss = date.getUTCSeconds().toString().padStart(2, "0");
+  const ss = pad(date.getUTCSeconds());
   if (hh) {
-    return `${hh}:${mm.toString().padStart(2, "0")}:${ss}`;
+    return `${hh}:${pad(mm)}:${ss}`;
   }
   return `${mm}:${ss}`;
-};
+}
 
+function pad(string) {
+  return ("0" + string).slice(-2);
+}
 let count = 0;
 
 const Video = (props) => {
@@ -184,7 +197,7 @@ const Video = (props) => {
       : `-${format(duration - currentTime)}`;
 
   const totalDuration = format(duration);
-
+  console.log(totalDuration, "duration!!");
   const addLike = () => {
     const canvas = canvasRef.current;
     canvas.width = 160;
@@ -232,6 +245,7 @@ const Video = (props) => {
         <ReactPlayer
           ref={videoRef}
           url={video}
+          // url={{ src: video, type: "video/webm" }}
           pip={pip}
           playing={playing}
           controls={false}
