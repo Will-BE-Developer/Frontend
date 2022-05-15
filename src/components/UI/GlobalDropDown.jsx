@@ -1,13 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { BiChevronDown } from "react-icons/bi";
 
 function Dropdown({ selected, setSelected, options, onChangeHandler }) {
   const [isActive, setIsActive] = useState(false);
 
+  useEffect(() => {
+    const onWindowClick = () => {
+      setIsActive(!isActive);
+    };
+    if (isActive) {
+      window.addEventListener("click", onWindowClick);
+      return () => {
+        window.removeEventListener("click", onWindowClick);
+      };
+    }
+  }, [isActive]);
+
   return (
     <Container>
-      <div className="btn" onClick={(e) => setIsActive(!isActive)}>
+      <div className="btn" onClick={() => setIsActive(!isActive)}>
         {selected}
         <DownIcon />
       </div>

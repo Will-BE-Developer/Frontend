@@ -6,6 +6,7 @@ import styled, { css } from "styled-components";
 import GlobalButton from "../../components/UI/GlobalButton";
 import { BsFillBookmarkFill, BsHeartFill } from "react-icons/bs";
 import { IoAlertCircle } from "react-icons/io5";
+
 import GlobalModal from "../../components/UI/GlobalModal";
 import UserProfileModal from "../../components/UI/ModalSample/UserProfileModal";
 import GlobalBadge from "../../components/UI/GlobalBadge";
@@ -219,7 +220,6 @@ const FeedBackDetail = (props) => {
           </AuthorContainer>
 
           <CommentsContainer>
-            <div>피드백 {commentsCount}개</div>
             <Comments cardId={cardId} />
           </CommentsContainer>
         </div>
@@ -244,11 +244,6 @@ const Container = styled.div`
     width: 100%;
     padding: 0;
     margin: 0 auto;
-  }
-
-  video {
-    max-width: 750px;
-    width: 100%;
   }
 
   & .video_layout {

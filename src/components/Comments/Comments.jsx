@@ -19,13 +19,16 @@ const Comments = ({ cardId }) => {
   const [content, setContent] = useState("");
   const isTextareaDisabled = content.length === 0;
   const [openModal, setOpenModal] = useState(false);
+  const [commentCount, setCommentCount] = useState(0);
 
   useEffect(() => {
     commentApis
       .getComments(cardId)
       .then((data) => {
+        console.log(data);
         console.log(data.comments);
         setAllComments(data.comments);
+        setCommentCount(data.totalComments);
       })
       .catch((error) => {
         console.log(error);
@@ -34,6 +37,9 @@ const Comments = ({ cardId }) => {
 
   const sendCommentdataHandler = (data) => {
     setAllComments(data);
+  };
+  const sendCommentCountHandler = (data) => {
+    setCommentCount(data);
   };
 
   const onSubmitHandler = async () => {
@@ -49,9 +55,10 @@ const Comments = ({ cardId }) => {
     const data = { contents: content, rootId: cardId, rootName: "interview" };
     try {
       const response = await commentApis.addComment(data);
-      console.log(response);
+      console.log(response.totalComments);
       setContent("");
       setAllComments(response.comments);
+      setCommentCount(response.totalComments);
     } catch (err) {
       console.log("댓글 작성 오류", err);
     }
@@ -79,7 +86,7 @@ const Comments = ({ cardId }) => {
         로그인이 필요한 기능입니다.
       </GlobalModal>
       <Form>
-        <div className="comment_count">피드백 {0}개</div>
+        <div className="comment_count">피드백 {commentCount}개</div>
 
         <GlobalTextArea
           value={content}
@@ -119,6 +126,7 @@ const Comments = ({ cardId }) => {
               rootComment={rootComment}
               cardId={cardId}
               setAllComments={sendCommentdataHandler}
+              setCommentCount={sendCommentCountHandler}
             />
           );
         })}

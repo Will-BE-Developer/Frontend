@@ -6,17 +6,18 @@ import { getCookie } from "../../shared/cookies";
 import Comment from "./Comment";
 import commentApis from "../../apis/commentApis";
 import GlobalTextArea from "../UI/GlobalTextArea";
-const RootComment = ({ rootComment, cardId, setAllComments }) => {
+const RootComment = ({
+  rootComment,
+  cardId,
+  setAllComments,
+  setCommentCount,
+}) => {
   const token = getCookie("token");
   const { id } = rootComment;
   const nestedComments = rootComment.nestedComments;
   const [isShowReply, setIsShowReply] = useState(false);
-  const nestedCount = nestedComments.length;
   const [content, setContent] = useState("");
   const isTextareaDisabled = content.length === 0;
-  const profileHandler = () => {
-    alert("유저정보 보여주는 모달창 띄우기");
-  };
 
   const replyToggleHandler = () => {
     setIsShowReply((isShowReply) => !isShowReply);
@@ -30,9 +31,10 @@ const RootComment = ({ rootComment, cardId, setAllComments }) => {
     const data = { contents: content, rootId: id, rootName: "comment" };
     try {
       const response = await commentApis.addComment(data);
-      console.log(response);
+
       setContent("");
       setAllComments(response.comments);
+      setCommentCount(response.totalComments);
     } catch (err) {
       console.log("대댓글 작성 오류", err);
     }
@@ -43,6 +45,7 @@ const RootComment = ({ rootComment, cardId, setAllComments }) => {
         currentComment={rootComment}
         cardId={cardId}
         setAllComments={setAllComments}
+        setCommentCount={setCommentCount}
       />
 
       <NestedContentsBox>
@@ -67,6 +70,7 @@ const RootComment = ({ rootComment, cardId, setAllComments }) => {
                           currentComment={nestedComment}
                           cardId={cardId}
                           setAllComments={setAllComments}
+                          setCommentCount={setCommentCount}
                         />
                         <Divider />
                       </div>
