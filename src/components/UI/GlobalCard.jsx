@@ -9,7 +9,7 @@ import { AiTwotoneEdit, AiTwotoneCrown } from "react-icons/ai";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 
 import TimeAgo from "../FeedBack/TimeAgo";
-import defaultUserImage from "../../assets/defaultUserImage.jpg";
+import defaultUserImage from "../../assets/defaultUserImage.png";
 import UserProfileModal from "../UI/ModalSample/UserProfileModal";
 
 const GlobalCard = memo(({ card }) => {
@@ -108,7 +108,7 @@ const Img = styled.img`
 `;
 const Card = styled.article`
   ${({ theme }) => {
-    const { colors } = theme;
+    const { colors, device } = theme;
     return css`
       display: flex;
       flex-direction: column;
@@ -126,6 +126,9 @@ const Card = styled.article`
         transition-delay: 0s, 0s;
       }
       transition: 1000ms eash-in-out;
+
+      ${device.mobile} {
+      }
     `;
   }}
 `;

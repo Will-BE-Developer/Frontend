@@ -16,6 +16,11 @@ const GlobalButton = (props) => {
     hover,
     disabled,
     _fontSize,
+    mPadding,
+    mMargin,
+    mWidth,
+    mHeight,
+    isHover,
   } = props;
 
   const styles = {
@@ -29,6 +34,10 @@ const GlobalButton = (props) => {
     hover,
     disabled,
     _fontSize,
+    mPadding,
+    mMargin,
+    mWidth,
+    mHeight,
   };
 
   return (
@@ -52,6 +61,10 @@ GlobalButton.defaultProps = {
   color: "white",
   marginBottom: "12px",
   disabled: false,
+  mPadding: false,
+  mMargin: false,
+  mWidth: false,
+  mHeight: false,
 };
 
 const Button = styled.button`
@@ -75,11 +88,13 @@ const Button = styled.button`
         props.background ? props.background : colors.darkGrey};
       ${device.mobile} {
         height: 40px;
-        padding: ${(props) => (props.padding ? props.padding : "0px 16px")};
+        padding: ${(props) => (props.mPadding ? props.mPadding : "0px 16px")};
+        margin: ${(props) => (props.mMargin ? props.mMargin : "")};
+        width: ${(props) => (props.mWidth ? props.mWidth : "")};
+        height: ${(props) => (props.mHeight ? props.mHeight : "")};
       }
       &:hover {
-        background: ${(props) =>
-          props.hover ? colors.mediumGrey : props.background};
+        background: ${(props) => (props.hover ? props.hover : "")};
       }
     `;
   }}//

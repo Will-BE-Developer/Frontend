@@ -6,19 +6,22 @@ const SocialSignin = () => {
   return (
     <KakaoBtn onClick={() => window.location.replace(KAKAO_OAUTH_URL)}>
       <img alt="kakao login" src={kakaoIcon} />
-      <span>카카오로 시작하기</span>
+      <span>카카오톡으로 시작하기</span>
     </KakaoBtn>
   );
 };
 
 const KakaoBtn = styled.div`
+  img {
+  }
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 50px;
+  padding: 11px 18px;
 
-  border-radius: 4px;
+  border-radius: 8px;
   background-color: #fee500;
 
   &:hover {
@@ -37,7 +40,7 @@ const KakaoBtn = styled.div`
   }
 
   ${({ theme }) => theme.device.mobile} {
-    height: 30px;
+    height: 40px;
     img {
       margin-right: 10px;
       width: 15px;

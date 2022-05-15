@@ -2,7 +2,9 @@ import React, { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { boxShadow } from "../../styles/boxShadow";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import theme from "../../styles/theme";
+
 import { Link } from "react-router-dom";
 
 // 회원가입 유효성 검사 api : react hook form
@@ -94,7 +96,7 @@ const SignupForm = (props) => {
 
   return (
     <Container>
-      <div>이메일 회원가입</div>
+      <div className="title">이메일 회원가입</div>
       <BoxContainer>
         <SignUpForm onSubmit={handleSubmit(onSubmitHandler)}>
           <PreviousIcon onClick={previousPageHandler} />
@@ -109,14 +111,9 @@ const SignupForm = (props) => {
                 emailRef.current = e;
               }}
             />
-            <GlobalButton
-              onClick={checkEmailHandler}
-              hover
-              _width="30%"
-              margin="0 0 0 8px"
-            >
+            <button onClick={checkEmailHandler} className="checkEmailBtn">
               중복확인
-            </GlobalButton>
+            </button>
           </div>
           <ErrorMSG>{errors.email?.message}</ErrorMSG>
           <Label htmlFor="password">비밀번호</Label>
@@ -134,7 +131,13 @@ const SignupForm = (props) => {
             {...register("passwordCheck")}
           />
           <ErrorMSG>{errors.passwordCheck?.message}</ErrorMSG>
-          <GlobalButton type="submit" _width="100%" margin="0 0 12px 0" hover>
+          <GlobalButton
+            type="submit"
+            _width="100%"
+            margin="0 0 12px 0"
+            background={theme.colors.main}
+            hover={theme.colors.mainHover}
+          >
             회원가입
           </GlobalButton>
         </SignUpForm>
@@ -154,19 +157,27 @@ const SignupForm = (props) => {
 };
 
 const Container = styled.div`
-  margin: 0 auto;
-  & > div {
-    text-align: center;
-    margin-bottom: 32px;
-  }
-  font-size: ${({ theme }) => theme.calRem(24)};
-  font-weight: ${({ theme }) => theme.fontWeight.semiExtraBold};
+  ${({ theme }) => {
+    const { colors, device, fontSize, fontWeight } = theme;
+    return css`
+      margin: 158px auto;
+      .title {
+        text-align: center;
+        margin-bottom: 32px;
+        color: ${colors.grey90};
+        font-weight: ${fontWeight.semiExtraBold};
+      }
+      font-size: ${fontSize["24"]};
+      font-weight: ${fontWeight.semiExtraBold};
 
-  ${({ theme }) => theme.device.mobile} {
-    margin-right: 0;
-    width: 100%;
-    font-size: ${({ theme }) => theme.calRem(18)};
-  }
+      ${device.mobile} {
+        margin: 158px auto;
+        width: 100%;
+
+        font-size: ${fontSize["18"]};
+      }
+    `;
+  }}
 `;
 
 const BoxContainer = styled.div`
@@ -187,80 +198,122 @@ const BoxContainer = styled.div`
 
   ${({ theme }) => theme.device.mobile} {
     padding: 0 5%;
+
     width: 100%;
-    height: 400px;
+    height: 450px;
   }
 `;
 
 const SignUpForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+  ${({ theme }) => {
+    const { colors, device, fontSize, fontWeight } = theme;
+    return css`
+      display: flex;
+      flex-direction: column;
+      width: 100%;
 
-  padding: 0 7%;
+      padding: 0 7%;
 
-  & > div {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+      & > div {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .checkEmailBtn {
+        display: inline-block;
+        padding: 20px 0px;
+        font-size: ${fontSize["16"]};
+        color: ${colors.main};
+        font-weight: ${fontWeight.semiBold};
+        border: 1px solid #3771d3;
+        width: 100px;
+        height: 60px;
+        border-radius: 8px;
+        margin-left: 10px;
+        white-space: nowrap;
+
+        ${device.mobile} {
+          height: 40px;
+          padding: 10px 0px;
+          font-size: ${fontSize["14"]};
+          font-weight: ${fontWeight.regular};
+        }
+      }
+    `;
+  }}
 `;
 
 const Label = styled.label`
-  font-size: ${({ theme }) => theme.calRem(14)};
-  color: ${({ theme }) => theme.colors.black};
-  text-align: left;
+  ${({ theme }) => {
+    const { colors, device, fontSize, fontWeight } = theme;
+    return css`
+      font-size: ${fontSize["14"]};
+      color: ${colors.grey80};
+      text-align: left;
+    `;
+  }}
 `;
 
 const Input = styled.input`
-  width: 100%;
-  height: 60px;
-  padding: 0.3em 1em;
-  border: 1px solid #e6e6e6;
-  border-radius: 4px;
-  margin: 5px 0;
+  ${({ theme }) => {
+    const { colors, device, fontSize, fontWeight } = theme;
+    return css`
+      width: 100%;
+      height: 60px;
+      padding: 0.3em 1em;
+      border: 1px solid #e6e6e6;
+      border-radius: 4px;
+      margin: 5px 0;
 
-  background: ${({ theme }) => theme.colors.white};
-  color: ${({ theme }) => theme.colors.placeHolder};
-
-  ::placeholder {
-    font-size: ${({ theme }) => theme.calRem(16)};
-    font-weight: lighter;
-    color: ${({ theme }) => theme.colors.placeHolder};
-  }
-
-  ${({ theme }) => theme.device.mobile} {
-    height: 30px;
-    ::placeholder {
+      background: ${({ theme }) => theme.colors.white};
       color: ${({ theme }) => theme.colors.placeHolder};
-      font-size: ${({ theme }) => theme.calRem(12)};
-    }
-  }
+
+      ::placeholder {
+        font-size: ${fontSize["14"]};
+        color: ${colors.grey70};
+        font-weight: lighter;
+      }
+
+      ${device.mobile} {
+        height: 40px;
+        ::placeholder {
+          color: ${({ theme }) => theme.colors.placeHolder};
+          font-size: ${({ theme }) => theme.calRem(12)};
+        }
+      }
+    `;
+  }}
 `;
 const ErrorMSG = styled.span`
   margin-top: 2px;
-  font-size: ${({ theme }) => theme.calRem(12)};
+  font-size: ${({ theme }) => theme.fontSize["12"]};
   text-align: left;
   color: ${({ theme }) => theme.colors.errorMsg};
   margin-bottom: 16px;
 `;
 
 const Terms = styled.div`
-  font-size: ${({ theme }) => theme.calRem(14)};
-  font-weight: ${({ theme }) => theme.fontWeight.semiExtraBold};
-  display: table-cell;
-  margin-top: 10px;
-  & > label > input[type="checkbox"] {
-    margin-right: 5px;
-    vertical-align: middle;
-    position: relative;
-    bottom: 1px;
-  }
+  ${({ theme }) => {
+    const { colors, device, fontSize, fontWeight } = theme;
+    return css`
+      font-size: ${fontSize["12"]};
+      font-weight: ${fontWeight.semiExtraBold};
+      margin-top: 10px;
+      text-align: center;
 
-  ${({ theme }) => theme.device.mobile} {
-    font-size: ${({ theme }) => theme.calRem(12)};
-  }
+      & > label > input[type="checkbox"] {
+        margin-right: 5px;
+        vertical-align: middle;
+        position: relative;
+        bottom: 1px;
+      }
+      ${device.mobile} {
+        font-size: ${fontSize["12"]};
+      }
+    `;
+  }}
 `;
 
 const TermsShow = styled.span`
@@ -271,11 +324,15 @@ const TermsShow = styled.span`
 `;
 
 const PreviousIcon = styled(FcPrevious)`
-  margin-bottom: 30px;
+  margin-bottom: 40px;
   font-size: 20px;
   cursor: pointer;
   & > polygon {
     fill: ${({ theme }) => theme.colors.darkGrey};
+  }
+
+  ${({ theme }) => theme.device.mobile} {
+    margin-bottom: 20px;
   }
 `;
 export default SignupForm;

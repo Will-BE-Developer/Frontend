@@ -5,6 +5,7 @@ import { getCookie } from "../../shared/cookies";
 import GlobalButton from "../UI/GlobalButton";
 
 import styled, { css } from "styled-components";
+import theme from "../../styles/theme";
 import SetProfileImg from "./SetProfileImg";
 import { boxShadow } from "../../styles/boxShadow";
 
@@ -32,6 +33,9 @@ const SetInfo = (props) => {
     props.setCurrentPage(currentPage - 1);
   };
 
+  const nextPageHandler = () => {
+    props.setCurrentPage(currentPage + 1);
+  };
   const nextPageWithUploadImgHandler = async () => {
     props.setCurrentPage(currentPage + 1);
     try {
@@ -67,19 +71,23 @@ const SetInfo = (props) => {
         <Container>
           <div>
             <h2>회원가입 성공</h2>
-            <span>회원가입에 성공했습니다 이메일 인증을 완료해주세요.</span>
+            <span>Willbe 서비스는 이메일 인증 후 이용가능합니다.</span>
           </div>
 
           <BoxContainer>
             <InputField>
-              <h1 className="h1_text">
-                회원가입에 성공했습니다 이메일 인증을 완료해주세요.
-              </h1>
+              <div className="h1_text">
+                <div>회원가입에 성공했습니다.</div>
+                <div>이메일 인증을 완료해주세요.</div>
+              </div>
+
               <GlobalButton
                 onClick={linkToHomeHandler}
+                type="submit"
                 _width="100%"
                 margin="18px 0 0 0"
-                hover
+                background={theme.colors.main}
+                hover={theme.colors.mainHover}
               >
                 홈으로 가기
               </GlobalButton>
@@ -111,13 +119,14 @@ const SetInfo = (props) => {
                   }}
                 />
               </div>
-              <ErrorMSG>공백 없이 한글/영문/숫자만 가능합니다. </ErrorMSG>
+              <InfoMsg>공백 없이 한글/영문/숫자만 가능합니다. </InfoMsg>
               <GlobalButton
-                onClick={nextPageWithUploadImgHandler}
-                // onClick={() => alert("clicked")}
+                onClick={nextPageHandler}
+                type="submit"
                 _width="100%"
-                margin="18px 0 0 0"
-                hover
+                margin="24px 0 0 0"
+                background={theme.colors.main}
+                hover={theme.colors.mainHover}
               >
                 다음 <NextIcon />
               </GlobalButton>
@@ -142,12 +151,15 @@ const SetInfo = (props) => {
                 />
               </FlexDiv>
               <div>
-                <ErrorMSG>PNG, JPG파일만 업로드 가능합니다.</ErrorMSG>
+                <InfoMsg>PNG, JPG파일만 업로드 가능합니다.</InfoMsg>
               </div>
               <GlobalButton
                 onClick={nextPageWithUploadImgHandler}
+                type="submit"
                 _width="100%"
-                hover
+                margin="18px 0 0 0"
+                background={theme.colors.main}
+                hover={theme.colors.mainHover}
               >
                 다음 <NextIcon />
               </GlobalButton>
@@ -192,11 +204,13 @@ const SetInfo = (props) => {
                 cols="80"
                 placeholder="50자이내로 나를 표현해주세요."
               />
-
               <GlobalButton
                 onClick={nextPageWithUploadImgHandler}
+                type="submit"
                 _width="100%"
-                hover
+                margin="0 0 12px 0"
+                background={theme.colors.main}
+                hover={theme.colors.mainHover}
               >
                 다음 <NextIcon />
               </GlobalButton>
@@ -211,13 +225,17 @@ const SetInfo = (props) => {
           </div>
           <BoxContainer>
             <InputField>
-              <h1 className="h1_text">회원가입 성공을 축하합니다</h1>
-              <p style={{ textAlign: "center" }}>회원가입에 성공했습니다.</p>
+              <div className="h1_text">
+                WillBe서비스를 이용해주셔서 감사합니다.
+              </div>
+
               <GlobalButton
                 onClick={linkToHomeHandler}
+                type="submit"
                 _width="100%"
-                margin="18px 0 0 0"
-                hover
+                margin="24px 0 0 0"
+                background={theme.colors.main}
+                hover={theme.colors.mainHover}
               >
                 홈으로 가기
               </GlobalButton>
@@ -237,20 +255,22 @@ const FlexDiv = styled.div`
 `;
 const Container = styled.div`
   ${({ theme }) => {
-    const { colors, device, calRem, fontWeight } = theme;
+    const { colors, device, calRem, fontWeight, fontSize } = theme;
     return css`
-      margin: 0 auto;
+      margin: 158px auto;
       & > div {
         margin: 0 auto;
 
         margin-bottom: 20px;
         text-align: center;
         & > h2 {
-          font-size: ${calRem(24)};
+          color: ${colors.grey90};
+          font-size: ${fontSize["24"]};
+          margin-bottom: 8px;
         }
 
         & > span {
-          font-size: ${calRem(14)};
+          font-size: ${fontSize["14"]};
           font-weight: ${fontWeight.regular};
           color: ${colors.mediumGrey};
           margin: 32px 0;
@@ -261,7 +281,8 @@ const Container = styled.div`
       ${device.mobile} {
         margin-right: 0;
         width: 100%;
-        font-size: ${calRem(18)};
+        font-size: ${fontSize["18"]};
+
         & > h2 {
           margin: 0 auto;
           text-align: center;
@@ -280,71 +301,105 @@ const BoxContainer = styled.div`
   margin: 0 auto;
   width: 672px;
   height: 400px;
+
   ${boxShadow()};
   ${({ theme }) => theme.device.mobile} {
-    padding: 0 5%;
     width: 100%;
-    height: 300px;
+    height: 350px;
+    padding: 10px 5%;
   }
 `;
 
 const InputField = styled.form`
-  width: 100%;
-  padding: 0 7%;
+  ${({ theme }) => {
+    const { colors, device, fontSize, fontWeight } = theme;
+    return css`
+      width: 100%;
+      padding: 0 7%;
+      text-align: left;
 
-  text-align: left;
+      & .h1_text {
+        display: flex;
+        justify-content: center;
+        font-size: ${fontSize["18"]};
+        text-align: center;
+        margin: 0 0 30px 0;
+        color: ${colors.grey90};
 
-  & .h1_text {
-    font-size: 20px;
-    text-align: center;
-    margin: 10px 0;
-  }
-  & > div {
-    width: 100%;
-    display: flex;
-    justify-content: ${(props) => (props.isCenter ? props.isCenter : "left")};
+        ${device.mobile} {
+          display: inline-block;
+          font-size: ${fontSize["16"]};
+          margin: 0;
+          div {
+            margin-bottom: 5px;
+          }
+        }
+      }
 
-    align-items: center;
-  }
+      & > div {
+        width: 100%;
+        display: flex;
+        justify-content: ${(props) =>
+          props.isCenter ? props.isCenter : "left"};
+
+        align-items: center;
+      }
+    `;
+  }}
 `;
 
 const Label = styled.label`
-  font-size: ${({ theme }) => theme.calRem(14)};
-  color: ${({ theme }) => theme.colors.black};
-  text-align: left;
+  ${({ theme }) => {
+    const { colors, fontSize } = theme;
+    return css`
+      font-size: ${fontSize["14"]};
+      color: ${colors.grey80};
+      text-align: left;
+    `;
+  }}
 `;
 
 const Input = styled.input`
-  width: 100%;
-  height: 50px;
-  padding: 0.3em 1em;
-  border: 1px solid #e6e6e6;
-  border-radius: 4px;
-  margin: 5px 0;
+  ${({ theme }) => {
+    const { colors, device, fontSize, fontWeight } = theme;
+    return css`
+      width: 100%;
+      height: 60px;
+      padding: 0.3em 1em;
+      border: 1px solid #e6e6e6;
+      border-radius: 4px;
+      margin: 5px 0;
 
-  background: ${({ theme }) => theme.colors.white};
-  color: ${({ theme }) => theme.colors.placeHolder};
-
-  ::placeholder {
-    font-size: ${({ theme }) => theme.calRem(16)};
-    font-weight: lighter;
-    color: ${({ theme }) => theme.colors.placeHolder};
-  }
-
-  ${({ theme }) => theme.device.mobile} {
-    height: 30px;
-    ::placeholder {
+      background: ${({ theme }) => theme.colors.white};
       color: ${({ theme }) => theme.colors.placeHolder};
-      font-size: ${({ theme }) => theme.calRem(12)};
-    }
-  }
+
+      ::placeholder {
+        font-size: ${fontSize["14"]};
+        color: ${colors.grey70};
+        font-weight: lighter;
+      }
+
+      ${device.mobile} {
+        height: 40px;
+        ::placeholder {
+          color: ${({ theme }) => theme.colors.placeHolder};
+          font-size: ${({ theme }) => theme.calRem(12)};
+        }
+      }
+    `;
+  }}
 `;
-const ErrorMSG = styled.span`
-  margin-top: 2px;
-  font-size: ${({ theme }) => theme.calRem(12)};
-  text-align: center;
-  color: ${({ theme }) => theme.colors.mediumGrey};
-  margin-bottom: 16px;
+const InfoMsg = styled.span`
+  ${({ theme }) => {
+    const { colors, device, fontSize, fontWeight } = theme;
+    return css`
+      margin-top: 2px;
+      font-size: ${fontSize["12"]};
+      text-align: center;
+      color: ${colors.info};
+      margin-bottom: 16px;
+    `;
+  }}
 `;
 
 const NextIcon = styled(FcNext)`
@@ -365,6 +420,10 @@ const PreviousIcon = styled(FcPrevious)`
   cursor: pointer;
   & > polygon {
     fill: ${({ theme }) => theme.colors.mediumGrey};
+  }
+
+  ${({ theme }) => theme.device.mobile} {
+    margin-bottom: 5px;
   }
 `;
 
