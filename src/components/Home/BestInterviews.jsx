@@ -179,6 +179,8 @@ const SliderLayout = styled.div`
 
     @media screen and (max-width: 700px) {
       height: 470px;
+      width: 100%;
+      border-start-start-radius: 0px;
     }
   }
 
@@ -231,7 +233,7 @@ const StyledSlider = styled(Slider)`
       .slick-dots {
         bottom: -60px;
         @media screen and (max-width: 700px) {
-          bottom: -30px;
+          bottom: -50px;
         }
       }
 
