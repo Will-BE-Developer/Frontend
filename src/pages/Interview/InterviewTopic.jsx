@@ -83,6 +83,10 @@ const TopicBox = styled.div`
       margin-top: 15vh;
       text-align: center;
 
+      @media screen and (max-width: 700px) {
+        margin-top: 5vh;
+      }
+
       ${boxShadow()}
 
       & .title {
