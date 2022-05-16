@@ -179,34 +179,9 @@ const SliderLayout = styled.div`
 
     @media screen and (max-width: 700px) {
       height: 470px;
+      width: 100%;
+      border-start-start-radius: 0px;
     }
-  }
-
-  .rightCircle {
-    position: absolute;
-    right: 250px;
-    bottom: -60px;
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    /* background-color: #eab90d; */
-    background-color: #567fe8;
-    z-index: -1;
-
-    @media screen and (max-width: 700px) {
-      right: 100px;
-    }
-  }
-
-  .leftCircle {
-    position: absolute;
-    left: 300px;
-    top: -95px;
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background-color: #567fe8;
-    z-index: -1;
   }
 
   .slick-slider {
@@ -230,9 +205,6 @@ const StyledSlider = styled(Slider)`
 
       .slick-dots {
         bottom: -60px;
-        @media screen and (max-width: 700px) {
-          bottom: -30px;
-        }
       }
 
       .slick-dots .slick-dots li button::before {

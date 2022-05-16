@@ -7,6 +7,7 @@ import ReactPlayer from "react-player";
 import screenfull from "screenfull";
 import VideoControl from "./VideoControl.jsx";
 import feedbackApis from "../../apis/feedbackApis.js";
+import Bubble from "./Bubble.jsx";
 
 function format(seconds) {
   const date = new Date(seconds * 1000);
@@ -34,7 +35,7 @@ const Video = (props) => {
   const navigate = useNavigate();
   const [video, setVideo] = useState("");
   const [timeDisplayFormat, setTimeDisplayFormat] = useState("normal");
-  const [likes, setLikes] = useState([]);
+  const [likes, setLikes] = useState({ likeTime: [], like: [] });
   const [state, setState] = useState({
     playing: true,
     muted: true,
@@ -45,6 +46,12 @@ const Video = (props) => {
     seeking: false,
     duration: 0,
     pip: false,
+  });
+  const cleanLike = useRef((id) => {
+    setLikes((currentLikes) => ({
+      likeTime: [...currentLikes.likeTime],
+      like: currentLikes.like.filter((like) => like !== id),
+    }));
   });
 
   const { playing, muted, volume, playbackRate, played, pip, seeking } = state;
@@ -174,13 +181,16 @@ const Video = (props) => {
     const dataUri = canvas.toDataURL();
     canvas.width = 0;
     canvas.height = 0;
-    const likeCopy = [...likes];
+    const likeCopy = [...likes.likeTime];
     likeCopy.push({
       time: videoRef.current.getCurrentTime(),
       display: format(videoRef.current.getCurrentTime()),
       image: dataUri,
     });
-    setLikes(likeCopy);
+    setLikes((prev) => ({
+      likeTime: likeCopy,
+      like: [...prev.like, new Date().getTime()],
+    }));
   };
 
   const mouseMoveHandler = () => {
@@ -254,20 +264,33 @@ const Video = (props) => {
           onChangeDisplayFormat={displayFormatHandler}
           onLike={addLike}
         />
+        <div
+          style={{
+            zIndex: 1000,
+            position: "absolute",
+            bottom: "75px",
+            right: "10px",
+          }}
+        >
+          <button className="like_btn" onClick={addLike}>
+            <LikeIcon size={35} />
+          </button>
+          {likes.like.map((id) => (
+            <Bubble onAnimationEnd={cleanLike.current} key={id} id={id} />
+          ))}
+        </div>
       </div>
       <HightLight>
-        {" "}
         <div className="highlight_bar">
           <h2>Highlight</h2>
           <div className="timestamp_box">
-            {likes.map((like, index) => (
+            {likes.likeTime.map((like, index) => (
               <div
                 className="timestamp"
                 key={index}
                 onClick={() => {
                   videoRef.current.seekTo(like.time);
                   controlsRef.current.style.visibility = "visible";
-
                   setTimeout(() => {
                     controlsRef.current.style.visibility = "hidden";
                   }, 1000);
