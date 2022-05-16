@@ -11,7 +11,11 @@ import Bubble from "./Bubble.jsx";
 import { MdFavorite, MdFastRewind, MdFastForward } from "react-icons/md";
 import LoadingLoader from "../UI/LoadingLoader.jsx";
 
+import convertingImg from "../../assets/convertingImage.png";
 function format(seconds) {
+  if (isNaN(seconds)) {
+    return `00:00`;
+  }
   const date = new Date(seconds * 1000);
   const hh = date.getUTCHours();
   const mm = date.getUTCMinutes();
@@ -29,14 +33,13 @@ let count = 0;
 
 const Video = (props) => {
   let [isLoading, setIsLoading] = useState(true);
-  let [color, setColor] = useState("#ffffff");
 
   const videoRef = useRef(null);
   const videoControllerRef = useRef(null);
   const canvasRef = useRef(null);
   const controlsRef = useRef(null);
 
-  const { cardId } = props;
+  const { cardId, scrapHandler, isScrapped } = props;
   const navigate = useNavigate();
   const [video, setVideo] = useState("");
   const [timeDisplayFormat, setTimeDisplayFormat] = useState("normal");
@@ -62,16 +65,20 @@ const Video = (props) => {
   const { playing, muted, volume, playbackRate, played, pip, seeking } = state;
   useEffect(() => {
     feedbackApis
-      .getDetailVideo(cardId)
+      .getDetail(cardId)
       .then((data) => {
         console.log(data);
-        setVideo(URL.createObjectURL(data));
-        setIsLoading(false);
+        console.log(data.interview.video);
+        setVideo(data.interview.video);
+        // setIsLoading(false);
       })
       .catch(() => {
         navigate("/notFound");
         return;
       });
+
+    const timeout = setTimeout(() => setIsLoading(false), 400);
+    return () => clearTimeout(timeout);
   }, [cardId, navigate]);
 
   const playPauseHandler = () => {
@@ -102,15 +109,12 @@ const Video = (props) => {
   };
 
   const volumeSeekDownHandler = (e, newValue) => {
-    console.log(newValue, "");
     setState({
       ...state,
       volume: parseFloat(newValue / 100),
       muted: newValue === 0 ? true : false,
     });
-    console.log(volume, muted, "committed");
   };
-  console.log(seeking, "seeking!!");
   const playBackChangeHandler = (rate) => {
     setState({
       ...state,
@@ -146,7 +150,6 @@ const Video = (props) => {
   };
 
   const seekMouseUpHandler = (e, newValue) => {
-    console.log({ value: e.target });
     setState({ ...state, seeking: false });
     videoRef.current.seekTo(newValue / 100, "fraction");
   };
@@ -200,23 +203,29 @@ const Video = (props) => {
   };
 
   const mouseMoveHandler = () => {
-    console.log("mousemove");
-    controlsRef.current.style.visibility = "visible";
-    count = 0;
+    if (video !== null) {
+      controlsRef.current.style.visibility = "visible";
+      count = 0;
+    }
   };
 
   const mouseLeaveHandler = () => {
-    controlsRef.current.style.visibility = "hidden";
-    count = 0;
+    if (video !== null) {
+      controlsRef.current.style.visibility = "hidden";
+      count = 0;
+    }
   };
 
   return (
     <Container>
       {isLoading ? (
-        <LoadingLoader
-          text="영상을 불러오는 중입니다. "
-          noti="잠시만 기다려주세요."
-        />
+        <VideoBackgroud>
+          <LoadingLoader
+            text="영상을 불러오는 중입니다. "
+            noti="잠시만 기다려주세요."
+            _height="565px"
+          />
+        </VideoBackgroud>
       ) : (
         <>
           <VideoBackgroud>
@@ -226,99 +235,115 @@ const Video = (props) => {
               onMouseMove={mouseMoveHandler}
               onMouseLeave={mouseLeaveHandler}
             >
-              <ReactPlayer
-                ref={videoRef}
-                url={video}
-                // url={{ src: video, type: "video/mp4" }}
-                // url={{
-                //   src: video,
-                //   type: "video/mp4",
-                //   codecs: "avc1.4D401E, mp4a.40.2",
-                // }}
-                pip={pip}
-                playing={playing}
-                controls={false}
-                muted={muted}
-                volume={volume}
-                playbackRate={playbackRate}
-                className="react-player"
-                width="100%"
-                height="100%"
-                // onSeek={(e) => console.log("onSeek", e)}
-                onProgress={progressHandler}
-                config={{
-                  file: {
-                    attributes: {
-                      crossOrigin: "anonymous",
-                    },
-                  },
-                }}
-              />
-              <VideoControl
-                ref={controlsRef}
-                onPlayPause={playPauseHandler}
-                playing={playing}
-                onRewind={rewindHandler}
-                onForward={forwardHandler}
-                muted={muted}
-                onMute={muteHandler}
-                onVolumeChange={volumeChangeHandler}
-                onVolumeSeekDown={volumeSeekDownHandler}
-                volume={volume}
-                playbackRate={playbackRate}
-                onPlaybackRateChange={playBackChangeHandler}
-                onToggleFullScreen={toggleFullScreenHandler}
-                played={played}
-                onSeek={onSeekChangeHandler}
-                onSeekMouseDown={seekMouseDownHandler}
-                onSeekMouseUp={seekMouseUpHandler}
-                elapsedTime={elapsedTime}
-                totalDuration={totalDuration}
-                onDuration={durationHandelr}
-                onChangeDisplayFormat={displayFormatHandler}
-                onLike={addLike}
-              />
-              <div
-                style={{
-                  zIndex: 1000,
-                  position: "absolute",
-                  bottom: "75px",
-                  right: "10px",
-                }}
-              >
-                <button className="like_btn" onClick={addLike}>
-                  <LikeIcon size={35} />
-                </button>
-                {likes.like.map((id) => (
-                  <Bubble onAnimationEnd={cleanLike.current} key={id} id={id} />
-                ))}
-              </div>
+              {video == null ? (
+                <img src={convertingImg} alt="convertImg" width="700px"></img>
+              ) : (
+                <>
+                  <ReactPlayer
+                    ref={videoRef}
+                    url={video}
+                    // url={{ src: video, type: "video/mp4" }}
+                    // url={{
+                    //   src: video,
+                    //   type: "video/mp4",
+                    //   codecs: "avc1.4D401E, mp4a.40.2",
+                    // }}
+                    pip={pip}
+                    playing={playing}
+                    controls={false}
+                    muted={muted}
+                    volume={volume}
+                    playbackRate={playbackRate}
+                    className="react-player"
+                    width="100%"
+                    height="100%"
+                    onProgress={progressHandler}
+                    config={{
+                      file: {
+                        attributes: {
+                          crossOrigin: "anonymous",
+                        },
+                      },
+                    }}
+                  />
+                  <VideoControl
+                    ref={controlsRef}
+                    onPlayPause={playPauseHandler}
+                    playing={playing}
+                    onRewind={rewindHandler}
+                    onForward={forwardHandler}
+                    muted={muted}
+                    onMute={muteHandler}
+                    onVolumeChange={volumeChangeHandler}
+                    onVolumeSeekDown={volumeSeekDownHandler}
+                    volume={volume}
+                    playbackRate={playbackRate}
+                    onPlaybackRateChange={playBackChangeHandler}
+                    onToggleFullScreen={toggleFullScreenHandler}
+                    played={played}
+                    onSeek={onSeekChangeHandler}
+                    onSeekMouseDown={seekMouseDownHandler}
+                    onSeekMouseUp={seekMouseUpHandler}
+                    elapsedTime={elapsedTime}
+                    totalDuration={totalDuration}
+                    onDuration={durationHandelr}
+                    onChangeDisplayFormat={displayFormatHandler}
+                    onLike={addLike}
+                    cardId={cardId}
+                    scrapHandler={scrapHandler}
+                    isScrapped={isScrapped}
+                  />
+                  <div
+                    style={{
+                      zIndex: 1000,
+                      position: "absolute",
+                      bottom: "75px",
+                      right: "10px",
+                    }}
+                  >
+                    <button className="like_btn" onClick={addLike}>
+                      <LikeIcon size={35} />
+                      <div className="tooltip">좋았던 순간을 클릭하세요!</div>
+                    </button>
+
+                    {likes.like.map((id) => (
+                      <Bubble
+                        onAnimationEnd={cleanLike.current}
+                        key={id}
+                        id={id}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
           </VideoBackgroud>
-          <HightLight>
-            <div className="highlight_bar">
-              <h2>Highlight</h2>
-              <div className="timestamp_box">
-                {likes.likeTime.map((like, index) => (
-                  <div
-                    className="timestamp"
-                    key={index}
-                    onClick={() => {
-                      videoRef.current.seekTo(like.time);
-                      controlsRef.current.style.visibility = "visible";
-                      setTimeout(() => {
-                        controlsRef.current.style.visibility = "hidden";
-                      }, 1000);
-                    }}
-                    elevation={3}
-                  >
-                    {/* <img alt="likes" crossOrigin="anonymous" src={like.image} /> */}
-                    <span>{like.display}</span>
-                  </div>
-                ))}
+          {video !== null && (
+            <HightLight>
+              <div className="highlight_bar">
+                <h2>Highlight</h2>
+                <div className="timestamp_box">
+                  {likes.likeTime.map((like, index) => (
+                    <div
+                      className="timestamp"
+                      key={index}
+                      onClick={() => {
+                        videoRef.current.seekTo(like.time);
+                        controlsRef.current.style.visibility = "visible";
+                        setTimeout(() => {
+                          controlsRef.current.style.visibility = "hidden";
+                        }, 1000);
+                      }}
+                      elevation={3}
+                    >
+                      {/* <img alt="likes" crossOrigin="anonymous" src={like.image} /> */}
+                      <span>{like.display}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          </HightLight>
+            </HightLight>
+          )}
           <canvas ref={canvasRef} />
         </>
       )}
@@ -341,6 +366,29 @@ const VideoBackgroud = styled.div`
     width: 100%;
     margin: 0 auto;
     .react-player {
+    }
+  }
+
+  .tooltip {
+    position: absolute;
+    display: none;
+    margin-left: 60px;
+    width: 200px;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    color: ${({ theme }) => theme.colors.main};
+    :after {
+    }
+  }
+
+  .like_btn {
+    display: flex;
+    &:hover {
+      color: black;
+      .tooltip {
+        display: block;
+      }
     }
   }
 `;
@@ -379,8 +427,23 @@ const LikeIcon = styled(MdFavorite)`
   font-size: 20px;
   /* color: ${({ theme }) => theme.colors.pink}; */
   color: white;
+
   &:hover {
     color: ${({ theme }) => theme.colors.pink};
+  }
+
+  animation: pulse 1s infinite;
+  @keyframes pulse {
+    0% {
+      transform: scale(1.04);
+      box-shadow: 0;
+    }
+    80% {
+      transform: scale(0.9);
+    }
+    100% {
+      transform: scale(1);
+    }
   }
 `;
 

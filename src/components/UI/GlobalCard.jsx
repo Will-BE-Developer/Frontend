@@ -11,11 +11,11 @@ import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import TimeAgo from "../FeedBack/TimeAgo";
 import defaultUserImage from "../../assets/defaultUserImage.png";
 import UserProfileModal from "../UI/ModalSample/UserProfileModal";
+import convertingImg from "../../assets/convertingImage.png";
 
 const GlobalCard = memo(({ card }) => {
   const [showModal, setShowModal] = useState(false);
   const [openProfileModal, setOpenProfileModal] = useState(false);
-
   const { cardId } = useParams();
   const navigate = useNavigate();
   const {
@@ -31,6 +31,7 @@ const GlobalCard = memo(({ card }) => {
     isMine,
     isPublic,
     commentsCount,
+    video,
   } = card;
 
   const sendProfileModalHandler = (boolean) => {
@@ -52,7 +53,12 @@ const GlobalCard = memo(({ card }) => {
         isMine={isMine}
       />
       <CardBody onClick={linkToDetailHandler}>
-        <Img alt="img" src={thumbnail} />
+        {video === null ? (
+          <Img alt="img" src={convertingImg} />
+        ) : (
+          <Img alt="img" src={thumbnail} />
+        )}
+
         <BodyContainer>
           <div className="contents">
             <div className="top">

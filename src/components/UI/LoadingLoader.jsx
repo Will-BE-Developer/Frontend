@@ -2,9 +2,12 @@ import styled from "styled-components";
 import PacmanLoader from "react-spinners/PacmanLoader";
 import theme from "../../styles/theme";
 
-const LoadingLoader = ({ text, noti }) => {
+const LoadingLoader = ({ text, noti, _height }) => {
+  const styles = {
+    _height,
+  };
   return (
-    <LoaderLayout>
+    <LoaderLayout {...styles}>
       <div className="loader">
         <PacmanLoader speedMultiplier={2} color={theme.colors.main} />
       </div>
@@ -21,9 +24,8 @@ const LoaderLayout = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 80vh;
   width: 100%;
-
+  height: ${(props) => (props._height ? props._height : "80vh")};
   .loader {
     padding: 0 40px 20px 0px;
   }
