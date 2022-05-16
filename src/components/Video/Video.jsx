@@ -9,9 +9,7 @@ import VideoControl from "./VideoControl.jsx";
 import feedbackApis from "../../apis/feedbackApis.js";
 import Bubble from "./Bubble.jsx";
 import { MdFavorite, MdFastRewind, MdFastForward } from "react-icons/md";
-import { css } from "@emotion/react";
-import PacmanLoader from "react-spinners/PacmanLoader";
-import Spinner from "../UI/Spinner.jsx";
+import LoadingLoader from "../UI/LoadingLoader.jsx";
 
 function format(seconds) {
   const date = new Date(seconds * 1000);
@@ -215,7 +213,10 @@ const Video = (props) => {
   return (
     <Container>
       {isLoading ? (
-        <Spinner text="영상을 불러오는 중입니다. 잠시만 기다려주세요.." />
+        <LoadingLoader
+          text="영상을 불러오는 중입니다. "
+          noti="잠시만 기다려주세요."
+        />
       ) : (
         <>
           <VideoBackgroud>

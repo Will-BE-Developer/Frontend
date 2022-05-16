@@ -116,7 +116,10 @@ const InterviewRecording = () => {
   return (
     <RecordWrapper isstart={isStart.toString()} isEnd={isEnd}>
       {isLoading ? (
-        <UploadingLoader />
+        <UploadingLoader
+          text="영상을 업로드중 입니다."
+          noti="최대 1분이 소요될 수 있습니다."
+        />
       ) : (
         <div className="innerLayout">
           {isDenied ? (
