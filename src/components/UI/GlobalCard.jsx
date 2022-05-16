@@ -57,7 +57,8 @@ const GlobalCard = memo(({ card }) => {
           <div className="contents">
             <div className="top">
               <div className="category_name">
-                <span className="category">{question.category} </span>·
+                <span className="category">{question.category} </span>
+                <span className="spot">·</span>
                 <span className="nickname">{user.nickname}</span>
               </div>
               <div className="question_box">
@@ -65,28 +66,20 @@ const GlobalCard = memo(({ card }) => {
                 <span>{note}</span>
               </div>
             </div>
-            <div className="bottom">
-              <div className="date_comments">
-                <TimeAgo timestamp={createdAt} />
-                <span>· {commentsCount}개의 피드백</span>
-              </div>
-            </div>
           </div>
         </BodyContainer>
       </CardBody>
 
       <CardFooter>
-        <div
-          className="user_container"
-          onClick={() => setOpenProfileModal(true)}
-        >
-          <ProfileImg src={user.profileImageUrl} />
-          <span>by {user.nickname}</span>
+        <div className="date_feedback_cnt">
+          <TimeAgo timestamp={createdAt} />
+          <span className="spot">·</span>
+          <span>{commentsCount}개의 피드백</span>
         </div>
         <div className="icon_container">
           <div
             style={{
-              color: scrapsMe ? theme.colors.pink : theme.colors.lightGrey,
+              color: scrapsMe ? theme.colors.like : "#C2C7D0",
             }}
           >
             <ScrapIcon />
@@ -118,7 +111,7 @@ const Card = styled.article`
       display: flex;
       flex-direction: column;
       margin-bottom: 20px;
-      border-radius: 4px;
+      border-radius: 12px;
       background-color: ${colors.white};
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       overflow: hidden;
@@ -161,56 +154,47 @@ const BodyContainer = styled.div`
 
       & .contents .top {
         display: block;
-        .category_name {
+        & .category_name {
           display: flex;
           gap: 3px;
           font-size: ${fontSize["12"]};
           .category {
             color: ${colors.main};
           }
+          .spot {
+            font-size: ${fontSize["14"]};
+            font-weight: ${fontWeight.extraBold};
+          }
           .nickname {
             color: ${colors.grey70};
           }
         }
+        & .question_box {
+          margin: 8px 0 30px 0;
+          h2 {
+            font-size: ${fontSize["16"]};
+            font-weight: ${fontWeight.extraBold};
+            margin-bottom: 16px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            word-wrap: break-word;
+          }
 
-        h2 {
-          font-size: ${calRem(16)};
-          font-weight: ${fontWeight.extraBold};
-          margin-bottom: 10px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          display: -webkit-box;
-          -webkit-line-clamp: 1;
-          -webkit-box-orient: vertical;
-          word-wrap: break-word;
-        }
-
-        span {
-          font-size: ${calRem(14)};
-          margin-bottom: 24px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          word-wrap: break-word;
-          line-height: 1.2em;
-          height: 3.6em;
-        }
-      }
-
-      & .contents .bottom {
-        padding: 0;
-
-        p {
-          margin-bottom: 5px;
-        }
-        & .date_comments {
-          display: flex;
-          font-size: ${calRem(12)};
-
-          & > span {
-            margin-right: 5px;
+          span {
+            font-size: ${calRem(14)};
+            margin-bottom: 24px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            word-wrap: break-word;
+            line-height: 1.2em;
+            height: 2.4em;
           }
         }
       }
@@ -219,39 +203,42 @@ const BodyContainer = styled.div`
 `;
 
 const CardFooter = styled.div`
-  border-top: 1px solid lightgrey;
-  flex-grow: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 20px 12px 20px;
+  ${({ theme }) => {
+    const { calRem, fontWeight, colors, fontSize } = theme;
+    return css`
+      border-top: 1px solid #f4f6f9;
+      flex-grow: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px 12px 20px;
 
-  & .user_container {
-    cursor: pointer;
-    &:hover {
-      transform: scale(1.02);
-    }
+      & .date_feedback_cnt {
+        gap: 5px;
+        color: ${colors.grey60};
+        span {
+          font-size: ${fontSize["12"]};
+        }
+      }
 
-    span {
-      font-size: ${({ theme }) => theme.calRem(12)};
-    }
-  }
+      & .icon_container {
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
 
-  & .icon_container {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-
-    span {
-      margin-left: 8px;
-      font-size: ${({ theme }) => theme.calRem(12)};
-    }
-  }
-  & div:first-child {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+        span {
+          margin-left: 8px;
+          color: ${colors.grey60};
+          font-size: ${fontSize["12"]};
+        }
+      }
+      & div:first-child {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    `;
+  }}
 `;
 
 const ProfileImg = styled.img`

@@ -8,45 +8,6 @@ import screenfull from "screenfull";
 import VideoControl from "./VideoControl.jsx";
 import feedbackApis from "../../apis/feedbackApis.js";
 
-import { useTheme } from "@mui/material/styles";
-import Slider from "@mui/material/Slider";
-import Tooltip from "@mui/material/Tooltip";
-// import ValueLabelComponent from "./ValueLabelComponent";
-import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
-import { BiFullscreen } from "react-icons/bi";
-import { MdFavorite, MdFastRewind, MdFastForward } from "react-icons/md";
-import { HiVolumeUp } from "react-icons/hi";
-
-// React player demo 모음
-// https://github.com/cookpete/react-player/blob/master/src/demo/App.js
-
-// const format = (seconds) => {
-//   if (isNaN(seconds)) {
-//     return "00:00";
-//   }
-//   const date = new Date(seconds * 1000);
-//   const mm = date.getUTCMinutes();
-//   const ss = date.getUTCSeconds().toString.padStart(2, "0");
-
-//   return `${mm}: ${ss}`;
-// };
-
-// const format = (seconds) => {
-//   console.log(seconds, "seconds");
-
-//   if (isNaN(seconds)) {
-//     return `00:00`;
-//   }
-
-//   const date = new Date(seconds * 1000);
-//   const hh = date.getUTCHours();
-//   const mm = date.getUTCMinutes();
-//   const ss = date.getUTCSeconds().toString().padStart(2, "0");
-//   if (hh) {
-//     return `${hh}:${mm.toString().padStart(2, "0")}:${ss}`;
-//   }
-//   return `${mm}:${ss}`;
-// };
 function format(seconds) {
   const date = new Date(seconds * 1000);
   const hh = date.getUTCHours();
@@ -69,7 +30,6 @@ const Video = (props) => {
   const canvasRef = useRef(null);
   const controlsRef = useRef(null);
 
-  console.log(props);
   const { cardId } = props;
   const navigate = useNavigate();
   const [video, setVideo] = useState("");
@@ -92,6 +52,7 @@ const Video = (props) => {
     feedbackApis
       .getDetailVideo(cardId)
       .then((data) => {
+        console.log(data);
         setVideo(URL.createObjectURL(data));
       })
       .catch(() => {
@@ -127,14 +88,16 @@ const Video = (props) => {
     });
   };
 
-  const volumeSeekUpHandler = (e, newValue) => {
+  const volumeSeekDownHandler = (e, newValue) => {
+    console.log(newValue, "");
     setState({
       ...state,
       volume: parseFloat(newValue / 100),
       muted: newValue === 0 ? true : false,
     });
+    console.log(volume, muted, "committed");
   };
-
+  console.log(seeking, "seeking!!");
   const playBackChangeHandler = (rate) => {
     setState({
       ...state,
@@ -153,7 +116,7 @@ const Video = (props) => {
       controlsRef.current.style.visibility = "hidden";
       count = 0;
     }
-    if ((controlsRef.current.style.visibility = "visible")) {
+    if (controlsRef.current.style.visibility === "visible") {
       count += 1;
     }
     if (!state.seeking) {
@@ -161,9 +124,7 @@ const Video = (props) => {
     }
   };
 
-  // We only want to update time slider if we are not currently seeking
   const onSeekChangeHandler = (e, newValue) => {
-    console.log({ newValue });
     setState({ ...state, played: parseFloat(newValue / 100) });
   };
 
@@ -174,13 +135,12 @@ const Video = (props) => {
   const seekMouseUpHandler = (e, newValue) => {
     console.log({ value: e.target });
     setState({ ...state, seeking: false });
-    // console.log(sliderRef.current.value)
     videoRef.current.seekTo(newValue / 100, "fraction");
   };
 
   const displayFormatHandler = () => {
     setTimeDisplayFormat(
-      timeDisplayFormat == "normal" ? "remaining" : "normal"
+      timeDisplayFormat === "normal" ? "remaining" : "normal"
     );
   };
 
@@ -192,7 +152,7 @@ const Video = (props) => {
 
   // 현재시간
   const elapsedTime =
-    timeDisplayFormat == "normal"
+    timeDisplayFormat === "normal"
       ? format(currentTime)
       : `-${format(duration - currentTime)}`;
 
@@ -223,7 +183,7 @@ const Video = (props) => {
     setLikes(likeCopy);
   };
 
-  const mouseMoveHandelr = () => {
+  const mouseMoveHandler = () => {
     console.log("mousemove");
     controlsRef.current.style.visibility = "visible";
     count = 0;
@@ -239,13 +199,18 @@ const Video = (props) => {
       <div
         ref={videoControllerRef}
         className="player-wrapper"
-        onMouseMove={mouseMoveHandelr}
+        onMouseMove={mouseMoveHandler}
         onMouseLeave={mouseLeaveHandler}
       >
         <ReactPlayer
           ref={videoRef}
           url={video}
-          // url={{ src: video, type: "video/webm" }}
+          // url={{ src: video, type: "video/mp4" }}
+          // url={{
+          //   src: video,
+          //   type: "video/mp4",
+          //   codecs: "avc1.4D401E, mp4a.40.2",
+          // }}
           pip={pip}
           playing={playing}
           controls={false}
@@ -274,7 +239,7 @@ const Video = (props) => {
           muted={muted}
           onMute={muteHandler}
           onVolumeChange={volumeChangeHandler}
-          onVolumeSeekUp={volumeSeekUpHandler}
+          onVolumeSeekDown={volumeSeekDownHandler}
           volume={volume}
           playbackRate={playbackRate}
           onPlaybackRateChange={playBackChangeHandler}
@@ -366,30 +331,5 @@ const HightLight = styled.div`
 // pink : #EA617A
 // main : ##567FE8
 // yellow : #EAB90D
-
-const LikeIcon = styled(MdFavorite)`
-  font-size: 20px;
-  /* color: ${({ theme }) => theme.colors.pink}; */
-  color: white;
-  &:hover {
-    color: ${({ theme }) => theme.colors.pink};
-  }
-`;
-
-const PlayIcon = styled(BsFillPlayFill)``;
-
-const PauseIcon = styled(BsFillPauseFill)``;
-const RewindIcon = styled(MdFastRewind, MdFastForward, BsFillPlayFill)``;
-const ForwardIcon = styled(MdFastForward)``;
-
-// const playBtn = styled(BsFillPlayBtnFill)`
-//   width: 6.5em;
-//   height: 4em;
-//   margin-right: 1em;
-//   color: #fff;
-//   position: relative;
-// `;
-
-const VideoContainer = styled.video``;
 
 export default Video;
