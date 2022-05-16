@@ -9,6 +9,9 @@ import VideoControl from "./VideoControl.jsx";
 import feedbackApis from "../../apis/feedbackApis.js";
 import Bubble from "./Bubble.jsx";
 import { MdFavorite, MdFastRewind, MdFastForward } from "react-icons/md";
+import { css } from "@emotion/react";
+import PacmanLoader from "react-spinners/PacmanLoader";
+import Spinner from "../UI/Spinner.jsx";
 
 function format(seconds) {
   const date = new Date(seconds * 1000);
@@ -27,6 +30,9 @@ function pad(string) {
 let count = 0;
 
 const Video = (props) => {
+  let [isLoading, setIsLoading] = useState(true);
+  let [color, setColor] = useState("#ffffff");
+
   const videoRef = useRef(null);
   const videoControllerRef = useRef(null);
   const canvasRef = useRef(null);
@@ -39,7 +45,7 @@ const Video = (props) => {
   const [likes, setLikes] = useState({ likeTime: [], like: [] });
   const [state, setState] = useState({
     playing: true,
-    muted: true,
+    muted: false,
     controls: false,
     volume: 0.5,
     playbackRate: 1.0,
@@ -62,6 +68,7 @@ const Video = (props) => {
       .then((data) => {
         console.log(data);
         setVideo(URL.createObjectURL(data));
+        setIsLoading(false);
       })
       .catch(() => {
         navigate("/notFound");
@@ -207,120 +214,131 @@ const Video = (props) => {
 
   return (
     <Container>
-      <div
-        ref={videoControllerRef}
-        className="player-wrapper"
-        onMouseMove={mouseMoveHandler}
-        onMouseLeave={mouseLeaveHandler}
-      >
-        <ReactPlayer
-          ref={videoRef}
-          url={video}
-          // url={{ src: video, type: "video/mp4" }}
-          // url={{
-          //   src: video,
-          //   type: "video/mp4",
-          //   codecs: "avc1.4D401E, mp4a.40.2",
-          // }}
-          pip={pip}
-          playing={playing}
-          controls={false}
-          muted={muted}
-          volume={volume}
-          playbackRate={playbackRate}
-          className="react-player"
-          width="100%"
-          height="100%"
-          // onSeek={(e) => console.log("onSeek", e)}
-          onProgress={progressHandler}
-          config={{
-            file: {
-              attributes: {
-                crossOrigin: "anonymous",
-              },
-            },
-          }}
-        />
-        <VideoControl
-          ref={controlsRef}
-          onPlayPause={playPauseHandler}
-          playing={playing}
-          onRewind={rewindHandler}
-          onForward={forwardHandler}
-          muted={muted}
-          onMute={muteHandler}
-          onVolumeChange={volumeChangeHandler}
-          onVolumeSeekDown={volumeSeekDownHandler}
-          volume={volume}
-          playbackRate={playbackRate}
-          onPlaybackRateChange={playBackChangeHandler}
-          onToggleFullScreen={toggleFullScreenHandler}
-          played={played}
-          onSeek={onSeekChangeHandler}
-          onSeekMouseDown={seekMouseDownHandler}
-          onSeekMouseUp={seekMouseUpHandler}
-          elapsedTime={elapsedTime}
-          totalDuration={totalDuration}
-          onDuration={durationHandelr}
-          onChangeDisplayFormat={displayFormatHandler}
-          onLike={addLike}
-        />
-        <div
-          style={{
-            zIndex: 1000,
-            position: "absolute",
-            bottom: "75px",
-            right: "10px",
-          }}
-        >
-          <button className="like_btn" onClick={addLike}>
-            <LikeIcon size={35} />
-          </button>
-          {likes.like.map((id) => (
-            <Bubble onAnimationEnd={cleanLike.current} key={id} id={id} />
-          ))}
-        </div>
-      </div>
-      <HightLight>
-        <div className="highlight_bar">
-          <h2>Highlight</h2>
-          <div className="timestamp_box">
-            {likes.likeTime.map((like, index) => (
-              <div
-                className="timestamp"
-                key={index}
-                onClick={() => {
-                  videoRef.current.seekTo(like.time);
-                  controlsRef.current.style.visibility = "visible";
-                  setTimeout(() => {
-                    controlsRef.current.style.visibility = "hidden";
-                  }, 1000);
+      {isLoading ? (
+        <Spinner text="영상을 불러오는 중입니다. 잠시만 기다려주세요.." />
+      ) : (
+        <>
+          <VideoBackgroud>
+            <div
+              ref={videoControllerRef}
+              className="player-wrapper"
+              onMouseMove={mouseMoveHandler}
+              onMouseLeave={mouseLeaveHandler}
+            >
+              <ReactPlayer
+                ref={videoRef}
+                url={video}
+                // url={{ src: video, type: "video/mp4" }}
+                // url={{
+                //   src: video,
+                //   type: "video/mp4",
+                //   codecs: "avc1.4D401E, mp4a.40.2",
+                // }}
+                pip={pip}
+                playing={playing}
+                controls={false}
+                muted={muted}
+                volume={volume}
+                playbackRate={playbackRate}
+                className="react-player"
+                width="100%"
+                height="100%"
+                // onSeek={(e) => console.log("onSeek", e)}
+                onProgress={progressHandler}
+                config={{
+                  file: {
+                    attributes: {
+                      crossOrigin: "anonymous",
+                    },
+                  },
                 }}
-                elevation={3}
+              />
+              <VideoControl
+                ref={controlsRef}
+                onPlayPause={playPauseHandler}
+                playing={playing}
+                onRewind={rewindHandler}
+                onForward={forwardHandler}
+                muted={muted}
+                onMute={muteHandler}
+                onVolumeChange={volumeChangeHandler}
+                onVolumeSeekDown={volumeSeekDownHandler}
+                volume={volume}
+                playbackRate={playbackRate}
+                onPlaybackRateChange={playBackChangeHandler}
+                onToggleFullScreen={toggleFullScreenHandler}
+                played={played}
+                onSeek={onSeekChangeHandler}
+                onSeekMouseDown={seekMouseDownHandler}
+                onSeekMouseUp={seekMouseUpHandler}
+                elapsedTime={elapsedTime}
+                totalDuration={totalDuration}
+                onDuration={durationHandelr}
+                onChangeDisplayFormat={displayFormatHandler}
+                onLike={addLike}
+              />
+              <div
+                style={{
+                  zIndex: 1000,
+                  position: "absolute",
+                  bottom: "75px",
+                  right: "10px",
+                }}
               >
-                {/* <img alt="likes" crossOrigin="anonymous" src={like.image} /> */}
-                <span>{like.display}</span>
+                <button className="like_btn" onClick={addLike}>
+                  <LikeIcon size={35} />
+                </button>
+                {likes.like.map((id) => (
+                  <Bubble onAnimationEnd={cleanLike.current} key={id} id={id} />
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
-      </HightLight>
-      <canvas ref={canvasRef} />
+            </div>
+          </VideoBackgroud>
+          <HightLight>
+            <div className="highlight_bar">
+              <h2>Highlight</h2>
+              <div className="timestamp_box">
+                {likes.likeTime.map((like, index) => (
+                  <div
+                    className="timestamp"
+                    key={index}
+                    onClick={() => {
+                      videoRef.current.seekTo(like.time);
+                      controlsRef.current.style.visibility = "visible";
+                      setTimeout(() => {
+                        controlsRef.current.style.visibility = "hidden";
+                      }, 1000);
+                    }}
+                    elevation={3}
+                  >
+                    {/* <img alt="likes" crossOrigin="anonymous" src={like.image} /> */}
+                    <span>{like.display}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </HightLight>
+          <canvas ref={canvasRef} />
+        </>
+      )}
     </Container>
   );
 };
 
 const Container = styled.div`
   position: relative;
-  max-width: 750px;
   width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
-
+`;
+const VideoBackgroud = styled.div`
+  width: 100%;
+  background: #f4f6f9;
   .player-wrapper {
     position: relative;
+    max-width: 750px;
     width: 100%;
-
+    margin: 0 auto;
     .react-player {
     }
   }
@@ -328,6 +346,9 @@ const Container = styled.div`
 
 const HightLight = styled.div`
   margin-top: 20px;
+  max-width: 750px;
+  width: 100%;
+  margin: 0 auto;
   h2 {
     font-size: 16px;
   }

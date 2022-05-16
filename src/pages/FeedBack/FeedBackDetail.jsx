@@ -22,7 +22,6 @@ import Bronze from "../../assets/icons/bronze.png";
 const FeedBackDetail = (props) => {
   const navigate = useNavigate();
   const { cardId } = useParams();
-
   const [video, setVideo] = useState("");
   const [data, setData] = useState([]);
   const [isMine, setIsMine] = useState();
