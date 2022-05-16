@@ -53,6 +53,8 @@ const FeedBackDetail = (props) => {
     feedbackApis
       .getDetailVideo(cardId)
       .then((data) => {
+        console.log(data);
+        // setVideo(URL.createObjectURL(data));
         setVideo(URL.createObjectURL(data));
       })
       .catch(() => {
@@ -69,7 +71,8 @@ const FeedBackDetail = (props) => {
         setIsMine(data.interview.isMine);
         setCardBadge(data.interview.badge);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         navigate("/notFound");
         return;
       });
@@ -142,6 +145,7 @@ const FeedBackDetail = (props) => {
           openProfileModal={openProfileModal}
           isMine={isMine}
         />
+
         <div className="contents_wrap">
           {/* <div className="video_layout"> */}
           <Video cardId={cardId} />

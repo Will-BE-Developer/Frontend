@@ -7,47 +7,23 @@ import ReactPlayer from "react-player";
 import screenfull from "screenfull";
 import VideoControl from "./VideoControl.jsx";
 import feedbackApis from "../../apis/feedbackApis.js";
-
-import { useTheme } from "@mui/material/styles";
-import Slider from "@mui/material/Slider";
-import Tooltip from "@mui/material/Tooltip";
-// import ValueLabelComponent from "./ValueLabelComponent";
-import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
-import { BiFullscreen } from "react-icons/bi";
+import Bubble from "./Bubble.jsx";
 import { MdFavorite, MdFastRewind, MdFastForward } from "react-icons/md";
-import { HiVolumeUp } from "react-icons/hi";
 
-// React player demo 모음
-// https://github.com/cookpete/react-player/blob/master/src/demo/App.js
-
-// const format = (seconds) => {
-//   if (isNaN(seconds)) {
-//     return "00:00";
-//   }
-//   const date = new Date(seconds * 1000);
-//   const mm = date.getUTCMinutes();
-//   const ss = date.getUTCSeconds().toString.padStart(2, "0");
-
-//   return `${mm}: ${ss}`;
-// };
-
-const format = (seconds) => {
-  console.log(seconds, "seconds");
-
-  if (isNaN(seconds)) {
-    return `00:00`;
-  }
-
+function format(seconds) {
   const date = new Date(seconds * 1000);
   const hh = date.getUTCHours();
   const mm = date.getUTCMinutes();
-  const ss = date.getUTCSeconds().toString().padStart(2, "0");
+  const ss = pad(date.getUTCSeconds());
   if (hh) {
-    return `${hh}:${mm.toString().padStart(2, "0")}:${ss}`;
+    return `${hh}:${pad(mm)}:${ss}`;
   }
   return `${mm}:${ss}`;
-};
+}
 
+function pad(string) {
+  return ("0" + string).slice(-2);
+}
 let count = 0;
 
 const Video = (props) => {
@@ -56,12 +32,11 @@ const Video = (props) => {
   const canvasRef = useRef(null);
   const controlsRef = useRef(null);
 
-  console.log(props);
   const { cardId } = props;
   const navigate = useNavigate();
   const [video, setVideo] = useState("");
   const [timeDisplayFormat, setTimeDisplayFormat] = useState("normal");
-  const [likes, setLikes] = useState([]);
+  const [likes, setLikes] = useState({ likeTime: [], like: [] });
   const [state, setState] = useState({
     playing: true,
     muted: true,
@@ -73,12 +48,19 @@ const Video = (props) => {
     duration: 0,
     pip: false,
   });
+  const cleanLike = useRef((id) => {
+    setLikes((currentLikes) => ({
+      likeTime: [...currentLikes.likeTime],
+      like: currentLikes.like.filter((like) => like !== id),
+    }));
+  });
 
   const { playing, muted, volume, playbackRate, played, pip, seeking } = state;
   useEffect(() => {
     feedbackApis
       .getDetailVideo(cardId)
       .then((data) => {
+        console.log(data);
         setVideo(URL.createObjectURL(data));
       })
       .catch(() => {
@@ -114,14 +96,16 @@ const Video = (props) => {
     });
   };
 
-  const volumeSeekUpHandler = (e, newValue) => {
+  const volumeSeekDownHandler = (e, newValue) => {
+    console.log(newValue, "");
     setState({
       ...state,
       volume: parseFloat(newValue / 100),
       muted: newValue === 0 ? true : false,
     });
+    console.log(volume, muted, "committed");
   };
-
+  console.log(seeking, "seeking!!");
   const playBackChangeHandler = (rate) => {
     setState({
       ...state,
@@ -140,7 +124,7 @@ const Video = (props) => {
       controlsRef.current.style.visibility = "hidden";
       count = 0;
     }
-    if ((controlsRef.current.style.visibility = "visible")) {
+    if (controlsRef.current.style.visibility === "visible") {
       count += 1;
     }
     if (!state.seeking) {
@@ -148,9 +132,7 @@ const Video = (props) => {
     }
   };
 
-  // We only want to update time slider if we are not currently seeking
   const onSeekChangeHandler = (e, newValue) => {
-    console.log({ newValue });
     setState({ ...state, played: parseFloat(newValue / 100) });
   };
 
@@ -161,13 +143,12 @@ const Video = (props) => {
   const seekMouseUpHandler = (e, newValue) => {
     console.log({ value: e.target });
     setState({ ...state, seeking: false });
-    // console.log(sliderRef.current.value)
     videoRef.current.seekTo(newValue / 100, "fraction");
   };
 
   const displayFormatHandler = () => {
     setTimeDisplayFormat(
-      timeDisplayFormat == "normal" ? "remaining" : "normal"
+      timeDisplayFormat === "normal" ? "remaining" : "normal"
     );
   };
 
@@ -179,12 +160,12 @@ const Video = (props) => {
 
   // 현재시간
   const elapsedTime =
-    timeDisplayFormat == "normal"
+    timeDisplayFormat === "normal"
       ? format(currentTime)
       : `-${format(duration - currentTime)}`;
 
   const totalDuration = format(duration);
-
+  console.log(totalDuration, "duration!!");
   const addLike = () => {
     const canvas = canvasRef.current;
     canvas.width = 160;
@@ -201,16 +182,19 @@ const Video = (props) => {
     const dataUri = canvas.toDataURL();
     canvas.width = 0;
     canvas.height = 0;
-    const likeCopy = [...likes];
+    const likeCopy = [...likes.likeTime];
     likeCopy.push({
       time: videoRef.current.getCurrentTime(),
       display: format(videoRef.current.getCurrentTime()),
       image: dataUri,
     });
-    setLikes(likeCopy);
+    setLikes((prev) => ({
+      likeTime: likeCopy,
+      like: [...prev.like, new Date().getTime()],
+    }));
   };
 
-  const mouseMoveHandelr = () => {
+  const mouseMoveHandler = () => {
     console.log("mousemove");
     controlsRef.current.style.visibility = "visible";
     count = 0;
@@ -226,12 +210,18 @@ const Video = (props) => {
       <div
         ref={videoControllerRef}
         className="player-wrapper"
-        onMouseMove={mouseMoveHandelr}
+        onMouseMove={mouseMoveHandler}
         onMouseLeave={mouseLeaveHandler}
       >
         <ReactPlayer
           ref={videoRef}
           url={video}
+          // url={{ src: video, type: "video/mp4" }}
+          // url={{
+          //   src: video,
+          //   type: "video/mp4",
+          //   codecs: "avc1.4D401E, mp4a.40.2",
+          // }}
           pip={pip}
           playing={playing}
           controls={false}
@@ -260,7 +250,7 @@ const Video = (props) => {
           muted={muted}
           onMute={muteHandler}
           onVolumeChange={volumeChangeHandler}
-          onVolumeSeekUp={volumeSeekUpHandler}
+          onVolumeSeekDown={volumeSeekDownHandler}
           volume={volume}
           playbackRate={playbackRate}
           onPlaybackRateChange={playBackChangeHandler}
@@ -275,20 +265,33 @@ const Video = (props) => {
           onChangeDisplayFormat={displayFormatHandler}
           onLike={addLike}
         />
+        <div
+          style={{
+            zIndex: 1000,
+            position: "absolute",
+            bottom: "75px",
+            right: "10px",
+          }}
+        >
+          <button className="like_btn" onClick={addLike}>
+            <LikeIcon size={35} />
+          </button>
+          {likes.like.map((id) => (
+            <Bubble onAnimationEnd={cleanLike.current} key={id} id={id} />
+          ))}
+        </div>
       </div>
       <HightLight>
-        {" "}
         <div className="highlight_bar">
           <h2>Highlight</h2>
           <div className="timestamp_box">
-            {likes.map((like, index) => (
+            {likes.likeTime.map((like, index) => (
               <div
                 className="timestamp"
                 key={index}
                 onClick={() => {
                   videoRef.current.seekTo(like.time);
                   controlsRef.current.style.visibility = "visible";
-
                   setTimeout(() => {
                     controlsRef.current.style.visibility = "hidden";
                   }, 1000);
@@ -349,9 +352,6 @@ const HightLight = styled.div`
     }
   }
 `;
-// pink : #EA617A
-// main : ##567FE8
-// yellow : #EAB90D
 
 const LikeIcon = styled(MdFavorite)`
   font-size: 20px;
@@ -362,20 +362,8 @@ const LikeIcon = styled(MdFavorite)`
   }
 `;
 
-const PlayIcon = styled(BsFillPlayFill)``;
-
-const PauseIcon = styled(BsFillPauseFill)``;
-const RewindIcon = styled(MdFastRewind, MdFastForward, BsFillPlayFill)``;
-const ForwardIcon = styled(MdFastForward)``;
-
-// const playBtn = styled(BsFillPlayBtnFill)`
-//   width: 6.5em;
-//   height: 4em;
-//   margin-right: 1em;
-//   color: #fff;
-//   position: relative;
-// `;
-
-const VideoContainer = styled.video``;
+// pink : #EA617A
+// main : ##567FE8
+// yellow : #EAB90D
 
 export default Video;

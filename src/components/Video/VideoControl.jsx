@@ -2,11 +2,8 @@ import React, { forwardRef } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
-
 import logo from "../../assets/logo.png";
-// import ValueLabelComponent from "./ValueLabelComponent";
 import Slider from "@mui/material/Slider";
-import Tooltip from "@mui/material/Tooltip";
 import Popover from "@mui/material/Popover";
 
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
@@ -15,30 +12,6 @@ import { MdFavorite, MdFastRewind, MdFastForward } from "react-icons/md";
 import { HiVolumeUp, HiVolumeOff } from "react-icons/hi";
 
 const PrettoSlider = styled(Slider)({});
-
-function ValueLabelComponent(props) {
-  const { children, open, value } = props;
-
-  return (
-    <Tooltip open={open} enterTouchDelay={0} placement="top" title={value}>
-      {children}
-    </Tooltip>
-  );
-}
-ValueLabelComponent.propTypes = {
-  children: PropTypes.element.isRequired,
-  value: PropTypes.number.isRequired,
-};
-
-// function ValueLabelComponent(props) {
-//   const { children, value } = props;
-
-//   return (
-//     <Tooltip enterTouchDelay={0} placement="top" title={value}>
-//       {children}
-//     </Tooltip>
-//   );
-// }
 
 const VideoControl = forwardRef(
   (
@@ -51,7 +24,7 @@ const VideoControl = forwardRef(
       muted,
       onMute,
       onVolumeChange,
-      onVolumeSeekUp,
+      onVolumeSeekDown,
       volume,
       playbackRate,
       onPlaybackRateChange,
@@ -68,9 +41,8 @@ const VideoControl = forwardRef(
     ref
   ) => {
     const [isActive, setIsActive] = useState(false);
-
     const [anchorEl, setAnchorEl] = useState(null);
-    console.log(elapsedTime, "elapsedTime!!");
+
     useEffect(() => {
       const onWindowClick = () => {
         setIsActive(!isActive);
@@ -95,6 +67,16 @@ const VideoControl = forwardRef(
 
     const open = Boolean(anchorEl);
     const id = open ? "playbackrate-popover" : undefined;
+
+    function valuetext(value) {
+      return `${value}: 00`;
+    }
+
+    function valueLabelFormat(value) {
+      let _elapsedTime = value;
+      _elapsedTime = elapsedTime;
+      return _elapsedTime;
+    }
 
     return (
       <Container className="controls_wrapper">
@@ -132,24 +114,24 @@ const VideoControl = forwardRef(
               <div className="slider">
                 <PrettoSlider
                   valueLabelDisplay="auto"
-                  components={{
-                    ValueLabel: ValueLabelComponent,
-                    value: { elapsedTime },
-                  }}
                   min={0}
                   max={100}
+                  aria-label="custom thumb label"
+                  // defaultValue={elapsedTime}
                   value={played * 100}
                   onChange={onSeek}
                   onMouseDown={onSeekMouseDown}
+                  getAriaValueText={valuetext}
                   onChangeCommitted={onSeekMouseUp}
                   onDuration={onDuration}
+                  valueLabelFormat={valueLabelFormat}
                   sx={{
                     color: "#567FE8",
                     height: 4,
                     "& .MuiSlider-thumb": {
                       width: 8,
                       height: 8,
-                      transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
+
                       "&:before": {
                         boxShadow: "0 2px 12px 0 rgba(0,0,0,0.4)",
                       },
@@ -199,27 +181,31 @@ const VideoControl = forwardRef(
                   </button>
                   <div className="volume_box">
                     <button onClick={onMute}>
-                      {!muted ? (
-                        <HiVolumeUp className="volume_icon" />
-                      ) : (
+                      {muted ? (
                         <HiVolumeOff className="volume_icon" />
+                      ) : (
+                        <HiVolumeUp className="volume_icon" />
                       )}
                     </button>
                     <Slider
-                      className="volume_slider"
-                      onChange={onVolumeChange}
-                      onChangeCommitted={onVolumeSeekUp}
                       min={0}
                       max={100}
-                      defaultValue={100}
-                      volume={volume * 100}
+                      // value={
+                      //   muted ? 0 : !muted && volume === 0 ? 50 : volume * 100
+                      // }
+                      value={muted ? 0 : volume * 100}
+                      onChange={onVolumeChange}
+                      aria-label="Default"
+                      onMouseDown={onSeekMouseDown}
+                      onChangeCommitted={onVolumeSeekDown}
+                      className="volume_slider"
+                      valueLabelDisplay="off"
                       sx={{
                         color: "#567FE8",
                         height: 4,
                         "& .MuiSlider-thumb": {
                           width: 8,
                           height: 8,
-                          transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
                           "&:before": {
                             boxShadow: "0 2px 12px 0 rgba(0,0,0,0.4)",
                           },
@@ -233,27 +219,6 @@ const VideoControl = forwardRef(
                         },
                         "& .MuiSlider-rail": {
                           opacity: 0.28,
-                        },
-                        "& .MuiSlider-valueLabel": {
-                          lineHeight: 1.2,
-                          fontSize: 12,
-                          background: "unset",
-                          padding: 0,
-                          width: 32,
-                          height: 32,
-                          borderRadius: "50% 50% 50% 0",
-                          backgroundColor: "#567FE8",
-                          transformOrigin: "bottom left",
-                          transform:
-                            "translate(50%, -100%) rotate(-45deg) scale(0)",
-                          "&:before": { display: "none" },
-                          "&.MuiSlider-valueLabelOpen": {
-                            transform:
-                              "translate(50%, -100%) rotate(-45deg) scale(1)",
-                          },
-                          "& > *": {
-                            transform: "rotate(45deg)",
-                          },
                         },
                       }}
                     ></Slider>
@@ -424,6 +389,7 @@ const Container = styled.div`
             }
 
             .volume_slider {
+              margin-left: 8px;
               width: 100%;
             }
           }
