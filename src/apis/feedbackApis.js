@@ -56,6 +56,7 @@ export const feedbackApis = {
       const res = await instance.delete(`/api/interviews/${cardId}`);
       return res.data;
     } catch (err) {
+      console.log(err.response);
       return err.response;
     }
   },

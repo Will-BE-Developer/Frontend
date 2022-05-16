@@ -70,12 +70,15 @@ const Video = (props) => {
         console.log(data);
         console.log(data.interview.video);
         setVideo(data.interview.video);
-        setIsLoading(false);
+        // setIsLoading(false);
       })
       .catch(() => {
         navigate("/notFound");
         return;
       });
+
+    const timeout = setTimeout(() => setIsLoading(false), 400);
+    return () => clearTimeout(timeout);
   }, [cardId, navigate]);
 
   const playPauseHandler = () => {
@@ -216,10 +219,13 @@ const Video = (props) => {
   return (
     <Container>
       {isLoading ? (
-        <LoadingLoader
-          text="영상을 불러오는 중입니다. "
-          noti="잠시만 기다려주세요."
-        />
+        <VideoBackgroud>
+          <LoadingLoader
+            text="영상을 불러오는 중입니다. "
+            noti="잠시만 기다려주세요."
+            _height="565px"
+          />
+        </VideoBackgroud>
       ) : (
         <>
           <VideoBackgroud>

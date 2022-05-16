@@ -86,13 +86,18 @@ const FeedBackDetail = (props) => {
   };
 
   const clickDeleteHandler = () => {
-    feedbackApis.deleteDetail(cardId).then((data) => {
-      if (data.interview?.isPublic === true) {
-        navigate(`/feedback/`, { replace: true });
-      } else {
-        navigate("/mypage/history", { replace: true });
-      }
-    });
+    feedbackApis
+      .deleteDetail(cardId)
+      .then((data) => {
+        if (data.interview?.isPublic === true) {
+          navigate(`/feedback/`, { replace: true });
+        } else {
+          navigate("/mypage/history", { replace: true });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const scrapHandler = () => {
