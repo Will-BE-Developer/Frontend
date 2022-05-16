@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 
-import defaultUserImage from "../../assets/defaultUserImage.jpg";
+import defaultUserImage from "../../assets/defaultUserImage.png";
 import styled, { css } from "styled-components";
 import GlobalButton from "../UI/GlobalButton";
 import theme from "../../styles/theme";
@@ -71,7 +71,7 @@ const SetProfileImg = (props) => {
               margin="0px 10px 0px 0px"
               background={theme.colors.white}
               color={theme.colors.black}
-              border="1px solid rgba(130, 130, 130, 0.2)"
+              border={`1px solid ${theme.colors.blue}`}
               _height="40px"
               hover
               onClick={deleteImgHandler}
@@ -82,7 +82,11 @@ const SetProfileImg = (props) => {
             <GlobalButton
               onClick={handleChangeImageBtn}
               margin="0 8px 6px 0"
-              _height="30px"
+              _height="40px"
+              mHeight="30px"
+              border={`1px solid ${theme.colors.main}`}
+              background={theme.colors.white}
+              color={theme.colors.main}
               hover
             >
               {getImage ? "사진 편집" : "사진 등록"}
@@ -90,8 +94,12 @@ const SetProfileImg = (props) => {
             <GlobalButton
               onClick={deleteImgHandler}
               margin="0 0 6px 0"
-              _height="30px"
+              _height="40px"
+              mHeight="30px"
               hover
+              border={`1px solid ${theme.colors.grey10}`}
+              background={theme.colors.white}
+              color={theme.colors.grey80}
             >
               사진 삭제
             </GlobalButton>

@@ -4,7 +4,7 @@ import theme from "../../styles/theme";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import defaultUserImage from "../../assets/defaultUserImage.jpg";
+import defaultUserImage from "../../assets/defaultUserImage.png";
 import { signout, deleteUser, updateUser } from "../../store/slices/userSlice";
 import SetProfileImg from "../../components/Signup/SetProfileImg";
 

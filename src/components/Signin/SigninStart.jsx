@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { boxShadow } from "../../styles/boxShadow";
-import styled from "styled-components";
-
+import styled, { css } from "styled-components";
+import theme from "../../styles/theme";
 import GlobalButton from "../UI/GlobalButton";
 import SocialSignin from "./SocialSignin";
 
@@ -20,8 +20,9 @@ const SignupStart = (props) => {
 
   return (
     <Container>
-      <div>WillBE</div>
-      <h2>여러 유저들과 공유하면서 준비하는 화상 면접 </h2>
+      <h2 className="title">
+        여러 유저들과 공유하면서 준비하는 화상 면접 <span>Will be</span>
+      </h2>
       <BoxContainer>
         <div className="sign_btn">
           <SocialSignin />
@@ -29,6 +30,9 @@ const SignupStart = (props) => {
             onClick={nextPageHandler}
             _width="100%"
             margin="12px auto"
+            background={theme.colors.grey10}
+            color={theme.colors.grey70}
+            hover={theme.colors.grey20}
           >
             이메일로 시작하기
           </GlobalButton>
@@ -36,12 +40,15 @@ const SignupStart = (props) => {
             onClick={goToSignUpHandler}
             margin="12px auto"
             _width="100%"
+            background={theme.colors.grey10}
+            color={theme.colors.grey70}
+            hover={theme.colors.grey20}
           >
             회원가입 하기
           </GlobalButton>
-          <GlobalButton onClick={() => navigate("/")} _width="100%">
-            되돌아가기
-          </GlobalButton>
+          <button onClick={() => navigate("/")} className="goback">
+            홈으로 가기
+          </button>
         </div>
       </BoxContainer>
     </Container>
@@ -49,58 +56,82 @@ const SignupStart = (props) => {
 };
 
 const Container = styled.div`
-  margin: 0 auto;
-  & > div {
-    margin: 0 auto;
-    text-align: center;
-    margin-bottom: 20px;
-  }
+  ${({ theme }) => {
+    const { fontSize, fontWeight, colors, device } = theme;
 
-  & > h2 {
-    text-align: center;
-    margin-bottom: 32px;
-  }
-  font-size: ${({ theme }) => theme.calRem(24)};
-  font-weight: ${({ theme }) => theme.fontWeight.semiExtraBold};
+    return css`
+      margin: 158px auto;
+      & > div {
+        margin: 0 auto;
+        text-align: center;
+        margin-bottom: 20px;
+      }
 
-  ${({ theme }) => theme.device.mobile} {
-    margin-right: 0;
-    width: 100%;
-    font-size: ${({ theme }) => theme.calRem(18)};
-    & > h2 {
-      margin: 0 auto;
-      text-align: center;
-      margin-bottom: 32px;
-    }
-  }
+      .title {
+        text-align: center;
+        margin-bottom: 32px;
+        font-size: ${fontSize["24"]};
+        font-weight: ${fontWeight.semiExtraBold};
+
+        span {
+          color: ${colors.main};
+        }
+      }
+      font-size: ${fontSize["24"]};
+      font-weight: ${fontWeight.semiExtraBold};
+
+      ${device.mobile} {
+        margin-right: 0;
+        width: 100%;
+        .title {
+          margin: 0 auto;
+          text-align: center;
+          margin-bottom: 32px;
+          font-size: ${fontSize["16"]};
+        }
+      }
+    `;
+  }}
 `;
 
 const BoxContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0 auto;
-  width: 672px;
-  height: 322px;
+  ${({ theme }) => {
+    const { fontSize, fontWeight, colors, device } = theme;
 
-  & .sign_btn {
-    width: 520px;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  ${(props) => boxShadow()};
-
-  ${({ theme }) => theme.device.mobile} {
-    padding: 0 5%;
-    width: 100%;
-    height: 200px;
-    & .sign_btn {
-      width: 300px;
+    return css`
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       margin: 0 auto;
-      text-align: center;
-    }
-  }
+      width: 672px;
+      height: 322px;
+
+      & .sign_btn {
+        width: 520px;
+        margin: 0 auto;
+        text-align: center;
+        .goback {
+          color: ${colors.grey70};
+          :hover {
+            color: ${colors.main};
+          }
+        }
+      }
+
+      ${(props) => boxShadow()};
+
+      ${device.mobile} {
+        padding: 0 5%;
+        width: 100%;
+        height: 250px;
+        & .sign_btn {
+          width: 300px;
+          margin: 0 auto;
+          text-align: center;
+        }
+      }
+    `;
+  }}
 `;
 
 export default SignupStart;

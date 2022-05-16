@@ -23,7 +23,13 @@ const Footer = () => {
           </button>
         </div>
       </div>
-      <div className="service"></div>
+
+      <div className="serviceWrapper">
+        <div className="service">
+          <p>개인정보처리방침 | 이용약관</p>
+          <p className="company">(주)윌비 대표이사: 김화상</p>
+        </div>
+      </div>
     </FooterLayout>
   );
 };
@@ -53,6 +59,13 @@ const FooterLayout = styled.div`
     ${theme.device.tablet} {
       padding: 0px 1rem;
     }
+
+    @media screen and (max-width: 700px) {
+      align-items: flex-start;
+      justify-content: center;
+      flex-direction: column;
+      gap: 15px;
+    }
   }
 
   .interviewBtn {
@@ -65,10 +78,30 @@ const FooterLayout = styled.div`
     line-height: 0px;
   }
 
+  .serviceWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 150px;
+    background-color: ${theme.colors.lightGrey};
+    ${theme.device.tablet} {
+      padding: 0px 1rem;
+    }
+  }
+
   .service {
+    display: flex;
+    flex-direction: column;
     max-width: 1200px;
     width: 100%;
-    height: 200px;
+    height: 100px;
+    gap: 15px;
+  }
+
+  .company {
+    color: ${theme.colors.mediumGrey};
+    font-size: ${theme.fontSize["14"]};
   }
 `;
 
