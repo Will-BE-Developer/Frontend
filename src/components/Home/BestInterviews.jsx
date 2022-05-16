@@ -38,7 +38,7 @@ const BestInterviews = ({ weeklyInterviews }) => {
       setTitle(
         `5월 둘째주 면접왕 ${Number(newIdx) + 1}등 '${
           weeklyInterviews[newIdx]?.user?.nickname
-        }'`
+        }' 님`
       ),
   };
 

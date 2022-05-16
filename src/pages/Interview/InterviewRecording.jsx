@@ -10,7 +10,7 @@ import InterviewForm from "../../components/Interview/InterviewForm";
 import webcamNotice from "../../assets/webcamNotice.png";
 import interviewApis from "../../apis/interviewApis";
 import Countdown from "react-countdown";
-import UploadingLoader from "../../components/Interview/UploadingLoader";
+import Spinner from "../../components/UI/Spinner";
 
 const InterviewRecording = () => {
   const { state } = useLocation();
@@ -116,7 +116,7 @@ const InterviewRecording = () => {
   return (
     <RecordWrapper isstart={isStart.toString()} isEnd={isEnd}>
       {isLoading ? (
-        <UploadingLoader />
+        <Spinner text="영상을 업로드하는 중입니다 최대 1분이 소요될 수 있습니다" />
       ) : (
         <div className="innerLayout">
           {isDenied ? (

@@ -1,6 +1,5 @@
 import React from "react";
 import Styled from "styled-components";
-import { css } from "@emotion/react";
 import PacmanLoader from "react-spinners/PacmanLoader";
 
 const Spinner = ({ text }) => {
@@ -31,7 +30,6 @@ const Container = Styled.div`
         margin-top: 30px;
         font-size: 20px;
         font-weight: 700;
-
       }
     }
 
