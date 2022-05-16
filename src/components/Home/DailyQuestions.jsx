@@ -229,8 +229,7 @@ const DailyQuestionLayout = styled.div`
       }
 
       .interviewBtn:hover {
-        color: white;
-        background-color: #3771d3;
+        background-color: rgba(86, 127, 232, 0.06);
       }
     `;
   }}

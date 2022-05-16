@@ -25,6 +25,11 @@ const HotTopic = ({ hotCategories }) => {
                     idx % 2 === 0 ? theme.colors.blue : theme.colors.white
                   }
                   color={idx % 2 === 0 ? theme.colors.white : theme.colors.blue}
+                  hover={
+                    idx % 2 === 0
+                      ? theme.colors.mainHover
+                      : "rgba(86, 127, 232, 0.06)"
+                  }
                   border={idx % 2 !== 0 && "1px solid rgba(86, 127,	232, 0.6)"}
                   text={`#${topic.category}`}
                   key={topic.id}

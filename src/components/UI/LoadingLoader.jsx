@@ -2,13 +2,15 @@ import styled from "styled-components";
 import PacmanLoader from "react-spinners/PacmanLoader";
 import theme from "../../styles/theme";
 
-const UploadingLoader = () => {
+const LoadingLoader = ({ text, noti }) => {
   return (
     <LoaderLayout>
-      <PacmanLoader speedMultiplier={2} color={theme.colors.main} />
+      <div className="loader">
+        <PacmanLoader speedMultiplier={2} color={theme.colors.main} />
+      </div>
       <div className="text">
-        <p>영상을 업로드중 입니다</p>
-        <p className="noti">최대 1분이 소요될 수 있습니다</p>
+        <p>{text}</p>
+        <p className="noti">{noti}</p>
       </div>
     </LoaderLayout>
   );
@@ -22,6 +24,9 @@ const LoaderLayout = styled.div`
   height: 80vh;
   width: 100%;
 
+  .loader {
+    padding: 0 40px 20px 0px;
+  }
   .text {
     display: flex;
     flex-direction: column;
@@ -35,4 +40,4 @@ const LoaderLayout = styled.div`
     color: ${({ theme }) => theme.colors.grey40};
   }
 `;
-export default UploadingLoader;
+export default LoadingLoader;

@@ -29,14 +29,7 @@ export const feedbackApis = {
   getDetailVideo: async (cardId) => {
     try {
       const res = await instance.get(`/api/interviews/${cardId}`);
-      const convertVideo = await axios.get(res.data.interview.video, {
-        headers: {
-          accept: "application/json,",
-          "Access-Control-Allow-Origin": "*",
-        },
-        responseType: "blob",
-      });
-      return convertVideo.data;
+      return res.data.interview.video;
     } catch (err) {
       console.log(err);
       return err.response;
