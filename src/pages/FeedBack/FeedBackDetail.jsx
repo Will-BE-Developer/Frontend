@@ -69,7 +69,8 @@ const FeedBackDetail = (props) => {
         setIsMine(data.interview.isMine);
         setCardBadge(data.interview.badge);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         navigate("/notFound");
         return;
       });

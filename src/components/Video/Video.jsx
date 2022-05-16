@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import ReactPlayer from "react-player";
 import screenfull from "screenfull";
-import VideoControl from "./VideoControl.jsx";
+import VideoControl from "./VideoControl2.jsx";
 import feedbackApis from "../../apis/feedbackApis.js";
 import Bubble from "./Bubble.jsx";
 
