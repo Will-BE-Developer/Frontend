@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import theme from "../../styles/theme";
@@ -50,18 +50,6 @@ const FeedBackDetail = (props) => {
 
   useEffect(() => {
     feedbackApis
-      .getDetailVideo(cardId)
-      .then((data) => {
-        console.log(data);
-        // setVideo(URL.createObjectURL(data));
-        setVideo(URL.createObjectURL(data));
-      })
-      .catch(() => {
-        navigate("/notFound");
-        return;
-      });
-
-    feedbackApis
       .getDetail(cardId)
       .then((data) => {
         setData(data.interview);
@@ -69,6 +57,7 @@ const FeedBackDetail = (props) => {
         setScrapCount(data.interview.scrapsCount);
         setIsMine(data.interview.isMine);
         setCardBadge(data.interview.badge);
+        setVideo(data.interview.video);
       })
       .catch((err) => {
         console.log(err);
@@ -147,84 +136,93 @@ const FeedBackDetail = (props) => {
 
         <div className="contents_wrap">
           {/* <div className="video_layout"> */}
-          <Video cardId={cardId} />
-          {/* </div> */}
-          {isMine && (
-            <div className="user_buttons">
-              <GlobalButton
-                text="수정"
-                background={theme.colors.white}
-                color={theme.colors.black}
-                border="1px solid rgba(130, 130, 130, 0.2)"
-                _height="40px"
-                onClick={editHandler}
-              />
-              <GlobalButton
-                margin="0px 10px 0px 0px"
-                background={theme.colors.blue}
-                border="1px solid rgba(130, 130, 130, 0.2)"
-                _height="40px"
-                onClick={() => setOpenDeleteModal(true)}
-                text="삭제"
-              />
-            </div>
+          <Video
+            cardId={cardId}
+            scrapHandler={scrapHandler}
+            isScrapped={isScrapped}
+          />
+
+          {video !== null && (
+            <>
+              {/* </div> */}
+              {isMine && (
+                <div className="user_buttons">
+                  <GlobalButton
+                    text="수정"
+                    background={theme.colors.white}
+                    color={theme.colors.black}
+                    border="1px solid rgba(130, 130, 130, 0.2)"
+                    _height="40px"
+                    onClick={editHandler}
+                  />
+                  <GlobalButton
+                    margin="0px 10px 0px 0px"
+                    background={theme.colors.blue}
+                    border="1px solid rgba(130, 130, 130, 0.2)"
+                    _height="40px"
+                    onClick={() => setOpenDeleteModal(true)}
+                    text="삭제"
+                  />
+                </div>
+              )}
+
+              <TitleContainer>
+                <div className="title_box">
+                  <div className="catetory_box">
+                    {cardBadge !== "NONE" && (
+                      <img className="badge" alt="badge" src={badge} />
+                    )}
+                    <span className="category">{question?.category}</span>
+                  </div>
+
+                  <div className="title_question">
+                    <h2>{`Q.${question?.contents}`}</h2>
+                    <TimeAgo timestamp={createdAt} />
+                  </div>
+                </div>
+
+                <div className="icon_container">
+                  <div className="button_wrap">
+                    <button>
+                      <HeartCheck />
+                    </button>
+
+                    <span>{likesCount}</span>
+                  </div>
+                  <div className="button_wrap">
+                    <button
+                      style={{
+                        color: isScrapped
+                          ? theme.colors.pink
+                          : theme.colors.lightGrey,
+                      }}
+                      onClick={scrapHandler}
+                    >
+                      <ScrapIcon />
+                    </button>
+                    <span>{scrapCount}</span>
+                  </div>
+                </div>
+              </TitleContainer>
+
+              <AuthorContainer>
+                <div className="author_box">
+                  <div
+                    className="user_profile"
+                    onClick={() => setOpenProfileModal(true)}
+                  >
+                    <ProfileImg src={user?.profileImageUrl} />
+                    <span>{user?.nickname}</span>
+                  </div>
+                </div>
+                <span className="author_note">{note}</span>
+              </AuthorContainer>
+
+              <CommentsContainer>
+                <Comments cardId={cardId} />
+              </CommentsContainer>
+            </>
           )}
-
-          <TitleContainer>
-            <div className="title_box">
-              <div className="catetory_box">
-                {cardBadge !== "NONE" && (
-                  <img className="badge" alt="badge" src={badge} />
-                )}
-                <span className="category">{question?.category}</span>
-              </div>
-
-              <div className="title_question">
-                <h2>{`Q.${question?.contents}`}</h2>
-                <TimeAgo timestamp={createdAt} />
-              </div>
-            </div>
-
-            <div className="icon_container">
-              <div className="button_wrap">
-                <button>
-                  <HeartCheck />
-                </button>
-
-                <span>{likesCount}</span>
-              </div>
-              <div className="button_wrap">
-                <button
-                  style={{
-                    color: isScrapped
-                      ? theme.colors.pink
-                      : theme.colors.lightGrey,
-                  }}
-                  onClick={scrapHandler}
-                >
-                  <ScrapIcon />
-                </button>
-                <span>{scrapCount}</span>
-              </div>
-            </div>
-          </TitleContainer>
-
-          <AuthorContainer>
-            <div className="author_box">
-              <div
-                className="user_profile"
-                onClick={() => setOpenProfileModal(true)}
-              >
-                <ProfileImg src={user?.profileImageUrl} />
-                <span>{user?.nickname}</span>
-              </div>
-            </div>
-            <span className="author_note">{note}</span>
-          </AuthorContainer>
-
-          <CommentsContainer>
-            <Comments cardId={cardId} />
-          </CommentsContainer>
         </div>
       </Container>
     </>

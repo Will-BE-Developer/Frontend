@@ -5,7 +5,9 @@ import { useState, useEffect } from "react";
 import logo from "../../assets/logo.png";
 import Slider from "@mui/material/Slider";
 import Popover from "@mui/material/Popover";
-
+import theme from "../../styles/theme";
+import feedbackApis from "../../apis/feedbackApis.js";
+import { BsFillBookmarkFill, BsHeartFill } from "react-icons/bs";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import { BiFullscreen } from "react-icons/bi";
 import { MdFavorite, MdFastRewind, MdFastForward } from "react-icons/md";
@@ -37,6 +39,9 @@ const VideoControl = forwardRef(
       totalDuration,
       onChangeDisplayFormat,
       onLike,
+      cardId,
+      scrapHandler,
+      isScrapped,
     },
     ref
   ) => {
@@ -86,8 +91,15 @@ const VideoControl = forwardRef(
             <div className="logo">
               <img alt="logo" src={logo} />
             </div>
-            <button className="like_btn" onClick={onLike}>
-              <LikeIcon />
+            <button
+              style={{
+                color: isScrapped ? theme.colors.main : "#fff",
+              }}
+              className="scrap_btn"
+              onClick={scrapHandler}
+            >
+              <ScrapIcon />
+              <div className="tooltip">좋았던 면접 영상을 저장하세요!</div>
             </button>
           </div>
 
@@ -316,10 +328,31 @@ const Container = styled.div`
         color: white;
       }
 
-      .like_btn {
+      .tooltip {
+        position: absolute;
+        top: 0;
+        display: none;
+        margin-top: 20px;
+        margin-left: 60px;
+        width: 200px;
+        background: white;
+        padding: 10px;
+        border-radius: 10px;
+        :after {
+        }
+      }
+
+      .scrap_btn {
         background: rgba(30, 30, 30, 0.9);
         border-radius: 0.5em;
         padding: 8px;
+        &:hover {
+          color: black;
+          .tooltip {
+            display: block;
+            /* background: ${({ theme }) => theme.colors.grey70}; */
+          }
+        }
       }
     }
 
@@ -437,13 +470,9 @@ const Container = styled.div`
 // main : ##567FE8
 // yellow : #EAB90D
 
-const LikeIcon = styled(MdFavorite)`
-  font-size: 20px;
-  /* color: ${({ theme }) => theme.colors.pink}; */
-  color: white;
-  &:hover {
-    color: ${({ theme }) => theme.colors.pink};
-  }
+const ScrapIcon = styled(BsFillBookmarkFill)`
+  font-size: 16px;
+  margin: 0 2px;
 `;
 
 const PlayIcon = styled(BsFillPlayFill)``;
