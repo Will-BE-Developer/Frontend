@@ -10,6 +10,7 @@ import InterviewForm from "../../components/Interview/InterviewForm";
 import webcamNotice from "../../assets/webcamNotice.png";
 import interviewApis from "../../apis/interviewApis";
 import Countdown from "react-countdown";
+import UploadingLoader from "../../components/Interview/UploadingLoader";
 
 const InterviewRecording = () => {
   const { state } = useLocation();
@@ -24,6 +25,11 @@ const InterviewRecording = () => {
   const [thumbnail, setThumbnail] = useState();
   const [question, setQuestion] = useState({});
   const [firstTry, setIsFirstTry] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const loadingHandler = () => {
+    setIsLoading(true);
+  };
 
   const recordingHandler = useCallback(async () => {
     try {
@@ -109,89 +115,100 @@ const InterviewRecording = () => {
 
   return (
     <RecordWrapper isstart={isStart.toString()} isEnd={isEnd}>
-      <div className="innerLayout">
-        {isDenied ? (
-          <div className="denied">
-            <img
-              style={{ width: "100%" }}
-              src={webcamNotice}
-              alt="deniedError"
-            />
-          </div>
-        ) : (
-          <>
-            {!isEnd && (
-              <div className="header">
-                <span className="badge">{question.category}</span>
-                <div className="title">
-                  <span>{`Q. ${question.contents}`}</span>
-                  {isStart && !isEnd && (
-                    <span className="alarm">
-                      <BsAlarm size="18px" />
-                      <Timer active duration={300000}>
-                        <Timecode
-                          format="H:?mm:ss"
-                          style={{ color: "black" }}
+      {isLoading ? (
+        <UploadingLoader />
+      ) : (
+        <div className="innerLayout">
+          {isDenied ? (
+            <div className="denied">
+              <img
+                style={{ width: "100%" }}
+                src={webcamNotice}
+                alt="deniedError"
+              />
+            </div>
+          ) : (
+            <>
+              {!isEnd && (
+                <div className="header">
+                  <span className="badge">{question.category}</span>
+                  <div className="title">
+                    <span>{`Q. ${question.contents}`}</span>
+                    {isStart && !isEnd && (
+                      <span className="alarm">
+                        <BsAlarm size="18px" />
+                        <Timer active duration={180000}>
+                          <Timecode
+                            format="H:?mm:ss"
+                            style={{ color: "black" }}
+                          />
+                        </Timer>
+                        <span>/</span>
+                        <Timer
+                          style={{ display: "none" }}
+                          active
+                          onFinish={stopRecordingHandler}
+                          duration={180000}
+                          onTimeUpdate={({ time }) => setTime(time)}
                         />
-                      </Timer>
-                      <span>/</span>
-                      <Timer
-                        style={{ display: "none" }}
-                        active
-                        onFinish={stopRecordingHandler}
-                        duration={300000}
-                        onTimeUpdate={({ time }) => setTime(time)}
-                      />
-                      <Timecode time={301000 - time} format="H:?mm:ss" />
-                    </span>
-                  )}
+                        <Timecode time={181000 - time} format="H:?mm:ss" />
+                      </span>
+                    )}
+                  </div>
                 </div>
+              )}
+              <div
+                style={{
+                  width: "100%",
+                  position: "relative",
+                  textAlign: "end",
+                }}
+              >
+                <div className="videoLayout">
+                  <video controls autoPlay ref={videoRef} />
+                </div>
+                {!isStart && (
+                  <h1 className="count">
+                    <Countdown
+                      date={Date.now() + 5000}
+                      renderer={({ seconds }) => seconds}
+                      onComplete={() => {
+                        if (videoRef.current.srcObject === null) {
+                          recordingHandler();
+                        }
+                      }}
+                    />
+                  </h1>
+                )}
               </div>
-            )}
-            <div
-              style={{ width: "100%", position: "relative", textAlign: "end" }}
-            >
-              <div className="videoLayout">
-                <video controls autoPlay ref={videoRef} />
-              </div>
-              {!isStart && (
-                <h1 className="count">
-                  <Countdown
-                    date={Date.now() + 5000}
-                    renderer={({ seconds }) => seconds}
-                    onComplete={() => {
-                      if (videoRef.current.srcObject === null) {
-                        recordingHandler();
-                      }
-                    }}
+              <div className="formWrapper">
+                {!isStart && (
+                  <GlobalButton onClick={() => navigate("/interview")}>
+                    주제 재선택
+                  </GlobalButton>
+                )}
+                {isStart && !isEnd && (
+                  <GlobalButton onClick={stopRecordingHandler}>
+                    Stop
+                  </GlobalButton>
+                )}
+                {isEnd && (
+                  <InterviewForm
+                    category={question.category}
+                    question={question.contents}
+                    reset={resetHandler}
+                    questionId={question.id}
+                    thumbnail={thumbnail}
+                    ref={recorderRef}
+                    loadingHandler={loadingHandler}
                   />
-                </h1>
-              )}
-            </div>
-            <div className="formWrapper">
-              {!isStart && (
-                <GlobalButton onClick={() => navigate("/interview")}>
-                  주제 재선택
-                </GlobalButton>
-              )}
-              {isStart && !isEnd && (
-                <GlobalButton onClick={stopRecordingHandler}>Stop</GlobalButton>
-              )}
-              {isEnd && (
-                <InterviewForm
-                  category={question.category}
-                  question={question.contents}
-                  reset={resetHandler}
-                  questionId={question.id}
-                  thumbnail={thumbnail}
-                  ref={recorderRef}
-                />
-              )}
-            </div>
-            <canvas ref={thumbnailRef} />
-          </>
-        )}
-      </div>
+                )}
+              </div>
+              <canvas ref={thumbnailRef} />
+            </>
+          )}
+        </div>
+      )}
     </RecordWrapper>
   );
 };

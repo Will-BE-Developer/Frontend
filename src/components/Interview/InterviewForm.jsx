@@ -8,7 +8,7 @@ import interviewApis from "../../apis/interviewApis";
 import { css } from "styled-components";
 
 const InterviewForm = (
-  { thumbnail, questionId, reset, category, question },
+  { thumbnail, questionId, reset, category, question, loadingHandler },
   recorderRef
 ) => {
   const navigate = useNavigate();
@@ -22,6 +22,8 @@ const InterviewForm = (
     }
 
     try {
+      loadingHandler();
+
       const data = await interviewApis.getPresignedUrl();
 
       const video = recorderRef.current.getBlob();
@@ -29,8 +31,8 @@ const InterviewForm = (
       const presignedUrlVideo = data.presignedUrl.video;
       const presignedUrlThumbnail = data.presignedUrl.thumbnail;
 
-      await interviewApis.s3VideoUpload(presignedUrlVideo, video);
       await interviewApis.s3ThumbnailUpload(presignedUrlThumbnail, thumbnail);
+      await interviewApis.s3VideoUpload(presignedUrlVideo, video);
       await interviewApis.createInterview(
         interviewId,
         noteInfo.noteText,

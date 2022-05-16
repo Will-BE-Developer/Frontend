@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
+import heart from "../../assets/heart.png";
 
-const EMOJIS = "💙";
 const OPACITY_DURATION = 1;
 
 const Bubble = ({ id, onAnimationEnd }) => {
@@ -61,7 +61,7 @@ const Bubble = ({ id, onAnimationEnd }) => {
       }}
       ref={element}
     >
-      {EMOJIS}
+      <img alt="emoji" src={heart} />
     </div>
   );
 };
