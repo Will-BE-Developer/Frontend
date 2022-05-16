@@ -8,6 +8,7 @@ import screenfull from "screenfull";
 import VideoControl from "./VideoControl.jsx";
 import feedbackApis from "../../apis/feedbackApis.js";
 import Bubble from "./Bubble.jsx";
+import { MdFavorite, MdFastRewind, MdFastForward } from "react-icons/md";
 
 function format(seconds) {
   const date = new Date(seconds * 1000);
@@ -351,6 +352,16 @@ const HightLight = styled.div`
     }
   }
 `;
+
+const LikeIcon = styled(MdFavorite)`
+  font-size: 20px;
+  /* color: ${({ theme }) => theme.colors.pink}; */
+  color: white;
+  &:hover {
+    color: ${({ theme }) => theme.colors.pink};
+  }
+`;
+
 // pink : #EA617A
 // main : ##567FE8
 // yellow : #EAB90D
