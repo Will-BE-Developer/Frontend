@@ -1,8 +1,7 @@
-import { useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
 
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import ReactPlayer from "react-player";
 import screenfull from "screenfull";
 import VideoControl from "./VideoControl.jsx";
@@ -11,7 +10,10 @@ import Bubble from "./Bubble.jsx";
 import { MdFavorite, MdFastRewind, MdFastForward } from "react-icons/md";
 import LoadingLoader from "../UI/LoadingLoader.jsx";
 
+import highlightApis from "../../apis/highlightApis.js";
+import { boxShadow } from "../../styles/boxShadow.js";
 import convertingImg from "../../assets/convertingImage.png";
+import questionMark from "../../assets/questionMark.svg";
 function format(seconds) {
   if (isNaN(seconds)) {
     return `00:00`;
@@ -44,6 +46,7 @@ const Video = (props) => {
   const [video, setVideo] = useState("");
   const [timeDisplayFormat, setTimeDisplayFormat] = useState("normal");
   const [likes, setLikes] = useState({ likeTime: [], like: [] });
+  const [highlight, setHighlight] = useState([]);
   const [state, setState] = useState({
     playing: true,
     muted: false,
@@ -55,13 +58,14 @@ const Video = (props) => {
     duration: 0,
     pip: false,
   });
+
   const cleanLike = useRef((id) => {
     setLikes((currentLikes) => ({
       likeTime: [...currentLikes.likeTime],
       like: currentLikes.like.filter((like) => like !== id),
     }));
   });
-
+  console.log(likes);
   const { playing, muted, volume, playbackRate, played, pip, seeking } = state;
   useEffect(() => {
     feedbackApis
@@ -77,9 +81,17 @@ const Video = (props) => {
         return;
       });
 
+    // highlightApis.getHighlight().then((data) => {
+    //   console.log(data);
+    //   setHighlight(data)
+    // })
     const timeout = setTimeout(() => setIsLoading(false), 400);
     return () => clearTimeout(timeout);
   }, [cardId, navigate]);
+
+  // const useInterval = (callback) => {
+  //   const savedCallback
+  // }
 
   const playPauseHandler = () => {
     setState({ ...state, playing: !state.playing });
@@ -175,31 +187,32 @@ const Video = (props) => {
   const totalDuration = format(duration);
   console.log(totalDuration, "duration!!");
   const addLike = () => {
-    const canvas = canvasRef.current;
-    canvas.width = 160;
-    canvas.height = 90;
-    const ctx = canvas.getContext("2d");
+    // const canvas = canvasRef.current;
+    // canvas.width = 160;
+    // canvas.height = 90;
+    // const ctx = canvas.getContext("2d");
 
-    ctx.drawImage(
-      videoRef.current.getInternalPlayer(),
-      0,
-      0,
-      canvas.width,
-      canvas.height
-    );
-    const dataUri = canvas.toDataURL();
-    canvas.width = 0;
-    canvas.height = 0;
+    // ctx.drawImage(
+    //   videoRef.current.getInternalPlayer(),
+    //   0,
+    //   0,
+    //   canvas.width,
+    //   canvas.height
+    // );
+    // const dataUri = canvas.toDataURL();
+    // canvas.width = 0;
+    // canvas.height = 0;
     const likeCopy = [...likes.likeTime];
     likeCopy.push({
       time: videoRef.current.getCurrentTime(),
       display: format(videoRef.current.getCurrentTime()),
-      image: dataUri,
+      // image: dataUri,
     });
     setLikes((prev) => ({
       likeTime: likeCopy,
       like: [...prev.like, new Date().getTime()],
     }));
+    console.log(videoRef.current.getCurrentTime(), "현재 시점!");
   };
 
   const mouseMoveHandler = () => {
@@ -321,25 +334,39 @@ const Video = (props) => {
           {video !== null && (
             <HightLight>
               <div className="highlight_bar">
-                <h2>Highlight</h2>
-                <div className="timestamp_box">
-                  {likes.likeTime.map((like, index) => (
-                    <div
-                      className="timestamp"
-                      key={index}
-                      onClick={() => {
-                        videoRef.current.seekTo(like.time);
-                        controlsRef.current.style.visibility = "visible";
-                        setTimeout(() => {
-                          controlsRef.current.style.visibility = "hidden";
-                        }, 1000);
-                      }}
-                      elevation={3}
-                    >
-                      {/* <img alt="likes" crossOrigin="anonymous" src={like.image} /> */}
-                      <span>{like.display}</span>
-                    </div>
-                  ))}
+                <div className="contents_box">
+                  <div className="title">
+                    <span>
+                      하이라이트 <img src={questionMark} alt="questionMark" />
+                      <div className="tooltip_highlight">
+                        가장 좋아요를 많이 받은 TOP3 시간입니다. <br /> 클릭하면
+                        해당 시간대로 이동합니다.
+                      </div>
+                    </span>
+                    <span className="line">|</span>
+                  </div>
+                  <div className="timestamp_box">
+                    <button>00:00</button>
+                    <button>00:00</button>
+                    <button>00:00</button>
+                    {likes.likeTime.map((like, index) => (
+                      <div
+                        className="timestamp"
+                        key={index}
+                        onClick={() => {
+                          videoRef.current.seekTo(like.time);
+                          controlsRef.current.style.visibility = "visible";
+                          setTimeout(() => {
+                            controlsRef.current.style.visibility = "hidden";
+                          }, 1000);
+                        }}
+                        elevation={3}
+                      >
+                        {/* <img alt="likes" crossOrigin="anonymous" src={like.image} /> */}
+                        <div>{like.display}</div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </HightLight>
@@ -394,33 +421,95 @@ const VideoBackgroud = styled.div`
 `;
 
 const HightLight = styled.div`
-  margin-top: 20px;
-  max-width: 750px;
-  width: 100%;
-  margin: 0 auto;
-  h2 {
-    font-size: 16px;
-  }
-  .highlight_bar {
-    margin-top: 10px;
+  ${({ theme }) => {
+    const { colors, fontSize, device } = theme;
 
-    display: flex;
-    justify-content: space-around;
-
-    .timestamp_box {
+    return css`
+      max-width: 100%;
       display: flex;
-      width: 85%;
-
       justify-content: space-around;
-      background: #ea617a;
-      border-radius: 4px;
-      color: white;
-
-      .timestamp {
-        cursor: pointer;
+      align-items: center;
+      height: 72px;
+      ${boxShadow()};
+      width: 100%;
+      margin: 0 auto;
+      h2 {
+        font-size: 16px;
       }
-    }
-  }
+
+      .highlight_bar {
+        .contents_box {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .title {
+            color: ${colors.grey80};
+            .tooltip_highlight {
+              position: absolute;
+              display: none;
+              margin: 10px 0 0 50px;
+              width: 300px;
+              font-size: 14px;
+              background: rgba(0, 0, 0, 0.3);
+              padding: 12px 10px;
+              border-radius: 10px;
+              line-height: 16px;
+              color: ${({ theme }) => theme.colors.white};
+              :after {
+              }
+            }
+            span {
+              :first-child {
+                cursor: pointer;
+                img {
+                  display: inline-block;
+                  vertical-align: middle;
+                }
+                &:hover {
+                  .tooltip_highlight {
+                    display: block;
+                  }
+                }
+              }
+
+              font-size: ${fontSize["12"]};
+              margin-right: 16px;
+              .line {
+                width: 1px;
+                color: ${colors.grey10};
+              }
+            }
+          }
+        }
+        .timestamp_box {
+          display: flex;
+          justify-content: center;
+          max-width: 275px;
+          height: 40px;
+          gap: 16px;
+          button {
+            color: ${colors.like};
+            text-decoration: underline;
+            background: rgba(234, 97, 122, 0.06);
+            padding: 10px 20px;
+            border-radius: 4px;
+          }
+
+          /* 아직 사용안하는중 get하고.. */
+          .timestamp {
+            background: rgba(234, 97, 122, 0.06);
+            padding: 10px 20px;
+            font-size: ${fontSize["16"]};
+            cursor: pointer;
+            div {
+              ${colors.like};
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    `;
+  }}
 `;
 
 const LikeIcon = styled(MdFavorite)`

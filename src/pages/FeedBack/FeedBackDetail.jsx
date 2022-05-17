@@ -80,7 +80,7 @@ const FeedBackDetail = (props) => {
     updatedAt,
     isPublic,
   } = data;
-
+  console.log(data);
   const editHandler = () => {
     navigate(`/feedback/${cardId}/update`, { state: { data, video } });
   };
@@ -89,6 +89,7 @@ const FeedBackDetail = (props) => {
     feedbackApis
       .deleteDetail(cardId)
       .then((data) => {
+        console.log(data);
         if (data.interview?.isPublic === true) {
           navigate(`/feedback/`, { replace: true });
         } else {
