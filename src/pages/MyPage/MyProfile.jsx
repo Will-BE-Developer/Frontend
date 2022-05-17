@@ -199,6 +199,7 @@ const MyProfile = () => {
         </div>
         <div className="footer">
           <GlobalButton
+            disabled={isEdit}
             margin="0px 10px 0px 0px"
             background={theme.colors.white}
             color={theme.colors.black}
@@ -210,6 +211,7 @@ const MyProfile = () => {
             로그아웃
           </GlobalButton>
           <GlobalButton
+            disabled={isEdit}
             margin="0px 10px 0px 0px"
             background={theme.colors.white}
             color={theme.colors.black}

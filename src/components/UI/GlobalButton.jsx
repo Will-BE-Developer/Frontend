@@ -43,7 +43,7 @@ const GlobalButton = (props) => {
   };
 
   return (
-    <Button {...styles} onClick={onClick}>
+    <Button disabled={disabled} {...styles} onClick={onClick}>
       {text ? text : children}
     </Button>
   );
@@ -73,7 +73,6 @@ const Button = styled.button`
   ${({ theme }) => {
     const { colors, device, calRem } = theme;
     return css`
-      :disabled: ${(props) => (props.disabled ? true : false)};
       display: flex;
       justify-content: center;
       align-items: center;
@@ -97,6 +96,15 @@ const Button = styled.button`
       }
       &:hover {
         background: ${(props) => (props.hover ? props.hover : "")};
+      }
+
+      :disabled {
+        background-color: ${colors.grey10};
+        border-color: ${colors.grey10};
+        color: ${colors.grey50};
+        &:hover {
+          cursor: not-allowed;
+        }
       }
     `;
   }}//

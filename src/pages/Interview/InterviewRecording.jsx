@@ -377,7 +377,8 @@ const RecordWrapper = styled.div`
   }
 
   .stopBtn:hover {
-    cursor: ${({ currSecond }) => (currSecond >= 20 ? "pointer" : "default")};
+    cursor: ${({ currSecond }) =>
+      currSecond >= 20 ? "pointer" : "not-allowed"};
     background-color: ${({ currSecond }) =>
       currSecond >= 20 ? "rgba(236, 89, 89, 0.06)" : ""};
   }
