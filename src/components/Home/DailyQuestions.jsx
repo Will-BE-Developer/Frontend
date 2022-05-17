@@ -137,7 +137,7 @@ const DailyQuestionLayout = styled.div`
       }
 
       .card:hover {
-        border: 1px solid #7599f3;
+        outline: 1px solid #7599f3;
       }
 
       .startBtn:hover {
