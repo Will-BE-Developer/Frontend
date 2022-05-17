@@ -1,5 +1,6 @@
 import React, { forwardRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getCookie } from "../../shared/cookies";
 
 import PropTypes from "prop-types";
 import Slider from "@mui/material/Slider";
@@ -45,11 +46,11 @@ const VideoControl = forwardRef(
       cardId,
       scrapHandler,
       isScrapped,
+      openModalHandler,
     },
     ref
   ) => {
-    const navigate = useNavigate();
-
+    const token = getCookie("token");
     const [isActive, setIsActive] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -101,7 +102,7 @@ const VideoControl = forwardRef(
                 color: isScrapped ? theme.colors.main : "#fff",
               }}
               className="scrap_btn"
-              onClick={scrapHandler}
+              onClick={token ? scrapHandler : openModalHandler}
             >
               <ScrapIcon />
               <div className="tooltip">좋았던 면접 영상을 저장하세요!</div>

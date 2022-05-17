@@ -57,7 +57,6 @@ const Video = (props) => {
   const [likes, setLikes] = useState({ likeTime: [], like: [] });
   const [likeCount, setLikeCount] = useState(0);
 
-  const [likeData, setLikeData] = useState([]);
   const [state, setState] = useState({
     playing: true,
     muted: false,
@@ -93,9 +92,8 @@ const Video = (props) => {
     highlightApis
       .getHighlight(cardId)
       .then((data) => {
-        console.log(data);
-        setLikeData(data);
-        const filteredLike = [data.topOne, data.toptwo, data.topThree]
+        console.log("get", data);
+        const filteredLike = [data.topOne, data.topTwo, data.topThree]
           .filter((time) => time >= 0)
           .map((item) => (item === 0 ? 3 : item));
         const newLike = [];
@@ -140,13 +138,12 @@ const Video = (props) => {
       highlightApis
         .addHighlight(likeData)
         .then((data) => {
-          console.log(data);
+          console.log("add", data);
 
-          const filteredLike = [data.topOne, data.toptwo, data.topThree]
+          const filteredLike = [data.topOne, data.topTwo, data.topThree]
             .filter((time) => time >= 0)
-            .map((item) => (item === 0 ? 1 : item));
+            .map((time) => (time === 0 ? 1 : time));
           const newLike = [];
-          console.log(newLike, "새거");
           filteredLike.map((time) =>
             newLike.push({
               time,
@@ -281,6 +278,10 @@ const Video = (props) => {
   const linkToSignInHandler = () => {
     navigate("/signin");
   };
+
+  const openModalHandler = () => {
+    setOpenModal(true);
+  };
   return (
     <Container>
       <GlobalModal
@@ -371,7 +372,10 @@ const Video = (props) => {
                       right: "10px",
                     }}
                   >
-                    <button className="like_btn" onClick={addLikeHandler}>
+                    <button
+                      className="like_btn"
+                      onClick={token ? addLikeHandler : openModalHandler}
+                    >
                       <LikeIcon size={35} />
                       <div className="tooltip">좋았던 순간을 클릭하세요!</div>
                     </button>
