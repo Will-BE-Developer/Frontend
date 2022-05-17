@@ -182,7 +182,6 @@ const FeedBackDetail = (props) => {
 
                   <div className="title_question">
                     <h2>{`Q.${question?.contents}`}</h2>
-                    <TimeAgo timestamp={createdAt} />
                   </div>
                 </div>
 
@@ -263,14 +262,15 @@ const Container = styled.div`
     justify-content: flex-end;
     width: 100%;
     gap: 10px;
-    margin-bottom: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #edf0f5;
   }
 `;
 
 const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
-
+  margin-top: 32px;
   & .title_box {
     & .catetory_box {
       display: flex;
@@ -287,10 +287,10 @@ const TitleContainer = styled.div`
 
     & .title_question {
       & > h2 {
-        font-size: ${({ theme }) => theme.fontSize["20"]};
+        font-size: ${({ theme }) => theme.fontSize["24"]};
         font-weight: ${({ theme }) => theme.fontWeight.extraBold};
-
-        margin: 18px 0 8px 0;
+        margin: 16px 0 24px 0;
+        padding: 2px 0;
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;

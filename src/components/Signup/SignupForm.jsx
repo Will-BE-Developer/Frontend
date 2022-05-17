@@ -67,33 +67,36 @@ const SignupForm = (props) => {
       alert("이메일 중복을 확인해주세요.");
       return;
     }
-
     setIsLoading(true);
-
     try {
       await dispatch(signupEmail(userData)).unwrap();
+
       props.setCurrentPage(2);
     } catch (err) {
-      return alert(err.message);
+      setIsLoading(false);
+      alert(err.message);
+      return props.setCurrentPage(1);
     }
   };
 
-  const checkEmailHandler = async () => {
+  const checkEmailHandler = async (e) => {
+    e.preventDefault();
     const currentEmail = emailRef.current?.value;
     if (currentEmail) {
       try {
         const res = await userApis.signupEmailCheck(currentEmail);
         console.log(res, "중복체크 결과 ");
+        alert(res.data.msg);
         setCheckEmail(true);
         return;
       } catch (err) {
-        console.log(err, "중복체크 에러 ");
+        console.log(err.response, "중복체크 에러 ");
+        alert(err.response.data.msg);
         setCheckEmail(false);
       }
     }
-    console.log(checkEmail, "중복체크");
   };
-
+  console.log(checkEmail);
   const previousPageHandler = () => {
     navigate("/signin");
   };
@@ -119,7 +122,11 @@ const SignupForm = (props) => {
                     emailRef.current = e;
                   }}
                 />
-                <button onClick={checkEmailHandler} className="checkEmailBtn">
+                <button
+                  type="text"
+                  onClick={checkEmailHandler}
+                  className="checkEmailBtn"
+                >
                   중복확인
                 </button>
               </div>
