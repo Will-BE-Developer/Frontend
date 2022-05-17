@@ -3,7 +3,7 @@ import Header from "../components/layout/Header";
 import GlobalButton from "../components/UI/GlobalButton";
 import { useNavigate } from "react-router-dom";
 import GlobalStyles from "../styles/GlobalStyles";
-import notFoundImg from "../assets/notFound.png";
+import notFoundImg from "../assets/notFound.svg";
 
 const NotFound = () => {
   const navigate = useNavigate();

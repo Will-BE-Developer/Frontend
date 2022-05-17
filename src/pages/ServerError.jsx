@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Header from "../components/layout/Header";
 import GlobalStyles from "../styles/GlobalStyles";
-import notFoundImg from "../assets/notFound.png";
+import notFoundImg from "../assets/notFound.svg";
 
 const ServerError = () => {
   return (

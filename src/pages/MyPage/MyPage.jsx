@@ -1,10 +1,16 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { Outlet } from "react-router-dom";
 import { getCookie } from "../../shared/cookies";
 import NotAvailable from "../NotAvailable";
+import scrapIcon from "../../assets/icons/scrap.png";
+import cameraIcon from "../../assets/icons/camera.png";
+import userIcon from "../../assets/icons/user.png";
+import theme from "../../styles/theme";
 
 const MyPage = () => {
+  const { pathname } = useLocation();
+
   const navigate = useNavigate();
   const token = getCookie("token");
 
@@ -23,9 +29,37 @@ const MyPage = () => {
       {token ? (
         <Container>
           <Sidebar>
-            <button onClick={myinfoHandler}>내 정보</button>
-            <button onClick={historyHandler}>면접 기록</button>
-            <button onClick={scrapHandeler}>내 스크랩</button>
+            <button
+              style={{
+                background: pathname === "/mypage" ? theme.colors.main : "",
+                color: pathname === "/mypage" ? theme.colors.white : "black",
+              }}
+              onClick={myinfoHandler}
+            >
+              <img alt="user" src={userIcon} />내 정보
+            </button>
+            <button
+              style={{
+                background:
+                  pathname === "/mypage/history" ? theme.colors.main : "",
+                color:
+                  pathname === "/mypage/history" ? theme.colors.white : "black",
+              }}
+              onClick={historyHandler}
+            >
+              <img alt="camera" src={cameraIcon} /> 면접 기록
+            </button>
+            <button
+              style={{
+                background:
+                  pathname === "/mypage/scrap" ? theme.colors.main : "",
+                color:
+                  pathname === "/mypage/scrap" ? theme.colors.white : "black",
+              }}
+              onClick={scrapHandeler}
+            >
+              <img alt="scrap" src={scrapIcon} />내 스크랩
+            </button>
           </Sidebar>
           <Outlet />
         </Container>
@@ -54,17 +88,24 @@ const Sidebar = styled.div`
   margin-right: 40px;
 
   button {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 6px;
     width: 200px;
     height: 56px;
     padding: 18px 10px;
-    background: #f5f5f5;
-    border-radius: 4px;
+    border-radius: 8px;
     margin-bottom: 12px;
     font-size: ${({ theme }) => theme.calRem(14)};
     text-align: left;
 
     &:hover {
-      background: ${({ theme }) => theme.colors.lightGrey};
+      background: ${({ theme }) => `${theme.colors.mainHover} !important`};
+      color: ${({ theme }) => `${theme.colors.white} !important`};
+      img {
+        color: ${({ theme }) => theme.colors.white};
+      }
     }
     ${({ theme }) => theme.device.mobile} {
       width: 140px;
@@ -80,18 +121,6 @@ const Sidebar = styled.div`
     width: 100%;
     height: auto;
     margin-bottom: 20px;
-  }
-`;
-
-const BodyContainer = styled.div`
-  width: 100%;
-  & .title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    h1 {
-      font-size: ${({ theme }) => theme.calRem(24)};
-    }
   }
 `;
 

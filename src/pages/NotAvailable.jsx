@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import GlobalButton from "../components/UI/GlobalButton";
 import { useNavigate } from "react-router-dom";
-import bigLogo from "../assets/bigLogo.png";
 
 const NotAvailable = (props) => {
   const navigate = useNavigate();

@@ -137,6 +137,8 @@ export const updateUser = createAsyncThunk(
         introduce: data.user.introduce,
       };
 
+      console.log(userData);
+
       return userData;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -202,6 +204,7 @@ const userSlice = createSlice({
       state.user = action.payload;
     });
     builder.addCase(updateUser.fulfilled, (state, action) => {
+      console.log(action.payload);
       state.user = action.payload;
     });
     builder.addCase(signout.fulfilled, (state) => {

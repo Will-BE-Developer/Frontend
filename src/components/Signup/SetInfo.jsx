@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import instance from "../../apis/axios";
 import { getCookie } from "../../shared/cookies";
 import GlobalButton from "../UI/GlobalButton";
@@ -12,8 +13,10 @@ import { boxShadow } from "../../styles/boxShadow";
 import { FcNext } from "react-icons/fc";
 import { FcPrevious } from "react-icons/fc";
 import GlobalTextArea from "../UI/GlobalTextArea";
+import { updateUser } from "../../store/slices/userSlice";
 
 const SetInfo = (props) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = getCookie("token");
   const [getImage, setGetImage] = useState(null);
@@ -48,12 +51,8 @@ const SetInfo = (props) => {
       formData.append("githubLink", JSON.stringify(userData.githubLink));
       formData.append("introduce", JSON.stringify(userData.introduce));
 
-      const res = await instance.put("/api/users/me", formData, {
-        headers: {
-          Authorization: token,
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const res = await dispatch(updateUser(formData)).unwrap();
+
       console.log(res);
     } catch (err) {
       console.log(err);

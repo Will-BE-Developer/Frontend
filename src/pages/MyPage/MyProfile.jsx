@@ -10,6 +10,7 @@ import SetProfileImg from "../../components/Signup/SetProfileImg";
 
 import { IoAlertCircle } from "react-icons/io5";
 import GlobalModal from "../../components/UI/GlobalModal";
+import editIcon from "../../assets/icons/edit.png";
 
 const MyProfile = () => {
   const user = useSelector((state) => state.user.user);
@@ -113,7 +114,6 @@ const MyProfile = () => {
             </div>
           ) : (
             <GlobalButton
-              text="수정"
               margin="0px 10px 0px 0px"
               background={theme.colors.white}
               color={theme.colors.black}
@@ -121,7 +121,10 @@ const MyProfile = () => {
               _height="40px"
               hover
               onClick={editHandler}
-            />
+            >
+              <img alt="edit" src={editIcon} style={{ marginRight: "10px" }} />{" "}
+              수정
+            </GlobalButton>
           )}
         </div>
         <div className="myInfo">
@@ -196,6 +199,7 @@ const MyProfile = () => {
         </div>
         <div className="footer">
           <GlobalButton
+            disabled={isEdit}
             margin="0px 10px 0px 0px"
             background={theme.colors.white}
             color={theme.colors.black}
@@ -207,6 +211,7 @@ const MyProfile = () => {
             로그아웃
           </GlobalButton>
           <GlobalButton
+            disabled={isEdit}
             margin="0px 10px 0px 0px"
             background={theme.colors.white}
             color={theme.colors.black}

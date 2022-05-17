@@ -8,7 +8,7 @@ import { BsAlarm } from "react-icons/bs";
 import { GrRefresh } from "react-icons/gr";
 import GlobalButton from "../../components/UI/GlobalButton";
 import InterviewForm from "../../components/Interview/InterviewForm";
-import webcamNotice from "../../assets/webcamNotice.png";
+import webcamNotice from "../../assets/webcamNotice.svg";
 import interviewApis from "../../apis/interviewApis";
 import Countdown from "react-countdown";
 import LoadingLoader from "../../components/UI/LoadingLoader";
@@ -62,6 +62,12 @@ const InterviewRecording = () => {
   }, []);
 
   useEffect(() => {
+    if (state?.selectTopic === state?.question) {
+      alert("면접 주제를 선택하고 오세요");
+      navigate("/interview");
+      return;
+    }
+
     if (isEnd) {
       const timer = setTimeout(() => {
         const { videoWidth, videoHeight } = videoRef.current;
@@ -78,12 +84,12 @@ const InterviewRecording = () => {
       };
     }
 
-    if (state.question) {
+    if (state?.question) {
       setQuestion(state.question);
       return;
     }
 
-    if (firstTry && !state.todayQuestion) {
+    if (firstTry && !state?.question) {
       interviewApis
         .getQuestion(state.selectTopic)
         .then((question) => {
@@ -93,7 +99,7 @@ const InterviewRecording = () => {
           console.log(error);
         });
     }
-  }, [recordingHandler, isEnd, state, firstTry]);
+  }, [recordingHandler, isEnd, state, firstTry, navigate]);
 
   const stopRecordingHandler = () => {
     recorderRef.current.stopRecording(() => {
@@ -248,9 +254,18 @@ const InterviewRecording = () => {
                   </GlobalButton>
                 )}
                 {isStart && !isEnd && (
-                  <div onClick={stopRecordingHandler} className="stopBtn">
-                    <div></div>
-                  </div>
+                  <>
+                    <button
+                      disabled={currSecond <= 20}
+                      onClick={stopRecordingHandler}
+                      className="stopBtn"
+                    >
+                      <div></div>
+                      <div className="tooltip">
+                        <p>영상은 최소 20초 이상 촬영해야 합니다</p>
+                      </div>
+                    </button>
+                  </>
                 )}
                 {isEnd && (
                   <InterviewForm
@@ -325,15 +340,6 @@ const RecordWrapper = styled.div`
     color: ${({ theme }) => theme.colors.main};
   }
 
-  /* & .header .title {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-top: ${({ isstart }) => (isstart === "true" ? "0px" : "12px")};
-    font-size: ${({ theme }) => theme.fontSize["20"]};
-    font-weight: ${({ theme }) => theme.fontWeight.extraBold};
-  } */
-
   & .alarm {
     display: flex;
     justify-content: center;
@@ -354,19 +360,46 @@ const RecordWrapper = styled.div`
     align-items: center;
     height: 44px;
     width: 44px;
-    border: 1px solid ${({ theme }) => theme.colors.errorMsg};
+    border: 1px solid
+      ${({ theme, currSecond }) =>
+        currSecond >= 20 ? theme.colors.errorMsg : theme.colors.grey10};
+    background-color: ${({ theme, currSecond }) =>
+      currSecond >= 20 ? "" : theme.colors.grey10};
     border-radius: 50%;
+    position: relative;
 
     div {
       width: 12px;
       height: 12px;
-      background-color: ${({ theme }) => theme.colors.errorMsg};
+      background-color: ${({ theme, currSecond }) =>
+        currSecond >= 20 ? theme.colors.errorMsg : theme.colors.grey40};
     }
   }
 
   .stopBtn:hover {
-    cursor: pointer;
-    background-color: rgba(236, 89, 89, 0.06);
+    cursor: ${({ currSecond }) =>
+      currSecond >= 20 ? "pointer" : "not-allowed"};
+    background-color: ${({ currSecond }) =>
+      currSecond >= 20 ? "rgba(236, 89, 89, 0.06)" : ""};
+  }
+
+  .tooltip {
+    display: none;
+    position: absolute;
+  }
+
+  .stopBtn:hover {
+    .tooltip {
+      bottom: -35px;
+      display: ${({ currSecond }) => (currSecond >= 20 ? "none" : "flex")};
+      justify-content: center;
+      align-items: center;
+      width: max-content;
+      padding: 12px 10px;
+      background: rgba(0, 0, 0, 0.3);
+      color: ${({ theme }) => theme.colors.white};
+      border-radius: 6px;
+    }
   }
 
   video::-webkit-media-controls-current-time-display {

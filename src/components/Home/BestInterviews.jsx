@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import { HiChevronRight, HiChevronLeft } from "react-icons/hi";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import GlobalButton from "../UI/GlobalButton";
 import theme from "../../styles/theme";
 import gold from "../../assets/icons/gold.png";
 import silver from "../../assets/icons/silver.png";
@@ -13,16 +14,19 @@ import bronze from "../../assets/icons/bronze.png";
 const BestInterviews = ({ weeklyInterviews }) => {
   const navigate = useNavigate();
   const slider = useRef(null);
+  const isEmpty = weeklyInterviews.length === 0;
   const [title, setTitle] = useState(
-    `5월 셋째주 면접왕 1등 '${weeklyInterviews[0]?.user?.nickname}'`
+    isEmpty
+      ? "현재 면접왕이 없습니다."
+      : `5월 셋째주 면접왕 1등 '${weeklyInterviews[0]?.user?.nickname}'`
   );
   const badgeIcon = [gold, silver, bronze];
-
-  console.log(weeklyInterviews);
 
   const nextBtn = () => {
     slider.current.slickNext();
   };
+
+  console.log(weeklyInterviews);
 
   const prevBtn = () => {
     slider.current.slickPrev();
@@ -37,9 +41,11 @@ const BestInterviews = ({ weeklyInterviews }) => {
     slidesToShow: 1,
     beforeChange: (_, newIdx) =>
       setTitle(
-        `5월 둘째주 면접왕 ${Number(newIdx) + 1}등 '${
-          weeklyInterviews[newIdx]?.user?.nickname
-        }' 님`
+        isEmpty
+          ? "현재 면접왕이 없습니다"
+          : `5월 둘째주 면접왕 ${Number(newIdx) + 1}등 '${
+              weeklyInterviews[newIdx]?.user?.nickname
+            }' 님`
       ),
   };
 
@@ -47,79 +53,98 @@ const BestInterviews = ({ weeklyInterviews }) => {
     <BestInterviewsLayout>
       <div className="titleWrapper">
         <h2 className="tile">{title}</h2>
-        <h3 className="subTitle">인터뷰 영상을 확인해보세요</h3>
+        <h3 className="subTitle">
+          {isEmpty ? "면접왕에 도전해보세요" : "인터뷰 영상을 확인해보세요"}
+        </h3>
       </div>
-      <SliderLayout>
-        <div className="background" />
-        <div className="btnWrapper">
-          <button onClick={prevBtn}>
-            <HiChevronLeft size="20px" />
-          </button>
-        </div>
-        <StyledSlider ref={slider} {...settings}>
-          {weeklyInterviews.map((interview, idx) => {
-            if (idx >= 3) {
-              return null;
-            }
+      {isEmpty ? (
+        <GlobalButton
+          radius="25px"
+          margin="30px 0px 0px 0px"
+          hover={({ theme }) => theme.colors.grey5}
+          background={theme.colors.white}
+          color={theme.colors.black}
+          border="1px solid rgba(130, 130, 130, 0.2)"
+          onClick={() => navigate("/interview")}
+        >
+          면접 보러가기
+          <HiChevronRight size="25px" color={theme.colors.grey50} />
+        </GlobalButton>
+      ) : (
+        <SliderLayout>
+          <div className="background" />
+          <div className="btnWrapper">
+            <button onClick={prevBtn}>
+              <HiChevronLeft size="20px" />
+            </button>
+          </div>
+          <StyledSlider ref={slider} {...settings}>
+            {weeklyInterviews.map((interview, idx) => {
+              if (idx >= 3) {
+                return null;
+              }
 
-            return (
-              <div key={interview.id} className="main">
-                <div className="card">
-                  <img
-                    className="thumbnail"
-                    src={interview.thumbnail}
-                    alt="user"
-                  />
-                  <div className="interview">
-                    <div className="header">
-                      <span
-                        style={{
-                          fontSize: "18px",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          gap: "8px",
-                        }}
-                      >
-                        {interview.user?.nickname}님
-                        <img src={badgeIcon[idx]} alt="badge" />
-                      </span>
-                      <span style={{ fontSize: theme.fontSize["14"] }}>
-                        누적 스크랩
-                        <span style={{ color: theme.colors.blue }}>9999+</span>
-                        개 달성!
-                      </span>
-                    </div>
-                    <div className="hr" />
-                    <div className="interviewContents">
-                      <span className="interviewTopic">
-                        {interview.question.category}
-                      </span>
-                      <span className="question">
-                        Q. {interview.question.contents}
-                      </span>
-                    </div>
-                    <div className="feedbackBtn">
-                      <button
-                        onClick={() => navigate(`/feedback/${interview.id}`)}
-                        className="interviewBtn"
-                      >
-                        영상 보러가기
-                        <HiChevronRight size="25px" />
-                      </button>
+              return (
+                <div key={interview.id} className="main">
+                  <div className="card">
+                    <img
+                      className="thumbnail"
+                      src={interview.thumbnail}
+                      alt="user"
+                    />
+                    <div className="interview">
+                      <div className="header">
+                        <span
+                          style={{
+                            fontSize: "18px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            gap: "8px",
+                          }}
+                        >
+                          {interview.user?.nickname}님
+                          <img src={badgeIcon[idx]} alt="badge" />
+                        </span>
+                        <span style={{ fontSize: theme.fontSize["14"] }}>
+                          누적 스크랩
+                          <span style={{ color: theme.colors.blue }}>
+                            {interview.scrapsCount}+
+                          </span>
+                          개 달성!
+                        </span>
+                      </div>
+                      <div className="hr" />
+                      <div className="interviewContents">
+                        <span className="interviewTopic">
+                          {interview.question.category}
+                        </span>
+                        <span className="question">
+                          Q. {interview.question.contents}
+                        </span>
+                      </div>
+                      <div className="feedbackBtn">
+                        <button
+                          onClick={() => navigate(`/feedback/${interview.id}`)}
+                          className="interviewBtn"
+                        >
+                          영상 보러가기
+                          <HiChevronRight size="25px" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-        </StyledSlider>
-        <div className="btnWrapper">
-          <button onClick={nextBtn}>
-            <HiChevronRight size="20px" />
-          </button>
-        </div>
-      </SliderLayout>
+              );
+            })}
+          </StyledSlider>
+          <div className="btnWrapper">
+            <button onClick={nextBtn}>
+              <HiChevronRight size="20px" />
+            </button>
+          </div>
+        </SliderLayout>
+      )}
     </BestInterviewsLayout>
   );
 };
@@ -207,6 +232,9 @@ const StyledSlider = styled(Slider)`
 
       .slick-dots {
         bottom: -60px;
+        @media screen and (max-width: 700px) {
+          bottom: -50px;
+        }
       }
 
       .slick-dots .slick-dots li button::before {
