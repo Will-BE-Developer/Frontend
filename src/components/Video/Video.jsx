@@ -418,7 +418,7 @@ const Video = (props) => {
                             controlsRef.current.style.visibility = "visible";
                             setTimeout(() => {
                               controlsRef.current.style.visibility = "hidden";
-                            }, 500);
+                            }, 1000);
                           }}
                           elevation={3}
                         >
