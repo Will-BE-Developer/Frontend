@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 import { HiChevronRight } from "react-icons/hi";
 import GlobalCard from "../UI/GlobalCard";
 import { useNavigate } from "react-router-dom";
+import theme from "../../styles/theme";
 
 const LatestFeedback = ({ latestInterviews }) => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const LatestFeedback = ({ latestInterviews }) => {
         </div>
         <button onClick={() => navigate("/feedback")} className="interviewBtn">
           더 보기
-          <HiChevronRight size="25px" />
+          <HiChevronRight size="25px" color={theme.colors.grey50} />
         </button>
       </section>
     </LatestFeedbackLayout>
@@ -88,6 +89,10 @@ const LatestFeedbackLayout = styled.div`
         border-radius: 25px;
         line-height: 0px;
         font-size: 15px;
+      }
+
+      .interviewBtn:hover {
+        background-color: ${colors.grey10};
       }
     `;
   }}

@@ -57,14 +57,14 @@ const InterviewTopic = () => {
           );
         })}
       </div>
-      <div style={{ display: "flex", justifyContent: "center" }}>
+      <div className="startBtn">
         <GlobalButton
           _width="50%"
-          margin="0px 0px 40px 0px"
           onClick={selectTopicHandler}
-          background="#567FE8"
+          background={({ theme }) => theme.colors.main}
           _fontSize={16}
           text="면접 시작하기"
+          hover={({ theme }) => theme.colors.mainHover}
         >
           <HiChevronRight size="25px" />
         </GlobalButton>
@@ -133,6 +133,10 @@ const TopicBox = styled.div`
         padding: 8px 12px;
       }
 
+      & .topic label:hover {
+        border: 1px solid ${colors.main};
+      }
+
       & .topic label div {
         display: flex;
         justify-content: center;
@@ -145,7 +149,15 @@ const TopicBox = styled.div`
 
       .select {
         background-color: rgba(86, 127, 232, 0.06);
-        border: 1px solid ${colors.blue} !important;
+        border: 1px solid ${colors.main} !important;
+      }
+
+      .startBtn {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 30px;
       }
     `;
   }}

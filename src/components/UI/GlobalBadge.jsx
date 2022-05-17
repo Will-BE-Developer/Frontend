@@ -10,6 +10,7 @@ const GlobalBadge = (props) => {
     padding,
     onClick,
     fontSize,
+    hover,
   } = props;
 
   const styles = {
@@ -19,6 +20,7 @@ const GlobalBadge = (props) => {
     border,
     padding,
     fontSize,
+    hover,
   };
 
   return (
@@ -34,6 +36,7 @@ const BadgeLayout = styled.span`
     return css`
       &:hover {
         cursor: ${({ onClick }) => (onClick ? "pointer" : "")};
+        background: ${(props) => (props.hover ? props.hover : "")};
       }
       color: ${(props) => (props.color ? props.color : colors.white)};
       background: ${(props) =>

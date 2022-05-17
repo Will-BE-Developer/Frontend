@@ -60,7 +60,7 @@ const InterviewForm = (
 
   return (
     <FormLayout>
-      <div className="header">
+      <div className="formHeader">
         <span className="badge">{category}</span>
         <h2>{`Q. ${question}`}</h2>
         <hr />
@@ -108,6 +108,7 @@ const InterviewForm = (
         <div style={{ display: "flex" }}>
           <GlobalButton
             margin="0px 10px 0px 0px"
+            hover={({ theme }) => theme.colors.grey5}
             background={theme.colors.white}
             color={theme.colors.black}
             border="1px solid rgba(130, 130, 130, 0.2)"
@@ -117,6 +118,7 @@ const InterviewForm = (
             재도전
           </GlobalButton>
           <GlobalButton
+            hover={({ theme }) => theme.colors.grey5}
             onClick={() => navigate("/interview")}
             background={theme.colors.white}
             color={theme.colors.black}
@@ -128,6 +130,7 @@ const InterviewForm = (
         <GlobalButton
           onClick={createInterviewHandler}
           background={theme.colors.blue}
+          hover={({ theme }) => theme.colors.mainHover}
         >
           저장
         </GlobalButton>
@@ -147,17 +150,18 @@ const FormLayout = styled.div`
         padding: 0px 1rem;
       }
 
-      & .header {
+      & .formHeader {
+        margin-bottom: 25px;
         padding: 0px !important;
       }
 
-      & .header h2 {
+      & .formHeader h2 {
         margin: 20px 0px;
         font-size: ${fontSize["20"]};
         font-weight: ${fontWeight.extraBold};
       }
 
-      & .header hr {
+      & .formHeader hr {
         border: solid 1px ${colors.lightestGrey};
       }
 

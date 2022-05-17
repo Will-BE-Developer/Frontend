@@ -14,9 +14,11 @@ const BestInterviews = ({ weeklyInterviews }) => {
   const navigate = useNavigate();
   const slider = useRef(null);
   const [title, setTitle] = useState(
-    `5월 둘째주 면접왕 1등 '${weeklyInterviews[0]?.user?.nickname}'`
+    `5월 셋째주 면접왕 1등 '${weeklyInterviews[0]?.user?.nickname}'`
   );
   const badgeIcon = [gold, silver, bronze];
+
+  console.log(weeklyInterviews);
 
   const nextBtn = () => {
     slider.current.slickNext();
@@ -37,7 +39,7 @@ const BestInterviews = ({ weeklyInterviews }) => {
       setTitle(
         `5월 둘째주 면접왕 ${Number(newIdx) + 1}등 '${
           weeklyInterviews[newIdx]?.user?.nickname
-        }'`
+        }' 님`
       ),
   };
 
@@ -48,10 +50,7 @@ const BestInterviews = ({ weeklyInterviews }) => {
         <h3 className="subTitle">인터뷰 영상을 확인해보세요</h3>
       </div>
       <SliderLayout>
-        <div className="background">
-          {/* <div className="leftCircle"></div> */}
-          {/* <div className="rightCircle"></div> */}
-        </div>
+        <div className="background" />
         <div className="btnWrapper">
           <button onClick={prevBtn}>
             <HiChevronLeft size="20px" />
@@ -59,6 +58,10 @@ const BestInterviews = ({ weeklyInterviews }) => {
         </div>
         <StyledSlider ref={slider} {...settings}>
           {weeklyInterviews.map((interview, idx) => {
+            if (idx >= 3) {
+              return null;
+            }
+
             return (
               <div key={interview.id} className="main">
                 <div className="card">
