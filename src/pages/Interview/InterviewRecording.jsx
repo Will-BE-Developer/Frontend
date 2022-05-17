@@ -32,8 +32,6 @@ const InterviewRecording = () => {
 
   const currSecond = Math.floor(time / 1000);
 
-  console.log(currSecond >= 20);
-
   const loadingHandler = () => {
     setIsLoading(true);
   };
@@ -64,6 +62,12 @@ const InterviewRecording = () => {
   }, []);
 
   useEffect(() => {
+    if (state?.question === undefined) {
+      alert("면접 주제를 선택하고 오세요");
+      navigate("/interview");
+      return;
+    }
+
     if (isEnd) {
       const timer = setTimeout(() => {
         const { videoWidth, videoHeight } = videoRef.current;
