@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { boxShadow } from "../../styles/boxShadow";
 import styled, { css } from "styled-components";
 import theme from "../../styles/theme";
-
+import LoadingLoader from "../UI/LoadingLoader";
 import { Link } from "react-router-dom";
 
 // 회원가입 유효성 검사 api : react hook form
@@ -19,6 +19,7 @@ import { FcPrevious } from "react-icons/fc";
 const SignupForm = (props) => {
   const navigate = useNavigate();
   const emailRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [checkEmail, setCheckEmail] = useState(false);
 
   const dispatch = useDispatch();
@@ -66,6 +67,9 @@ const SignupForm = (props) => {
       alert("이메일 중복을 확인해주세요.");
       return;
     }
+
+    setIsLoading(true);
+
     try {
       await dispatch(signupEmail(userData)).unwrap();
       props.setCurrentPage(2);
@@ -96,62 +100,68 @@ const SignupForm = (props) => {
 
   return (
     <Container>
-      <div className="title">이메일 회원가입</div>
-      <BoxContainer>
-        <SignUpForm onSubmit={handleSubmit(onSubmitHandler)}>
-          <PreviousIcon onClick={previousPageHandler} />
-          <Label htmlFor="email">이메일</Label>
-          <div>
-            <Input
-              type="email"
-              placeholder="이메일을 입력해주세요."
-              {...rest}
-              ref={(e) => {
-                ref(e);
-                emailRef.current = e;
-              }}
-            />
-            <button onClick={checkEmailHandler} className="checkEmailBtn">
-              중복확인
-            </button>
-          </div>
-          <ErrorMSG>{errors.email?.message}</ErrorMSG>
-          <Label htmlFor="password">비밀번호</Label>
-          <Input
-            type="password"
-            placeholder="비밀번호를 입력해주세요."
-            {...register("password")}
-          />
-          <ErrorMSG>{errors.password?.message}</ErrorMSG>
+      {isLoading ? (
+        <LoadingLoader text="회원가입 처리중 입니다" />
+      ) : (
+        <>
+          <div className="title">이메일 회원가입</div>
+          <BoxContainer>
+            <SignUpForm onSubmit={handleSubmit(onSubmitHandler)}>
+              <PreviousIcon onClick={previousPageHandler} />
+              <Label htmlFor="email">이메일</Label>
+              <div>
+                <Input
+                  type="email"
+                  placeholder="이메일을 입력해주세요."
+                  {...rest}
+                  ref={(e) => {
+                    ref(e);
+                    emailRef.current = e;
+                  }}
+                />
+                <button onClick={checkEmailHandler} className="checkEmailBtn">
+                  중복확인
+                </button>
+              </div>
+              <ErrorMSG>{errors.email?.message}</ErrorMSG>
+              <Label htmlFor="password">비밀번호</Label>
+              <Input
+                type="password"
+                placeholder="비밀번호를 입력해주세요."
+                {...register("password")}
+              />
+              <ErrorMSG>{errors.password?.message}</ErrorMSG>
 
-          <Label htmlFor="passwordCheck">비밀번호 확인</Label>
-          <Input
-            type="password"
-            placeholder="비밀번호를 입력해주세요."
-            {...register("passwordCheck")}
-          />
-          <ErrorMSG>{errors.passwordCheck?.message}</ErrorMSG>
-          <GlobalButton
-            type="submit"
-            _width="100%"
-            margin="0 0 12px 0"
-            background={theme.colors.main}
-            hover={theme.colors.mainHover}
-          >
-            회원가입
-          </GlobalButton>
-        </SignUpForm>
+              <Label htmlFor="passwordCheck">비밀번호 확인</Label>
+              <Input
+                type="password"
+                placeholder="비밀번호를 입력해주세요."
+                {...register("passwordCheck")}
+              />
+              <ErrorMSG>{errors.passwordCheck?.message}</ErrorMSG>
+              <GlobalButton
+                type="submit"
+                _width="100%"
+                margin="0 0 12px 0"
+                background={theme.colors.main}
+                hover={theme.colors.mainHover}
+              >
+                회원가입
+              </GlobalButton>
+            </SignUpForm>
 
-        <Terms>
-          <label>
-            <input type="checkbox" />
-            (필수) 서비스 이용 약관 동의
-            <Link to="/">
-              <TermsShow>보기</TermsShow>
-            </Link>
-          </label>
-        </Terms>
-      </BoxContainer>
+            <Terms>
+              <label>
+                <input type="checkbox" />
+                (필수) 서비스 이용 약관 동의
+                <Link to="/">
+                  <TermsShow>보기</TermsShow>
+                </Link>
+              </label>
+            </Terms>
+          </BoxContainer>{" "}
+        </>
+      )}
     </Container>
   );
 };

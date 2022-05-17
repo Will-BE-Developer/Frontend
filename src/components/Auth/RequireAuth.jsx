@@ -7,6 +7,8 @@ const RequireAuth = ({ children }) => {
   const user = useSelector((state) => state.user.user);
   const token = getCookie("token");
 
+  console.log(user);
+
   if (!token) {
     return <></>;
   }

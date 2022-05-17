@@ -29,7 +29,7 @@ const LatestFeedback = ({ latestInterviews }) => {
           border="1px solid rgba(130, 130, 130, 0.2)"
           onClick={() => navigate("/feedback")}
         >
-          면접 보러가기
+          피드백 보러가기
           <HiChevronRight size="25px" color={theme.colors.grey50} />
         </GlobalButton>
       </section>

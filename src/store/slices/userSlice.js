@@ -136,6 +136,7 @@ export const updateUser = createAsyncThunk(
         githubLink: data.user.githubLink,
         introduce: data.user.introduce,
       };
+      console.log(userData);
 
       return userData;
     } catch (err) {
@@ -202,6 +203,7 @@ const userSlice = createSlice({
       state.user = action.payload;
     });
     builder.addCase(updateUser.fulfilled, (state, action) => {
+      console.log(action.payload);
       state.user = action.payload;
     });
     builder.addCase(signout.fulfilled, (state) => {
