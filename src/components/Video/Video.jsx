@@ -363,6 +363,7 @@ const Video = (props) => {
                     cardId={cardId}
                     scrapHandler={scrapHandler}
                     isScrapped={isScrapped}
+                    openModalHandler={openModalHandler}
                   />
                   <div
                     style={{
