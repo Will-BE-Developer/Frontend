@@ -1,19 +1,24 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-
-import styled, { css } from "styled-components";
+import { getCookie } from "../../shared/cookies";
 import ReactPlayer from "react-player";
 import screenfull from "screenfull";
+
 import VideoControl from "./VideoControl.jsx";
 import feedbackApis from "../../apis/feedbackApis.js";
-import Bubble from "./Bubble.jsx";
-import { MdFavorite, MdFastRewind, MdFastForward } from "react-icons/md";
-import LoadingLoader from "../UI/LoadingLoader.jsx";
-
 import highlightApis from "../../apis/highlightApis.js";
-import { boxShadow } from "../../styles/boxShadow.js";
-import convertingImg from "../../assets/convertingImage.png";
+
+import LoadingLoader from "../UI/LoadingLoader.jsx";
 import questionMark from "../../assets/questionMark.svg";
+import convertingImg from "../../assets/convertingImage.png";
+
+import Bubble from "./Bubble.jsx";
+import GlobalModal from "../UI/GlobalModal";
+import styled, { css } from "styled-components";
+import { boxShadow } from "../../styles/boxShadow.js";
+import { MdFavorite } from "react-icons/md";
+import { IoAlertCircle } from "react-icons/io5";
+
 function format(seconds) {
   if (isNaN(seconds)) {
     return `00:00`;
@@ -31,9 +36,13 @@ function format(seconds) {
 function pad(string) {
   return ("0" + string).slice(-2);
 }
+
 let count = 0;
 
 const Video = (props) => {
+  const token = getCookie("token");
+  const [openModal, setOpenModal] = useState(false);
+
   let [isLoading, setIsLoading] = useState(true);
 
   const videoRef = useRef(null);
@@ -46,7 +55,8 @@ const Video = (props) => {
   const [video, setVideo] = useState("");
   const [timeDisplayFormat, setTimeDisplayFormat] = useState("normal");
   const [likes, setLikes] = useState({ likeTime: [], like: [] });
-  const [highlight, setHighlight] = useState([]);
+  const [likeCount, setLikeCount] = useState(0);
+
   const [state, setState] = useState({
     playing: true,
     muted: false,
@@ -59,14 +69,8 @@ const Video = (props) => {
     pip: false,
   });
 
-  const cleanLike = useRef((id) => {
-    setLikes((currentLikes) => ({
-      likeTime: [...currentLikes.likeTime],
-      like: currentLikes.like.filter((like) => like !== id),
-    }));
-  });
-  console.log(likes);
-  const { playing, muted, volume, playbackRate, played, pip, seeking } = state;
+  const { playing, muted, volume, playbackRate, played, pip } = state;
+
   useEffect(() => {
     feedbackApis
       .getDetail(cardId)
@@ -80,18 +84,92 @@ const Video = (props) => {
         navigate("/notFound");
         return;
       });
-
-    // highlightApis.getHighlight().then((data) => {
-    //   console.log(data);
-    //   setHighlight(data)
-    // })
     const timeout = setTimeout(() => setIsLoading(false), 400);
     return () => clearTimeout(timeout);
   }, [cardId, navigate]);
 
-  // const useInterval = (callback) => {
-  //   const savedCallback
-  // }
+  useEffect(() => {
+    highlightApis
+      .getHighlight(cardId)
+      .then((data) => {
+        console.log("get", data);
+        const filteredLike = [data.topOne, data.topTwo, data.topThree]
+          .filter((time) => time >= 0)
+          .map((item) => (item === 0 ? 3 : item));
+        const newLike = [];
+        filteredLike.map((time) =>
+          newLike.push({
+            time,
+            display: format(time),
+          })
+        );
+        setLikes((prev) => ({
+          likeTime: newLike,
+          like: [...prev.like, new Date().getTime()],
+        }));
+      })
+      .catch((err) => console.log("좋아요 받기 오류", err));
+  }, [cardId]);
+
+  const addLikeHandler = () => {
+    if (!token) {
+      alert("로그인이 필요한 기능입니다. ");
+      return;
+    }
+    setLikeCount(likeCount + 1);
+    setLikes((prev) => ({
+      likeTime: [...prev.likeTime],
+      like: [...prev.like, new Date().getTime()],
+    }));
+    console.log(Math.floor(videoRef.current.getCurrentTime()));
+  };
+
+  useEffect(() => {
+    const intervalPost = setInterval(() => {
+      if (likeCount === 0) {
+        return;
+      }
+      let currentTime = Math.floor(videoRef.current.getCurrentTime());
+      const likeData = {
+        interviewId: cardId,
+        time: currentTime,
+        count: likeCount,
+      };
+      highlightApis
+        .addHighlight(likeData)
+        .then((data) => {
+          console.log("add", data);
+
+          const filteredLike = [data.topOne, data.topTwo, data.topThree]
+            .filter((time) => time >= 0)
+            .map((time) => (time === 0 ? 1 : time));
+          const newLike = [];
+          filteredLike.map((time) =>
+            newLike.push({
+              time,
+              display: format(time),
+            })
+          );
+          setLikes((prev) => ({
+            likeTime: newLike,
+            like: [...prev.like, new Date().getTime()],
+          }));
+          setLikeCount(0);
+        })
+        .catch((err) => {
+          console.log("좋아요 요청 오류", err);
+        });
+    }, 6000);
+
+    return () => clearInterval(intervalPost);
+  }, [cardId, likeCount, token]);
+
+  const cleanLike = useRef((id) => {
+    setLikes((currentLikes) => ({
+      likeTime: [...currentLikes.likeTime],
+      like: currentLikes.like.filter((like) => like !== id),
+    }));
+  });
 
   const playPauseHandler = () => {
     setState({ ...state, playing: !state.playing });
@@ -139,8 +217,6 @@ const Video = (props) => {
   };
 
   const progressHandler = (changeState) => {
-    console.log("onProgress", state);
-
     if (count > 3) {
       controlsRef.current.style.visibility = "hidden";
       count = 0;
@@ -178,42 +254,12 @@ const Video = (props) => {
   const duration =
     videoRef && videoRef.current ? videoRef.current.getDuration() : "00:00";
 
-  // 현재시간
   const elapsedTime =
     timeDisplayFormat === "normal"
       ? format(currentTime)
       : `-${format(duration - currentTime)}`;
 
   const totalDuration = format(duration);
-  console.log(totalDuration, "duration!!");
-  const addLike = () => {
-    // const canvas = canvasRef.current;
-    // canvas.width = 160;
-    // canvas.height = 90;
-    // const ctx = canvas.getContext("2d");
-
-    // ctx.drawImage(
-    //   videoRef.current.getInternalPlayer(),
-    //   0,
-    //   0,
-    //   canvas.width,
-    //   canvas.height
-    // );
-    // const dataUri = canvas.toDataURL();
-    // canvas.width = 0;
-    // canvas.height = 0;
-    const likeCopy = [...likes.likeTime];
-    likeCopy.push({
-      time: videoRef.current.getCurrentTime(),
-      display: format(videoRef.current.getCurrentTime()),
-      // image: dataUri,
-    });
-    setLikes((prev) => ({
-      likeTime: likeCopy,
-      like: [...prev.like, new Date().getTime()],
-    }));
-    console.log(videoRef.current.getCurrentTime(), "현재 시점!");
-  };
 
   const mouseMoveHandler = () => {
     if (video !== null) {
@@ -228,9 +274,28 @@ const Video = (props) => {
       count = 0;
     }
   };
+  console.log(likes);
+  const linkToSignInHandler = () => {
+    navigate("/signin");
+  };
 
+  const openModalHandler = () => {
+    setOpenModal(true);
+  };
   return (
     <Container>
+      <GlobalModal
+        title="알림"
+        confirmText="로그인하러 가기"
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        onConfirm={() => linkToSignInHandler()}
+        isConfirm
+        isIcon
+        icon={<AlertIcon />}
+      >
+        로그인이 필요한 기능입니다.
+      </GlobalModal>
       {isLoading ? (
         <VideoBackgroud>
           <LoadingLoader
@@ -255,12 +320,6 @@ const Video = (props) => {
                   <ReactPlayer
                     ref={videoRef}
                     url={video}
-                    // url={{ src: video, type: "video/mp4" }}
-                    // url={{
-                    //   src: video,
-                    //   type: "video/mp4",
-                    //   codecs: "avc1.4D401E, mp4a.40.2",
-                    // }}
                     pip={pip}
                     playing={playing}
                     controls={false}
@@ -301,10 +360,10 @@ const Video = (props) => {
                     totalDuration={totalDuration}
                     onDuration={durationHandelr}
                     onChangeDisplayFormat={displayFormatHandler}
-                    onLike={addLike}
                     cardId={cardId}
                     scrapHandler={scrapHandler}
                     isScrapped={isScrapped}
+                    openModalHandler={openModalHandler}
                   />
                   <div
                     style={{
@@ -314,7 +373,10 @@ const Video = (props) => {
                       right: "10px",
                     }}
                   >
-                    <button className="like_btn" onClick={addLike}>
+                    <button
+                      className="like_btn"
+                      onClick={token ? addLikeHandler : openModalHandler}
+                    >
                       <LikeIcon size={35} />
                       <div className="tooltip">좋았던 순간을 클릭하세요!</div>
                     </button>
@@ -345,38 +407,44 @@ const Video = (props) => {
                     </span>
                     <span className="line">|</span>
                   </div>
-                  <div className="timestamp_box">
-                    <button>00:00</button>
-                    <button>00:00</button>
-                    <button>00:00</button>
-                    {likes.likeTime.map((like, index) => (
-                      <div
-                        className="timestamp"
-                        key={index}
-                        onClick={() => {
-                          videoRef.current.seekTo(like.time);
-                          controlsRef.current.style.visibility = "visible";
-                          setTimeout(() => {
-                            controlsRef.current.style.visibility = "hidden";
-                          }, 1000);
-                        }}
-                        elevation={3}
-                      >
-                        {/* <img alt="likes" crossOrigin="anonymous" src={like.image} /> */}
-                        <div>{like.display}</div>
-                      </div>
-                    ))}
-                  </div>
+                  {likes?.likeTime.length === 0 ? (
+                    <div className="noti">
+                      아직 하이라이트 시간이 없습니다. 좋아요를 눌러
+                      하이라이트를 채워주세요!
+                    </div>
+                  ) : (
+                    likes.likeTime.map((like, index) => {
+                      return (
+                        <div
+                          className="timestamp_box"
+                          key={index}
+                          onClick={() => {
+                            videoRef.current.seekTo(like.time);
+                            controlsRef.current.style.visibility = "visible";
+                            setTimeout(() => {
+                              controlsRef.current.style.visibility = "hidden";
+                            }, 1000);
+                          }}
+                          elevation={3}
+                        >
+                          <button>{like.display}</button>
+                        </div>
+                      );
+                    })
+                  )}
                 </div>
               </div>
             </HightLight>
           )}
-          <canvas ref={canvasRef} />
         </>
       )}
     </Container>
   );
 };
+const AlertIcon = styled(IoAlertCircle)`
+  font-size: 24px;
+  color: #ec5959;
+`;
 
 const Container = styled.div`
   position: relative;
@@ -384,6 +452,7 @@ const Container = styled.div`
   margin: 0 auto;
   box-sizing: border-box;
 `;
+
 const VideoBackgroud = styled.div`
   width: 100%;
   background: #f4f6f9;
@@ -442,8 +511,13 @@ const HightLight = styled.div`
           display: flex;
           justify-content: center;
           align-items: center;
+          .noti {
+            font-size: 12px;
+            color: ${colors.grey80};
+          }
           .title {
             color: ${colors.grey80};
+
             .tooltip_highlight {
               position: absolute;
               display: none;
@@ -464,6 +538,7 @@ const HightLight = styled.div`
                 img {
                   display: inline-block;
                   vertical-align: middle;
+                  margin-bottom: 2px;
                 }
                 &:hover {
                   .tooltip_highlight {
@@ -493,6 +568,7 @@ const HightLight = styled.div`
             background: rgba(234, 97, 122, 0.06);
             padding: 10px 20px;
             border-radius: 4px;
+            margin-right: 10px;
           }
 
           /* 아직 사용안하는중 get하고.. */
@@ -535,9 +611,5 @@ const LikeIcon = styled(MdFavorite)`
     }
   }
 `;
-
-// pink : #EA617A
-// main : ##567FE8
-// yellow : #EAB90D
 
 export default Video;
