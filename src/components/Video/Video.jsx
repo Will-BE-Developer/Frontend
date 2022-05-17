@@ -38,6 +38,7 @@ function pad(string) {
 }
 
 let count = 0;
+let likeCount = 0;
 
 const Video = (props) => {
   const token = getCookie("token");
@@ -47,7 +48,6 @@ const Video = (props) => {
 
   const videoRef = useRef(null);
   const videoControllerRef = useRef(null);
-  const canvasRef = useRef(null);
   const controlsRef = useRef(null);
 
   const { cardId, scrapHandler, isScrapped } = props;
@@ -55,7 +55,6 @@ const Video = (props) => {
   const [video, setVideo] = useState("");
   const [timeDisplayFormat, setTimeDisplayFormat] = useState("normal");
   const [likes, setLikes] = useState({ likeTime: [], like: [] });
-  const [likeCount, setLikeCount] = useState(0);
 
   const [state, setState] = useState({
     playing: true,
@@ -116,7 +115,7 @@ const Video = (props) => {
       alert("로그인이 필요한 기능입니다. ");
       return;
     }
-    setLikeCount(likeCount + 1);
+    likeCount++;
     setLikes((prev) => ({
       likeTime: [...prev.likeTime],
       like: [...prev.like, new Date().getTime()],
@@ -139,7 +138,6 @@ const Video = (props) => {
         .addHighlight(likeData)
         .then((data) => {
           console.log("add", data);
-
           const filteredLike = [data.topOne, data.topTwo, data.topThree]
             .filter((time) => time >= 0)
             .map((time) => (time === 0 ? 1 : time));
@@ -154,7 +152,7 @@ const Video = (props) => {
             likeTime: newLike,
             like: [...prev.like, new Date().getTime()],
           }));
-          setLikeCount(0);
+          likeCount = 0;
         })
         .catch((err) => {
           console.log("좋아요 요청 오류", err);
@@ -162,7 +160,7 @@ const Video = (props) => {
     }, 6000);
 
     return () => clearInterval(intervalPost);
-  }, [cardId, likeCount, token]);
+  }, [cardId, token]);
 
   const cleanLike = useRef((id) => {
     setLikes((currentLikes) => ({
@@ -170,7 +168,6 @@ const Video = (props) => {
       like: currentLikes.like.filter((like) => like !== id),
     }));
   });
-
   const playPauseHandler = () => {
     setState({ ...state, playing: !state.playing });
   };
@@ -449,13 +446,15 @@ const AlertIcon = styled(IoAlertCircle)`
 const Container = styled.div`
   position: relative;
   width: 100%;
-  margin: 0 auto;
+  margin: auto;
+  margin-bottom: 40px;
   box-sizing: border-box;
 `;
 
 const VideoBackgroud = styled.div`
   width: 100%;
   background: #f4f6f9;
+
   .player-wrapper {
     position: relative;
     max-width: 750px;

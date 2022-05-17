@@ -18,7 +18,9 @@ const colors = {
   secondary: "#0A3190",
   secondary2: "#EAB90D",
   secondary3: "#DADEFE",
-  errorMsg: "#D42136",
+  errorMsg: "#EC5959",
+  error: "#EC5959",
+
   info: "#0778E1",
 
   grey5: "#F4F6F9",
