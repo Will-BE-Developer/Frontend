@@ -1,16 +1,19 @@
-import React, { forwardRef } from "react";
-import styled from "styled-components";
+import React, { forwardRef, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import PropTypes from "prop-types";
-import { useState, useEffect } from "react";
-import logo from "../../assets/logo.png";
 import Slider from "@mui/material/Slider";
+
 import Popover from "@mui/material/Popover";
+import styled from "styled-components";
 import theme from "../../styles/theme";
-import feedbackApis from "../../apis/feedbackApis.js";
-import { BsFillBookmarkFill, BsHeartFill } from "react-icons/bs";
+
+import logo from "../../assets/logo.png";
+
+import { BsFillBookmarkFill } from "react-icons/bs";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import { BiFullscreen } from "react-icons/bi";
-import { MdFavorite, MdFastRewind, MdFastForward } from "react-icons/md";
+import { MdFastRewind, MdFastForward } from "react-icons/md";
 import { HiVolumeUp, HiVolumeOff } from "react-icons/hi";
 
 const PrettoSlider = styled(Slider)({});
@@ -45,6 +48,8 @@ const VideoControl = forwardRef(
     },
     ref
   ) => {
+    const navigate = useNavigate();
+
     const [isActive, setIsActive] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -466,10 +471,6 @@ const Container = styled.div`
   }
 `;
 
-// pink : #EA617A
-// main : ##567FE8
-// yellow : #EAB90D
-
 const ScrapIcon = styled(BsFillBookmarkFill)`
   font-size: 16px;
   margin: 0 2px;
@@ -480,16 +481,6 @@ const PlayIcon = styled(BsFillPlayFill)``;
 const PauseIcon = styled(BsFillPauseFill)``;
 const RewindIcon = styled(MdFastRewind, MdFastForward, BsFillPlayFill)``;
 const ForwardIcon = styled(MdFastForward)``;
-
-// const playBtn = styled(BsFillPlayBtnFill)`
-//   width: 6.5em;
-//   height: 4em;
-//   margin-right: 1em;
-//   color: #fff;
-//   position: relative;
-// `;
-
-const VideoContainer = styled.video``;
 
 VideoControl.propTypes = {
   onSeek: PropTypes.func,
