@@ -62,7 +62,7 @@ const InterviewRecording = () => {
   }, []);
 
   useEffect(() => {
-    if (state?.question === undefined) {
+    if (state?.selectTopic === state?.question) {
       alert("면접 주제를 선택하고 오세요");
       navigate("/interview");
       return;
@@ -84,12 +84,12 @@ const InterviewRecording = () => {
       };
     }
 
-    if (state.question) {
+    if (state?.question) {
       setQuestion(state.question);
       return;
     }
 
-    if (firstTry && !state.todayQuestion) {
+    if (firstTry && !state?.question) {
       interviewApis
         .getQuestion(state.selectTopic)
         .then((question) => {
@@ -99,7 +99,7 @@ const InterviewRecording = () => {
           console.log(error);
         });
     }
-  }, [recordingHandler, isEnd, state, firstTry]);
+  }, [recordingHandler, isEnd, state, firstTry, navigate]);
 
   const stopRecordingHandler = () => {
     recorderRef.current.stopRecording(() => {
