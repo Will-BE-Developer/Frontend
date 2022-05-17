@@ -44,7 +44,12 @@ const UserProfileModal = (props) => {
                 Github link
               </td>
               <td style={{ paddingRight: "2px" }}>|</td>
-              <td>{githubLink}</td>
+
+              <td className="github_link">
+                <a target="_blank" href={githubLink}>
+                  {githubLink}
+                </a>
+              </td>
             </tr>
             <tr className="table_tr">
               <td width="94" style={{ fontSize: "12px", color: "#6D727C" }}>
@@ -79,6 +84,11 @@ const AuthorContainer = styled.div`
     border-collapse: separate;
     border-spacing: 0 8px;
     font-size: ${({ theme }) => theme.calRem(14)};
+    .github_link {
+      :hover {
+        color: ${({ theme }) => theme.colors.main};
+      }
+    }
   }
 `;
 
