@@ -140,7 +140,7 @@ const CommentContainer = styled.div`
 `;
 
 const Divider = styled.div`
-  border-bottom: 1px solid lightgrey;
+  border-bottom: 1px solid #e6e9f1;
   margin: 12px;
 `;
 const NestedContentsBox = styled.div`
