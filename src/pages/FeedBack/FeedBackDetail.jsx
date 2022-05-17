@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
+import { getCookie } from "../../shared/cookies";
 import theme from "../../styles/theme";
 import styled, { css } from "styled-components";
 import GlobalButton from "../../components/UI/GlobalButton";
-import { BsFillBookmarkFill, BsHeartFill } from "react-icons/bs";
+import { BsBookmark, BsHeartFill, BsFillBookmarkFill } from "react-icons/bs";
 import { IoAlertCircle } from "react-icons/io5";
 
 import GlobalModal from "../../components/UI/GlobalModal";
@@ -20,6 +20,7 @@ import Silver from "../../assets/icons/silver.png";
 import Bronze from "../../assets/icons/bronze.png";
 
 const FeedBackDetail = (props) => {
+  const token = getCookie("token");
   const navigate = useNavigate();
   const { cardId } = useParams();
   const [video, setVideo] = useState("");
@@ -30,23 +31,33 @@ const FeedBackDetail = (props) => {
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openProfileModal, setOpenProfileModal] = useState(false);
+  const [openSigninModal, seOpenSigninModal] = useState(false);
 
-  const [cardBadge, setCardBadge] = useState("");
+  const [badge, setBadge] = useState({
+    color: "",
+    month: "",
+    week: "",
+    ranking: "",
+  });
+
   const sendProfileModalHandler = (boolean) => {
     setOpenProfileModal(boolean);
   };
 
-  const badgeIcon = [Gold, Silver, Bronze];
-  let badge;
-  if (cardBadge === "Gold") {
-    badge = badgeIcon[0];
+  const badgeImg = [Gold, Silver, Bronze];
+
+  let badgeIcon;
+  if (badge.color === "Gold") {
+    badgeIcon = badgeImg[0];
   }
-  if (cardBadge === "Silver") {
-    badge = badgeIcon[1];
+  if (badge.color === "Silver") {
+    badgeIcon = badgeImg[1];
   }
-  if (cardBadge === "Bronze") {
-    badge = badgeIcon[2];
+  if (badge.color === "Bronze") {
+    badgeIcon = badgeImg[2];
   }
+
+  const weekChar = { 1: "첫", 2: "둘", 3: "셋" };
 
   useEffect(() => {
     feedbackApis
@@ -56,15 +67,26 @@ const FeedBackDetail = (props) => {
         setIsScrapped(data.interview.scrapsMe);
         setScrapCount(data.interview.scrapsCount);
         setIsMine(data.interview.isMine);
-        setCardBadge(data.interview.badge);
         setVideo(data.interview.video);
+
+        setBadge((prev) => {
+          return {
+            ...prev,
+            color: data.interview.badge,
+            month: data.interview.month,
+            week: data.interview.week,
+            ranking: data.interview.ranking,
+          };
+        });
       })
+
       .catch((err) => {
         console.log(err);
         navigate("/notFound");
         return;
       });
   }, [cardId, navigate]);
+  console.log(badge);
 
   const {
     id,
@@ -102,6 +124,10 @@ const FeedBackDetail = (props) => {
   };
 
   const scrapHandler = () => {
+    if (!token) {
+      openModalHandler();
+      return;
+    }
     if (isScrapped === false) {
       feedbackApis.addScrap(cardId).then((data) => {
         setIsScrapped(data.scrap.scrapsMe);
@@ -113,6 +139,14 @@ const FeedBackDetail = (props) => {
         setScrapCount(data.scrap.scrapsCount);
       });
     }
+  };
+
+  const linkToSignInHandler = () => {
+    navigate("/signin");
+  };
+
+  const openModalHandler = () => {
+    seOpenSigninModal(true);
   };
 
   return (
@@ -139,7 +173,18 @@ const FeedBackDetail = (props) => {
           openProfileModal={openProfileModal}
           isMine={isMine}
         />
-
+        <GlobalModal
+          title="알림"
+          confirmText="로그인하러 가기"
+          open={openSigninModal}
+          onClose={() => seOpenSigninModal(false)}
+          onConfirm={() => linkToSignInHandler()}
+          isConfirm
+          isIcon
+          icon={<AlertIcon />}
+        >
+          로그인이 필요한 기능입니다.
+        </GlobalModal>
         <div className="contents_wrap">
           {/* <div className="video_layout"> */}
           <Video
@@ -149,7 +194,7 @@ const FeedBackDetail = (props) => {
           />
 
           {video !== null && (
-            <>
+            <div className="bottom_wrap">
               {/* </div> */}
               {isMine && (
                 <div className="user_buttons">
@@ -160,6 +205,7 @@ const FeedBackDetail = (props) => {
                     border={`1px solid ${theme.colors.main}`}
                     _height="40px"
                     onClick={editHandler}
+                    hoverBg="rgba(86, 127, 232, 0.06);"
                   />
                   <GlobalButton
                     margin="0px 10px 0px 0px"
@@ -167,56 +213,59 @@ const FeedBackDetail = (props) => {
                     _height="40px"
                     onClick={() => setOpenDeleteModal(true)}
                     text="삭제"
+                    hoverBg="#F16E6E;"
                   />
                 </div>
               )}
-
               <TitleContainer>
                 <div className="title_box">
                   <div className="catetory_box">
-                    {cardBadge !== "NONE" && (
-                      <img className="badge" alt="badge" src={badge} />
-                    )}
+                    <div
+                      className={
+                        badge.color === "Gold"
+                          ? "badge_box gold"
+                          : badge.color === "Silver"
+                          ? "badge_box silver"
+                          : "badge_box bronze"
+                      }
+                    >
+                      {badge.color !== "NONE" && (
+                        <img className="badge" alt="badge" src={badgeIcon} />
+                      )}
+                      <span>
+                        {badge.month}월 {weekChar[badge.week]}째주
+                        <span>·</span>
+                        {badge.ranking}등
+                      </span>
+                    </div>
                     <span className="category">{question?.category}</span>
                   </div>
 
                   <div className="title_question">
-                    <h2>{`Q.${question?.contents}`}</h2>
-                  </div>
-                </div>
-
-                <div className="icon_container">
-                  <div className="button_wrap">
-                    <button>
-                      <HeartCheck />
-                    </button>
-
-                    <span>{likesCount}</span>
-                  </div>
-                  <div className="button_wrap">
-                    <button
-                      style={{
-                        color: isScrapped
-                          ? theme.colors.pink
-                          : theme.colors.lightGrey,
-                      }}
-                      onClick={scrapHandler}
-                    >
-                      <ScrapIcon />
-                    </button>
-                    <span>{scrapCount}</span>
+                    <h2>{`Q. ${question?.contents}`}</h2>
                   </div>
                 </div>
               </TitleContainer>
 
               <AuthorContainer>
                 <div className="author_box">
-                  <div
-                    className="user_profile"
-                    onClick={() => setOpenProfileModal(true)}
-                  >
-                    <ProfileImg src={user?.profileImageUrl} />
-                    <span>{user?.nickname}</span>
+                  <div className="author_date">
+                    <div
+                      className="user_profile"
+                      onClick={() => setOpenProfileModal(true)}
+                    >
+                      <ProfileImg src={user?.profileImageUrl} />
+                      <span>{user?.nickname}</span>
+                      <span className="line">|</span>
+                    </div>
+                    <span className="createdAt">{createdAt}</span>
+                  </div>
+                  <div className="button_wrap">
+                    <button onClick={scrapHandler}>
+                      {!isScrapped ? <ScrapIcon /> : <ScrappedIcon />}
+                    </button>
+
+                    <span>{scrapCount}</span>
                   </div>
                 </div>
                 <span className="author_note">{note}</span>
@@ -225,7 +274,7 @@ const FeedBackDetail = (props) => {
               <CommentsContainer>
                 <Comments cardId={cardId} />
               </CommentsContainer>
-            </>
+            </div>
           )}
         </div>
       </Container>
@@ -244,6 +293,7 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
   margin-top: 100px;
+
   & .contents_wrap {
     max-width: 1200px;
     width: 100%;
@@ -251,6 +301,9 @@ const Container = styled.div`
     margin: 0 auto;
   }
 
+  .bottom_wrap {
+    padding: 0 10px;
+  }
   & .video_layout {
     background-color: ${({ theme }) => theme.colors.headerBgColor};
     border-radius: 6px;
@@ -268,64 +321,90 @@ const Container = styled.div`
 `;
 
 const TitleContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 32px;
-  & .title_box {
-    & .catetory_box {
+  ${({ badge, theme, bgColor }) => {
+    const { colors, device, fontSize, fontWeight } = theme;
+    return css`
       display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    & .catetory_box .category {
-      font-size: ${({ theme }) => theme.fontSize["12"]};
-      color: ${({ theme }) => theme.colors.white};
-      background-color: ${({ theme }) => theme.colors.blue};
-      border-radius: 15px;
-      padding: 5px 12px;
-    }
+      justify-content: space-between;
+      margin-top: 32px;
+      & .title_box {
+        & .catetory_box {
+          display: flex;
+          align-items: center;
+          gap: 8px;
 
-    & .title_question {
-      & > h2 {
-        font-size: ${({ theme }) => theme.fontSize["24"]};
-        font-weight: ${({ theme }) => theme.fontWeight.extraBold};
-        margin: 16px 0 24px 0;
-        padding: 2px 0;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 1;
-        -webkit-box-orient: vertical;
-        word-wrap: break-word;
-      }
-    }
-  }
+          .category {
+            font-size: ${fontSize["14"]};
+            color: ${colors.main};
+            font-weight: 600;
+          }
 
-  & .icon_container {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    object-fit: cover;
-    & .button_wrap {
-      display: flex;
-      -webkit-box-align: center;
-      align-items: center;
-      margin: 0 5px;
-      button : {
-        width: 10px;
-        margin: 0 5px;
+          .badge_box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 8px 6px 6px;
+            gap: 6px;
+            width: 130px;
+            height: 30px;
+            font-weight: 600;
+            border-radius: 999px;
+            font-size: ${fontSize["14"]};
+          }
+          .gold {
+            background: rgba(233, 171, 12, 0.06);
+            border: 1px solid #e9ab0c;
+            span {
+              color: ${colors.chip};
+            }
+          }
+          .silver {
+            background: rgba(160, 162, 169, 0.06);
+            border: 1px solid #838a9b;
+            span {
+              color: #575c68;
+            }
+          }
+          .bronze {
+            background: rgba(159, 110, 82, 0.06);
+            border: 1px solid #9f6e52;
+            span {
+              color: #704025;
+            }
+          }
+        }
+
+        & .title_question {
+          width: 100%;
+          & > h2 {
+            font-size: ${fontSize["22"]};
+            font-weight: ${fontWeight.extraBold};
+            margin: 16px 0 24px 0;
+            padding: 2px 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            word-wrap: break-word;
+          }
+        }
       }
-      span {
-        font-size: ${({ theme }) => theme.calRem(12)};
-      }
-    }
-  }
+    `;
+  }}
 `;
 
-const ScrapIcon = styled(BsFillBookmarkFill)`
-  height: 100%;
+const ScrapIcon = styled(BsBookmark)`
   cursor: pointer;
-  font-size: ${({ theme }) => theme.calRem(18)};
+  font-size: ${({ theme }) => theme.calRem(16)};
+  color: ${({ theme }) => theme.colors.main};
+  padding: 0;
+`;
+
+const ScrappedIcon = styled(BsFillBookmarkFill)`
+  cursor: pointer;
+  font-size: ${({ theme }) => theme.calRem(16)};
+  color: ${({ theme }) => theme.colors.main};
   padding: 0;
 `;
 
@@ -340,16 +419,24 @@ const HeartCheck = styled(BsHeartFill)`
 
 const AuthorContainer = styled.div`
   width: 100%;
+
   & .author_box {
-    border-top: 1px solid lightgrey;
-    border-bottom: 1px solid lightgrey;
+    border-bottom: 1px solid #edf0f5;
     flex-grow: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 15px;
-    padding: 12px 0;
 
+    padding: 0 10px 16px 10px;
+
+    .author_date {
+      display: flex;
+      align-items: center;
+      .createdAt {
+        font-size: ${({ theme }) => theme.fontSize["12"]};
+        color: ${({ theme }) => theme.colors.grey60};
+      }
+    }
     & .user_profile {
       cursor: pointer;
       display: flex;
@@ -359,13 +446,37 @@ const AuthorContainer = styled.div`
         transform: scale(1.02);
       }
       & > span {
-        font-size: ${({ theme }) => theme.calRem(12)};
+        font-size: ${({ theme }) => theme.fontSize["16"]};
+      }
+
+      .line {
+        font-weight: 800;
+        color: #edf0f5;
+        padding: 0 6px;
+      }
+    }
+
+    & .button_wrap {
+      display: flex;
+      -webkit-box-align: center;
+      align-items: center;
+      object-fit: cover;
+
+      button : {
+        /* width: 10px;
+      margin: 0 5px; */
+      }
+      span {
+        font-size: ${({ theme }) => theme.fontSize["14"]};
       }
     }
   }
+
   & .author_note {
     font-size: ${({ theme }) => theme.calRem(14)};
-    margin: 20px 0;
+    color: ${({ theme }) => theme.colors.grey90};
+    margin: 24px 0;
+    padding: 0 16px;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -378,13 +489,14 @@ const AuthorContainer = styled.div`
 const ProfileImg = styled.img`
   border-radius: 50%;
   object-fit: cover;
-  width: 24px;
-  height: 24px;
+  width: 35px;
+  height: 35px;
   margin-right: 5px;
 `;
 
 const CommentsContainer = styled.div`
-  margin-top: 100px;
+  margin-top: 10px;
+  padding: 0 10px;
 `;
 
 // 면접왕 아이콘

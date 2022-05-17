@@ -2,12 +2,17 @@ import { useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled, { css } from "styled-components";
 import GlobalCard from "../../components/UI/GlobalCard";
+import GlobalButton from "../../components/UI/GlobalButton";
 import Dropdown from "../../components/UI/GlobalDropDown";
 import { feedbackApis } from "../../apis/feedbackApis.js";
 import InfiniteScroll from "react-infinite-scroller";
 import Loader from "../../components/UI/Loader";
+import theme from "../../styles/theme";
+import { HiChevronRight } from "react-icons/hi";
+import bangIcon from "../../assets/icons/bang.png";
 
 const FeedBack = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState({ feedback: [], pagination: {} });
   const { state } = useLocation();
   const hotKeyword = state?.replace("#", "");
@@ -76,6 +81,25 @@ const FeedBack = () => {
           onChangeHandler={onChangeHandler}
         />
       </div>
+
+      {/* {data.feedback.length === 0 && (
+        <div className="noData">
+          <img alt="bang" src={bangIcon} />
+          <p>데이터가 없습니다</p>
+          <GlobalButton
+            margin="10px 0px 0px 0px"
+            hover={({ theme }) => theme.colors.grey5}
+            background={theme.colors.white}
+            color={theme.colors.black}
+            border="1px solid rgba(130, 130, 130, 0.2)"
+            onClick={() => navigate("/interview")}
+          >
+            면접 보러 가기
+            <HiChevronRight size="22px" color={theme.colors.grey50} />
+          </GlobalButton>
+        </div>
+      )} */}
+
       <InfiniteScroll
         loadMore={fetchFeedback}
         hasMore={data?.pagination?.nextPage !== null}
@@ -126,6 +150,14 @@ const Container = styled.div`
     ${({ theme }) => theme.device.mobile} {
       grid-template-columns: repeat(1, 1fr);
     }
+  }
+  & .noData {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    height: 60vh;
   }
 `;
 

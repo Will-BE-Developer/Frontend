@@ -248,7 +248,7 @@ const BodyContainer = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin: 0 10px 28px 10px;
     h1 {
       font-size: ${({ theme }) => theme.calRem(24)};
     }
