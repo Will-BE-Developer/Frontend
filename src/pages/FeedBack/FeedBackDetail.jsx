@@ -156,15 +156,14 @@ const FeedBackDetail = (props) => {
                   <GlobalButton
                     text="수정"
                     background={theme.colors.white}
-                    color={theme.colors.black}
-                    border="1px solid rgba(130, 130, 130, 0.2)"
+                    color={theme.colors.main}
+                    border={`1px solid ${theme.colors.main}`}
                     _height="40px"
                     onClick={editHandler}
                   />
                   <GlobalButton
                     margin="0px 10px 0px 0px"
-                    background={theme.colors.blue}
-                    border="1px solid rgba(130, 130, 130, 0.2)"
+                    background={theme.colors.errorMsg}
                     _height="40px"
                     onClick={() => setOpenDeleteModal(true)}
                     text="삭제"
