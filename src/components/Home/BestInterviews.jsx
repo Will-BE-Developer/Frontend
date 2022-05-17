@@ -109,7 +109,7 @@ const BestInterviews = ({ weeklyInterviews }) => {
                         <span style={{ fontSize: theme.fontSize["14"] }}>
                           누적 스크랩
                           <span style={{ color: theme.colors.blue }}>
-                            {interview.scrapsCount}+
+                            &nbsp;{interview.scrapsCount}
                           </span>
                           개 달성!
                         </span>

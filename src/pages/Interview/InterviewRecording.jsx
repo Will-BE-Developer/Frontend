@@ -256,7 +256,7 @@ const InterviewRecording = () => {
                 {isStart && !isEnd && (
                   <>
                     <button
-                      disabled={currSecond <= 20}
+                      disabled={currSecond < 19}
                       onClick={stopRecordingHandler}
                       className="stopBtn"
                     >
@@ -362,9 +362,9 @@ const RecordWrapper = styled.div`
     width: 44px;
     border: 1px solid
       ${({ theme, currSecond }) =>
-        currSecond >= 20 ? theme.colors.errorMsg : theme.colors.grey10};
+        currSecond > 19 ? theme.colors.errorMsg : theme.colors.grey10};
     background-color: ${({ theme, currSecond }) =>
-      currSecond >= 20 ? "" : theme.colors.grey10};
+      currSecond > 19 ? "" : theme.colors.grey10};
     border-radius: 50%;
     position: relative;
 
@@ -372,15 +372,15 @@ const RecordWrapper = styled.div`
       width: 12px;
       height: 12px;
       background-color: ${({ theme, currSecond }) =>
-        currSecond >= 20 ? theme.colors.errorMsg : theme.colors.grey40};
+        currSecond > 19 ? theme.colors.errorMsg : theme.colors.grey40};
     }
   }
 
   .stopBtn:hover {
     cursor: ${({ currSecond }) =>
-      currSecond >= 20 ? "pointer" : "not-allowed"};
+      currSecond > 19 ? "pointer" : "not-allowed"};
     background-color: ${({ currSecond }) =>
-      currSecond >= 20 ? "rgba(236, 89, 89, 0.06)" : ""};
+      currSecond > 19 ? "rgba(236, 89, 89, 0.06)" : ""};
   }
 
   .tooltip {
@@ -391,7 +391,7 @@ const RecordWrapper = styled.div`
   .stopBtn:hover {
     .tooltip {
       bottom: -35px;
-      display: ${({ currSecond }) => (currSecond >= 20 ? "none" : "flex")};
+      display: ${({ currSecond }) => (currSecond > 19 ? "none" : "flex")};
       justify-content: center;
       align-items: center;
       width: max-content;
