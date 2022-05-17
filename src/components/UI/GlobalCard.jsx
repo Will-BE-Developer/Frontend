@@ -53,7 +53,7 @@ const GlobalCard = memo(({ card }) => {
         isMine={isMine}
       />
       <CardBody onClick={linkToDetailHandler}>
-        {video === null ? (
+        {thumbnail === null ? (
           <Img alt="img" src={convertingImg} />
         ) : (
           <Img alt="img" src={thumbnail} />

@@ -16,7 +16,6 @@ const BestInterviews = ({ weeklyInterviews }) => {
   const [title, setTitle] = useState(
     `5월 셋째주 면접왕 1등 '${weeklyInterviews[0]?.user?.nickname}'`
   );
-
   const badgeIcon = [gold, silver, bronze];
 
   const nextBtn = () => {
