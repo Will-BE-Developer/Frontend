@@ -9,7 +9,7 @@ import GlobalButton from "../UI/GlobalButton";
 import GlobalTextArea from "../UI/GlobalTextArea";
 import { IoAlertCircle } from "react-icons/io5";
 import GlobalModal from "../../components/UI/GlobalModal";
-
+import theme from "../../styles/theme";
 import { getCookie } from "../../shared/cookies";
 
 const Comments = ({ cardId }) => {
@@ -92,27 +92,37 @@ const Comments = ({ cardId }) => {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           charLimit="255"
-          rows="5"
+          rows="2"
           cols="80"
-          placeholder="내용을 작성해주세요"
+          placeHolder="댓글을 작성해주세요."
+          _height="40px"
+          border="none"
+          isBorderBot
         />
 
         <div className="button_box">
           {isTextareaDisabled ? (
             <GlobalButton
               _width="70px"
-              _height="15px"
+              _height="35px"
+              hover
               text="작성"
-              margin="8px 0"
+              hoverBg="rgba(86, 127, 232, 0.06);"
+              background={theme.colors.white}
+              color={theme.colors.main}
+              border={`1px solid ${theme.colors.main}`}
               onClick={token ? onSubmitHandler : openModalHandler}
             />
           ) : (
             <GlobalButton
               _width="70px"
-              _height="15px"
+              _height="35px"
               hover
               text="작성"
-              margin="8px 0"
+              hoverBg="rgba(86, 127, 232, 0.06);"
+              background={theme.colors.white}
+              color={theme.colors.main}
+              border={`1px solid ${theme.colors.main}`}
               onClick={token ? onSubmitHandler : openModalHandler}
             />
           )}
@@ -155,13 +165,14 @@ const Form = styled.div`
   padding: 30px 0;
 
   & .comment_count {
-    font-size: ${({ theme }) => theme.calRem(16)};
+    font-size: ${({ theme }) => theme.fontSize["16"]};
     margin-bottom: 10px;
+    color: ${({ theme }) => theme.colors.grey80};
   }
   & textarea {
     margin-top: 8px;
     padding: 11px 16px;
-    border: 1px solid rgba(130, 130, 130, 0.2);
+    border-bottom: 1px solid #e6e9f1;
     border-radius: 4px;
     width: 100%;
   }

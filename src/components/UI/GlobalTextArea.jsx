@@ -11,8 +11,12 @@ const GlobalTextArea = (props) => {
     onChange,
     onKeyPress,
     sendResetRemainingHandler,
+    _width,
+    _height,
+    border,
   } = props;
 
+  const styles = { _width, _height, border };
   const [isError, setIsError] = useState(false);
 
   const [remainingChars, setRemainingChars] = useState(
@@ -42,6 +46,7 @@ const GlobalTextArea = (props) => {
   return (
     <>
       <TextArea
+        {...styles}
         value={value}
         rows={rows}
         cols={cols}
@@ -52,23 +57,42 @@ const GlobalTextArea = (props) => {
         sendResetRemainingHandler={sendResetRemainingHandler}
       />
       <ErrorMSG>{isError && "글자 수를 초과하였습니다."}</ErrorMSG>
-      <div style={{ textAlign: "right", fontSize: "14px" }}>
+      <div style={{ textAlign: "left", fontSize: "14px", color: "#6D727C" }}>
         {remainingChars} / {charLimit}
       </div>
     </>
   );
 };
 
+GlobalTextArea.defaultProps = {
+  background: false,
+  padding: false,
+  _width: false,
+  _height: false,
+  border: false,
+  hover: false,
+  hoverBg: false,
+  // _fontSize: false,
+  // onClick: () => {},
+  // color: "white",
+  // marginBottom: "12px",
+  // disabled: false,
+  // mPadding: false,
+  // mMargin: false,
+  // mWidth: false,
+  // mHeight: false,
+};
 const TextArea = styled.textarea`
   white-space: pre;
-  height: 100px;
-  width: 100%;
+  width: ${(props) => (props._width ? props._width : " 100%")};
+  height: ${(props) => (props._height ? props._height : "100px")};
+
   resize: none;
   overflow: auto;
-  border: 1px solid lightgrey;
-  margin: 5px 0;
+  border: ${(props) => (props.border ? props.border : " 1px solid lightgrey")};
+  margin-top: 5px;
   ::placeholder {
-    font-size: ${({ theme }) => theme.calRem(16)};
+    font-size: ${({ theme }) => theme.calRem(14)};
     font-weight: lighter;
     color: ${({ theme }) => theme.colors.placeHolder};
   }

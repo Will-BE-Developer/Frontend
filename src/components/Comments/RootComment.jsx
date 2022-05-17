@@ -1,11 +1,13 @@
 import { useState } from "react";
 import styled, { css } from "styled-components";
 import { FiPlusSquare, FiMinusSquare } from "react-icons/fi";
+import { RiArrowDownSFill, RiArrowUpSFill } from "react-icons/ri";
 import GlobalButton from "../UI/GlobalButton";
 import { getCookie } from "../../shared/cookies";
 import Comment from "./Comment";
 import commentApis from "../../apis/commentApis";
 import GlobalTextArea from "../UI/GlobalTextArea";
+import theme from "../../styles/theme";
 const RootComment = ({
   rootComment,
   cardId,
@@ -52,14 +54,14 @@ const RootComment = ({
         <div>
           {!isShowReply ? (
             <div onClick={replyToggleHandler} className="toggle_box">
-              <FiPlusSquare />
-              <span>답글 작성하기</span>
+              <span>답글</span>
+              <RiArrowDownSFill />
             </div>
           ) : (
             <>
               <div onClick={replyToggleHandler} className="toggle_box">
-                <FiMinusSquare />
-                <span>숨기기</span>
+                <span>답글</span>
+                <RiArrowUpSFill />
               </div>
               <div className="nested_box">
                 <div>
@@ -86,26 +88,36 @@ const RootComment = ({
                         charLimit="255"
                         rows="5"
                         cols="80"
-                        placeholder="내용을 작성해주세요"
+                        placeHolder="댓글을 작성해주세요."
+                        _height="40px"
+                        border="none"
+                        isBorderBot
                       />
 
                       <div className="button_box">
                         {isTextareaDisabled ? (
                           <GlobalButton
-                            _width="70px"
-                            _height="15px"
                             text="작성"
                             onClick={onSubmitHandler}
-                            margin="8px 0"
+                            _width="70px"
+                            _height="35px"
+                            hover
+                            hoverBg="rgba(86, 127, 232, 0.06);"
+                            background={theme.colors.white}
+                            color={theme.colors.main}
+                            border={`1px solid ${theme.colors.main}`}
                           />
                         ) : (
                           <GlobalButton
-                            _width="70px"
-                            _height="15px"
-                            hover
                             text="작성"
                             onClick={onSubmitHandler}
-                            margin="8px 0"
+                            _width="70px"
+                            _height="35px"
+                            hover
+                            hoverBg="rgba(86, 127, 232, 0.06);"
+                            background={theme.colors.white}
+                            color={theme.colors.main}
+                            border={`1px solid ${theme.colors.main}`}
                           />
                         )}
                       </div>
@@ -122,7 +134,7 @@ const RootComment = ({
 };
 
 const CommentContainer = styled.div`
-  border-bottom: 1px solid lightgrey;
+  border-bottom: 1px solid #e6e9f1;
 
   padding: 30px 12px;
 `;
@@ -141,6 +153,7 @@ const NestedContentsBox = styled.div`
         -webkit-box-align: center;
         align-items: center;
         font-size: ${theme.calRem(14)};
+        color: ${colors.grey80};
         width: max-content;
         padding: 5px 12px;
         span {
@@ -172,7 +185,7 @@ const Form = styled.form`
   & textarea {
     margin-top: 8px;
     padding: 11px 16px;
-    border: 1px solid rgba(130, 130, 130, 0.2);
+    border-bottom: 1px solid #e6e9f1;
     border-radius: 4px;
     width: 100%;
   }

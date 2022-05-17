@@ -112,11 +112,14 @@ const Comment = ({
             charLimit="256"
             rows="5"
             cols="80"
-            placeholder="50자이내로 나를 표현해주세요."
+            placeHolder="댓글을 수정해주세요."
+            _height="100px"
+            border="none"
+            isBorderBot
           />
           <div className="cancel_box">
             <button onClick={clickCancelEditHandler}>취소</button>
-            <button onClick={clickUpdatePostHandler}>수정</button>
+            <button onClick={clickUpdatePostHandler}>저장</button>
           </div>
         </ContentBox>
       ) : (
@@ -138,10 +141,17 @@ const ContentBox = styled.div`
   margin: 16px 0px;
   resize: none;
   overflow: auto;
+  & textarea {
+    margin-top: 8px;
+    padding: 11px 16px;
+    border-bottom: 1px solid #e6e9f1;
+    border-radius: 4px;
+    width: 100%;
+  }
   & .edit_box {
     margin-top: 8px;
     padding: 11px 16px;
-    border: 1px solid rgba(130, 130, 130, 0.2);
+    border-bottom: 1px solid #e6e9f1;
     border-radius: 4px;
     width: 100%;
   }
@@ -158,6 +168,7 @@ const ContentBox = styled.div`
     /* width: 100%; */
     overflow: auto;
     word-break: break-all;
+    color: ${({ theme }) => theme.colors.grey90};
   }
 `;
 

@@ -35,6 +35,7 @@ const colors = {
   grey90: "#2D3037",
 
   like: "#EA617A",
+  chip: "#8F5F01",
 
   green: "#92A094",
   blue: "#567FE8",
