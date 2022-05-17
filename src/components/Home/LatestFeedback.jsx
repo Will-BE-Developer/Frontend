@@ -68,9 +68,12 @@ const LatestFeedbackLayout = styled.div`
 
       .cardWrapper {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         gap: 20px;
         margin: 36px 0px 20px 0px;
+        @media screen and (max-width: 1200px) {
+          grid-template-columns: repeat(3, 1fr);
+        }
         @media screen and (max-width: 900px) {
           grid-template-columns: repeat(2, 1fr);
         }

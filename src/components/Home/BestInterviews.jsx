@@ -19,8 +19,6 @@ const BestInterviews = ({ weeklyInterviews }) => {
 
   const badgeIcon = [gold, silver, bronze];
 
-  console.log(weeklyInterviews);
-
   const nextBtn = () => {
     slider.current.slickNext();
   };
@@ -208,6 +206,9 @@ const StyledSlider = styled(Slider)`
 
       .slick-dots {
         bottom: -60px;
+        @media screen and (max-width: 700px) {
+          bottom: -50px;
+        }
       }
 
       .slick-dots .slick-dots li button::before {
