@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import instance from "../../apis/axios";
-import { getCookie } from "../../shared/cookies";
 import GlobalButton from "../UI/GlobalButton";
 
 import styled, { css } from "styled-components";
@@ -18,7 +16,6 @@ import { updateUser } from "../../store/slices/userSlice";
 const SetInfo = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const token = getCookie("token");
   const [getImage, setGetImage] = useState(null);
   const [userData, setUserData] = useState({
     nickname: "",

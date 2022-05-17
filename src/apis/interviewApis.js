@@ -24,7 +24,9 @@ const interviewApis = {
   },
   getPresignedUrl: async () => {
     try {
-      const { data } = await instance.post("/api/interviews/draft");
+      const { data } = await instance.post(
+        `${process.env.REACT_APP_API_FILE_URL}/api/interviews/draft`
+      );
       return data;
     } catch (error) {
       return error.response;
@@ -60,7 +62,10 @@ const interviewApis = {
     const data = { note, questionId, isPublic };
 
     try {
-      await instance.post(`/api/interviews/${interviewId}`, data);
+      await instance.post(
+        `${process.env.REACT_APP_API_FILE_URL}/api/interviews/${interviewId}`,
+        data
+      );
     } catch (error) {
       return error.response;
     }

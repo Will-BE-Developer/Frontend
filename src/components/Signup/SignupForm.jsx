@@ -101,7 +101,7 @@ const SignupForm = (props) => {
   return (
     <Container>
       {isLoading ? (
-        <LoadingLoader text="회원가입 처리중 입니다" />
+        <LoadingLoader _height="70vh" text="회원가입 처리중 입니다" />
       ) : (
         <>
           <div className="title">이메일 회원가입</div>

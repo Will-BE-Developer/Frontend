@@ -124,6 +124,8 @@ const DailyQuestionLayout = styled.div`
         flex-direction: column;
         align-items: center;
         padding: 36px;
+        box-sizing: border-box;
+
         ${boxShadow()}
 
         @media screen and (max-width: 700px) {
@@ -137,7 +139,7 @@ const DailyQuestionLayout = styled.div`
       }
 
       .card:hover {
-        border: 1px solid #7599f3;
+        outline: 1px solid #7599f3;
       }
 
       .startBtn:hover {

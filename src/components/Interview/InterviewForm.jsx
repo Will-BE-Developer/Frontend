@@ -44,7 +44,6 @@ const InterviewForm = (
       recorderRef.current = null;
 
       if (isPublic) {
-        // navigate(`/feedback/${interviewId}`);
         navigate(`/feedback/`);
       } else {
         navigate("/mypage/history");

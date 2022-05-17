@@ -26,10 +26,14 @@ const MyProfile = () => {
 
   const [openModal, setOpenModal] = useState(false);
 
+  console.log(updateUserData);
+
   const updateUserHandler = async () => {
     try {
       const formData = new FormData();
       const img = getImage ? getImage.file : "";
+
+      console.log(updateUserData.nickname);
 
       formData.append("profileImage", img);
       formData.append("nickname", JSON.stringify(updateUserData.nickname));
