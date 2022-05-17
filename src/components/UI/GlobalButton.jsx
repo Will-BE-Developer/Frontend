@@ -21,6 +21,7 @@ const GlobalButton = (props) => {
     mWidth,
     mHeight,
     isHover,
+    radius,
   } = props;
 
   const styles = {
@@ -38,6 +39,7 @@ const GlobalButton = (props) => {
     mMargin,
     mWidth,
     mHeight,
+    radius,
   };
 
   return (
@@ -77,7 +79,7 @@ const Button = styled.button`
       align-items: center;
       width: ${(props) => (props._width ? props._width : "max-content")};
       height: ${(props) => (props._height ? props._height : "50px")};
-      border-radius: 8px;
+      border-radius: ${(props) => (props.radius ? props.radius : "8px")};
       border: ${(props) => (props.border ? props.border : "")};
       padding: ${(props) => (props.padding ? props.padding : "11px 18px")};
       margin: ${(props) => (props.margin ? props.margin : "")};

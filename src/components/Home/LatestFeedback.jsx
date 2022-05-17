@@ -3,6 +3,7 @@ import { HiChevronRight } from "react-icons/hi";
 import GlobalCard from "../UI/GlobalCard";
 import { useNavigate } from "react-router-dom";
 import theme from "../../styles/theme";
+import GlobalButton from "../UI/GlobalButton";
 
 const LatestFeedback = ({ latestInterviews }) => {
   const navigate = useNavigate();
@@ -19,10 +20,18 @@ const LatestFeedback = ({ latestInterviews }) => {
             return <GlobalCard card={interview} key={interview.id} />;
           })}
         </div>
-        <button onClick={() => navigate("/feedback")} className="interviewBtn">
-          더 보기
+        <GlobalButton
+          radius="25px"
+          margin="10px 0px 0px 0px"
+          hover={({ theme }) => theme.colors.grey5}
+          background={theme.colors.white}
+          color={theme.colors.black}
+          border="1px solid rgba(130, 130, 130, 0.2)"
+          onClick={() => navigate("/feedback")}
+        >
+          면접 보러가기
           <HiChevronRight size="25px" color={theme.colors.grey50} />
-        </button>
+        </GlobalButton>
       </section>
     </LatestFeedbackLayout>
   );
@@ -71,31 +80,12 @@ const LatestFeedbackLayout = styled.div`
         grid-template-columns: repeat(4, 1fr);
         gap: 20px;
         margin: 36px 0px 20px 0px;
-        @media screen and (max-width: 1200px) {
-          grid-template-columns: repeat(3, 1fr);
-        }
         @media screen and (max-width: 900px) {
           grid-template-columns: repeat(2, 1fr);
         }
-        @media screen and (max-width: 550px) {
+        @media screen and (max-width: 500px) {
           grid-template-columns: repeat(1, 1fr);
         }
-      }
-
-      .interviewBtn {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 12px 18px 12px 24px;
-        color: ${colors.black};
-        border: 2px solid ${colors.headerBgColor};
-        border-radius: 25px;
-        line-height: 0px;
-        font-size: 15px;
-      }
-
-      .interviewBtn:hover {
-        background-color: ${colors.grey10};
       }
     `;
   }}
