@@ -136,6 +136,7 @@ export const updateUser = createAsyncThunk(
         githubLink: data.user.githubLink,
         introduce: data.user.introduce,
       };
+
       console.log(userData);
 
       return userData;
