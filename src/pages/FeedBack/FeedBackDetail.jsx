@@ -240,7 +240,7 @@ const FeedBackDetail = (props) => {
                           </span>
                         </div>
                       </>
-                    )}
+                    )}{" "}
                     <span className="category">{question?.category}</span>
                   </div>
 
@@ -261,7 +261,9 @@ const FeedBackDetail = (props) => {
                       <span>{user?.nickname}</span>
                       <span className="line">|</span>
                     </div>
-                    <span className="createdAt">{createdAt}</span>
+                    <span className="createdAt">
+                      {createdAt?.slice(0, createdAt.length - 3)}
+                    </span>
                   </div>
                   <div className="button_wrap">
                     <button onClick={scrapHandler}>
