@@ -32,7 +32,7 @@ const Bubble = ({ id, onAnimationEnd }) => {
       }
     });
 
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setPosition((prevState) => ({
         ...prevState,
         x: random(-40, 40),
@@ -40,9 +40,14 @@ const Bubble = ({ id, onAnimationEnd }) => {
       }));
     }, 5);
 
-    setTimeout(() => {
+    const timer2 = setTimeout(() => {
       setOpacity(0);
     }, (animationDuration - OPACITY_DURATION) * 1000);
+
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(timer2);
+    };
   }, []);
 
   return (
