@@ -22,8 +22,6 @@ const GlobalButton = (props) => {
     mHeight,
     isHover,
     radius,
-    hoverBg,
-    hoverColor,
   } = props;
 
   const styles = {
@@ -42,8 +40,6 @@ const GlobalButton = (props) => {
     mWidth,
     mHeight,
     radius,
-    hoverBg,
-    hoverColor,
   };
 
   return (
@@ -62,7 +58,6 @@ GlobalButton.defaultProps = {
   _height: false,
   border: false,
   hover: false,
-  hoverBg: false,
   _fontSize: false,
   onClick: () => {},
   color: "white",
@@ -100,8 +95,7 @@ const Button = styled.button`
         height: ${(props) => (props.mHeight ? props.mHeight : "")};
       }
       &:hover {
-        background: ${(props) => (props.hoverBg ? props.hoverBg : "")};
-        color: ${(props) => (props.hoverColor ? props.hoverColor : "")};
+        background: ${(props) => (props.hover ? props.hover : "")};
       }
 
       :disabled {

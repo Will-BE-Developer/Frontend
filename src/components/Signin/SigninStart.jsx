@@ -78,7 +78,7 @@ const Container = styled.div`
           color: ${colors.main};
         }
         div {
-          margin-top: 8px;
+          margin: 8px 0 32px 0;
         }
       }
       font-size: ${fontSize["24"]};

@@ -220,24 +220,27 @@ const FeedBackDetail = (props) => {
               <TitleContainer>
                 <div className="title_box">
                   <div className="catetory_box">
-                    <div
-                      className={
-                        badge.color === "Gold"
-                          ? "badge_box gold"
-                          : badge.color === "Silver"
-                          ? "badge_box silver"
-                          : "badge_box bronze"
-                      }
-                    >
-                      {badge.color !== "NONE" && (
-                        <img className="badge" alt="badge" src={badgeIcon} />
-                      )}
-                      <span>
-                        {badge.month}월 {weekChar[badge.week]}째주
-                        <span>·</span>
-                        {badge.ranking}등
-                      </span>
-                    </div>
+                    {badge.color !== "NONE" && (
+                      <>
+                        <div
+                          className={
+                            badge.color === "Gold"
+                              ? "badge_box gold"
+                              : badge.color === "Silver"
+                              ? "badge_box silver"
+                              : "badge_box bronze"
+                          }
+                        >
+                          <img className="badge" alt="badge" src={badgeIcon} />
+
+                          <span>
+                            {badge.month}월 {weekChar[badge.week]}째 주
+                            <span>·</span>
+                            {badge.ranking}등
+                          </span>
+                        </div>
+                      </>
+                    )}
                     <span className="category">{question?.category}</span>
                   </div>
 

@@ -21,7 +21,7 @@ const SignupForm = (props) => {
   const emailRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
   const [checkEmail, setCheckEmail] = useState(false);
-
+  const [emailValue, setEmailValue] = useState("");
   const dispatch = useDispatch();
 
   // 회원가입 유효성 검사
@@ -62,11 +62,17 @@ const SignupForm = (props) => {
   const { ref, ...rest } = register("email");
 
   const onSubmitHandler = async (userData) => {
-    console.log(checkEmail);
+    const currentEmail = emailRef.current?.value;
+    if (currentEmail !== emailValue) {
+      alert("이메일 중복을 확인해주세요.");
+      setCheckEmail(false);
+      return;
+    }
     if (!checkEmail) {
       alert("이메일 중복을 확인해주세요.");
       return;
     }
+
     setIsLoading(true);
     try {
       await dispatch(signupEmail(userData)).unwrap();
@@ -96,7 +102,7 @@ const SignupForm = (props) => {
       }
     }
   };
-  console.log(checkEmail);
+  console.log(checkEmail, "중복검사했니?");
   const previousPageHandler = () => {
     navigate("/signin");
   };
@@ -107,7 +113,7 @@ const SignupForm = (props) => {
         <LoadingLoader _height="70vh" text="회원가입 처리중 입니다" />
       ) : (
         <>
-          <div className="title">이메일 회원가입</div>
+          <div className="title">이메일 인증</div>
           <BoxContainer>
             <SignUpForm onSubmit={handleSubmit(onSubmitHandler)}>
               <PreviousIcon onClick={previousPageHandler} />
@@ -120,6 +126,7 @@ const SignupForm = (props) => {
                   ref={(e) => {
                     ref(e);
                     emailRef.current = e;
+                    setEmailValue(emailRef.current?.value);
                   }}
                 />
                 <button
@@ -153,7 +160,7 @@ const SignupForm = (props) => {
                 background={theme.colors.main}
                 hover={theme.colors.mainHover}
               >
-                회원가입
+                인증하기
               </GlobalButton>
             </SignUpForm>
 
@@ -250,7 +257,9 @@ const SignUpForm = styled.form`
         border-radius: 8px;
         margin-left: 10px;
         white-space: nowrap;
-
+        :hover {
+          background: rgba(86, 127, 232, 0.06);
+        }
         ${device.mobile} {
           height: 40px;
           padding: 10px 0px;
