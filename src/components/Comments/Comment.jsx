@@ -4,6 +4,9 @@ import TimeAgo from "../FeedBack/TimeAgo";
 import commentApis from "../../apis/commentApis";
 import UserProfileModal from "../UI/ModalSample/UserProfileModal";
 import GlobalTextArea from "../UI/GlobalTextArea";
+import { IoAlertCircle } from "react-icons/io5";
+import GlobalModal from "../../components/UI/GlobalModal";
+
 const Comment = ({
   currentComment,
   cardId,
@@ -18,6 +21,7 @@ const Comment = ({
   const isUpdateTextareaDisabled = updateContent.length === 0;
 
   const [openProfileModal, setOpenProfileModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   const sendProfileModalHandler = (boolean) => {
     setOpenProfileModal(boolean);
@@ -75,6 +79,18 @@ const Comment = ({
 
   return (
     <CommentContainer>
+      <GlobalModal
+        title="삭제"
+        confirmText="삭제"
+        open={openDeleteModal}
+        onClose={() => setOpenDeleteModal(false)}
+        onConfirm={() => clickDeleteHandler()}
+        isConfirm
+        isIcon
+        icon={<AlertIcon />}
+      >
+        댓글을 삭제하시겠습니까?
+      </GlobalModal>
       <UserProfileModal
         img={user?.profileImageUrl}
         nickname={user?.nickname}
@@ -99,7 +115,7 @@ const Comment = ({
           {isMine && (
             <div className="button_box">
               <button onClick={clickUpdateHandler}>수정</button>
-              <button onClick={clickDeleteHandler}>삭제</button>
+              <button onClick={() => setOpenDeleteModal(true)}>삭제</button>
             </div>
           )}
         </div>
@@ -131,6 +147,11 @@ const Comment = ({
   );
 };
 
+const AlertIcon = styled(IoAlertCircle)`
+  font-size: 24px;
+  color: #ec5959;
+`;
+
 const CommentContainer = styled.div`
   padding: 12px;
 `;
@@ -159,8 +180,10 @@ const ContentBox = styled.div`
   & .cancel_box {
     display: flex;
     justify-content: flex-end;
+
     button {
       font-size: ${({ theme }) => theme.calRem(12)};
+      color: ${({ theme }) => theme.colors.grey80};
     }
   }
 
@@ -173,48 +196,56 @@ const ContentBox = styled.div`
 `;
 
 const AuthorContainer = styled.div`
-  width: 100%;
+  ${({ badge, theme, bgColor }) => {
+    const { colors, device, fontSize, fontWeight } = theme;
+    return css`
+      width: 100%;
 
-  & .author_box {
-    flex-grow: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+      & .author_box {
+        flex-grow: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
-    & .user_profile {
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      &:hover {
-        transform: scale(1.02);
-      }
-      & > span {
-        font-size: ${({ theme }) => theme.calRem(12)};
-      }
-    }
-    & .name_date {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      span:first-child {
-        font-size: ${({ theme }) => theme.calRem(14)};
-        font-weight: ${({ theme }) => theme.fontWeight.semiExtraBold};
-      }
-      span:last-child {
-        font-size: ${({ theme }) => theme.calRem(12)};
-      }
-    }
-    & .button_box {
-      display: flex;
-      -webkit-box-align: center;
-      align-items: center;
+        & .user_profile {
+          cursor: pointer;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          &:hover {
+            transform: scale(1.02);
+          }
+          & > span {
+            font-size: ${fontSize["12"]};
+          }
+        }
+        & .name_date {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+          span:first-child {
+            font-size: ${fontSize["14"]};
+            font-weight: ${fontWeight.semiExtraBold};
+            color: ${colors.grey90};
+          }
+          span:last-child {
+            font-size: ${fontSize["12"]};
+            color: ${colors.grey70};
+          }
+        }
+        & .button_box {
+          display: flex;
+          -webkit-box-align: center;
+          align-items: center;
 
-      button {
-        font-size: ${({ theme }) => theme.calRem(12)};
+          button {
+            font-size: ${fontSize["12"]};
+            color: ${colors.grey80};
+          }
+        }
       }
-    }
-  }
+    `;
+  }}
 `;
 const ProfileImg = styled.img`
   border-radius: 50%;
