@@ -9,7 +9,6 @@ import React from "../assets/smallCategoryIcons/React.png";
 import Spring from "../assets/smallCategoryIcons/Spring.png";
 import UIUX from "../assets/smallCategoryIcons/UIUX.png";
 import Web from "../assets/smallCategoryIcons/Web.png";
-
 import OS from "../assets/smallCategoryIcons/OS.png";
 import DataStructure from "../assets/smallCategoryIcons/DataStructure.png";
 
@@ -24,7 +23,6 @@ import bigReact from "../assets/bigCategoryIcons/React.png";
 import bigSpring from "../assets/bigCategoryIcons/Spring.png";
 import bigUIUX from "../assets/bigCategoryIcons/UIUX.png";
 import bigWeb from "../assets/bigCategoryIcons/Web.png";
-
 import bigOS from "../assets/bigCategoryIcons/OS.png";
 import bigDataStructure from "../assets/bigCategoryIcons/DataStructure.png";
 
