@@ -81,6 +81,16 @@ const Container = styled.div`
     align-items: center;
     gap: 14px;
     height: 60vh;
+    animation: fadein 2s;
+    -webkit-animation: fadein 2s;
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
   }
 
   & .card_wrap {

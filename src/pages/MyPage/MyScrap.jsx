@@ -63,7 +63,7 @@ const Container = styled.div`
     justify-content: space-between;
     align-items: center;
     h1 {
-      font-size: ${({ theme }) => theme.calRem(24)};
+      font-size: ${({ theme }) => theme.fontSize["24"]};
     }
   }
 
@@ -82,6 +82,16 @@ const Container = styled.div`
     align-items: center;
     gap: 14px;
     height: 60vh;
+    animation: fadein 2s;
+    -webkit-animation: fadein 1s;
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
   }
 
   & .card_wrap {

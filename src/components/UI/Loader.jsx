@@ -20,6 +20,18 @@ const LoaderLayout = styled.div`
     width: 207px;
     height: 90px;
   }
+
+  animation: fadein 1.5s;
+  -webkit-animation: fadein 1.5s;
+
+  @keyframes fadein {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `;
 
 export default Loader;

@@ -26,19 +26,19 @@ const FeedBack = () => {
   const categoryList = [
     "전체보기",
     "Algorithm",
-    "DataStructure",
     "Database",
     "General",
     "Java",
+    "JavaScript",
     "Network",
     "OS",
+    "Python",
     "React",
+    "Spring",
     "UIUX",
     "Web",
-    "General",
-    "Spring",
   ];
-
+  console.log(categoryList.sort());
   const onChangeHandler = () => {
     setData({ feedback: [], pagination: {} });
   };
@@ -66,6 +66,8 @@ const FeedBack = () => {
       console.log("피드백 불러오기 오류", err);
     }
   }, [selectedCategory, data, selectedSort]);
+
+  console.log(data);
   return (
     <Container>
       <div className="dropDown_container">
@@ -87,6 +89,7 @@ const FeedBack = () => {
         loadMore={fetchFeedback}
         hasMore={data?.pagination?.nextPage !== null}
         loader={<Loader key={0} />}
+        threshold={100}
       >
         {data?.feedback.length === 0 ? (
           <div className="noData">
@@ -126,6 +129,9 @@ const Container = styled.div`
     left: 0;
     width: 316px;
     margin-left: auto;
+    ${({ theme }) => theme.device.mobile} {
+      width: 216px;
+    }
   }
 
   & .card_wrap {
@@ -159,6 +165,18 @@ const Container = styled.div`
     align-items: center;
     gap: 14px;
     height: 40vh;
+
+    animation: fadein 1.5s;
+    -webkit-animation: fadein 1.5s;
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
   }
 `;
 
