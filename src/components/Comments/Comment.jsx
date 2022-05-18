@@ -7,6 +7,7 @@ import GlobalTextArea from "../UI/GlobalTextArea";
 import { IoAlertCircle } from "react-icons/io5";
 import GlobalModal from "../../components/UI/GlobalModal";
 import defaultUserImage from "../../assets/defaultUserImage.png";
+import theme from "../../styles/theme";
 
 const Comment = ({
   currentComment,
@@ -132,13 +133,14 @@ const Comment = ({
           <GlobalTextArea
             value={updateContent}
             onChange={(e) => setUpdateContent(e.target.value)}
-            charLimit="256"
+            charLimit="255"
             rows="5"
             cols="80"
             placeHolder="댓글을 수정해주세요."
-            _height="100px"
             border="none"
             isBorderBot
+            _height="80px"
+            background={theme.colors.grey5}
           />
           <div className="cancel_box">
             <button onClick={clickCancelEditHandler}>취소</button>
