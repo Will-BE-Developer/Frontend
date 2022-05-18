@@ -33,6 +33,8 @@ const FeedBack = () => {
     "Network",
     "OS",
     "React",
+    "UIUX",
+    "Web",
     "General",
     "Spring",
   ];
