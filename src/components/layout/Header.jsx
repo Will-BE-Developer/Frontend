@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { getCookie } from "../../shared/cookies";
 import logo from "../../assets/logo.png";
 import { signout } from "../../store/slices/userSlice";
-
+import ScrollToTop from "../UI/ScrollToTop";
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -23,16 +23,24 @@ const Header = () => {
     signoutDispatch();
   };
 
+  const scrollToTop = () => {
+    window.scrollTo(0, 0);
+  };
+
   return (
     <HeaderContainer>
       <div className="nav">
         <div style={{ display: "flex", gap: "20px" }}>
-          <Link to="/">
+          <Link to="/" onClick={scrollToTop}>
             <Title>
               <img alt="logo" src={logo} />
             </Title>
           </Link>
-          <Link to="/feedback">피드백</Link>
+
+          <Link to="/feedback" onClick={scrollToTop}>
+            피드백
+          </Link>
+
           <Link to="/interview">면접보기</Link>
           {token ? <Link to="/mypage">마이페이지</Link> : ""}
         </div>
