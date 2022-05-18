@@ -141,7 +141,6 @@ const VideoControl = forwardRef(
                   onMouseDown={onSeekMouseDown}
                   getAriaValueText={valuetext}
                   onChangeCommitted={onSeekMouseUp}
-                  onDuration={onDuration}
                   valueLabelFormat={valueLabelFormat}
                   sx={{
                     color: "#567FE8",
@@ -336,12 +335,11 @@ const Container = styled.div`
 
       .tooltip {
         position: absolute;
-        top: 0;
+        top: 16px;
+        right: 60px;
         display: none;
-        margin-top: 20px;
-        margin-left: 60px;
         width: 200px;
-        background: white;
+        background: rgba(255, 255, 255, 0.9);
         padding: 10px;
         border-radius: 10px;
         :after {

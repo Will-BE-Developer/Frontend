@@ -74,10 +74,7 @@ const Video = (props) => {
     feedbackApis
       .getDetail(cardId)
       .then((data) => {
-        console.log(data);
-        console.log(data.interview.video);
         setVideo(data.interview.video);
-        // setIsLoading(false);
       })
       .catch(() => {
         navigate("/notFound");
@@ -91,7 +88,6 @@ const Video = (props) => {
     highlightApis
       .getHighlight(cardId)
       .then((data) => {
-        console.log("get", data);
         const filteredLike = [data.topOne, data.topTwo, data.topThree]
           .filter((time) => time >= 0)
           .map((item) => (item === 0 ? 3 : item));
@@ -120,7 +116,7 @@ const Video = (props) => {
       likeTime: [...prev.likeTime],
       like: [...prev.like, new Date().getTime()],
     }));
-    console.log(Math.floor(videoRef.current.getCurrentTime()));
+    // console.log(Math.floor(videoRef.current.getCurrentTime()));
   };
 
   useEffect(() => {
@@ -137,7 +133,6 @@ const Video = (props) => {
       highlightApis
         .addHighlight(likeData)
         .then((data) => {
-          console.log("add", data);
           const filteredLike = [data.topOne, data.topTwo, data.topThree]
             .filter((time) => time >= 0)
             .map((time) => (time === 0 ? 1 : time));
@@ -181,10 +176,6 @@ const Video = (props) => {
   };
   const muteHandler = () => {
     setState({ ...state, muted: !state.muted });
-  };
-
-  const durationHandelr = (duration) => {
-    setState({ ...state, duration });
   };
 
   const volumeChangeHandler = (e, newValue) => {
@@ -271,7 +262,7 @@ const Video = (props) => {
       count = 0;
     }
   };
-  console.log(likes);
+
   const linkToSignInHandler = () => {
     navigate("/signin");
   };
@@ -355,7 +346,6 @@ const Video = (props) => {
                     onSeekMouseUp={seekMouseUpHandler}
                     elapsedTime={elapsedTime}
                     totalDuration={totalDuration}
-                    onDuration={durationHandelr}
                     onChangeDisplayFormat={displayFormatHandler}
                     cardId={cardId}
                     scrapHandler={scrapHandler}
@@ -374,8 +364,8 @@ const Video = (props) => {
                       className="like_btn"
                       onClick={token ? addLikeHandler : openModalHandler}
                     >
-                      <LikeIcon size={35} />
                       <div className="tooltip">좋았던 순간을 클릭하세요!</div>
+                      <LikeIcon size={35} />
                     </button>
 
                     {likes.like.map((id) => (
@@ -466,11 +456,13 @@ const VideoBackgroud = styled.div`
 
   .tooltip {
     position: absolute;
+    right: 50px;
     display: none;
-    margin-left: 60px;
+
     width: 200px;
-    background: white;
+    background: rgba(255, 255, 255, 0.9);
     padding: 10px;
+
     border-radius: 10px;
     color: ${({ theme }) => theme.colors.main};
     :after {
@@ -520,7 +512,7 @@ const HightLight = styled.div`
             .tooltip_highlight {
               position: absolute;
               display: none;
-              margin: 10px 0 0 50px;
+              margin: 10px 0 0 20px;
               width: 300px;
               font-size: 14px;
               background: rgba(0, 0, 0, 0.3);
