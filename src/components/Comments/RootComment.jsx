@@ -27,7 +27,7 @@ const RootComment = ({
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     if (isTextareaDisabled) {
-      alert("내용을 작성해주세요.");
+      alert("내용을 채워주세요.");
       return;
     }
     const data = { contents: content, rootId: id, rootName: "comment" };
@@ -88,10 +88,11 @@ const RootComment = ({
                         charLimit="255"
                         rows="5"
                         cols="80"
-                        placeHolder="댓글을 작성해주세요."
-                        _height="40px"
+                        placeHolder="답글을 작성해주세요."
                         border="none"
                         isBorderBot
+                        _height="80px"
+                        background={theme.colors.grey5}
                       />
 
                       <div className="button_box">
@@ -181,7 +182,7 @@ const NestedContentsBox = styled.div`
   }}
 `;
 const Form = styled.form`
-  padding: 30px 0;
+  padding: 50px 0;
   & textarea {
     margin-top: 8px;
     padding: 11px 16px;

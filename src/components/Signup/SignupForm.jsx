@@ -102,7 +102,7 @@ const SignupForm = (props) => {
       }
     }
   };
-  console.log(checkEmail, "중복검사했니?");
+
   const previousPageHandler = () => {
     navigate("/signin");
   };
@@ -110,7 +110,7 @@ const SignupForm = (props) => {
   return (
     <Container>
       {isLoading ? (
-        <LoadingLoader _height="70vh" text="회원가입 처리중 입니다" />
+        <LoadingLoader _height="70vh" text="이메일 인증 처리중입니다." />
       ) : (
         <>
           <div className="title">이메일 인증</div>

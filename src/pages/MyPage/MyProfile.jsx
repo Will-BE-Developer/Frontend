@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import GlobalButton from "../../components/UI/GlobalButton";
 import theme from "../../styles/theme";
 import { useState } from "react";
@@ -12,6 +12,7 @@ import { IoAlertCircle } from "react-icons/io5";
 import GlobalModal from "../../components/UI/GlobalModal";
 import editIcon from "../../assets/icons/edit.png";
 import LoadingLoader from "../../components/UI/LoadingLoader";
+import GlobalTextArea from "../../components/UI/GlobalTextArea";
 
 const MyProfile = () => {
   const user = useSelector((state) => state.user.user);
@@ -101,6 +102,7 @@ const MyProfile = () => {
                 border="1px solid rgba(130, 130, 130, 0.2)"
                 _height="40px"
                 onClick={updateUserHandler}
+                hover={theme.colors.mainHover}
               />
               <GlobalButton
                 text="X"
@@ -185,15 +187,23 @@ const MyProfile = () => {
               )}
               <p>소개글</p>
               {isEdit ? (
-                <textarea
+                <GlobalTextArea
+                  className="introduce_textarea"
                   value={updateUserData.introduce}
-                  placeholder="소개글을 작성해주세요"
                   onChange={(e) =>
                     setUpdateUserData((prev) => ({
                       ...prev,
                       introduce: e.target.value,
                     }))
                   }
+                  charLimit="50"
+                  rows="5"
+                  cols="80"
+                  placeHolder="댓글을 수정해주세요."
+                  border="none"
+                  isBorderBot
+                  _height="80px"
+                  background={theme.colors.grey5}
                 />
               ) : (
                 <div className="introduce">
@@ -247,70 +257,89 @@ const Container = styled.div`
 `;
 
 const BodyContainer = styled.div`
-  width: 100%;
-  & .title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 10px 28px 10px;
-    h1 {
-      font-size: ${({ theme }) => theme.calRem(24)};
-    }
-  }
+  ${({ theme }) => {
+    const { colors, device, fontSize } = theme;
+    return css`
+      width: 100%;
+      & .title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 10px 28px 10px;
+        h1 {
+          font-size: ${({ theme }) => theme.calRem(24)};
+        }
+      }
 
-  & .btnWrapper {
-    display: flex;
-  }
+      & .btnWrapper {
+        display: flex;
+      }
 
-  & .myInfo .btnWrapper {
-    margin-bottom: 20px;
-  }
+      & .myInfo .btnWrapper {
+        margin-bottom: 20px;
+      }
 
-  & .myInfo {
-    padding: 30px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-  }
+      & .myInfo {
+        padding: 30px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+      }
 
-  & .userImage {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    margin-bottom: 25px;
-  }
+      & .userImage {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        margin-bottom: 25px;
+      }
 
-  & .infoBody {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 20px;
-  }
+      & .infoBody {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        p {
+          font-size: ${fontSize["12"]};
+          color: ${colors.grey80};
+        }
+      }
 
-  & .nickname,
-  & .githubLink,
-  & .introduce {
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-    padding: 12px 18px;
-  }
+      & .nickname,
+      & .githubLink,
+      & .introduce {
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        padding: 12px 18px;
+        font-size: ${fontSize["12"]};
+        color: ${colors.grey90};
+        background: ${colors.grey5};
+        margin-bottom: 10px;
+      }
 
-  & .introduce {
-    min-height: 100px;
-  }
+      & .introduce {
+        min-height: 100px;
+      }
 
-  & textarea {
-    padding: 10px 12px;
-    border: 1px solid rgba(130, 130, 130, 0.2);
-    border-radius: 4px;
-    width: 100%;
-  }
+      & textarea {
+        padding: 10px 12px;
+        border: 1px solid rgba(130, 130, 130, 0.2);
+        border-radius: 4px;
+        width: 100%;
+        color: ${colors.grey90};
+        background: ${colors.grey5};
+        margin-bottom: 10px;
+      }
+      .introduce_textarea {
+        height: 150px;
+      }
 
-  & .footer {
-    display: flex;
-    justify-content: end;
-    gap: 10px;
-    margin-top: 15px;
-  }
+      & .footer {
+        display: flex;
+        justify-content: end;
+        gap: 10px;
+        margin-top: 15px;
+      }
+    `;
+  }}
 `;
 
 export default MyProfile;

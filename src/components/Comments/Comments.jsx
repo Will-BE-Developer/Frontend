@@ -41,12 +41,8 @@ const Comments = ({ cardId }) => {
   };
 
   const onSubmitHandler = async () => {
-    if (!token) {
-      alert("로그인이 필요한 기능입니다. ");
-      return;
-    }
     if (isTextareaDisabled) {
-      alert("내용을 작성해주세요.");
+      alert("내용을 채워주세요.");
       return;
     }
 
@@ -92,9 +88,10 @@ const Comments = ({ cardId }) => {
           rows="2"
           cols="80"
           placeHolder="댓글을 작성해주세요."
-          _height="40px"
           border="none"
           isBorderBot
+          _height="80px"
+          background={theme.colors.grey5}
         />
 
         <div className="button_box">
@@ -102,9 +99,7 @@ const Comments = ({ cardId }) => {
             <GlobalButton
               _width="70px"
               _height="35px"
-              hover
               text="작성"
-              hoverBg="rgba(86, 127, 232, 0.06);"
               background={theme.colors.white}
               color={theme.colors.main}
               border={`1px solid ${theme.colors.main}`}
@@ -114,9 +109,8 @@ const Comments = ({ cardId }) => {
             <GlobalButton
               _width="70px"
               _height="35px"
-              hover
               text="작성"
-              hoverBg="rgba(86, 127, 232, 0.06);"
+              hover="rgba(86, 127, 232, 0.06)"
               background={theme.colors.white}
               color={theme.colors.main}
               border={`1px solid ${theme.colors.main}`}
@@ -164,7 +158,7 @@ const Form = styled.div`
   & .comment_count {
     font-size: ${({ theme }) => theme.fontSize["16"]};
     margin-bottom: 10px;
-    color: ${({ theme }) => theme.colors.grey80};
+    color: ${({ theme }) => theme.colors.grey90};
   }
   & textarea {
     margin-top: 8px;
