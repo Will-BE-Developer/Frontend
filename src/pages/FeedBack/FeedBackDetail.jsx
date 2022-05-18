@@ -337,11 +337,12 @@ const TitleContainer = styled.div`
             justify-content: center;
             padding: 6px 8px 6px 6px;
             gap: 6px;
-            max-width: 130px;
+            width: 140px;
             height: 30px;
             font-weight: 600;
             border-radius: 999px;
             font-size: ${fontSize["14"]};
+            white-space: nowrap;
             ${device.mobile} {
               padding: 3px 6px 3px 3px;
               font-size: ${fontSize["12"]};
