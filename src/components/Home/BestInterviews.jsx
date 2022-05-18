@@ -26,8 +26,6 @@ const BestInterviews = ({ weeklyInterviews }) => {
     slider.current.slickNext();
   };
 
-  console.log(weeklyInterviews);
-
   const prevBtn = () => {
     slider.current.slickPrev();
   };

@@ -64,7 +64,6 @@ const FeedBack = () => {
       console.log("피드백 불러오기 오류", err);
     }
   }, [selectedCategory, data, selectedSort]);
-  console.log(data);
   return (
     <Container>
       <div className="dropDown_container">

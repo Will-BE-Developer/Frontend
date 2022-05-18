@@ -25,8 +25,6 @@ const Comments = ({ cardId }) => {
     commentApis
       .getComments(cardId)
       .then((data) => {
-        console.log(data);
-        console.log(data.comments);
         setAllComments(data.comments);
         setCommentCount(data.totalComments);
       })
@@ -55,7 +53,6 @@ const Comments = ({ cardId }) => {
     const data = { contents: content, rootId: cardId, rootName: "interview" };
     try {
       const response = await commentApis.addComment(data);
-      console.log(response.totalComments);
       setContent("");
       setAllComments(response.comments);
       setCommentCount(response.totalComments);
