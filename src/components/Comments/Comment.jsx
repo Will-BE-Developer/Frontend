@@ -163,6 +163,9 @@ const AlertIcon = styled(IoAlertCircle)`
 
 const CommentContainer = styled.div`
   padding: 12px;
+  ${({ theme }) => theme.device.mobile} {
+    padding: 4px 0;
+  }
 `;
 
 const ContentBox = styled.div`

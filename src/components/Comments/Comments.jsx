@@ -99,6 +99,9 @@ const Comments = ({ cardId }) => {
             <GlobalButton
               _width="70px"
               _height="35px"
+              mWidth="50px"
+              mHeight="30px"
+              mPadding="8px"
               text="작성"
               background={theme.colors.white}
               color={theme.colors.main}

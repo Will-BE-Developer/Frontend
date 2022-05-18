@@ -329,6 +329,9 @@ const TitleContainer = styled.div`
             font-size: ${fontSize["14"]};
             color: ${colors.main};
             font-weight: 600;
+            ${device.mobile} {
+              font-size: ${fontSize["16"]};
+            }
           }
 
           .badge_box {
@@ -390,6 +393,10 @@ const TitleContainer = styled.div`
             -webkit-line-clamp: 1;
             -webkit-box-orient: vertical;
             word-wrap: break-word;
+            ${device.mobile} {
+              font-size: ${fontSize["18"]};
+              margin: 16px 0;
+            }
           }
         }
       }
@@ -421,72 +428,80 @@ const HeartCheck = styled(BsHeartFill)`
 `;
 
 const AuthorContainer = styled.div`
-  width: 100%;
+  ${({ theme }) => {
+    const { colors, device, fontSize } = theme;
+    return css`
+      width: 100%;
 
-  & .author_box {
-    border-bottom: 1px solid #edf0f5;
-    flex-grow: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+      & .author_box {
+        border-bottom: 1px solid #edf0f5;
+        flex-grow: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
-    padding: 0 10px 16px 10px;
+        padding: 0 10px 16px 10px;
 
-    .author_date {
-      display: flex;
-      align-items: center;
-      .createdAt {
-        font-size: ${({ theme }) => theme.fontSize["12"]};
-        color: ${({ theme }) => theme.colors.grey60};
-      }
-    }
-    & .user_profile {
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      &:hover {
-        transform: scale(1.02);
-      }
-      & > span {
-        font-size: ${({ theme }) => theme.fontSize["16"]};
-      }
+        .author_date {
+          display: flex;
+          align-items: center;
+          .createdAt {
+            font-size: ${fontSize["12"]};
+            color: ${colors.grey60};
+          }
+        }
+        & .user_profile {
+          cursor: pointer;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          &:hover {
+            transform: scale(1.02);
+          }
+          & > span {
+            font-size: ${fontSize["16"]};
+            ${device.mobile} {
+              font-size: ${fontSize["14"]};
+            }
+          }
 
-      .line {
-        font-weight: 800;
-        color: #edf0f5;
-        padding: 0 6px;
-      }
-    }
+          .line {
+            font-weight: 800;
+            color: #edf0f5;
+            padding: 0 6px;
+          }
+        }
 
-    & .button_wrap {
-      display: flex;
-      -webkit-box-align: center;
-      align-items: center;
-      object-fit: cover;
+        & .button_wrap {
+          display: flex;
+          -webkit-box-align: center;
+          align-items: center;
+          object-fit: cover;
 
-      button : {
-        /* width: 10px;
+          button : {
+            /* width: 10px;
       margin: 0 5px; */
+          }
+          span {
+            font-size: ${({ theme }) => theme.fontSize["14"]};
+          }
+        }
       }
-      span {
-        font-size: ${({ theme }) => theme.fontSize["14"]};
-      }
-    }
-  }
 
-  & .author_note {
-    font-size: ${({ theme }) => theme.calRem(14)};
-    color: ${({ theme }) => theme.colors.grey90};
-    margin: 24px 0;
-    padding: 0 16px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    word-wrap: break-word;
-    line-height: 1.2em;
-  }
+      & .author_note {
+        font-size: ${({ theme }) => theme.calRem(14)};
+        color: ${({ theme }) => theme.colors.grey90};
+        margin: 24px 0;
+        padding: 0 16px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        word-wrap: break-word;
+        line-height: 1.2em;
+      }
+    `;
+  }}
 `;
 
 const ProfileImg = styled.img`
@@ -495,6 +510,12 @@ const ProfileImg = styled.img`
   width: 35px;
   height: 35px;
   margin-right: 5px;
+
+  ${({ theme }) => theme.device.mobile} {
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
+  }
 `;
 
 const CommentsContainer = styled.div`

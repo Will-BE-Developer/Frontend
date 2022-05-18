@@ -42,41 +42,11 @@ function Dropdown({ selected, setSelected, options, onChangeHandler }) {
       )}
     </Container>
   );
-  //   return (
-  //     <Container>
-  //       <div
-  //         name="전체보기"
-  //         className="btn"
-  //         onClick={(e) => setIsActive(!isActive)}
-  //       >
-  //         {selected}
-  //         <DownIcon />
-  //       </div>
-  //       {isActive && (
-  //         <div className="content">
-  //           {options.map((option, index) => (
-  //             <option
-  //               key={index}
-  //               onClick={(e) => {
-  //                 setSelected(option);
-  //                 setIsActive(false);
-  //               }}
-  //               className="item"
-  //               onChange={onChange}
-  //               value={value}
-  //             >
-  //               {option}
-  //             </option>
-  //           ))}
-  //         </div>
-  //       )}
-  //     </Container>
-  //   );
 }
 
 const Container = styled.button`
   ${({ theme }) => {
-    const { colors, device, calRem, fontWeight } = theme;
+    const { colors, device, fontWeight } = theme;
     return css`
       width: 100%;
       user-select: none;
@@ -96,6 +66,9 @@ const Container = styled.button`
         align-items: center;
         cursor: pointer;
         justify-content: space-between;
+        ${device.mobile} {
+          padding: 10px;
+        }
       }
 
       & .content {
@@ -121,6 +94,9 @@ const Container = styled.button`
       & .content .item:hover {
         background: #f4f4f4;
         border-radius: 8px;
+      }
+      ${device.mobile} {
+        width: 80%;
       }
     `;
   }}

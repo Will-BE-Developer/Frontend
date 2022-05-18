@@ -102,6 +102,9 @@ const RootComment = ({
                             onClick={onSubmitHandler}
                             _width="70px"
                             _height="35px"
+                            mWidth="50px"
+                            mHeight="30px"
+                            mPadding="8px"
                             hover
                             hoverBg="rgba(86, 127, 232, 0.06);"
                             background={theme.colors.white}
@@ -138,22 +141,28 @@ const CommentContainer = styled.div`
   border-bottom: 1px solid #e6e9f1;
 
   padding: 30px 12px;
+  ${({ theme }) => theme.device.mobile} {
+    padding: 20px 0px;
+  }
 `;
 
 const Divider = styled.div`
   border-bottom: 1px solid #e6e9f1;
   margin: 12px;
+  ${({ theme }) => theme.device.mobile} {
+    margin: 8px 0px;
+  }
 `;
 const NestedContentsBox = styled.div`
   ${({ theme }) => {
-    const { colors, device, calRem } = theme;
+    const { colors, device, fontSize } = theme;
     return css`
       & .toggle_box {
         cursor: pointer;
         display: flex;
         -webkit-box-align: center;
         align-items: center;
-        font-size: ${theme.calRem(14)};
+        font-size: ${fontSize["14"]};
         color: ${colors.grey80};
         width: max-content;
         padding: 5px 12px;
@@ -161,13 +170,14 @@ const NestedContentsBox = styled.div`
           margin-left: 5px;
         }
         ${device.mobile} {
+          padding: 5px 0px;
         }
       }
 
       & .nested_box {
         padding: 20px 25px;
         ${device.mobile} {
-          padding: 10px 20px;
+          padding: 10px 4px;
         }
       }
 
