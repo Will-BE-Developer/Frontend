@@ -5,13 +5,6 @@ const GlobalStyles = createGlobalStyle`
   ${reset}
 
   @font-face {
-    font-family: 'Lato', sans-serif;
-    src: url();
-    font-weight: normal;
-    font-style: normal;
-  }
-
-  @font-face {
     font-family: 'Pretendard-Regular';
     src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
     font-weight: 400;
