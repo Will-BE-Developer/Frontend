@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getCookie } from "../../shared/cookies";
 import theme from "../../styles/theme";
@@ -9,9 +9,9 @@ import { IoAlertCircle } from "react-icons/io5";
 
 import GlobalModal from "../../components/UI/GlobalModal";
 import UserProfileModal from "../../components/UI/ModalSample/UserProfileModal";
-import GlobalBadge from "../../components/UI/GlobalBadge";
+import defaultUserImage from "../../assets/defaultUserImage.png";
+
 import feedbackApis from "../../apis/feedbackApis.js";
-import TimeAgo from "../../components/FeedBack/TimeAgo";
 import Comments from "../../components/Comments/Comments";
 import Video from "../../components/Video/Video";
 
@@ -86,23 +86,8 @@ const FeedBackDetail = (props) => {
         return;
       });
   }, [cardId, navigate]);
-  console.log(badge);
 
-  const {
-    id,
-    thumbnail,
-    question,
-    user,
-    note,
-    scrapsMe,
-    scrapsCount,
-    likesCount,
-    commentsCount,
-    createdAt,
-    updatedAt,
-    isPublic,
-  } = data;
-  console.log(data);
+  const { question, user, note, createdAt } = data;
   const editHandler = () => {
     navigate(`/feedback/${cardId}/update`, { state: { data, video } });
   };
@@ -111,7 +96,6 @@ const FeedBackDetail = (props) => {
     feedbackApis
       .deleteDetail(cardId)
       .then((data) => {
-        console.log(data);
         if (data.interview?.isPublic === true) {
           navigate(`/feedback/`, { replace: true });
         } else {
@@ -186,16 +170,13 @@ const FeedBackDetail = (props) => {
           로그인이 필요한 기능입니다.
         </GlobalModal>
         <div className="contents_wrap">
-          {/* <div className="video_layout"> */}
           <Video
             cardId={cardId}
             scrapHandler={scrapHandler}
             isScrapped={isScrapped}
           />
-
           {video !== null && (
             <div className="bottom_wrap">
-              {/* </div> */}
               {isMine && (
                 <div className="user_buttons">
                   <GlobalButton
@@ -257,7 +238,13 @@ const FeedBackDetail = (props) => {
                       className="user_profile"
                       onClick={() => setOpenProfileModal(true)}
                     >
-                      <ProfileImg src={user?.profileImageUrl} />
+                      <ProfileImg
+                        src={
+                          user?.profileImageUrl === null
+                            ? defaultUserImage
+                            : user?.profileImageUrl
+                        }
+                      />
                       <span>{user?.nickname}</span>
                       <span className="line">|</span>
                     </div>

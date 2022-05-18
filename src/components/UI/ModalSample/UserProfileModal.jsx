@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom";
 
 import { IoLinkOutline, IoPerson } from "react-icons/io5";
 import GlobalModal from "../GlobalModal";
+import defaultUserImage from "../../../assets/defaultUserImage.png";
+
 import styled, { css } from "styled-components";
 const UserProfileModal = (props) => {
   const {
@@ -33,7 +35,7 @@ const UserProfileModal = (props) => {
     >
       <AuthorContainer>
         <div className="user_profile" onClick={() => setOpenProfileModal(true)}>
-          <ProfileImg src={img} />
+          <ProfileImg src={img === null ? defaultUserImage : img} />
           <span>{nickname}</span>
         </div>
         <table className="table">

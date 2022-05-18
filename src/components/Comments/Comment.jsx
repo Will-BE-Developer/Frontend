@@ -6,6 +6,7 @@ import UserProfileModal from "../UI/ModalSample/UserProfileModal";
 import GlobalTextArea from "../UI/GlobalTextArea";
 import { IoAlertCircle } from "react-icons/io5";
 import GlobalModal from "../../components/UI/GlobalModal";
+import defaultUserImage from "../../assets/defaultUserImage.png";
 
 const Comment = ({
   currentComment,
@@ -106,7 +107,13 @@ const Comment = ({
             className="user_profile"
             onClick={() => setOpenProfileModal(true)}
           >
-            <ProfileImg src={user?.profileImageUrl} />
+            <ProfileImg
+              src={
+                user?.profileImageUrl === null
+                  ? defaultUserImage
+                  : user?.profileImageUrl
+              }
+            />
             <div className="name_date">
               <span>{user?.nickname}</span>
               <TimeAgo timestamp={createdAt} />
