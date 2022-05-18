@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import theme from "../../styles/theme";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import GlobalButton from "../../components/UI/GlobalButton";
 import feedbackApis from "../../apis/feedbackApis.js";
+
+import GlobalTextArea from "../../components/UI/GlobalTextArea";
 
 const FeedbackUpdate = () => {
   const navigate = useNavigate();
@@ -46,17 +48,7 @@ const FeedbackUpdate = () => {
         <video controls src={video}></video>
       </div>
       <div className="btnWrapper">
-        <div
-          style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}
-        >
-          <GlobalButton
-            text="취소"
-            background={theme.colors.white}
-            color={theme.colors.black}
-            border="1px solid rgba(130, 130, 130, 0.2)"
-            _height="40px"
-            onClick={clickCancleHandler}
-          />
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <GlobalButton
             text="저장"
             margin="0px 10px 0px 0px"
@@ -64,6 +56,15 @@ const FeedbackUpdate = () => {
             border="1px solid rgba(130, 130, 130, 0.2)"
             _height="40px"
             onClick={clickUpdateHandler}
+            hover={theme.colors.mainHover}
+          />
+          <GlobalButton
+            text="X"
+            background={theme.colors.white}
+            color={theme.colors.black}
+            border="1px solid rgba(130, 130, 130, 0.2)"
+            _height="40px"
+            onClick={clickCancleHandler}
           />
         </div>
       </div>
@@ -71,7 +72,6 @@ const FeedbackUpdate = () => {
         <span className="badge">{data.question.category}</span>
         <div className="title">
           <span>{`Q.${data.question.contents}`}</span>
-          <span className="date">{data.createdAt}</span>
         </div>
       </div>
       <div className="radioCotainer">
@@ -102,114 +102,116 @@ const FeedbackUpdate = () => {
       </div>
       <div>
         <p>내용</p>
-        <textarea
+        <GlobalTextArea
+          value={noteInfo.noteText}
           onChange={(e) =>
             setNoteInfo({
               noteText: e.target.value,
               noteCount: e.target.value.length,
             })
           }
-          placeholder="내용을 작성해주세요"
-          maxLength={500}
-          rows={5}
-          value={noteInfo.noteText}
-        ></textarea>
-        <p
-          style={{ textAlign: "end", color: "#666666" }}
-        >{`${noteInfo.noteCount} / 500`}</p>
+          charLimit="500"
+          rows="5"
+          cols="80"
+          placeHolder="내용을 수정해주세요."
+          border="none"
+          isBorderBot
+          _height="120px"
+          background={theme.colors.grey5}
+        />
       </div>
     </FormLayout>
   );
 };
 
 const FormLayout = styled.div`
-  width: 100%;
-  max-width: 1200px;
-  text-align: start;
-  video {
-    max-width: 750px;
-    width: 100%;
-  }
+  ${({ badge, theme, bgColor }) => {
+    const { colors, device, fontSize, fontWeight } = theme;
+    return css`
+      width: 100%;
+      max-width: 1200px;
+      text-align: start;
+      video {
+        max-width: 750px;
+        width: 100%;
+      }
 
-  & .video_layout {
-    display: flex;
-    justify-content: center;
-    background-color: ${({ theme }) => theme.colors.headerBgColor};
-    border-radius: 6px;
-    margin-bottom: 20px;
-  }
+      & .video_layout {
+        display: flex;
+        justify-content: center;
+        background-color: ${({ theme }) => theme.colors.headerBgColor};
+        border-radius: 6px;
+        margin-bottom: 40px;
+      }
 
-  & .header {
-    padding: 20px 0px;
-    border-bottom: 1px solid #e6e6e6;
-  }
+      & .header {
+        margin-top: 24px;
+        border-bottom: 1px solid #e6e6e6;
+      }
 
-  & .badge {
-    font-size: ${({ theme }) => theme.fontSize["12"]};
-    color: ${({ theme }) => theme.colors.white};
-    background-color: ${({ theme }) => theme.colors.lightGrey};
-    border-radius: 15px;
-    padding: 5px 12px;
-    width: 87px;
-    height: 24px;
-  }
+      & .badge {
+        font-size: ${fontSize["14"]};
+        color: ${colors.main};
+        font-weight: 600;
+      }
 
-  & .header .title {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-top: 18px;
-    font-size: ${({ theme }) => theme.fontSize["20"]};
-    font-weight: ${({ theme }) => theme.fontWeight.extraBold};
+      & .header .title {
+        font-size: ${fontSize["22"]};
+        font-weight: ${fontWeight.extraBold};
+        margin: 16px 0 24px 0;
+        padding: 2px 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        word-wrap: break-word;
+      }
+      & p {
+        margin-top: 24px;
+        font-size: ${({ theme }) => theme.fontSize["12"]};
+      }
 
-    & .date {
-      margin-top: 12px;
-      font-size: ${({ theme }) => theme.fontSize["14"]};
-    }
-  }
-  & p {
-    margin-top: 8px;
-    font-size: ${({ theme }) => theme.fontSize["12"]};
-  }
+      & textarea {
+        margin-top: 8px;
+        padding: 11px 16px;
+        border: 1px solid rgba(130, 130, 130, 0.2);
+        border-radius: 4px;
+        width: 100%;
+      }
 
-  & textarea {
-    margin-top: 8px;
-    padding: 11px 16px;
-    border: 1px solid rgba(130, 130, 130, 0.2);
-    border-radius: 4px;
-    width: 100%;
-  }
+      & .radioCotainer {
+        margin: 20px 0;
+      }
 
-  & .radioCotainer {
-    margin: 20px 0;
-  }
+      & .radioGroup {
+        display: flex;
+        gap: 10px;
+        margin: 12px 0px 20px 0px;
+        font-size: ${({ theme }) => theme.fontSize["14"]};
+      }
 
-  & .radioGroup {
-    display: flex;
-    gap: 10px;
-    margin: 8px 0px 20px 0px;
-    font-size: ${({ theme }) => theme.fontSize["14"]};
-  }
+      & .radioGroup input {
+        margin: 0px 5px 0px 0px;
+      }
 
-  & .radioGroup input {
-    margin: 0px 5px 0px 0px;
-  }
+      & .radioGroup label {
+        display: flex;
+        align-items: center;
+      }
 
-  & .radioGroup label {
-    display: flex;
-    align-items: center;
-  }
+      & .noti {
+        font-size: ${({ theme }) => theme.fontSize["12"]};
+        color: #666666;
+        margin-left: 5px;
+      }
 
-  & .noti {
-    font-size: ${({ theme }) => theme.fontSize["12"]};
-    color: #666666;
-    margin-left: 5px;
-  }
-
-  & .btnWrapper {
-    display: flex;
-    justify-content: flex-end;
-    margin: 20px 0px;
-  }
+      & .btnWrapper {
+        display: flex;
+        justify-content: flex-end;
+        margin: 20px 0px;
+      }
+    `;
+  }}
 `;
 export default FeedbackUpdate;

@@ -186,7 +186,7 @@ const FeedBackDetail = (props) => {
                     border={`1px solid ${theme.colors.main}`}
                     _height="40px"
                     onClick={editHandler}
-                    hoverBg="rgba(86, 127, 232, 0.06);"
+                    hover="rgba(86, 127, 232, 0.06);"
                   />
                   <GlobalButton
                     margin="0px 10px 0px 0px"
@@ -194,7 +194,7 @@ const FeedBackDetail = (props) => {
                     _height="40px"
                     onClick={() => setOpenDeleteModal(true)}
                     text="삭제"
-                    hoverBg="#F16E6E;"
+                    hover="#F16E6E;"
                   />
                 </div>
               )}
@@ -337,12 +337,22 @@ const TitleContainer = styled.div`
             justify-content: center;
             padding: 6px 8px 6px 6px;
             gap: 6px;
-            width: 130px;
+            max-width: 130px;
             height: 30px;
             font-weight: 600;
             border-radius: 999px;
             font-size: ${fontSize["14"]};
+            ${device.mobile} {
+              padding: 3px 6px 3px 3px;
+              font-size: ${fontSize["12"]};
+              width: 120px;
+              height: 30px;
+              img {
+                width: 20px;
+              }
+            }
           }
+
           .gold {
             background: rgba(233, 171, 12, 0.06);
             border: 1px solid #e9ab0c;
@@ -487,32 +497,8 @@ const ProfileImg = styled.img`
 `;
 
 const CommentsContainer = styled.div`
-  margin-top: 10px;
+  margin-top: 100px;
   padding: 0 10px;
 `;
-
-// 면접왕 아이콘
-// const BtnCircleBg = styled.button`
-//   width: 1.6em;
-//   height: 1.6em;
-//   padding: 0;
-//   margin-right: 6px;
-//   border-radius: 50%;
-//   background-color: ${({ theme }) => theme.colors.lightGrey};
-//   ${({ theme }) => theme.device.tablet} {
-//     width: 1.2em;
-//     height: 1.2em;
-//     margin-right: 4px;
-//   }
-// `;
-
-// const CrownIcon = styled(AiTwotoneCrown)`
-//   height: 100%;
-//   color: ${({ theme }) => theme.colors.darkGrey};
-//   cursor: pointer;
-
-//   font-size: ${({ theme }) => theme.calRem(18)};
-//   padding: 0;
-// `;
 
 export default FeedBackDetail;
