@@ -233,7 +233,11 @@ const StyledSlider = styled(Slider)`
         }
       }
 
-      .slick-dots .slick-dots li button::before {
+      .slick-dots li button::before {
+        color: #c4c4c4;
+      }
+
+      .slick-dots li button:active {
         color: #c4c4c4;
       }
 
