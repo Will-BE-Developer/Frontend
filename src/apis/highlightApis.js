@@ -11,7 +11,6 @@ const highlightApis = {
   },
 
   addHighlight: async (likeData) => {
-    console.log(likeData, "api add!! ");
     try {
       const res = await instance.post(`/api/likes`, likeData);
       return res.data;

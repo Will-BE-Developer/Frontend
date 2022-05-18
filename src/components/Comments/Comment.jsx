@@ -119,8 +119,8 @@ const Comment = ({
               <TimeAgo timestamp={createdAt} />
             </div>
           </div>
-          {isMine && (
-            <div className="button_box">
+          {isMine && !isEdit && (
+            <div className="button_box hide">
               <button onClick={clickUpdateHandler}>수정</button>
               <button onClick={() => setOpenDeleteModal(true)}>삭제</button>
             </div>
