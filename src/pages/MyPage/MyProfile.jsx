@@ -11,12 +11,14 @@ import SetProfileImg from "../../components/Signup/SetProfileImg";
 import { IoAlertCircle } from "react-icons/io5";
 import GlobalModal from "../../components/UI/GlobalModal";
 import editIcon from "../../assets/icons/edit.png";
+import LoadingLoader from "../../components/UI/LoadingLoader";
 
 const MyProfile = () => {
   const user = useSelector((state) => state.user.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isEdit, setIsEdit] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [getImage, setGetImage] = useState({ image: user.profileImageUrl });
   const [updateUserData, setUpdateUserData] = useState({
     nickname: user.nickname,
@@ -26,14 +28,11 @@ const MyProfile = () => {
 
   const [openModal, setOpenModal] = useState(false);
 
-  console.log(updateUserData);
-
   const updateUserHandler = async () => {
+    setIsLoading(true);
     try {
       const formData = new FormData();
       const img = getImage ? getImage.file : "";
-
-      console.log(updateUserData.nickname);
 
       formData.append("profileImage", img);
       formData.append("nickname", JSON.stringify(updateUserData.nickname));
@@ -42,6 +41,7 @@ const MyProfile = () => {
 
       await dispatch(updateUser(formData)).unwrap();
 
+      setIsLoading(false);
       setIsEdit(false);
     } catch (err) {
       console.log(err);
@@ -66,12 +66,10 @@ const MyProfile = () => {
   };
 
   const deleteUserHandler = async () => {
-    console.log("계정삭제함수");
     try {
-      const res = await dispatch(deleteUser()).unwrap();
+      await dispatch(deleteUser()).unwrap();
       alert("계정삭제가 완료되었습니다");
       navigate("/", { replace: true });
-      console.log(res);
     } catch (err) {
       console.log(err);
     }
@@ -131,76 +129,82 @@ const MyProfile = () => {
             </GlobalButton>
           )}
         </div>
-        <div className="myInfo">
-          {isEdit ? (
-            <SetProfileImg
-              getImage={getImageHandler}
-              image={getImage?.image}
-              isEdit={isEdit}
-            />
-          ) : (
-            <img
-              className="userImage"
-              alt="userImage"
-              src={
-                user.profileImageUrl ? user.profileImageUrl : defaultUserImage
-              }
-            />
-          )}
-          <div className="infoBody">
-            <p>닉네임</p>
+        {isLoading ? (
+          <LoadingLoader _height="20vh" text="내 정보를 업데이트 중입니다" />
+        ) : (
+          <div className="myInfo">
             {isEdit ? (
-              <textarea
-                value={updateUserData.nickname}
-                onChange={(e) =>
-                  setUpdateUserData((prev) => ({
-                    ...prev,
-                    nickname: e.target.value,
-                  }))
-                }
+              <SetProfileImg
+                getImage={getImageHandler}
+                image={getImage?.image}
+                isEdit={isEdit}
               />
             ) : (
-              <div className="nickname">
-                <p>{user?.nickname}</p>
-              </div>
+              <img
+                className="userImage"
+                alt="userImage"
+                src={
+                  user.profileImageUrl ? user.profileImageUrl : defaultUserImage
+                }
+              />
             )}
+            <div className="infoBody">
+              <p>닉네임</p>
+              {isEdit ? (
+                <textarea
+                  value={updateUserData.nickname}
+                  onChange={(e) =>
+                    setUpdateUserData((prev) => ({
+                      ...prev,
+                      nickname: e.target.value,
+                    }))
+                  }
+                />
+              ) : (
+                <div className="nickname">
+                  <p>{user?.nickname}</p>
+                </div>
+              )}
 
-            <p>포트폴리오 URL</p>
-            {isEdit ? (
-              <textarea
-                value={updateUserData.githubLink}
-                placeholder="Github URL을 넣어주세요"
-                onChange={(e) =>
-                  setUpdateUserData((prev) => ({
-                    ...prev,
-                    githubLink: e.target.value,
-                  }))
-                }
-              />
-            ) : (
-              <div className="githubLink">
-                <p>{user.githubLink ? user.githubLink : "URL이 없습니다"}</p>
-              </div>
-            )}
-            <p>소개글</p>
-            {isEdit ? (
-              <textarea
-                value={updateUserData.introduce}
-                placeholder="소개글을 작성해주세요"
-                onChange={(e) =>
-                  setUpdateUserData((prev) => ({
-                    ...prev,
-                    introduce: e.target.value,
-                  }))
-                }
-              />
-            ) : (
-              <div className="introduce">
-                <p>{user.introduce ? user.introduce : "자기소개가 없습니다"}</p>
-              </div>
-            )}
+              <p>포트폴리오 URL</p>
+              {isEdit ? (
+                <textarea
+                  value={updateUserData.githubLink}
+                  placeholder="Github URL을 넣어주세요"
+                  onChange={(e) =>
+                    setUpdateUserData((prev) => ({
+                      ...prev,
+                      githubLink: e.target.value,
+                    }))
+                  }
+                />
+              ) : (
+                <div className="githubLink">
+                  <p>{user.githubLink ? user.githubLink : "URL이 없습니다"}</p>
+                </div>
+              )}
+              <p>소개글</p>
+              {isEdit ? (
+                <textarea
+                  value={updateUserData.introduce}
+                  placeholder="소개글을 작성해주세요"
+                  onChange={(e) =>
+                    setUpdateUserData((prev) => ({
+                      ...prev,
+                      introduce: e.target.value,
+                    }))
+                  }
+                />
+              ) : (
+                <div className="introduce">
+                  <p>
+                    {user.introduce ? user.introduce : "자기소개가 없습니다"}
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
         <div className="footer">
           <GlobalButton
             disabled={isEdit}

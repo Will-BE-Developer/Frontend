@@ -18,15 +18,13 @@ const BestInterviews = ({ weeklyInterviews }) => {
   const [title, setTitle] = useState(
     isEmpty
       ? "현재 면접왕이 없습니다."
-      : `5월 셋째주 면접왕 1등 '${weeklyInterviews[0]?.user?.nickname}'`
+      : `${weeklyInterviews[0]?.badge} '${weeklyInterviews[0]?.user?.nickname}'`
   );
   const badgeIcon = [gold, silver, bronze];
 
   const nextBtn = () => {
     slider.current.slickNext();
   };
-
-  console.log(weeklyInterviews);
 
   const prevBtn = () => {
     slider.current.slickPrev();
@@ -43,9 +41,7 @@ const BestInterviews = ({ weeklyInterviews }) => {
       setTitle(
         isEmpty
           ? "현재 면접왕이 없습니다"
-          : `5월 둘째주 면접왕 ${Number(newIdx) + 1}등 '${
-              weeklyInterviews[newIdx]?.user?.nickname
-            }' 님`
+          : `${weeklyInterviews[newIdx]?.badge} '${weeklyInterviews[newIdx]?.user?.nickname}' 님`
       ),
   };
 
