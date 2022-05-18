@@ -38,7 +38,7 @@ const FeedBack = () => {
     "UIUX",
     "Web",
   ];
-  console.log(categoryList.sort());
+
   const onChangeHandler = () => {
     setData({ feedback: [], pagination: {} });
   };
@@ -89,7 +89,7 @@ const FeedBack = () => {
         loadMore={fetchFeedback}
         hasMore={data?.pagination?.nextPage !== null}
         loader={<Loader key={0} />}
-        threshold={100}
+        threshold={150}
       >
         {data?.feedback.length === 0 ? (
           <div className="noData">
