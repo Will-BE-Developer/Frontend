@@ -34,6 +34,12 @@ const SetInfo = (props) => {
   };
 
   const nextPageHandler = () => {
+    const nameRegex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
+
+    if (!nameRegex.test(userData.nickname)) {
+      alert("닉네임은 공백 없이 한글/영문/숫자만 가능합니다.");
+      return;
+    }
     props.setCurrentPage(currentPage + 1);
   };
   const nextPageWithUploadImgHandler = async () => {
@@ -146,7 +152,7 @@ const SetInfo = (props) => {
                 />
               </FlexDiv>
               <div>
-                <InfoMsg>PNG, JPG파일만 업로드 가능합니다.</InfoMsg>
+                <InfoMsg>PNG, JPG, GiF 파일만 업로드 가능합니다.</InfoMsg>
               </div>
               <GlobalButton
                 onClick={nextPageWithUploadImgHandler}

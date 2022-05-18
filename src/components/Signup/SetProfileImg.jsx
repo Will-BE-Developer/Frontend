@@ -14,7 +14,7 @@ const SetProfileImg = (props) => {
     const fileExt = file.name.split(".").pop();
     const filetype = ["png", "PNG", "jpg", "JPG", "jpeg", "gif"];
     if (!filetype.includes(fileExt)) {
-      alert("jpg, png, gif 파일만 Upload 가능합니다.");
+      alert("PNG, JPG, GiF 파일만 업로드 가능합니다.");
       return;
     }
     setFileReader(file);
@@ -65,6 +65,7 @@ const SetProfileImg = (props) => {
               border={`1px solid ${theme.colors.blue}`}
               _height="40px"
               onClick={handleChangeImageBtn}
+              hover=" rgba(86, 127, 232, 0.06)"
             />
             <GlobalButton
               text="사진 삭제"
@@ -87,7 +88,7 @@ const SetProfileImg = (props) => {
               border={`1px solid ${theme.colors.main}`}
               background={theme.colors.white}
               color={theme.colors.main}
-              hover
+              hover=" rgba(86, 127, 232, 0.06)"
             >
               {getImage ? "사진 편집" : "사진 등록"}
             </GlobalButton>
@@ -96,7 +97,7 @@ const SetProfileImg = (props) => {
               margin="0 0 6px 0"
               _height="40px"
               mHeight="30px"
-              hover
+              hover=" #F4F6F9;"
               border={`1px solid ${theme.colors.grey10}`}
               background={theme.colors.white}
               color={theme.colors.grey80}

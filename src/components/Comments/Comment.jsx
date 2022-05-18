@@ -191,7 +191,7 @@ const ContentBox = styled.div`
     justify-content: flex-end;
 
     button {
-      font-size: ${({ theme }) => theme.calRem(12)};
+      font-size: ${({ theme }) => theme.fontSize["12"]};
       color: ${({ theme }) => theme.colors.grey80};
     }
   }
