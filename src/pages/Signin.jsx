@@ -136,7 +136,7 @@ const Signin = () => {
 
 const Wrap = styled.div`
   ${({ theme }) => theme.device.mobile} {
-    padding: 0 40px;
+    padding: 0 5px;
   }
 `;
 const Container = styled.div`
