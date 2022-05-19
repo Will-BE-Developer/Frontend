@@ -51,8 +51,7 @@ const Wrap = styled.div`
   padding: 0 40px;
   ${({ theme }) => theme.device.mobile} {
     margin: 0 auto;
-
-    padding: 0 5px;
+    padding: 0 8px;
   }
 `;
 
