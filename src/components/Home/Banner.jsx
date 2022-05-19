@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { useRef } from "react";
 import { HiChevronRight, HiChevronLeft } from "react-icons/hi";
 import bannerBackground from "../../assets/banner.png";
+import bannerLogo from "../../assets/bannerLogo.svg";
 
 const DUMMY_CONTENTS = [
   {
@@ -50,53 +51,65 @@ const Banner = () => {
 
   return (
     <BannerContainer>
-      <StyledSlider ref={slider} {...settings}>
-        {DUMMY_CONTENTS.map((ele, idx) => {
-          const totalCount = DUMMY_CONTENTS.length;
+      <div className="contentsWrapper">
+        <img alt="bannerLogo" src={bannerLogo} />
+        <StyledSlider ref={slider} {...settings}>
+          {DUMMY_CONTENTS.map((ele, idx) => {
+            const totalCount = DUMMY_CONTENTS.length;
 
-          return (
-            <div className="card" key={idx}>
-              <div className="contents">
-                <p className="badge">{ele.badge}</p>
-                <h2 className="title">{ele.title}</h2>
-                <p className="content">{ele.content}</p>
+            return (
+              <div className="card" key={idx}>
+                <div className="contents">
+                  <p className="badge">{ele.badge}</p>
+                  <h2 className="title">{ele.title}</h2>
+                  <p className="content">{ele.content}</p>
+                </div>
+                <div className="btnWrapper">
+                  <button onClick={prevBtn}>
+                    <HiChevronLeft size="16px" />
+                  </button>
+                  <span>
+                    <span style={{ color: "black", fontSize: "16px" }}>{`${
+                      idx + 1
+                    }`}</span>
+                    <span style={{ color: "rgba(0,0,0,0.3)" }}> / </span>
+                    <span style={{ fontSize: "16px" }}>{`${totalCount}`}</span>
+                  </span>
+                  <button onClick={nextBtn}>
+                    <HiChevronRight size="16px" />
+                  </button>
+                </div>
               </div>
-              <div className="btnWrapper">
-                <button onClick={prevBtn}>
-                  <HiChevronLeft size="16px" />
-                </button>
-                <span>
-                  <span style={{ color: "black", fontSize: "16px" }}>{`${
-                    idx + 1
-                  }`}</span>
-                  <span style={{ color: "rgba(0,0,0,0.3)" }}> / </span>
-                  <span style={{ fontSize: "16px" }}>{`${totalCount}`}</span>
-                </span>
-                <button onClick={nextBtn}>
-                  <HiChevronRight size="16px" />
-                </button>
-              </div>
-            </div>
-          );
-        })}
-      </StyledSlider>
+            );
+          })}
+        </StyledSlider>
+      </div>
     </BannerContainer>
   );
 };
 
 const BannerContainer = styled.div`
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 400px;
-  background-position: center;
+  background-color: ${({ theme }) => theme.colors.mainHover};
+  /* background-position: center;
   background-image: url(${bannerBackground});
   background-size: cover;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; */
   color: ${({ theme }) => theme.colors.black};
   box-shadow: 0 2px 5px rgba(130, 130, 130, 0.1);
+
+  .contentsWrapper {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    max-width: 1200px;
+    width: 100%;
+    position: relative;
+  }
 
   h2 {
     font-size: ${({ theme }) => theme.fontSize["20"]};
@@ -107,8 +120,15 @@ const BannerContainer = styled.div`
     font-size: ${({ theme }) => theme.fontSize["16"]};
   }
 
+  img {
+    position: absolute;
+    left: 0px;
+    max-width: 500px;
+    width: 100%;
+  }
+
   .slick-slider {
-    max-width: 1200px;
+    max-width: 400px;
     width: 100%;
     ${({ theme }) => theme.device.tablet} {
       padding: 0px 1rem;
