@@ -14,11 +14,11 @@
 
 <table>
    <tr>
-    <td align="center"><a href="https://github.com/llama-ste">안동현</a></td>
-    <td align="center"><a href="https://github.com/AlgoRoots">박성혜</a></td>
-    <td align="center"><a href="https://github.com/limjae">임재현</a></td>
-    <td align="center"><a href="https://github.com/catalinakim">김경현</a></td>
-    <td align="center"><a href="https://github.com/Juri-Lee">이주리</a></td>
+    <td align="center"><b><a href="https://github.com/llama-ste">안동현</a></b></td>
+    <td align="center"><b><a href="https://github.com/AlgoRoots">박성혜</a></b></td>
+    <td align="center"><b><a href="https://github.com/limjae">임재현</a></b></td>
+    <td align="center"><b><a href="https://github.com/catalinakim">김경현</a></b></td>
+    <td align="center"><b><a href="https://github.com/Juri-Lee">이주리</a></b></td>
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/llama-ste"><img src="https://user-images.githubusercontent.com/90495580/169259372-a923afea-a898-4bca-9504-7d073d6ffab8.jpeg" width="100px" /></a></td>
