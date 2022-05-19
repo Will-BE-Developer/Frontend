@@ -8,8 +8,8 @@ import defaultUserImage from "../../assets/defaultUserImage.png";
 import { signout, deleteUser, updateUser } from "../../store/slices/userSlice";
 import SetProfileImg from "../../components/Signup/SetProfileImg";
 
-import { IoAlertCircle } from "react-icons/io5";
 import GlobalModal from "../../components/UI/GlobalModal";
+import { IoAlertCircle } from "react-icons/io5";
 import editIcon from "../../assets/icons/edit.png";
 import LoadingLoader from "../../components/UI/LoadingLoader";
 import GlobalTextArea from "../../components/UI/GlobalTextArea";
@@ -28,6 +28,7 @@ const MyProfile = () => {
   });
 
   const [openModal, setOpenModal] = useState(false);
+  const [openSignOuteModal, setOpenSignOutModal] = useState(false);
 
   const updateUserHandler = async () => {
     setIsLoading(true);
@@ -57,7 +58,7 @@ const MyProfile = () => {
     setIsEdit(true);
   };
 
-  const signoutHandler = async () => {
+  const signOutHandler = async () => {
     try {
       await dispatch(signout()).unwrap();
       navigate("/", { replace: true });
@@ -89,6 +90,18 @@ const MyProfile = () => {
         icon={<AlertIcon />}
       >
         계정을 삭제하시겠습니까?
+      </GlobalModal>{" "}
+      <GlobalModal
+        title="로그아웃"
+        confirmText="로그아웃"
+        open={openSignOuteModal}
+        onClose={() => setOpenSignOutModal(false)}
+        onConfirm={signOutHandler}
+        isConfirm
+        isIcon
+        icon={<AlertIcon />}
+      >
+        로그아웃 하시겠습니까?
       </GlobalModal>
       <BodyContainer>
         <div className="title">
@@ -224,7 +237,7 @@ const MyProfile = () => {
             border="1px solid rgba(130, 130, 130, 0.2)"
             _height="40px"
             hover
-            onClick={signoutHandler}
+            onClick={() => setOpenSignOutModal(true)}
           >
             로그아웃
           </GlobalButton>

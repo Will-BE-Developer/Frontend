@@ -1,25 +1,30 @@
+import { useState } from "react";
 import styled, { css } from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getCookie } from "../../shared/cookies";
 import logo from "../../assets/logo.png";
 import { signout } from "../../store/slices/userSlice";
-import ScrollToTop from "../UI/ScrollToTop";
+
+import GlobalModal from "../../components/UI/GlobalModal";
+import { IoAlertCircle } from "react-icons/io5";
+
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = getCookie("token");
+  const [openSignOuteModal, setOpenSignOutModal] = useState(false);
 
-  const logoutHandler = () => {
+  const signOutHandler = () => {
     const signoutDispatch = async () => {
       try {
         await dispatch(signout()).unwrap();
+        setOpenSignOutModal(false);
         navigate("/", { replace: true });
       } catch (err) {
         console.log(err);
       }
     };
-
     signoutDispatch();
   };
 
@@ -29,6 +34,18 @@ const Header = () => {
 
   return (
     <HeaderContainer>
+      <GlobalModal
+        title="로그아웃"
+        confirmText="로그아웃"
+        open={openSignOuteModal}
+        onClose={() => setOpenSignOutModal(false)}
+        onConfirm={signOutHandler}
+        isConfirm
+        isIcon
+        icon={<AlertIcon />}
+      >
+        로그아웃 하시겠습니까?
+      </GlobalModal>
       <div className="nav">
         <div style={{ display: "flex", gap: "20px" }}>
           <Link to="/" onClick={scrollToTop}>
@@ -46,7 +63,7 @@ const Header = () => {
         </div>
         <div>
           {token ? (
-            <span className="signout" onClick={logoutHandler}>
+            <span className="signout" onClick={() => setOpenSignOutModal(true)}>
               로그아웃
             </span>
           ) : (
@@ -108,6 +125,11 @@ const Title = styled.h1`
       font-weight: 600;
     `;
   }}
+`;
+
+const AlertIcon = styled(IoAlertCircle)`
+  font-size: 24px;
+  color: #ec5959;
 `;
 
 export default Header;
