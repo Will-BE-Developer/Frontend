@@ -26,10 +26,6 @@ instance.interceptors.response.use(
       window.location.href = "/signin";
     }
 
-    if (error.response.status === 404) {
-      window.location.href = "/notFound";
-    }
-
     if (error.response.status === 500) {
       window.location.href = "/notice";
     }

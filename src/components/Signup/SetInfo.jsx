@@ -12,6 +12,7 @@ import { FcNext } from "react-icons/fc";
 import { FcPrevious } from "react-icons/fc";
 import GlobalTextArea from "../UI/GlobalTextArea";
 import { updateUser } from "../../store/slices/userSlice";
+import mailCheckIcon from "../../assets/icons/mail_check.svg";
 
 const SetInfo = (props) => {
   const dispatch = useDispatch();
@@ -37,8 +38,8 @@ const SetInfo = (props) => {
     const nameRegex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
 
     if (!nameRegex.test(userData.nickname)) {
-      alert("닉네임은 공백 없이 한글/영문/숫자만 가능합니다.");
-      return;
+      props.setCurrentPage(3);
+      return alert("닉네임은 공백 없이 한글/영문/숫자만 가능합니다.");
     }
     props.setCurrentPage(currentPage + 1);
   };
@@ -70,23 +71,21 @@ const SetInfo = (props) => {
     <div>
       {currentPage === 2 && (
         <Container>
-          <div>
-            <h2>회원가입 성공</h2>
-            <span>Willbe 서비스는 이메일 인증 후 이용가능합니다.</span>
-          </div>
-
           <BoxContainer>
             <InputField>
-              <div className="h1_text">
-                <div>회원가입에 성공했습니다.</div>
-                <div>이메일 인증을 완료해주세요.</div>
+              <div className="contents_box">
+                <img src={mailCheckIcon} alt="mail_check" />
+                <h2 className="title">이메일 인증 완료!</h2>
+
+                <span>이메일 인증 링크를 성공적으로 보냈습니다.</span>
+                <span>메일 인증 버튼을 통해 회원가입을 완료해주세요.</span>
               </div>
 
               <GlobalButton
                 onClick={linkToHomeHandler}
                 type="submit"
                 _width="100%"
-                margin="18px 0 0 0"
+                margin="24px 0 0 0"
                 background={theme.colors.main}
                 hover={theme.colors.mainHover}
               >
@@ -98,12 +97,11 @@ const SetInfo = (props) => {
       )}
       {currentPage === 3 && (
         <Container>
-          <div>
-            <h2>닉네임</h2>
-            <span>서비스 이용시 사용되는 닉네임입니다.</span>
-          </div>
-
           <BoxContainer>
+            <div className="contents_box">
+              <h2 className="title">닉네임</h2>
+              <span>서비스 이용시 사용되는 닉네임입니다.</span>
+            </div>
             <InputField>
               <Label htmlFor="nickname">닉네임</Label>
               <div>
@@ -138,12 +136,12 @@ const SetInfo = (props) => {
 
       {currentPage === 4 && (
         <Container>
-          <div>
-            <h2>프로필</h2>
-            <span>서비스 이용시 사용되는 이미지입니다.</span>
-          </div>
           <BoxContainer>
             <PreviousIcon onClick={previousPageHandler} />
+            <div className="contents_box">
+              <h2 className="title">프로필</h2>
+              <span>서비스 이용시 사용되는 이미지입니다.</span>
+            </div>
             <InputField isCenter="center">
               <FlexDiv>
                 <SetProfileImg
@@ -158,7 +156,7 @@ const SetInfo = (props) => {
                 onClick={nextPageWithUploadImgHandler}
                 type="submit"
                 _width="100%"
-                margin="18px 0 0 0"
+                margin="24px 0 0 0"
                 background={theme.colors.main}
                 hover={theme.colors.mainHover}
               >
@@ -171,15 +169,14 @@ const SetInfo = (props) => {
 
       {currentPage === 5 && (
         <Container>
-          <div>
-            <h2>포트폴리오 URL</h2>
-            <span>
-              깃허브, 노션 등 본인의 포트폴리오 URL을 한 개만 작성해주세요.
-            </span>
-          </div>
-
           <BoxContainer>
             <PreviousIcon onClick={previousPageHandler} />
+            <div className="contents_box">
+              <h2 className="title">포트폴리오 URL</h2>
+              <span>
+                깃허브, 노션 등 본인의 포트폴리오 URL을 한 개만 작성해주세요.
+              </span>
+            </div>
             <InputField>
               <Label htmlFor="github_url">포트폴리오 URL</Label>
               <Input
@@ -209,7 +206,7 @@ const SetInfo = (props) => {
                 onClick={nextPageWithUploadImgHandler}
                 type="submit"
                 _width="100%"
-                margin="0 0 12px 0"
+                margin="16px 0 12px 0"
                 background={theme.colors.main}
                 hover={theme.colors.mainHover}
               >
@@ -221,13 +218,12 @@ const SetInfo = (props) => {
       )}
       {currentPage === 6 && (
         <Container>
-          <div>
-            <h2>회원가입 성공</h2>
-          </div>
           <BoxContainer>
             <InputField>
-              <div className="h1_text">
-                WillBe서비스를 이용해주셔서 감사합니다.
+              <div className="contents_box">
+                <img src={mailCheckIcon} alt="mail_check" />
+                <h2 className="title">회원가입 성공!</h2>
+                <span>Willbe 서비스를 이용해주셔서 감사합니다. </span>
               </div>
 
               <GlobalButton
@@ -238,7 +234,7 @@ const SetInfo = (props) => {
                 background={theme.colors.main}
                 hover={theme.colors.mainHover}
               >
-                홈으로 가기
+                가입 완료
               </GlobalButton>
             </InputField>
           </BoxContainer>
@@ -256,7 +252,7 @@ const FlexDiv = styled.div`
 `;
 const Container = styled.div`
   ${({ theme }) => {
-    const { colors, device, calRem, fontWeight, fontSize } = theme;
+    const { colors, device, fontWeight, fontSize } = theme;
     return css`
       margin: 158px auto;
       & > div {
@@ -295,30 +291,58 @@ const Container = styled.div`
 `;
 
 const BoxContainer = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0 auto;
-  width: 672px;
-  height: 400px;
+  ${({ theme }) => {
+    const { colors, device, fontSize, fontWeight } = theme;
+    return css`
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: 0 auto;
+      width: 672px;
+      height: 500px;
 
-  ${boxShadow()};
-  ${({ theme }) => theme.device.mobile} {
-    width: 100%;
-    height: 350px;
-    padding: 10px 5%;
-  }
+      .contents_box {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        .title {
+          font-size: ${fontSize["24"]};
+          color: ${colors.grey90};
+          font-weight: ${fontWeight.semiExtraBold};
+          margin: 16px 0 10px 0;
+          ${device.mobile} {
+            font-size: ${fontSize["20"]};
+          }
+        }
+
+        span {
+          font-size: ${fontSize["14"]};
+          color: ${colors.grey70};
+          margin-top: 5px;
+          ${device.mobile} {
+            font-size: ${fontSize["12"]};
+          }
+        }
+      }
+      ${boxShadow()};
+      ${device.mobile} {
+        width: 100%;
+        height: 450px;
+        padding: 10px 5%;
+      }
+    `;
+  }}
 `;
 
 const InputField = styled.form`
   ${({ theme }) => {
-    const { colors, device, fontSize, fontWeight } = theme;
+    const { colors, device, fontSize } = theme;
     return css`
       width: 100%;
       padding: 0 7%;
       text-align: left;
-
+      margin: 40px 0;
       & .h1_text {
         display: flex;
         justify-content: center;
@@ -362,7 +386,7 @@ const Label = styled.label`
 
 const Input = styled.input`
   ${({ theme }) => {
-    const { colors, device, fontSize, fontWeight } = theme;
+    const { colors, device, fontSize } = theme;
     return css`
       width: 100%;
       height: 60px;
@@ -417,7 +441,7 @@ const PreviousIcon = styled(FcPrevious)`
   position: absolute;
   top: 20px;
   left: 20px;
-  font-size: 25px;
+  font-size: 20px;
   cursor: pointer;
   & > polygon {
     fill: ${({ theme }) => theme.colors.mediumGrey};

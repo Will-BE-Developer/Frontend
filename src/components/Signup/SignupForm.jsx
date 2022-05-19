@@ -113,10 +113,10 @@ const SignupForm = (props) => {
         <LoadingLoader _height="70vh" text="이메일 인증 처리중입니다." />
       ) : (
         <>
-          <div className="title">이메일 인증</div>
           <BoxContainer>
             <SignUpForm onSubmit={handleSubmit(onSubmitHandler)}>
               <PreviousIcon onClick={previousPageHandler} />
+              <div className="title">이메일 회원가입</div>
               <Label htmlFor="email">이메일</Label>
               <div>
                 <Input
@@ -180,24 +180,45 @@ const SignupForm = (props) => {
   );
 };
 
+// const Container = styled.div`
+//   ${({ theme }) => {
+//     const { colors, device, fontSize, fontWeight } = theme;
+//     return css`
+//       margin: 158px auto;
+//       .title {
+//         text-align: center;
+//         margin-bottom: 32px;
+//         color: ${colors.grey90};
+//         font-weight: ${fontWeight.semiExtraBold};
+//       }
+//       font-size: ${fontSize["24"]};
+//       font-weight: ${fontWeight.semiExtraBold};
+
+//       ${device.mobile} {
+//         margin: 158px auto;
+//         width: 100%;
+
+//         font-size: ${fontSize["18"]};
+//       }
+//     `;
+//   }}
+// `;
 const Container = styled.div`
   ${({ theme }) => {
-    const { colors, device, fontSize, fontWeight } = theme;
+    const { fontSize, fontWeight, device } = theme;
+
     return css`
       margin: 158px auto;
-      .title {
+      & > div {
         text-align: center;
         margin-bottom: 32px;
-        color: ${colors.grey90};
-        font-weight: ${fontWeight.semiExtraBold};
       }
       font-size: ${fontSize["24"]};
       font-weight: ${fontWeight.semiExtraBold};
 
       ${device.mobile} {
-        margin: 158px auto;
+        margin-right: 0;
         width: 100%;
-
         font-size: ${fontSize["18"]};
       }
     `;
@@ -211,14 +232,14 @@ const BoxContainer = styled.div`
   margin: 0 auto;
   width: 672px;
   height: 620px;
-
+  position: relative;
   & > div {
     padding: 0 7%;
     display: flex;
     flex-direction: column;
   }
 
-  ${(props) => boxShadow()};
+  ${boxShadow()};
 
   ${({ theme }) => theme.device.mobile} {
     padding: 0 5%;
@@ -237,7 +258,12 @@ const SignUpForm = styled.form`
       width: 100%;
 
       padding: 0 7%;
-
+      .title {
+        display: flex;
+        justify-content: center;
+        margin: 0 auto;
+        margin-bottom: 40px;
+      }
       & > div {
         width: 100%;
         display: flex;
@@ -273,7 +299,7 @@ const SignUpForm = styled.form`
 
 const Label = styled.label`
   ${({ theme }) => {
-    const { colors, device, fontSize, fontWeight } = theme;
+    const { colors, fontSize } = theme;
     return css`
       font-size: ${fontSize["14"]};
       color: ${colors.grey80};
@@ -284,7 +310,7 @@ const Label = styled.label`
 
 const Input = styled.input`
   ${({ theme }) => {
-    const { colors, device, fontSize, fontWeight } = theme;
+    const { colors, device, fontSize } = theme;
     return css`
       width: 100%;
       height: 60px;
@@ -345,20 +371,27 @@ const Terms = styled.div`
 const TermsShow = styled.span`
   margin-left: 5px;
   text-decoration: underline;
-  color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.colors.grey80};
   font-weight: ${({ theme }) => theme.fontWeight.semiExtraBold};
+  cursor: pointer;
 `;
 
 const PreviousIcon = styled(FcPrevious)`
-  margin-bottom: 40px;
-  font-size: 20px;
-  cursor: pointer;
-  & > polygon {
-    fill: ${({ theme }) => theme.colors.darkGrey};
-  }
-
-  ${({ theme }) => theme.device.mobile} {
-    margin-bottom: 20px;
-  }
+  ${({ theme }) => {
+    const { colors, device, fontSize } = theme;
+    return css`
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      font-size: ${fontSize["20"]};
+      cursor: pointer;
+      & > polygon {
+        fill: ${colors.darkGrey};
+      }
+      ${device.mobile} {
+        font-size: ${fontSize["10"]};
+      }
+    `;
+  }}
 `;
 export default SignupForm;

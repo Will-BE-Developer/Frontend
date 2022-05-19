@@ -60,12 +60,6 @@ const Signin = () => {
     }
   };
 
-  // 회원가입 유도하는 모달창
-  // const suggestSingUpHandler = (err) => {
-  //   return alert(err);
-  //   navigate("/signup", { replace: true });
-  // };
-
   const previousPageHandler = () => {
     setCurrentPage(0);
   };
@@ -236,8 +230,8 @@ const Input = styled.input`
       border-radius: 4px;
       margin: 5px 0;
 
-      background: ${({ theme }) => theme.colors.white};
-      color: ${({ theme }) => theme.colors.placeHolder};
+      background: ${colors.white};
+      color: ${colors.placeHolder};
 
       ::placeholder {
         font-size: ${fontSize["14"]};
@@ -248,31 +242,41 @@ const Input = styled.input`
       ${device.mobile} {
         height: 40px;
         ::placeholder {
-          color: ${({ theme }) => theme.colors.placeHolder};
-          font-size: ${({ theme }) => theme.calRem(12)};
+          color: ${colors.placeHolder};
+          font-size: ${fontSize["12"]};
         }
       }
     `;
   }}
 `;
 const ErrorMSG = styled.span`
-  margin-top: 2px;
-  font-size: ${({ theme }) => theme.fontSize["12"]};
-  text-align: left;
-  color: ${({ theme }) => theme.colors.errorMsg};
-  margin-bottom: 16px;
+  ${({ theme }) => {
+    const { colors, fontSize } = theme;
+    return css`
+      margin-top: 2px;
+      font-size: ${fontSize["12"]};
+      text-align: left;
+      color: ${colors.errorMsg};
+      margin-bottom: 16px;
+    `;
+  }}
 `;
 
 const Terms = styled.div`
-  display: flex;
-  justify-content: center;
-  font-size: ${({ theme }) => theme.calRem(14)};
-  font-weight: ${({ theme }) => theme.fontWeight.semiExtraBold};
-  margin-top: 10px;
-  color: ${({ theme }) => theme.colors.grey70};
-  ${({ theme }) => theme.device.mobile} {
-    font-size: ${({ theme }) => theme.calRem(12)};
-  }
+  ${({ theme }) => {
+    const { colors, device, fontSize, fontWeight } = theme;
+    return css`
+      display: flex;
+      justify-content: center;
+      font-size: ${fontSize["14"]};
+      font-weight: ${fontWeight.semiExtraBold};
+      margin-top: 10px;
+      color: ${colors.grey70};
+      ${device.mobile} {
+        font-size: ${fontSize["12"]};
+      }
+    `;
+  }}
 `;
 
 const TermsShow = styled.span`
@@ -284,16 +288,21 @@ const TermsShow = styled.span`
 `;
 
 const PreviousIcon = styled(FcPrevious)`
-  position: absolute;
-  top: 24px;
-  left: 24px;
-  font-size: ${({ theme }) => theme.fontSize["20"]};
-  cursor: pointer;
-  & > polygon {
-    fill: ${({ theme }) => theme.colors.darkGrey};
-  }
-  ${({ theme }) => theme.device.mobile} {
-    font-size: ${({ theme }) => theme.fontSize["10"]};
-  }
+  ${({ theme }) => {
+    const { colors, device, fontSize, fontWeight } = theme;
+    return css`
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      font-size: ${fontSize["20"]};
+      cursor: pointer;
+      & > polygon {
+        fill: ${colors.darkGrey};
+      }
+      ${device.mobile} {
+        font-size: ${fontSize["10"]};
+      }
+    `;
+  }}
 `;
 export default Signin;
