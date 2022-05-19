@@ -27,7 +27,7 @@ const Footer = () => {
       <div className="serviceWrapper">
         <div className="service">
           <p>개인정보처리방침 | 이용약관</p>
-          <p className="company">(주)윌비 대표이사: 김화상</p>
+          <p className="company">윌비 대표이사: 김화상</p>
         </div>
       </div>
     </FooterLayout>

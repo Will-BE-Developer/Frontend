@@ -1,11 +1,11 @@
 import { useState, forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import theme from "../../styles/theme";
 import GlobalButton from "../UI/GlobalButton";
 import { GrRefresh } from "react-icons/gr";
 import interviewApis from "../../apis/interviewApis";
-import { css } from "styled-components";
+import checkIcon from "../../assets/icons/check.png";
 
 const InterviewForm = (
   { thumbnail, questionId, reset, category, question, loadingHandler },
@@ -131,6 +131,7 @@ const InterviewForm = (
           background={theme.colors.blue}
           hover={({ theme }) => theme.colors.mainHover}
         >
+          <img alt="icon" src={checkIcon} style={{ marginRight: "6px" }} />
           저장
         </GlobalButton>
       </div>
@@ -180,7 +181,7 @@ const FormLayout = styled.div`
       & .radioGroup {
         display: flex;
         gap: 10px;
-        margin: 8px 0px 20px 0px;
+        margin: 8px 0px 25px 0px;
         font-size: ${fontSize["14"]};
       }
 
