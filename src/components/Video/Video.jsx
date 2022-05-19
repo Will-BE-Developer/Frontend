@@ -557,7 +557,7 @@ const HightLight = styled.div`
           font-size: 12px;
           color: ${colors.grey80};
           ${device.mobile} {
-            width: 30%;
+            width: 60%;
           }
         }
         .timestamp_box {

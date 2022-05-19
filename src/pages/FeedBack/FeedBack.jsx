@@ -140,6 +140,7 @@ const Container = styled.div`
     position: relative;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
+    margin-top: 20px;
     animation: fadeInBottom 1s;
     transform: translateY(0%);
 
@@ -157,6 +158,8 @@ const Container = styled.div`
     }
     ${({ theme }) => theme.device.mobile} {
       grid-template-columns: repeat(1, 1fr);
+      gap: 40px;
+      padding: 0 20px;
     }
   }
   & .noData {

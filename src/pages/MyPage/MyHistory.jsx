@@ -58,7 +58,7 @@ const Container = styled.div`
 
   & .title {
     display: flex;
-    margin: 0 10px 28px 10px;
+    margin: 0 10px 40px 10px;
     justify-content: space-between;
     align-items: center;
     h1 {
