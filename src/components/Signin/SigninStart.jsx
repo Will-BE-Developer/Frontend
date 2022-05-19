@@ -57,7 +57,7 @@ const SignupStart = (props) => {
 };
 
 const Container = styled.div`
-  margin: 235px auto;
+  margin: 158px auto;
 `;
 
 const BoxContainer = styled.div`
@@ -157,11 +157,16 @@ const Terms = styled.div`
 `;
 
 const TermsShow = styled.span`
-  margin-left: 5px;
-  text-decoration: underline;
-  color: ${({ theme }) => theme.colors.grey80};
-  font-weight: ${({ theme }) => theme.fontWeight.semiExtraBold};
-  cursor: pointer;
+  ${({ theme }) => {
+    const { colors, fontWeight } = theme;
+    return css`
+      margin-left: 5px;
+      text-decoration: underline;
+      color: ${colors.grey80};
+      font-weight: ${fontWeight.semiExtraBold};
+      cursor: pointer;
+    `;
+  }}
 `;
 
 export default SignupStart;
