@@ -10,7 +10,7 @@ import highlightApis from "../../apis/highlightApis.js";
 
 import LoadingLoader from "../UI/LoadingLoader.jsx";
 import questionMark from "../../assets/questionMark.svg";
-import convertingImg from "../../assets/convertingImage.png";
+import convertingImg from "../../assets/convertingImage.svg";
 
 import Bubble from "./Bubble.jsx";
 import GlobalModal from "../UI/GlobalModal";
@@ -135,7 +135,7 @@ const Video = (props) => {
         .then((data) => {
           const filteredLike = [data.topOne, data.topTwo, data.topThree]
             .filter((time) => time >= 0)
-            .map((time) => (time === 0 ? 1 : time));
+            .map((time) => (time === 0 ? 2 : time));
           const newLike = [];
           filteredLike.map((time) =>
             newLike.push({
@@ -301,8 +301,12 @@ const Video = (props) => {
               onMouseMove={mouseMoveHandler}
               onMouseLeave={mouseLeaveHandler}
             >
-              {video == null ? (
-                <img src={convertingImg} alt="convertImg" width="700px"></img>
+              {video === null ? (
+                <img
+                  src={convertingImg}
+                  className="converting_img"
+                  alt="convertingImg"
+                ></img>
               ) : (
                 <>
                   <ReactPlayer
@@ -452,6 +456,10 @@ const VideoBackgroud = styled.div`
     margin: 0 auto;
     .react-player {
     }
+    .converting_img {
+      width: 100%;
+      -webkit-user-drag: none;
+    }
   }
 
   .tooltip {
@@ -502,10 +510,7 @@ const HightLight = styled.div`
           display: flex;
           justify-content: center;
           align-items: center;
-          .noti {
-            font-size: 12px;
-            color: ${colors.grey80};
-          }
+
           .title {
             color: ${colors.grey80};
 
@@ -545,6 +550,14 @@ const HightLight = styled.div`
                 color: ${colors.grey10};
               }
             }
+          }
+        }
+
+        .noti {
+          font-size: 12px;
+          color: ${colors.grey80};
+          ${device.mobile} {
+            width: 30%;
           }
         }
         .timestamp_box {

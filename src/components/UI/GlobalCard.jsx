@@ -11,7 +11,7 @@ import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import TimeAgo from "../FeedBack/TimeAgo";
 import defaultUserImage from "../../assets/defaultUserImage.png";
 import UserProfileModal from "../UI/ModalSample/UserProfileModal";
-import convertingImg from "../../assets/convertingImage.png";
+import convertingImg from "../../assets/convertingImageM.svg";
 
 const GlobalCard = memo(({ card }) => {
   const [showModal, setShowModal] = useState(false);
@@ -54,7 +54,9 @@ const GlobalCard = memo(({ card }) => {
       />
       <CardBody onClick={linkToDetailHandler}>
         {thumbnail === null ? (
-          <Img alt="img" src={convertingImg} />
+          <div className="converting_img">
+            <Img alt="img" src={convertingImg} />
+          </div>
         ) : (
           <Img alt="img" src={thumbnail} />
         )}
@@ -106,6 +108,7 @@ GlobalCard.defaultProps = {
 //    <CrownIcon />
 //  </BtnCircleBg>
 const Img = styled.img`
+  /* background: ${({ theme }) => theme.colors.grey5} */
   ${({ theme }) => theme.device.mobile} {
     max-height: 200px;
   }
@@ -144,6 +147,11 @@ const CardBody = styled.div`
   margin: 0 auto;
   width: 100%;
   cursor: pointer;
+  .converting_img {
+    display: flex;
+    justify-content: center;
+    background: ${({ theme }) => theme.colors.grey5};
+  }
 `;
 
 const BodyContainer = styled.div`
