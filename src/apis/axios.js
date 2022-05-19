@@ -23,7 +23,7 @@ instance.interceptors.response.use(
     if (error.response.status === 401 || error.response.status === 403) {
       deleteCookie("token");
       alert("로그인이 만료되었습니다");
-      window.location.href = "/login";
+      window.location.href = "/signin";
     }
 
     if (error.response.status === 404) {
