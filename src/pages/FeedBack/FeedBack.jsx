@@ -9,6 +9,7 @@ import InfiniteScroll from "react-infinite-scroller";
 import Loader from "../../components/UI/Loader";
 import theme from "../../styles/theme";
 import { HiChevronRight } from "react-icons/hi";
+
 import bangIcon from "../../assets/icons/bang.png";
 
 const FeedBack = () => {
