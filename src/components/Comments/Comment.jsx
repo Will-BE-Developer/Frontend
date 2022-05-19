@@ -8,6 +8,8 @@ import { IoAlertCircle } from "react-icons/io5";
 import GlobalModal from "../../components/UI/GlobalModal";
 import defaultUserImage from "../../assets/defaultUserImage.png";
 import theme from "../../styles/theme";
+import deleteIcon from "../../assets/icons/delete_grey.svg";
+import editIcon from "../../assets/icons/edit.svg";
 
 const Comment = ({
   currentComment,
@@ -71,7 +73,6 @@ const Comment = ({
   const clickDeleteHandler = async () => {
     try {
       const response = await commentApis.deleteComment(id);
-      console.log(response.totalComments);
       setAllComments(response.comments);
       setCommentCount(response.totalComments);
     } catch (err) {
@@ -122,8 +123,12 @@ const Comment = ({
           </div>
           {isMine && !isEdit && (
             <div className="button_box hide">
-              <button onClick={clickUpdateHandler}>수정</button>
-              <button onClick={() => setOpenDeleteModal(true)}>삭제</button>
+              <button onClick={clickUpdateHandler}>
+                <img src={editIcon} alt="editIcon" />
+              </button>
+              <button onClick={() => setOpenDeleteModal(true)}>
+                <img src={deleteIcon} alt="delteIcon" />
+              </button>
             </div>
           )}
         </div>
@@ -249,6 +254,7 @@ const AuthorContainer = styled.div`
           display: flex;
           -webkit-box-align: center;
           align-items: center;
+          gap: 8px;
 
           button {
             font-size: ${fontSize["12"]};
@@ -262,8 +268,8 @@ const AuthorContainer = styled.div`
 const ProfileImg = styled.img`
   border-radius: 50%;
   object-fit: cover;
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   margin-right: 5px;
 `;
 

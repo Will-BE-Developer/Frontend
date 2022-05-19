@@ -18,12 +18,10 @@ import GlobalStyles from "../styles/GlobalStyles";
 import { FcPrevious } from "react-icons/fc";
 
 import SignupStart from "../components/Signin/SigninStart";
-
 import { signinEmail } from "../store/slices/userSlice";
 
-const Signin = (props) => {
+const Signin = () => {
   const token = getCookie("token");
-  const { pathname } = useLocation();
   const [currentPage, setCurrentPage] = useState(0);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -51,11 +49,14 @@ const Signin = (props) => {
   const onSubmitHandler = async (userData) => {
     try {
       const res = await dispatch(signinEmail(userData)).unwrap();
+      console.log(res);
       if (res.token) {
         navigate("/", { replace: true });
       }
     } catch (err) {
+      console.log(err);
       alert(err.message);
+      return;
     }
   };
 
@@ -84,10 +85,10 @@ const Signin = (props) => {
             />
           ) : (
             <Container>
-              <div>이메일 로그인</div>
               <BoxContainer>
                 <SignUpForm onSubmit={handleSubmit(onSubmitHandler)}>
                   <PreviousIcon onClick={previousPageHandler} />
+                  <div className="title">이메일 로그인</div>
                   <Label htmlFor="email">이메일</Label>
 
                   <Input
@@ -117,7 +118,7 @@ const Signin = (props) => {
                   <Terms>
                     <span>계정이 없으신가요?</span>
                     <TermsShow onClick={linkToSignUpHandler}>
-                      회원가입하러 가기
+                      회원가입
                     </TermsShow>
                   </Terms>
                 </SignUpForm>
@@ -174,7 +175,7 @@ const BoxContainer = styled.div`
   margin: 0 auto;
   width: 672px;
   height: 500px;
-
+  position: relative;
   & > div {
     padding: 0 7%;
     display: flex;
@@ -196,7 +197,12 @@ const SignUpForm = styled.form`
   width: 100%;
 
   padding: 0 7%;
-
+  .title {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    margin-bottom: 40px;
+  }
   & > div {
     width: 100%;
     display: flex;
@@ -263,7 +269,7 @@ const Terms = styled.div`
   font-size: ${({ theme }) => theme.calRem(14)};
   font-weight: ${({ theme }) => theme.fontWeight.semiExtraBold};
   margin-top: 10px;
-
+  color: ${({ theme }) => theme.colors.grey70};
   ${({ theme }) => theme.device.mobile} {
     font-size: ${({ theme }) => theme.calRem(12)};
   }
@@ -272,17 +278,22 @@ const Terms = styled.div`
 const TermsShow = styled.span`
   margin-left: 5px;
   text-decoration: underline;
-  color: ${({ theme }) => theme.colors.blue};
+  color: ${({ theme }) => theme.colors.grey80};
   font-weight: ${({ theme }) => theme.fontWeight.semiExtraBold};
   cursor: pointer;
 `;
 
 const PreviousIcon = styled(FcPrevious)`
-  margin-bottom: 30px;
-  font-size: 20px;
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  font-size: ${({ theme }) => theme.fontSize["20"]};
   cursor: pointer;
   & > polygon {
     fill: ${({ theme }) => theme.colors.darkGrey};
+  }
+  ${({ theme }) => theme.device.mobile} {
+    font-size: ${({ theme }) => theme.fontSize["10"]};
   }
 `;
 export default Signin;

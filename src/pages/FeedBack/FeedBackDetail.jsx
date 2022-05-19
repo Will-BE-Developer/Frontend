@@ -18,6 +18,8 @@ import Video from "../../components/Video/Video";
 import Gold from "../../assets/icons/gold.png";
 import Silver from "../../assets/icons/silver.png";
 import Bronze from "../../assets/icons/bronze.png";
+import deleteIcon from "../../assets/icons/delete_white.svg";
+import editIcon from "../../assets/icons/edit.svg";
 
 const FeedBackDetail = (props) => {
   const token = getCookie("token");
@@ -180,22 +182,37 @@ const FeedBackDetail = (props) => {
               {isMine && (
                 <div className="user_buttons">
                   <GlobalButton
-                    text="수정"
                     background={theme.colors.white}
-                    color={theme.colors.main}
-                    border={`1px solid ${theme.colors.main}`}
+                    padding="11px 16px"
+                    color={theme.colors.grey80}
+                    border="1px solid rgba(130, 130, 130, 0.2)"
                     _height="40px"
+                    hover={theme.colors.grey5}
                     onClick={editHandler}
-                    hover="rgba(86, 127, 232, 0.06);"
-                  />
+                  >
+                    <img
+                      alt="edit"
+                      src={editIcon}
+                      style={{ marginRight: "10px" }}
+                    />
+                    수정
+                  </GlobalButton>
                   <GlobalButton
                     margin="0px 10px 0px 0px"
                     background={theme.colors.errorMsg}
+                    color={theme.colors.white}
+                    border="1px solid rgba(130, 130, 130, 0.2)"
                     _height="40px"
-                    onClick={() => setOpenDeleteModal(true)}
-                    text="삭제"
                     hover="#F16E6E;"
-                  />
+                    onClick={() => setOpenDeleteModal(true)}
+                  >
+                    <img
+                      alt="edit"
+                      src={deleteIcon}
+                      style={{ marginRight: "10px" }}
+                    />
+                    삭제
+                  </GlobalButton>
                 </div>
               )}
               <TitleContainer>

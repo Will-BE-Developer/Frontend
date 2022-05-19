@@ -39,9 +39,11 @@ export const signupEmail = createAsyncThunk(
           Authorization: getCookie("token"),
         },
       });
+      console.log(response);
 
       return response.data;
     } catch (err) {
+      console.log(err);
       return rejectWithValue(err.response.data);
     }
   }
