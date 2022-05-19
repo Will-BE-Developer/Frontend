@@ -105,8 +105,7 @@ const RootComment = ({
                             mWidth="50px"
                             mHeight="30px"
                             mPadding="8px"
-                            hover
-                            hoverBg="rgba(86, 127, 232, 0.06);"
+                            hover="rgba(86, 127, 232, 0.06);"
                             background={theme.colors.white}
                             color={theme.colors.main}
                             border={`1px solid ${theme.colors.main}`}
@@ -117,8 +116,10 @@ const RootComment = ({
                             onClick={onSubmitHandler}
                             _width="70px"
                             _height="35px"
-                            hover
-                            hoverBg="rgba(86, 127, 232, 0.06);"
+                            mWidth="50px"
+                            mHeight="30px"
+                            mPadding="8px"
+                            hover="rgba(86, 127, 232, 0.06);"
                             background={theme.colors.white}
                             color={theme.colors.main}
                             border={`1px solid ${theme.colors.main}`}

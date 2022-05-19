@@ -67,7 +67,6 @@ const FeedBack = () => {
     }
   }, [selectedCategory, data, selectedSort]);
 
-  console.log(data);
   return (
     <Container>
       <div className="dropDown_container">
@@ -89,8 +88,7 @@ const FeedBack = () => {
         loadMore={fetchFeedback}
         hasMore={data?.pagination?.nextPage !== null}
         loader={<Loader key={0} />}
-        threshold={180}
-        useWindow={false}
+        threshold={theme.device.mobile ? 180 : 0}
       >
         {data?.feedback.length === 0 ? (
           <div className="noData">

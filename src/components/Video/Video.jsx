@@ -506,6 +506,7 @@ const HightLight = styled.div`
       }
 
       .highlight_bar {
+        width: 90%;
         .contents_box {
           display: flex;
           justify-content: center;
@@ -513,7 +514,7 @@ const HightLight = styled.div`
 
           .title {
             color: ${colors.grey80};
-
+            white-space: nowrap;
             .tooltip_highlight {
               position: absolute;
               display: none;
@@ -557,7 +558,6 @@ const HightLight = styled.div`
           font-size: 12px;
           color: ${colors.grey80};
           ${device.mobile} {
-            width: 60%;
           }
         }
         .timestamp_box {

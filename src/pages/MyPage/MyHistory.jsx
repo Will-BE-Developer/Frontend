@@ -18,7 +18,6 @@ const MyHistory = () => {
       setData(data.interviews);
     });
   }, []);
-
   return (
     <Container>
       <div className="title">
