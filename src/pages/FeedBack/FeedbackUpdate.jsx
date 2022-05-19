@@ -139,7 +139,7 @@ const FormLayout = styled.div`
       & .video_layout {
         display: flex;
         justify-content: center;
-        background-color: ${({ theme }) => theme.colors.headerBgColor};
+        background-color: ${colors.headerBgColor};
         border-radius: 6px;
         margin-bottom: 40px;
       }
@@ -169,7 +169,7 @@ const FormLayout = styled.div`
       }
       & p {
         margin-top: 24px;
-        font-size: ${({ theme }) => theme.fontSize["12"]};
+        font-size: ${fontSize["12"]};
       }
 
       & textarea {
@@ -188,7 +188,7 @@ const FormLayout = styled.div`
         display: flex;
         gap: 10px;
         margin: 12px 0px 20px 0px;
-        font-size: ${({ theme }) => theme.fontSize["14"]};
+        font-size: ${fontSize["14"]};
       }
 
       & .radioGroup input {
@@ -201,7 +201,7 @@ const FormLayout = styled.div`
       }
 
       & .noti {
-        font-size: ${({ theme }) => theme.fontSize["12"]};
+        font-size: ${fontSize["12"]};
         color: #666666;
         margin-left: 5px;
       }

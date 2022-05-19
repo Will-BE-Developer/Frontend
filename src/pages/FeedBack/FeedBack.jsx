@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled, { css } from "styled-components";
 import GlobalCard from "../../components/UI/GlobalCard";
@@ -29,7 +29,7 @@ const FeedBack = () => {
     "Database",
     "General",
     "Java",
-    "JavaScript",
+    "Javascript",
     "Network",
     "OS",
     "Python",
@@ -89,7 +89,8 @@ const FeedBack = () => {
         loadMore={fetchFeedback}
         hasMore={data?.pagination?.nextPage !== null}
         loader={<Loader key={0} />}
-        threshold={150}
+        threshold={180}
+        useWindow={false}
       >
         {data?.feedback.length === 0 ? (
           <div className="noData">
