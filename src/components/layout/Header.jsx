@@ -269,7 +269,7 @@ const MobileNav = styled.nav`
 
       .nav_box {
         width: 90vw;
-        padding: 20px 40px;
+        padding: 10px 20px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -297,7 +297,6 @@ const MobileNav = styled.nav`
         }
         .nav_list {
           background-color: white;
-
           height: 100%;
           font-size: 28px;
           width: 100%;
@@ -320,7 +319,7 @@ const MobileNav = styled.nav`
 
         .footer {
           width: 100%;
-          padding-bottom: 40px;
+          padding-bottom: 100px;
           ul {
             display: flex;
             justify-content: space-between;
