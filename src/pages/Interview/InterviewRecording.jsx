@@ -256,13 +256,13 @@ const InterviewRecording = () => {
                 {isStart && !isEnd && (
                   <>
                     <button
-                      disabled={currSecond < 19}
+                      disabled={currSecond < 9}
                       onClick={stopRecordingHandler}
                       className="stopBtn"
                     >
                       <div></div>
                       <div className="tooltip">
-                        <p>영상은 최소 20초 이상 촬영해야 합니다</p>
+                        <p>영상은 최소 10초 이상 촬영해야 합니다</p>
                       </div>
                     </button>
                   </>
@@ -362,9 +362,9 @@ const RecordWrapper = styled.div`
     width: 44px;
     border: 1px solid
       ${({ theme, currSecond }) =>
-        currSecond > 19 ? theme.colors.errorMsg : theme.colors.grey10};
+        currSecond > 9 ? theme.colors.errorMsg : theme.colors.grey10};
     background-color: ${({ theme, currSecond }) =>
-      currSecond > 19 ? "" : theme.colors.grey10};
+      currSecond > 9 ? "" : theme.colors.grey10};
     border-radius: 50%;
     position: relative;
 
@@ -372,15 +372,14 @@ const RecordWrapper = styled.div`
       width: 12px;
       height: 12px;
       background-color: ${({ theme, currSecond }) =>
-        currSecond > 19 ? theme.colors.errorMsg : theme.colors.grey40};
+        currSecond > 9 ? theme.colors.errorMsg : theme.colors.grey40};
     }
   }
 
   .stopBtn:hover {
-    cursor: ${({ currSecond }) =>
-      currSecond > 19 ? "pointer" : "not-allowed"};
+    cursor: ${({ currSecond }) => (currSecond > 9 ? "pointer" : "not-allowed")};
     background-color: ${({ currSecond }) =>
-      currSecond > 19 ? "rgba(236, 89, 89, 0.06)" : ""};
+      currSecond > 9 ? "rgba(236, 89, 89, 0.06)" : ""};
   }
 
   .tooltip {
@@ -391,7 +390,7 @@ const RecordWrapper = styled.div`
   .stopBtn:hover {
     .tooltip {
       bottom: -35px;
-      display: ${({ currSecond }) => (currSecond > 19 ? "none" : "flex")};
+      display: ${({ currSecond }) => (currSecond > 9 ? "none" : "flex")};
       justify-content: center;
       align-items: center;
       width: max-content;
