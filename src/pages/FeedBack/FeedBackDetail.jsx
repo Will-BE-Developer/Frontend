@@ -33,7 +33,7 @@ const FeedBackDetail = (props) => {
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openProfileModal, setOpenProfileModal] = useState(false);
-  const [openSigninModal, seOpenSigninModal] = useState(false);
+  const [openSigninModal, setOpenSigninModal] = useState(false);
 
   const [badge, setBadge] = useState({
     color: "",
@@ -132,7 +132,7 @@ const FeedBackDetail = (props) => {
   };
 
   const openModalHandler = () => {
-    seOpenSigninModal(true);
+    setOpenSigninModal(true);
   };
 
   return (
@@ -163,7 +163,7 @@ const FeedBackDetail = (props) => {
           title="알림"
           confirmText="로그인하러 가기"
           open={openSigninModal}
-          onClose={() => seOpenSigninModal(false)}
+          onClose={() => setOpenSigninModal(false)}
           onConfirm={() => linkToSignInHandler()}
           isConfirm
           isIcon

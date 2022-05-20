@@ -19,6 +19,8 @@ const GlobalModal = (props) => {
     isConfirm,
     isIcon,
     icon,
+    btnWidth,
+    btnHeight,
   } = props;
 
   const styles = {
@@ -108,9 +110,8 @@ const ModalContainer = styled.div`
       ${device.mobile} {
         min-width: 350px;
         min-height: 40px;
-        height: ${(props) =>
-          props._mobileHeight ? props._mobileHeight : "228px"};
-        padding: ${(props) => (props.padding ? props.padding : "20px")};
+        height: ${(props) => (props._mobileHeight ? props._mobileHeight : "")};
+        padding: ${(props) => (props.padding ? props.padding : "")};
       }
     `;
   }}
@@ -176,6 +177,8 @@ const Footer = styled.div`
     }
   }
   & .close_btn {
+    width: ${(props) => (props.btnWidth ? props.btnWidth : "max-content")};
+    height: ${(props) => (props.btnHeight ? props.btnHeight : "50px")};
   }
 
   & .confirm_btn {

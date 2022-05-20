@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { boxShadow } from "../../styles/boxShadow";
@@ -15,6 +15,8 @@ import GlobalButton from "../UI/GlobalButton";
 import { signupEmail } from "../../store/slices/userSlice";
 import userApis from "../../apis/userApis";
 import { FcPrevious } from "react-icons/fc";
+import GlobalModal from "../UI/GlobalModal";
+import TermsModal from "../UI/ModalSample/TemsModal";
 
 const SignupForm = (props) => {
   const navigate = useNavigate();
@@ -22,6 +24,9 @@ const SignupForm = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [checkEmail, setCheckEmail] = useState(false);
   const [emailValue, setEmailValue] = useState("");
+  const [openTermsModal, setOpenTermsModal] = useState(false);
+  const [checkedTerms, setCheckedTerms] = useState(false);
+
   const dispatch = useDispatch();
 
   // 회원가입 유효성 검사
@@ -72,7 +77,10 @@ const SignupForm = (props) => {
       alert("이메일 중복을 확인해주세요.");
       return;
     }
-
+    if (!checkedTerms) {
+      alert("윌비 서비스 이용 약관에 동의해주세요.");
+      return;
+    }
     setIsLoading(true);
     try {
       await dispatch(signupEmail(userData)).unwrap();
@@ -107,8 +115,21 @@ const SignupForm = (props) => {
     navigate("/signin");
   };
 
+  const sendTermseModalHandler = (boolean) => {
+    setOpenTermsModal(boolean);
+  };
+
+  const checkTermsHandler = () => {
+    setCheckedTerms(!checkedTerms);
+  };
+  console.log(checkedTerms);
+
   return (
     <Container>
+      <TermsModal
+        setOpenTermsModal={sendTermseModalHandler}
+        openTermsModal={openTermsModal}
+      />
       {isLoading ? (
         <LoadingLoader _height="70vh" text="이메일 인증 처리중입니다." />
       ) : (
@@ -166,11 +187,15 @@ const SignupForm = (props) => {
 
             <Terms>
               <label>
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  checked={checkedTerms}
+                  onChange={checkTermsHandler}
+                />
                 (필수) 서비스 이용 약관 동의
-                <Link to="/">
+                <button onClick={() => setOpenTermsModal(true)}>
                   <TermsShow>보기</TermsShow>
-                </Link>
+                </button>
               </label>
             </Terms>
           </BoxContainer>{" "}
