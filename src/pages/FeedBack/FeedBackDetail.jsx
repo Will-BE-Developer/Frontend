@@ -62,6 +62,7 @@ const FeedBackDetail = (props) => {
   const weekChar = { 1: "첫", 2: "둘", 3: "셋" };
 
   useEffect(() => {
+    const getDetail = async () => {};
     feedbackApis
       .getDetail(cardId)
       .then((data) => {
