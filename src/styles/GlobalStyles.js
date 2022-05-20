@@ -50,6 +50,9 @@ const GlobalStyles = createGlobalStyle`
     outline: none;
   }
 
+  img {
+    -webkit-user-drag: none;
+  }
   
   &::-webkit-scrollbar {
     display: none;

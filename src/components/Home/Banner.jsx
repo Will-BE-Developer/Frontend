@@ -125,7 +125,6 @@ const BannerContainer = styled.div`
     left: 0px;
     max-width: 500px;
     width: 100%;
-    -webkit-user-drag: none;
   }
 
   .slick-slider {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -8,12 +8,16 @@ import { signout } from "../../store/slices/userSlice";
 
 import GlobalModal from "../../components/UI/GlobalModal";
 import { IoAlertCircle } from "react-icons/io5";
+import { GiHamburger } from "react-icons/gi";
+import { AiOutlineClose } from "react-icons/ai";
 
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = getCookie("token");
   const [openSignOuteModal, setOpenSignOutModal] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
 
   const signOutHandler = () => {
     const signoutDispatch = async () => {
@@ -29,8 +33,25 @@ const Header = () => {
   };
 
   const scrollToTop = () => {
+    setIsClicked(false);
     window.scrollTo(0, 0);
   };
+
+  useEffect(() => {
+    mobileHandler();
+  }, []);
+
+  const mobileHandler = () => {
+    if (window.innerWidth <= 960) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+  };
+
+  window.addEventListener("resize", mobileHandler);
+
+  const clickBurgerHandler = () => setIsClicked(!isClicked);
 
   return (
     <HeaderContainer>
@@ -46,39 +67,120 @@ const Header = () => {
       >
         로그아웃 하시겠습니까?
       </GlobalModal>
-      <div className="nav">
-        <div style={{ display: "flex", gap: "20px" }}>
+      {!isMobile ? (
+        <nav className="nav">
+          <ul style={{ display: "flex", gap: "20px" }}>
+            <li>
+              <Link to="/" onClick={scrollToTop}>
+                <img alt="logo" src={logo} />
+              </Link>
+            </li>
+            <li>
+              <Link to="/feedback" onClick={scrollToTop}>
+                피드백
+              </Link>
+            </li>
+            <li>
+              {" "}
+              <Link to="/interview">면접보기</Link>
+            </li>
+            <li>{token ? <Link to="/mypage">마이페이지</Link> : ""}</li>
+          </ul>
+          <div>
+            {token ? (
+              <span
+                className="signout"
+                onClick={() => setOpenSignOutModal(true)}
+              >
+                로그아웃
+              </span>
+            ) : (
+              <Link to="/signin">로그인</Link>
+            )}
+          </div>
+        </nav>
+      ) : (
+        <Mobile>
           <Link to="/" onClick={scrollToTop}>
-            <Title>
-              <img alt="logo" src={logo} />
-            </Title>
+            <img alt="logo" src={logo} />
           </Link>
-
-          <Link to="/feedback" onClick={scrollToTop}>
-            피드백
-          </Link>
-
-          <Link to="/interview">면접보기</Link>
-          {token ? <Link to="/mypage">마이페이지</Link> : ""}
-        </div>
-        <div>
-          {token ? (
-            <span className="signout" onClick={() => setOpenSignOutModal(true)}>
-              로그아웃
-            </span>
+          {!isClicked ? (
+            <>
+              <button className="hamburger" onClick={clickBurgerHandler}>
+                <GiHamburger />
+              </button>
+            </>
           ) : (
-            <Link to="/signin">로그인</Link>
+            <MobileNav>
+              <div className="nav_box">
+                <div className="header">
+                  <Link to="/" onClick={scrollToTop}>
+                    <img alt="logo" src={logo} />
+                  </Link>
+                  <button className="close_burger" onClick={clickBurgerHandler}>
+                    <AiOutlineClose />
+                  </button>
+                </div>
+
+                <ul className="nav_list">
+                  <li>
+                    <Link to="/feedback" onClick={scrollToTop}>
+                      🙇‍♂️ 홈
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/feedback" onClick={scrollToTop}>
+                      🙇‍♂️ 피드백
+                    </Link>
+                  </li>
+                  <li>
+                    {" "}
+                    <Link to="/interview">🙇‍♂️ 면접보기</Link>
+                  </li>
+                  <li>
+                    {token ? <Link to="/mypage">🙇‍♂️ 마이페이지</Link> : ""}
+                  </li>
+                </ul>
+
+                <div className="footer">
+                  <ul>
+                    <li>
+                      <Link to="/feedback" onClick={scrollToTop}>
+                        팀원소개
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/interview">설문조사하기</Link>
+                    </li>
+                    <li>
+                      {token ? (
+                        <span
+                          className="signout"
+                          onClick={() => setOpenSignOutModal(true)}
+                        >
+                          로그아웃
+                        </span>
+                      ) : (
+                        <Link to="/signin">로그인</Link>
+                      )}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </MobileNav>
           )}
-        </div>
-      </div>
+        </Mobile>
+      )}
     </HeaderContainer>
   );
 };
 
 const HeaderContainer = styled.div`
   ${({ theme }) => {
-    const { colors } = theme;
+    const { colors, fontWeight, device } = theme;
+
     return css`
+      list-style: none;
       position: fixed;
       display: flex;
       justify-content: center;
@@ -90,9 +192,20 @@ const HeaderContainer = styled.div`
       height: 60px;
       box-shadow: 0 2px 5px rgba(130, 130, 130, 0.1);
       background: white;
+      font-weight: ${fontWeight.semiExtraBold};
+      :hover {
+        a {
+          color: #888888;
+        }
 
-      & .nav {
+        div > span {
+          color: #888888;
+        }
+      }
+
+      .nav {
         display: flex;
+
         justify-content: space-between;
         align-items: center;
         max-width: 1200px;
@@ -100,29 +213,126 @@ const HeaderContainer = styled.div`
         height: 60px;
         padding: 0px 1rem;
 
-        & a {
-          display: flex;
+        ul {
           align-items: center;
         }
 
-        & .signout {
-          cursor: pointer;
-        }
-
-        @media screen and (min-width: 1240px) {
-          padding: 0px;
+        a {
+          display: flex;
+          align-items: center;
+          :hover {
+            color: ${colors.black};
+          }
         }
       }
+
+      .signout {
+        cursor: pointer;
+        :hover {
+          color: ${colors.black};
+        }
+      }
+
+      @media screen and (min-width: 1240px) {
+        padding: 0px;
+      }
+
+      ${device.mobile} {
+      }
     `;
-  }}//
+  }}
 `;
 
-const Title = styled.h1`
+const Mobile = styled.div`
+  width: 100%;
+
+  /* padding: 0px 1rem; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  .hamburger {
+    font-size: 20px;
+
+    color: ${({ theme }) => theme.colors.main};
+  }
+`;
+
+const MobileNav = styled.nav`
   ${({ theme }) => {
     const { colors } = theme;
     return css`
-      color: ${colors.black};
-      font-weight: 600;
+      /* overflow: hidden; */
+      margin: 0;
+      padding: 0;
+      /* padding: 0px 1rem; */
+
+      .nav_box {
+        width: 90vw;
+        padding: 20px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        position: absolute;
+        top: 0;
+        right: 0;
+
+        background-color: white;
+        width: 100vw;
+        height: 100vh;
+
+        .header {
+          width: 100%;
+          margin-bottom: 40px;
+          display: flex;
+          justify-content: space-between;
+          img {
+            width: 80px;
+          }
+          .close_burger {
+            font-size: 20px;
+            font-weight: 800;
+          }
+        }
+        .nav_list {
+          background-color: white;
+
+          height: 100%;
+          font-size: 28px;
+          width: 100%;
+          text-align: left;
+          li {
+            margin: 60px 0;
+          }
+          /* 
+    display: flex;
+    flex-direction: column; */
+          /* 
+    gap: 50px; */
+
+          a {
+            :hover {
+              color: ${colors.black};
+            }
+          }
+        }
+
+        .footer {
+          width: 100%;
+          padding-bottom: 40px;
+          ul {
+            display: flex;
+            justify-content: space-between;
+          }
+
+          a {
+            :hover {
+              color: ${colors.black};
+            }
+          }
+        }
+      }
     `;
   }}
 `;
