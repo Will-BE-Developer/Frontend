@@ -100,7 +100,7 @@ const Header = () => {
           </div>
         </nav>
       ) : (
-        <Mobile>
+        <Mobile className={isClicked ? `nav_active` : `nav_wrap`}>
           <Link to="/" onClick={scrollToTop}>
             <img alt="logo" src={logo} />
           </Link>
@@ -246,7 +246,6 @@ const HeaderContainer = styled.div`
 const Mobile = styled.div`
   width: 100%;
 
-  /* padding: 0px 1rem; */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -255,6 +254,9 @@ const Mobile = styled.div`
     font-size: 20px;
 
     color: ${({ theme }) => theme.colors.main};
+  }
+
+  .nav_wrap {
   }
 `;
 
@@ -268,7 +270,6 @@ const MobileNav = styled.nav`
 
       .nav_box {
         width: 90vw;
-        padding: 10px 30px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -282,19 +283,20 @@ const MobileNav = styled.nav`
         height: 100vh;
 
         .header {
+          box-shadow: 0 2px 5px rgba(130, 130, 130, 0.1);
+          padding: 15px 1rem;
           width: 100%;
           margin-bottom: 40px;
           display: flex;
           justify-content: space-between;
-          img {
-            width: 80px;
-          }
+
           .close_burger {
             font-size: 20px;
             font-weight: 800;
           }
         }
         .nav_list {
+          padding: 10px 30px;
           background-color: white;
           height: 100%;
           font-size: 28px;
@@ -311,6 +313,7 @@ const MobileNav = styled.nav`
         }
 
         .footer {
+          padding: 10px 30px;
           width: 100%;
           padding-bottom: 100px;
           ul {
