@@ -36,7 +36,7 @@ const FeedbackUpdate = () => {
   };
 
   const clickCancleHandler = () => {
-    navigate(`/feedback/${data.id}`);
+    navigate(`/feedback/${data.id}`, { replace: true });
   };
 
   return (

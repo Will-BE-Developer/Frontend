@@ -135,10 +135,18 @@ const Header = () => {
                   </li>
                   <li>
                     {" "}
-                    <Link to="/interview">🙇‍♂️ 면접보기</Link>
+                    <Link to="/interview" onClick={scrollToTop}>
+                      🙇‍♂️ 면접보기
+                    </Link>
                   </li>
                   <li>
-                    {token ? <Link to="/mypage">🙇‍♂️ 마이페이지</Link> : ""}
+                    {token ? (
+                      <Link to="/mypage" onClick={scrollToTop}>
+                        🙇‍♂️ 마이페이지
+                      </Link>
+                    ) : (
+                      ""
+                    )}
                   </li>
                 </ul>
 
