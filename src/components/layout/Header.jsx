@@ -246,14 +246,12 @@ const HeaderContainer = styled.div`
 const Mobile = styled.div`
   width: 100%;
 
-  /* padding: 0px 1rem; */
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: relative;
   .hamburger {
     font-size: 20px;
-
     color: ${({ theme }) => theme.colors.main};
   }
 `;
@@ -262,14 +260,12 @@ const MobileNav = styled.nav`
   ${({ theme }) => {
     const { colors } = theme;
     return css`
-      /* overflow: hidden; */
       margin: 0;
       padding: 0;
-      /* padding: 0px 1rem; */
 
       .nav_box {
         width: 90vw;
-        padding: 20px 40px;
+        padding: 20px 30px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -297,7 +293,7 @@ const MobileNav = styled.nav`
         }
         .nav_list {
           background-color: white;
-
+          color: #222;
           height: 100%;
           font-size: 28px;
           width: 100%;
@@ -305,11 +301,6 @@ const MobileNav = styled.nav`
           li {
             margin: 60px 0;
           }
-          /* 
-    display: flex;
-    flex-direction: column; */
-          /* 
-    gap: 50px; */
 
           a {
             :hover {
@@ -320,7 +311,7 @@ const MobileNav = styled.nav`
 
         .footer {
           width: 100%;
-          padding-bottom: 40px;
+          padding-bottom: 100px;
           ul {
             display: flex;
             justify-content: space-between;
