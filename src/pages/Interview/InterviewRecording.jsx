@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import * as Sentry from "@sentry/react";
 import RecordRTC from "recordrtc";
 import Timer from "react-timer-wrapper";
 import Timecode from "react-timecode";
@@ -90,14 +91,18 @@ const InterviewRecording = () => {
     }
 
     if (firstTry && !state?.question) {
-      interviewApis
-        .getQuestion(state.selectTopic)
-        .then((question) => {
-          setQuestion(question);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      const getQuestion = async () => {
+        const {
+          data: { question },
+        } = await interviewApis.getQuestion(state.selectTopic);
+        setQuestion(question);
+      };
+
+      try {
+        getQuestion();
+      } catch (err) {
+        Sentry.captureException(`Get question : ${err}`);
+      }
     }
   }, [recordingHandler, isEnd, state, firstTry, navigate]);
 

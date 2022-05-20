@@ -1,5 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import * as Sentry from "@sentry/react";
+import { BrowserTracing } from "@sentry/tracing";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -27,6 +29,13 @@ import MyHistory from "./pages/MyPage/MyHistory";
 import MyScrap from "./pages/MyPage/MyScrap";
 import NotFound from "./pages/NotFound";
 import ServerError from "./pages/ServerError";
+
+Sentry.init({
+  dsn: process.env.REACT_APP_SENTRY_DSN,
+  integrations: [new BrowserTracing()],
+
+  tracesSampleRate: 1.0,
+});
 
 ReactDOM.render(
   <React.StrictMode>
