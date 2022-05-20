@@ -1,5 +1,6 @@
 import { useState, forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
+import * as Sentry from "@sentry/react";
 import styled, { css } from "styled-components";
 import theme from "../../styles/theme";
 import GlobalButton from "../UI/GlobalButton";
@@ -48,8 +49,8 @@ const InterviewForm = (
       } else {
         navigate("/mypage/history");
       }
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      Sentry.captureException(`Interview Form : ${err}`);
     }
   };
 

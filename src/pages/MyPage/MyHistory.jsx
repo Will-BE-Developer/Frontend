@@ -7,16 +7,23 @@ import bangIcon from "../../assets/icons/bang.png";
 import GlobalButton from "../../components/UI/GlobalButton";
 import theme from "../../styles/theme";
 import { HiChevronRight } from "react-icons/hi";
+import * as Sentry from "@sentry/react";
 
 const MyHistory = () => {
   const navigate = useNavigate();
-
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    mypageApis.getUserCard().then((data) => {
+    const getUserCard = async () => {
+      const { data } = await mypageApis.getUserCard();
       setData(data.interviews);
-    });
+    };
+
+    try {
+      getUserCard();
+    } catch (err) {
+      Sentry.captureException(`get user card : ${err}`);
+    }
   }, []);
   return (
     <Container>
