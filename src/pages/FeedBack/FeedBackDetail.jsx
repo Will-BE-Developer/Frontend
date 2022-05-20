@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
+import * as Sentry from "@sentry/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getCookie } from "../../shared/cookies";
-import * as Sentry from "@sentry/react";
 
 import theme from "../../styles/theme";
 import styled, { css } from "styled-components";
