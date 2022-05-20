@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { HiChevronRight, HiChevronLeft } from "react-icons/hi";
 import bannerBackground from "../../assets/banner.png";
 import bannerLogo from "../../assets/bannerLogo.svg";
@@ -16,14 +17,15 @@ const DUMMY_CONTENTS = [
   },
   {
     badge: "Event",
-    title: "윌비의 주간 면접왕에 도전해보세요❤️‍🔥",
+    title: "윌비의 주간 면접왕에 도전해보세요 ❤️‍🔥",
     content:
-      "2주간의 테스트 기간동안 주간 면접왕이 되신분들에게는 상품을 드립니다💝 \n \n 괜찮아요😉 면접왕에 들지 않아도, 소정의 상품을 지급할 예정이오니, 여러분의 면접 기술을 뽐내고 상품도 받아가세요🎉",
+      "2주간의 테스트 기간동안 주간 면접왕이 되신분들에게는 상품을 드립니다 \n \n 면접왕에 들지 않아도, 소정의 상품을 지급할 예정이오니, 여러분의 면접 기술을 뽐내고 상품도 받아가세요😉",
   },
 ];
 
 const Banner = () => {
   const slider = useRef(null);
+  const navigate = useNavigate();
 
   const nextBtn = () => {
     slider.current.slickNext();
@@ -42,8 +44,6 @@ const Banner = () => {
     slidesToScroll: 1,
     slidesToShow: 1,
     fade: true,
-    centerMode: false,
-    centerPadding: "10px",
   };
 
   return (
@@ -53,28 +53,37 @@ const Banner = () => {
         <StyledSlider ref={slider} {...settings}>
           {DUMMY_CONTENTS.map((ele, idx) => {
             const totalCount = DUMMY_CONTENTS.length;
-
             return (
               <div className="card" key={idx}>
                 <div className="contents">
-                  <p className="badge">{ele.badge}</p>
                   <h2 className="title">{ele.title}</h2>
                   <p className="content">{ele.content}</p>
-                </div>
-                <div className="btnWrapper">
-                  <button onClick={prevBtn}>
-                    <HiChevronLeft size="16px" />
+                  <button
+                    className="link"
+                    onClick={() => {
+                      if (idx === 1) {
+                        window.open("https://forms.gle/3CCWq2KZ8d63qefm6");
+                      } else {
+                        navigate("/interview");
+                      }
+                    }}
+                  >
+                    {idx === 1 ? "설문조사 바로가기" : "면접연습 하러가기"}
+                    <HiChevronRight size="20px" />
                   </button>
-                  <span>
-                    <span style={{ color: "black", fontSize: "16px" }}>{`${
-                      idx + 1
-                    }`}</span>
-                    <span style={{ color: "rgba(0,0,0,0.3)" }}> / </span>
-                    <span style={{ fontSize: "16px" }}>{`${totalCount}`}</span>
-                  </span>
-                  <button onClick={nextBtn}>
-                    <HiChevronRight size="16px" />
-                  </button>
+                  <div className="btnWrapper">
+                    <button onClick={prevBtn}>
+                      <HiChevronLeft size="16px" />
+                    </button>
+                    <span>
+                      <span>{`${idx + 1}`}</span>
+                      <span> / </span>
+                      <span>{`${totalCount}`}</span>
+                    </span>
+                    <button onClick={nextBtn}>
+                      <HiChevronRight size="16px" />
+                    </button>
+                  </div>
                 </div>
               </div>
             );
@@ -96,16 +105,18 @@ const BannerContainer = styled.div`
   background-image: url(${bannerBackground});
   background-size: cover;
   background-repeat: no-repeat; */
-  color: ${({ theme }) => theme.colors.black};
-  box-shadow: 0 2px 5px rgba(130, 130, 130, 0.1);
+  color: ${({ theme }) => theme.colors.white};
 
   .contentsWrapper {
     display: flex;
-    justify-content: end;
-    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
     max-width: 1200px;
     width: 100%;
-    position: relative;
+    ${({ theme }) => theme.device.tablet} {
+      padding: 0px 1rem;
+    }
   }
 
   h2 {
@@ -119,28 +130,24 @@ const BannerContainer = styled.div`
   }
 
   img {
-    position: absolute;
-    left: 0px;
-    max-width: 500px;
+    height: 100px;
+    max-width: max-content;
     width: 100%;
+    margin-bottom: 2rem;
   }
 
   .slick-slider {
     max-width: 400px;
     width: 100%;
-    ${({ theme }) => theme.device.tablet} {
-      padding: 0px 1rem;
-    }
   }
 `;
 
 const StyledSlider = styled(Slider)`
-  .slick-list {
-  }
-
   .slick-slide {
-    display: flex !important;
-    justify-content: flex-end;
+    pointer-events: none;
+  }
+  .slick-active {
+    pointer-events: auto;
   }
 
   .slick-arrow {
@@ -149,30 +156,26 @@ const StyledSlider = styled(Slider)`
 
   .slick-slide div {
     text-align: start;
-    max-width: 400px;
+    max-width: 370px;
     width: 100%;
-    height: 300px;
+    height: 200px;
   }
 
   .slick-slide div .card {
     display: flex !important;
     flex-direction: column;
     align-items: flex-start;
-    padding: 25px;
-    border-radius: 4px;
-    border-start-start-radius: 30px;
-    background-color: rgba(255, 255, 255, 1);
+    color: ${({ theme }) => theme.colors.white};
   }
 
-  .badge {
+  /* .badge {
     width: max-content;
     border: 1px solid rgba(0, 0, 0, 0.2);
     font-size: 14px;
-    color: rgba(0, 0, 0, 0.7);
     border-radius: 20px;
     padding: 5px 12px;
     margin-bottom: 12px;
-  }
+  } */
 
   .title {
     margin-bottom: 20px;
@@ -181,10 +184,26 @@ const StyledSlider = styled(Slider)`
 
   .content {
     font-size: 14px;
-    color: rgba(0, 0, 0, 0.7);
+    margin-bottom: 20px;
+  }
+
+  .link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: max-content;
+    font-size: 14px;
+    color: ${({ theme }) => theme.colors.mainHover};
+    background-color: white;
+    padding: 7px 10px 7px 20px;
+    line-height: 0px;
+    border-radius: 25px;
+    box-shadow: 1px 2px 5px rgba(130, 130, 130, 0.2);
   }
 
   .btnWrapper {
+    position: absolute;
+    bottom: 0px;
     display: flex;
     align-items: center !important;
     height: max-content !important;
@@ -196,13 +215,13 @@ const StyledSlider = styled(Slider)`
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background-color: white;
-    border: 1px solid white;
-     */
-    /* background-color: rgba(255, 255, 255, 0.4); */
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 50%;
+    color: white;
     padding: 3px;
+    /* background-color: white; */
+    /* border: 1px solid white; */
+    /* background-color: rgba(255, 255, 255, 0.4); */
+    /* border: 1px solid rgba(0, 0, 0, 0.2); */
+    /* border-radius: 50%; */
   }
 `;
 

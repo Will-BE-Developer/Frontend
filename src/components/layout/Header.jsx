@@ -213,13 +213,11 @@ const HeaderContainer = styled.div`
 
       .nav {
         display: flex;
-
         justify-content: space-between;
         align-items: center;
         max-width: 1200px;
         width: 100%;
         height: 60px;
-        padding: 0px 1rem;
 
         ul {
           align-items: center;
@@ -241,11 +239,8 @@ const HeaderContainer = styled.div`
         }
       }
 
-      @media screen and (min-width: 1240px) {
-        padding: 0px;
-      }
-
-      ${device.mobile} {
+      ${({ theme }) => theme.device.tablet} {
+        padding: 0px 0px 0px 0.5rem;
       }
     `;
   }}
@@ -274,7 +269,6 @@ const MobileNav = styled.nav`
     return css`
       margin: 0;
       padding: 0;
-      /* padding: 0px 1rem; */
 
       .nav_box {
         width: 90vw;

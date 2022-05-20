@@ -186,8 +186,10 @@ const SliderLayout = styled.div`
   .btnWrapper button {
     display: flex;
     padding: 0px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    border: 1px solid white;
+    background-color: white;
     border-radius: 50%;
+    box-shadow: 1px 2px 5px rgba(133, 133, 133, 0.2);
   }
 
   .background {
