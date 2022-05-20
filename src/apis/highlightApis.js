@@ -1,22 +1,7 @@
 import instance from "./axios.js";
 
 const highlightApis = {
-  getHighlight: async (cardId) => {
-    try {
-      const res = await instance.get(`/api/likes/${cardId}`);
-      return res.data;
-    } catch (err) {
-      return err.response;
-    }
-  },
-
-  addHighlight: async (likeData) => {
-    try {
-      const res = await instance.post(`/api/likes`, likeData);
-      return res.data;
-    } catch (err) {
-      return err.response;
-    }
-  },
+  getHighlight: (cardId) => instance.get(`/api/likes/${cardId}`),
+  addHighlight: (likeData) => instance.post(`/api/likes`, likeData),
 };
 export default highlightApis;

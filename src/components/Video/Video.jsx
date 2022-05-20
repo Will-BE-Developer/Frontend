@@ -87,25 +87,32 @@ const Video = (props) => {
   }, [cardId, navigate]);
 
   useEffect(() => {
-    highlightApis
-      .getHighlight(cardId)
-      .then((data) => {
-        const filteredLike = [data.topOne, data.topTwo, data.topThree]
-          .filter((time) => time >= 0)
-          .map((item) => (item === 0 ? 3 : item));
-        const newLike = [];
-        filteredLike.map((time) =>
-          newLike.push({
-            time,
-            display: format(time),
-          })
-        );
-        setLikes((prev) => ({
-          likeTime: newLike,
-          like: [...prev.like, new Date().getTime()],
-        }));
-      })
-      .catch((err) => console.log("좋아요 받기 오류", err));
+    const getHighlight = async () => {
+      const { data } = await highlightApis.getHighlight(cardId);
+
+      const filteredLike = [data.topOne, data.topTwo, data.topThree]
+        .filter((time) => time >= 0)
+        .map((item) => (item === 0 ? 3 : item));
+
+      const newLike = [];
+      filteredLike.map((time) =>
+        newLike.push({
+          time,
+          display: format(time),
+        })
+      );
+
+      setLikes((prev) => ({
+        likeTime: newLike,
+        like: [...prev.like, new Date().getTime()],
+      }));
+    };
+
+    try {
+      getHighlight();
+    } catch (err) {
+      Sentry.captureException(`Get highlight : ${err}`);
+    }
   }, [cardId]);
 
   const addLikeHandler = () => {
@@ -121,7 +128,7 @@ const Video = (props) => {
   };
 
   useEffect(() => {
-    const intervalPost = setInterval(() => {
+    const intervalPost = setInterval(async () => {
       if (likeCount === 0) {
         return;
       }
@@ -131,28 +138,31 @@ const Video = (props) => {
         time: currentTime,
         count: likeCount,
       };
-      highlightApis
-        .addHighlight(likeData)
-        .then((data) => {
-          const filteredLike = [data.topOne, data.topTwo, data.topThree]
-            .filter((time) => time >= 0)
-            .map((time) => (time === 0 ? 2 : time));
-          const newLike = [];
-          filteredLike.map((time) =>
-            newLike.push({
-              time,
-              display: format(time),
-            })
-          );
-          setLikes((prev) => ({
-            likeTime: newLike,
-            like: [...prev.like, new Date().getTime()],
-          }));
-          likeCount = 0;
-        })
-        .catch((err) => {
-          console.log("좋아요 요청 오류", err);
-        });
+
+      try {
+        const { data } = await highlightApis.addHighlight(likeData);
+
+        const filteredLike = [data.topOne, data.topTwo, data.topThree]
+          .filter((time) => time >= 0)
+          .map((time) => (time === 0 ? 2 : time));
+
+        const newLike = [];
+        filteredLike.map((time) =>
+          newLike.push({
+            time,
+            display: format(time),
+          })
+        );
+
+        setLikes((prev) => ({
+          likeTime: newLike,
+          like: [...prev.like, new Date().getTime()],
+        }));
+
+        likeCount = 0;
+      } catch (err) {
+        Sentry.captureException(`Add highlight : ${err}`);
+      }
     }, 6000);
 
     return () => clearInterval(intervalPost);

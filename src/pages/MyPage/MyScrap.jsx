@@ -8,15 +8,23 @@ import bangIcon from "../../assets/icons/bang.png";
 import GlobalButton from "../../components/UI/GlobalButton";
 import theme from "../../styles/theme";
 import { HiChevronRight } from "react-icons/hi";
+import * as Sentry from "@sentry/react";
 
 const MyScrap = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    mypageApis.getUserScrap().then((data) => {
+    const getUserScrap = async () => {
+      const { data } = await mypageApis.getUserScrap();
       setData(data.interviews);
-    });
+    };
+
+    try {
+      getUserScrap();
+    } catch (err) {
+      Sentry.captureException(`get user scrap : ${err}`);
+    }
   }, []);
 
   return (

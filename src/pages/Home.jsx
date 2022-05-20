@@ -8,32 +8,21 @@ import LatestFeedback from "../components/Home/LatestFeedback";
 import Footer from "../components/Home/Footer";
 import { useEffect, useState } from "react";
 import instance from "../apis/axios";
+import * as Sentry from "@sentry/react";
 
 const Home = () => {
   const [homeData, setHomedata] = useState(null);
   useEffect(() => {
-    instance
-      .get("/api/home")
-      .then(
-        ({
-          data: {
-            latestInterviews,
-            todaysQuestions,
-            topCategories,
-            weeklyInterviews,
-          },
-        }) => {
-          setHomedata({
-            latestInterviews,
-            todaysQuestions,
-            topCategories,
-            weeklyInterviews,
-          });
-        }
-      )
-      .catch((err) => {
-        console.log(err);
-      });
+    const getHomeData = async () => {
+      const { data } = await instance.get("/api/home");
+      setHomedata(data);
+    };
+
+    try {
+      getHomeData();
+    } catch (err) {
+      Sentry.captureException(`get home data : ${err}`);
+    }
   }, []);
 
   return (
