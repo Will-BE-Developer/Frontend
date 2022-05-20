@@ -1,50 +1,20 @@
+import * as Sentry from "@sentry/react";
 import instance from "./axios";
 import axios from "axios";
 
 const interviewApis = {
-  getCategories: async () => {
-    try {
-      const {
-        data: { categories },
-      } = await instance.get("/api/categories");
-      return categories;
-    } catch (error) {
-      return error.response;
-    }
-  },
-  getQuestion: async (topic) => {
-    try {
-      const {
-        data: { question },
-      } = await instance.get(`/api/questions/${topic}`);
-      return question;
-    } catch (error) {
-      return error.response;
-    }
-  },
-  getPresignedUrl: async () => {
-    try {
-      const { data } = await instance.post(
-        `${process.env.REACT_APP_API_FILE_URL}/api/interviews/draft`
-      );
-      return data;
-    } catch (error) {
-      return error.response;
-    }
-  },
-  s3VideoUpload: async (presignedUrl, video) => {
-    try {
-      await axios.put(presignedUrl, video, {
-        headers: {
-          "Content-Type": "video/webm",
-          accept: "application/json,",
-          "Access-Control-Allow-Origin": "*",
-        },
-      });
-    } catch (error) {
-      return error;
-    }
-  },
+  getCategories: () => instance.get("/api/categories"),
+  getQuestion: (topic) => instance.get(`/api/questions/${topic}`),
+  getPresignedUrl: () =>
+    instance.post(`${process.env.REACT_APP_API_FILE_URL}/api/interviews/draft`),
+  s3VideoUpload: (presignedUrl, video) =>
+    axios.put(presignedUrl, video, {
+      headers: {
+        "Content-Type": "video/webm",
+        accept: "application/json,",
+        "Access-Control-Allow-Origin": "*",
+      },
+    }),
   s3ThumbnailUpload: async (presignedUrl, thumbnail) => {
     try {
       await axios.put(presignedUrl, thumbnail, {
@@ -55,6 +25,7 @@ const interviewApis = {
         },
       });
     } catch (error) {
+      Sentry.captureException(`S3 Thumbnail upload : ${error}`);
       return error;
     }
   },
@@ -67,6 +38,7 @@ const interviewApis = {
         data
       );
     } catch (error) {
+      Sentry.captureException(`Create interview : ${error}`);
       return error.response;
     }
   },

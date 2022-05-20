@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import * as Sentry from "@sentry/react";
 import RootComment from "./RootComment";
 
 import styled from "styled-components";
@@ -22,16 +22,18 @@ const Comments = ({ cardId }) => {
   const [commentCount, setCommentCount] = useState(0);
 
   useEffect(() => {
-    commentApis
-      .getComments(cardId)
-      .then((data) => {
+    const getComment = async () => {
+      try {
+        const { data } = await commentApis.getComments(cardId);
         setAllComments(data.comments);
         setCommentCount(data.totalComments);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [cardId]);
+      } catch (err) {
+        Sentry.captureException(`Get comments  : ${err}`);
+        navigate("/notFound");
+      }
+    };
+    getComment();
+  }, [cardId, navigate]);
 
   const sendCommentdataHandler = (data) => {
     setAllComments(data);
@@ -45,15 +47,20 @@ const Comments = ({ cardId }) => {
       alert("내용을 채워주세요.");
       return;
     }
-
-    const data = { contents: content, rootId: cardId, rootName: "interview" };
+    const commentData = {
+      contents: content,
+      rootId: cardId,
+      rootName: "interview",
+    };
     try {
-      const response = await commentApis.addComment(data);
+      const { data } = await commentApis.addComment(commentData);
+      console.log(data);
       setContent("");
-      setAllComments(response.comments);
-      setCommentCount(response.totalComments);
+      setAllComments(data.comments);
+      setCommentCount(data.totalComments);
     } catch (err) {
-      console.log("댓글 작성 오류", err);
+      Sentry.captureException(`Add comment  : ${err}`);
+      navigate("/notFound");
     }
   };
 

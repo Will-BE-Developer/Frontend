@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getCookie } from "../../shared/cookies";
+import * as Sentry from "@sentry/react";
+
 import theme from "../../styles/theme";
 import styled, { css } from "styled-components";
 import GlobalButton from "../../components/UI/GlobalButton";
@@ -61,17 +63,20 @@ const FeedBackDetail = (props) => {
 
   const weekChar = { 1: "첫", 2: "둘", 3: "셋" };
 
+  const { question, user, note, createdAt } = data;
+  const editHandler = () => {
+    navigate(`/feedback/${cardId}/update`, { state: { data, video } });
+  };
+
   useEffect(() => {
-    const getDetail = async () => {};
-    feedbackApis
-      .getDetail(cardId)
-      .then((data) => {
+    const getDetail = async () => {
+      try {
+        const { data } = await feedbackApis.getDetail(cardId);
         setData(data.interview);
         setIsScrapped(data.interview.scrapsMe);
         setScrapCount(data.interview.scrapsCount);
         setIsMine(data.interview.isMine);
         setVideo(data.interview.video);
-
         setBadge((prev) => {
           return {
             ...prev,
@@ -81,50 +86,52 @@ const FeedBackDetail = (props) => {
             ranking: data.interview.ranking,
           };
         });
-      })
-
-      .catch((err) => {
-        console.log(err);
+      } catch (err) {
+        Sentry.captureException(`Get feedback detail  : ${err}`);
         navigate("/notFound");
-        return;
-      });
+      }
+    };
+    getDetail();
   }, [cardId, navigate]);
 
-  const { question, user, note, createdAt } = data;
-  const editHandler = () => {
-    navigate(`/feedback/${cardId}/update`, { state: { data, video } });
+  const clickDeleteHandler = async () => {
+    try {
+      const { data } = await feedbackApis.deleteDetail(cardId);
+      if (data.interview?.isPublic === true) {
+        navigate(`/feedback/`, { replace: true });
+      } else {
+        navigate("/mypage/history", { replace: true });
+      }
+    } catch (err) {
+      Sentry.captureException(`delete interview : ${err}`);
+      navigate("/notFound");
+    }
   };
 
-  const clickDeleteHandler = () => {
-    feedbackApis
-      .deleteDetail(cardId)
-      .then((data) => {
-        if (data.interview?.isPublic === true) {
-          navigate(`/feedback/`, { replace: true });
-        } else {
-          navigate("/mypage/history", { replace: true });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const scrapHandler = () => {
+  const scrapHandler = async () => {
     if (!token) {
       openModalHandler();
       return;
     }
+
     if (isScrapped === false) {
-      feedbackApis.addScrap(cardId).then((data) => {
+      try {
+        const { data } = await feedbackApis.addScrap(cardId);
         setIsScrapped(data.scrap.scrapsMe);
         setScrapCount(data.scrap.scrapsCount);
-      });
+      } catch (err) {
+        Sentry.captureException(`delete interview : ${err}`);
+        navigate("/notFound");
+      }
     } else {
-      feedbackApis.undoScrap(cardId).then((data) => {
+      try {
+        const { data } = await feedbackApis.undoScrap(cardId);
         setIsScrapped(data.scrap.scrapsMe);
         setScrapCount(data.scrap.scrapsCount);
-      });
+      } catch (err) {
+        Sentry.captureException(`delete interview : ${err}`);
+        navigate("/notFound");
+      }
     }
   };
 

@@ -1,45 +1,16 @@
 import instance from "./axios.js";
 
 const commentApi = {
-  getComments: async (cardId) => {
-    try {
-      const res = await instance.get(`/api/comments/${cardId}`, {
-        params: { per: 10 },
-      });
-      return res.data;
-    } catch (err) {
-      return err.response;
-    }
-  },
+  getComments: (cardId) =>
+    instance.get(`/api/comments/${cardId}`, {
+      params: { per: 10 },
+    }),
 
-  addComment: async (commentData) => {
-    try {
-      const res = await instance.post(`/api/comments`, commentData);
-      return res.data;
-    } catch (err) {
-      console.log(err.response);
-      return err.response;
-    }
-  },
+  addComment: (commentData) => instance.post(`/api/comments`, commentData),
 
-  deleteComment: async (id) => {
-    try {
-      const res = await instance.delete(`/api/comments/${id}`);
-      return res.data;
-    } catch (err) {
-      console.log(err.response);
-      return err.response;
-    }
-  },
+  deleteComment: (id) => instance.delete(`/api/comments/${id}`),
 
-  updateComment: async (commentData, id) => {
-    try {
-      const res = await instance.put(`/api/comments/${id}`, commentData);
-      return res.data;
-    } catch (err) {
-      console.log(err.response);
-      return err.response;
-    }
-  },
+  updateComment: (commentData, id) =>
+    instance.put(`/api/comments/${id}`, commentData),
 };
 export default commentApi;

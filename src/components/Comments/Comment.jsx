@@ -1,4 +1,6 @@
 import { useState } from "react";
+import * as Sentry from "@sentry/react";
+import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import TimeAgo from "../FeedBack/TimeAgo";
 import commentApis from "../../apis/commentApis";
@@ -20,6 +22,7 @@ const Comment = ({
   const { id, user, createdAt, contents, isMine, parentId } = currentComment;
 
   const isRootComment = parentId === null;
+  const navigate = useNavigate();
   const [isEdit, setIsEdit] = useState(false);
   const [updateContent, setUpdateContent] = useState(contents);
   const isUpdateTextareaDisabled = updateContent.length === 0;
@@ -61,22 +64,24 @@ const Comment = ({
     }
 
     try {
-      const response = await commentApis.updateComment(updateData, id);
+      const { data } = await commentApis.updateComment(updateData, id);
       setIsEdit(false);
-      setAllComments(response.comments);
-      setCommentCount(response.totalComments);
+      setAllComments(data.comments);
+      setCommentCount(data.totalComments);
     } catch (err) {
-      console.log("댓글 수정 오류", err);
+      Sentry.captureException(`Edit comment  : ${err}`);
+      navigate("/notFound");
     }
   };
 
   const clickDeleteHandler = async () => {
     try {
-      const response = await commentApis.deleteComment(id);
-      setAllComments(response.comments);
-      setCommentCount(response.totalComments);
+      const { data } = await commentApis.deleteComment(id);
+      setAllComments(data.comments);
+      setCommentCount(data.totalComments);
     } catch (err) {
-      console.log("댓글 삭제 오류", err);
+      Sentry.captureException(`Delete comment  : ${err}`);
+      navigate("/notFound");
     }
   };
 

@@ -1,15 +1,15 @@
 import { useState, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import * as Sentry from "@sentry/react";
 import styled, { css } from "styled-components";
 import GlobalCard from "../../components/UI/GlobalCard";
 import GlobalButton from "../../components/UI/GlobalButton";
 import Dropdown from "../../components/UI/GlobalDropDown";
-import { feedbackApis } from "../../apis/feedbackApis.js";
+import feedbackApis from "../../apis/feedbackApis.js";
 import InfiniteScroll from "react-infinite-scroller";
 import Loader from "../../components/UI/Loader";
 import theme from "../../styles/theme";
 import { HiChevronRight } from "react-icons/hi";
-
 import bangIcon from "../../assets/icons/bang.png";
 
 const FeedBack = () => {
@@ -52,21 +52,22 @@ const FeedBack = () => {
     const page = data?.pagination?.nextPage ? data.pagination.nextPage : 1;
 
     try {
-      const response = await feedbackApis.getFeedback(
+      const { data } = await feedbackApis.getFeedback(
         page,
         selectedSort,
         selectedCategory
       );
       setData((prev) => {
         return {
-          feedback: [...prev.feedback, ...response?.interviews],
-          pagination: response.pagination,
+          feedback: [...prev.feedback, ...data?.interviews],
+          pagination: data.pagination,
         };
       });
     } catch (err) {
-      console.log("피드백 불러오기 오류", err);
+      Sentry.captureException(`Get feedback  : ${err}`);
+      navigate("/notFound");
     }
-  }, [selectedCategory, data, selectedSort]);
+  }, [data.pagination.nextPage, selectedSort, selectedCategory, navigate]);
 
   return (
     <Container>

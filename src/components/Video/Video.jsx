@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getCookie } from "../../shared/cookies";
 import ReactPlayer from "react-player";
 import screenfull from "screenfull";
+import * as Sentry from "@sentry/react";
 
 import VideoControl from "./VideoControl.jsx";
 import feedbackApis from "../../apis/feedbackApis.js";
@@ -71,15 +72,16 @@ const Video = (props) => {
   const { playing, muted, volume, playbackRate, played, pip } = state;
 
   useEffect(() => {
-    feedbackApis
-      .getDetail(cardId)
-      .then((data) => {
+    const getDetail = async () => {
+      try {
+        const { data } = await feedbackApis.getDetail(cardId);
         setVideo(data.interview.video);
-      })
-      .catch(() => {
+      } catch (err) {
+        Sentry.captureException(`Get video  : ${err}`);
         navigate("/notFound");
-        return;
-      });
+      }
+    };
+    getDetail();
     const timeout = setTimeout(() => setIsLoading(false), 400);
     return () => clearTimeout(timeout);
   }, [cardId, navigate]);
@@ -116,7 +118,6 @@ const Video = (props) => {
       likeTime: [...prev.likeTime],
       like: [...prev.like, new Date().getTime()],
     }));
-    // console.log(Math.floor(videoRef.current.getCurrentTime()));
   };
 
   useEffect(() => {

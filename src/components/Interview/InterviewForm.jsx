@@ -24,7 +24,7 @@ const InterviewForm = (
     try {
       loadingHandler();
 
-      const data = await interviewApis.getPresignedUrl();
+      const { data } = await interviewApis.getPresignedUrl();
 
       const video = recorderRef.current.getBlob();
       const interviewId = data.interview.id;

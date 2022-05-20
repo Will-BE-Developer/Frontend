@@ -1,76 +1,19 @@
-import axios from "axios";
 import instance from "./axios.js";
 
-export const feedbackApis = {
-  getFeedback: async (page, sort, filter) => {
-    try {
-      const res = await instance.get("/api/interviews/", {
-        params: {
-          page,
-          sort,
-          filter,
-        },
-      });
-      return res.data;
-    } catch (err) {
-      return err.response;
-    }
-  },
+const feedbackApis = {
+  getFeedback: (page, sort, filter) =>
+    instance.get("/api/interviews/", { params: { page, sort, filter } }),
 
-  getDetail: async (cardId) => {
-    try {
-      const res = await instance.get(`/api/interviews/${cardId}`);
-      return res.data;
-    } catch (err) {
-      return err.response;
-    }
-  },
+  getDetail: (cardId) => instance.get(`/api/interviews/${cardId}`),
 
-  getDetailVideo: async (cardId) => {
-    try {
-      const res = await instance.get(`/api/interviews/${cardId}`);
-      return res.data.interview.video;
-    } catch (err) {
-      console.log(err);
-      return err.response;
-    }
-  },
-  updateDetail: async (cardId, updateData) => {
-    try {
-      const res = await instance.put(`/api/interviews/${cardId}`, updateData);
-      return res.data;
-    } catch (err) {
-      return err.response;
-    }
-  },
+  updateDetail: (cardId, updateData) =>
+    instance.put(`/api/interviews/${cardId}`, updateData),
 
-  deleteDetail: async (cardId) => {
-    try {
-      const res = await instance.delete(`/api/interviews/${cardId}`);
-      return res.data;
-    } catch (err) {
-      console.log(err.response);
-      return err.response;
-    }
-  },
+  deleteDetail: (cardId) => instance.delete(`/api/interviews/${cardId}`),
 
-  addScrap: async (id) => {
-    try {
-      const res = await instance.post(`/api/scraps/${id}`);
-      return res.data;
-    } catch (err) {
-      return err.response;
-    }
-  },
+  addScrap: (id) => instance.post(`/api/scraps/${id}`),
 
-  undoScrap: async (id) => {
-    try {
-      const res = await instance.delete(`/api/scraps/${id}`);
-      return res.data;
-    } catch (err) {
-      return err.response;
-    }
-  },
+  undoScrap: (id) => instance.delete(`/api/scraps/${id}`),
 };
 
 export default feedbackApis;
