@@ -99,7 +99,7 @@ const BannerContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 400px;
+  height: 420px;
   background-color: ${({ theme }) => theme.colors.mainHover};
   /* background-position: center;
   background-image: url(${bannerBackground});
@@ -158,7 +158,7 @@ const StyledSlider = styled(Slider)`
     text-align: start;
     max-width: 370px;
     width: 100%;
-    height: 200px;
+    height: 220px;
   }
 
   .slick-slide div .card {

@@ -277,6 +277,7 @@ const StyledSlider = styled(Slider)`
       .question {
         margin-top: 10px;
         font-weight: ${fontWeight.extraBold};
+        text-align: start;
       }
 
       .description {

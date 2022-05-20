@@ -125,7 +125,6 @@ const DailyQuestionLayout = styled.div`
         align-items: center;
         padding: 36px;
         box-sizing: border-box;
-
         ${boxShadow()}
 
         @media screen and (max-width: 700px) {
@@ -181,7 +180,8 @@ const DailyQuestionLayout = styled.div`
         overflow-wrap: anywhere;
         @media screen and (max-width: 700px) {
           justify-content: center;
-          height: 70px;
+          min-height: 70px;
+          height: max-content;
           width: 100%;
           align-items: flex-start;
           gap: 10px;
