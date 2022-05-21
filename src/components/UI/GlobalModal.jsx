@@ -178,7 +178,7 @@ const Footer = styled.div`
   }
   & .close_btn {
     width: ${(props) => (props.btnWidth ? props.btnWidth : "max-content")};
-    height: ${(props) => (props.btnHeight ? props.btnHeight : "50px")};
+    height: ${(props) => (props.btnHeight ? props.btnHeight : "")};
   }
 
   & .confirm_btn {
