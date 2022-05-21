@@ -102,13 +102,13 @@ const BestInterviews = ({ weeklyInterviews }) => {
                           {interview.user?.nickname}님
                           <img src={badgeIcon[idx]} alt="badge" />
                         </span>
-                        <span style={{ fontSize: theme.fontSize["14"] }}>
+                        {/* <span style={{ fontSize: theme.fontSize["14"] }}>
                           누적 스크랩
                           <span style={{ color: theme.colors.blue }}>
                             &nbsp;{interview.scrapsCount}
                           </span>
                           개 달성!
-                        </span>
+                        </span> */}
                       </div>
                       <div className="hr" />
                       <div className="interviewContents">
