@@ -57,7 +57,12 @@ const DailyQuestions = ({ todaysQuestions }) => {
                     >
                       {question.category}
                     </p>
-                    <p style={{ fontSize: "20px", marginBottom: "20px" }}>
+                    <p
+                      style={{
+                        fontSize: "16px",
+                        marginBottom: "20px",
+                      }}
+                    >
                       Q. {question.contents}
                     </p>
                   </div>
