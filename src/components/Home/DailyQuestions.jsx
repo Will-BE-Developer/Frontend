@@ -35,7 +35,7 @@ const DailyQuestions = ({ todaysQuestions }) => {
             return (
               <div
                 onClick={
-                  width <= 700
+                  width <= 900
                     ? () => startInterviewHandler(question)
                     : () => {}
                 }
@@ -57,20 +57,25 @@ const DailyQuestions = ({ todaysQuestions }) => {
                     >
                       {question.category}
                     </p>
-                    <p style={{ fontSize: "20px", marginBottom: "20px" }}>
+                    <p
+                      style={{
+                        fontSize: "16px",
+                        marginBottom: "20px",
+                      }}
+                    >
                       Q. {question.contents}
                     </p>
                   </div>
                 </div>
                 <button
                   onClick={
-                    width <= 700
+                    width <= 900
                       ? () => {}
                       : () => startInterviewHandler(question)
                   }
                   className="startBtn"
                 >
-                  {width <= 700 ? "" : "시작하기"}
+                  {width <= 900 ? "" : "시작하기"}
                   <HiChevronRight size="25px" />
                 </button>
               </div>
@@ -114,7 +119,7 @@ const DailyQuestionLayout = styled.div`
         margin: 36px 0px;
         gap: 1rem;
         grid-template-columns: repeat(3, 1fr);
-        @media screen and (max-width: 700px) {
+        @media screen and (max-width: 900px) {
           grid-template-columns: repeat(1, 1fr);
         }
       }
@@ -125,15 +130,14 @@ const DailyQuestionLayout = styled.div`
         align-items: center;
         padding: 36px;
         box-sizing: border-box;
-
+        justify-content: space-between;
         ${boxShadow()}
 
-        @media screen and (max-width: 700px) {
+        @media screen and (max-width: 900px) {
           &:hover {
             cursor: pointer;
           }
           flex-direction: row;
-          justify-content: space-between !important;
           padding: 10px 15px;
         }
       }
@@ -142,18 +146,13 @@ const DailyQuestionLayout = styled.div`
         outline: 1px solid #7599f3;
       }
 
-      .startBtn:hover {
-        background-color: #7599f3;
-        color: ${colors.white};
-      }
-
       .mobile {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
 
-        @media screen and (max-width: 700px) {
+        @media screen and (max-width: 900px) {
           flex-direction: row;
           width: 100%;
         }
@@ -167,7 +166,7 @@ const DailyQuestionLayout = styled.div`
         border-radius: 8px;
         margin-bottom: 10px;
 
-        @media screen and (max-width: 700px) {
+        @media screen and (max-width: 900px) {
           margin: 0px 15px 0px 0px;
         }
       }
@@ -179,9 +178,10 @@ const DailyQuestionLayout = styled.div`
         gap: 12px;
         margin-bottom: 30px;
         overflow-wrap: anywhere;
-        @media screen and (max-width: 700px) {
+        @media screen and (max-width: 900px) {
           justify-content: center;
-          height: 70px;
+          min-height: 70px;
+          height: max-content;
           width: 100%;
           align-items: flex-start;
           gap: 10px;
@@ -217,10 +217,15 @@ const DailyQuestionLayout = styled.div`
         border-radius: 4px;
         font-size: ${fontSize["16"]};
         line-height: 0px;
-        @media screen and (max-width: 700px) {
+        @media screen and (max-width: 900px) {
           width: 10%;
           padding: 10px;
         }
+      }
+
+      .startBtn:hover {
+        background-color: #7599f3;
+        color: ${colors.white};
       }
 
       .interviewBtn {

@@ -26,8 +26,14 @@ const Footer = () => {
 
       <div className="serviceWrapper">
         <div className="service">
-          <p>개인정보처리방침 | 이용약관</p>
-          <p className="company">윌비 대표이사: 김화상</p>
+          <a
+            href="https://forms.gle/3CCWq2KZ8d63qefm6"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            설문조사하기
+          </a>
+          <p className="company">윌비와 함께 준비하세요😎</p>
         </div>
       </div>
     </FooterLayout>
@@ -71,7 +77,7 @@ const FooterLayout = styled.div`
   .interviewBtn {
     padding: 0px;
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     color: ${theme.colors.white};
     font-size: 15px;
