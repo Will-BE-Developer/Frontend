@@ -5,9 +5,8 @@ import "slick-carousel/slick/slick-theme.css";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiChevronRight, HiChevronLeft } from "react-icons/hi";
-import bannerBackground from "../../assets/banner.png";
 import bannerLogo from "../../assets/bannerLogo.svg";
-import bannerIllust from "../../assets/bannerIllust.png";
+// import bannerIllust from "../../assets/bannerIllust.png";
 
 const DUMMY_CONTENTS = [
   {
