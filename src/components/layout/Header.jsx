@@ -4,6 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getCookie } from "../../shared/cookies";
 import logo from "../../assets/logo.png";
+import homeIcon from "../../assets/icons/mNavbar_home.svg";
+import feedbackIcon from "../../assets/icons/mNavbar_feedback.svg";
+import interviewIcon from "../../assets/icons/mNavbar_interview.svg";
+import mypageIcon from "../../assets/icons/mNavbar_mypage.svg";
 import { signout } from "../../store/slices/userSlice";
 
 import GlobalModal from "../../components/UI/GlobalModal";
@@ -125,24 +129,24 @@ const Header = () => {
                 <ul className="nav_list">
                   <li>
                     <Link to="/feedback" onClick={scrollToTop}>
-                      🙇‍♂️ 홈
+                      <img src={homeIcon} alt="home_icon" />홈
                     </Link>
                   </li>
                   <li>
                     <Link to="/feedback" onClick={scrollToTop}>
-                      🙇‍♂️ 피드백
+                      <img src={feedbackIcon} alt="feedback_icon" /> 피드백
                     </Link>
                   </li>
                   <li>
                     {" "}
                     <Link to="/interview" onClick={scrollToTop}>
-                      🙇‍♂️ 면접보기
+                      <img src={interviewIcon} alt="interview_icon" /> 면접보기
                     </Link>
                   </li>
                   <li>
                     {token ? (
                       <Link to="/mypage" onClick={scrollToTop}>
-                        🙇‍♂️ 마이페이지
+                        <img src={mypageIcon} alt="mypage_icon" /> 마이페이지
                       </Link>
                     ) : (
                       ""
@@ -194,7 +198,7 @@ const HeaderContainer = styled.div`
       justify-content: center;
       top: 0;
       left: 0;
-      z-index: 100;
+      z-index: 300;
       padding: 0px;
       width: 100%;
       height: 60px;
@@ -253,7 +257,6 @@ const HeaderContainer = styled.div`
 
 const Mobile = styled.div`
   width: 100%;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -292,7 +295,7 @@ const MobileNav = styled.nav`
 
         .header {
           box-shadow: 0 2px 5px rgba(130, 130, 130, 0.1);
-          padding: 15px 1rem;
+          padding: 13px 1rem;
           width: 100%;
           margin-bottom: 40px;
           display: flex;
@@ -314,16 +317,22 @@ const MobileNav = styled.nav`
             margin: 60px 0;
           }
           a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             :hover {
               color: ${colors.black};
             }
+          }
+          img {
+            width: 28px;
           }
         }
 
         .footer {
           padding: 10px 30px;
           width: 100%;
-          padding-bottom: 100px;
+          padding-bottom: 120px;
           ul {
             display: flex;
             justify-content: space-between;
