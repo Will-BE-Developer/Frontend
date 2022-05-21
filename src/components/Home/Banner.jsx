@@ -6,7 +6,6 @@ import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiChevronRight, HiChevronLeft } from "react-icons/hi";
 import bannerLogo from "../../assets/bannerLogo.svg";
-// import bannerIllust from "../../assets/bannerIllust.png";
 
 const DUMMY_CONTENTS = [
   {
@@ -102,8 +101,7 @@ const BannerContainer = styled.div`
   height: 420px;
   background-color: ${({ theme }) => theme.colors.mainHover};
   /* background-position: 300px;
-  background-image: url(${bannerIllust});
-  background-size: 70%; */
+     background-size: 70%; */
   /* background-repeat: no-repeat; */
   color: ${({ theme }) => theme.colors.white};
 
