@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { deleteCookie, setCookie } from "../../shared/cookies";
 import instance from "../../apis/axios";
-import { getCookie } from "../../shared/cookies";
 
 const initialState = {
   user: null,
@@ -75,7 +74,6 @@ export const emailValidation = createAsyncThunk(
       };
       return result;
     } catch (err) {
-      console.log("로그인 인증 오류", err.response);
       return rejectWithValue(err.response.data);
     }
   }
