@@ -124,7 +124,7 @@ const BannerContainer = styled.div`
     height: 340px !important;
     margin: 0px !important;
     ${({ theme }) => theme.device.tablet} {
-      padding: 0px 1rem;
+      padding: 0px 2rem;
     }
 
     @media screen and (max-width: 550px) {
@@ -140,7 +140,7 @@ const BannerContainer = styled.div`
     max-width: 1000px;
     width: 100%;
     ${({ theme }) => theme.device.tablet} {
-      padding: 0px 1rem;
+      padding: 0px 2rem;
     }
   }
 
