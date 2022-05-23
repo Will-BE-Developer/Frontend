@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import ReactGA from "react-ga";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { boxShadow } from "../../styles/boxShadow";
@@ -78,6 +79,10 @@ const SignupForm = (props) => {
       alert("윌비 서비스 이용 약관에 동의해주세요.");
       return;
     }
+    ReactGA.event({
+      category: "SignUp",
+      action: "Sign up with email",
+    });
     setIsLoading(true);
     try {
       await dispatch(signupEmail(userData)).unwrap();
