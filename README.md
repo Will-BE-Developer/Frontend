@@ -11,7 +11,7 @@
 <br />
 
 면접을 연습한적은 있지만, 본인의 모습을 직접 녹화해 보신 적 있으신가요?
-긴장하면 나오는 목소리 톤, 어울리지 않는 제스처 등 소리내어 연습하는 것으로 알 수 있을까요?
+긴장하면 나오는 목소리 톤, 어울리지 않는 제스처 등 소리내어 연습하는 것만으로 알 수 있을까요?
 윌비와 함께 내가 모르는 나의 면접 습관을 알고 강점은 더 강하게 약점은 기록하며 보완해보세요!
 
 <br/>
@@ -135,7 +135,7 @@
   <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
   <img src="https://img.shields.io/badge/html-E34F26?style=for-the-badge&logo=html5&logoColor=white">
   <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">
-  <img src="https://img.shields.io/badge/yarn-%232C8EBB.svg?style=for-the-badge&logo=yarn&logoColor=white">
+  <img src="https://img.shields.io/badge/npm-%232C8EBB.svg?style=for-the-badge&logo=npm&logoColor=white">
   <br>
   <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black">
   <img src="https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white">
@@ -150,7 +150,6 @@
   <img src="https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql& logoColor=white">
   <img src="https://img.shields.io/badge/NPM-%23000000.svg?style=for-the-badge&logo=npm&  logoColor=white">
   <img src="https://img.shields.io/badge/AWS Ec2-232F3E?style=for-the-badge&  logo=amazonaws&logoColor=white">
-   <img src="https://img.shields.io/badge/socket.io-ffffff?style=for-the-badge&logo=socket.io&logoColor=black">
   <img src="https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens">
 
 <br>
