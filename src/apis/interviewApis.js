@@ -11,19 +11,22 @@ const interviewApis = {
       {},
       {
         Authorization: getCookie("token"),
-        "Access-Control-Allow-Origin": "https://willbedeveloper.com/",
+        accept: "application/json,",
+        "Access-Control-Allow-Origin": "https://willbedeveloper.com",
       }
     ),
   s3VideoUpload: (presignedUrl, video) =>
     axios.put(presignedUrl, video, {
       headers: {
         "Content-Type": "video/webm",
+        accept: "application/json,",
       },
     }),
   s3ThumbnailUpload: (presignedUrl, thumbnail) =>
     axios.put(presignedUrl, thumbnail, {
       headers: {
         "Content-Type": "image/png",
+        accept: "application/json,",
       },
     }),
   createInterview: (interviewId, note, questionId, isPublic) =>
@@ -36,7 +39,8 @@ const interviewApis = {
       },
       {
         Authorization: getCookie("token"),
-        "Access-Control-Allow-Origin": "https://willbedeveloper.com/",
+        accept: "application/json,",
+        "Access-Control-Allow-Origin": "https://willbedeveloper.com",
       }
     ),
 };
