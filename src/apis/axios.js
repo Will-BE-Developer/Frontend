@@ -5,7 +5,7 @@ const instance = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
   headers: {
     "content-type": "application/json;charset=UTF-8",
-    accept: "application/json,",
+    accept: "application/json",
     "Access-Control-Allow-Origin": "https://willbedeveloper.com",
   },
 });

@@ -11,7 +11,7 @@ const interviewApis = {
       {},
       {
         Authorization: getCookie("token"),
-        accept: "application/json,",
+        accept: "application/json",
         "Access-Control-Allow-Origin": "https://willbedeveloper.com",
       }
     ),
@@ -19,14 +19,12 @@ const interviewApis = {
     axios.put(presignedUrl, video, {
       headers: {
         "Content-Type": "video/webm",
-        accept: "application/json,",
       },
     }),
   s3ThumbnailUpload: (presignedUrl, thumbnail) =>
     axios.put(presignedUrl, thumbnail, {
       headers: {
         "Content-Type": "image/png",
-        accept: "application/json,",
       },
     }),
   createInterview: (interviewId, note, questionId, isPublic) =>
@@ -39,7 +37,7 @@ const interviewApis = {
       },
       {
         Authorization: getCookie("token"),
-        accept: "application/json,",
+        accept: "application/json",
         "Access-Control-Allow-Origin": "https://willbedeveloper.com",
       }
     ),
