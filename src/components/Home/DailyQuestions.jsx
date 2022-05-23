@@ -5,6 +5,7 @@ import { boxShadow } from "../../styles/boxShadow";
 import { useNavigate } from "react-router-dom";
 import theme from "../../styles/theme";
 import { bigIcons } from "../../shared/categoryIcons";
+import ReactGA from "react-ga";
 
 const DailyQuestions = ({ todaysQuestions }) => {
   const navigate = useNavigate();
@@ -36,7 +37,13 @@ const DailyQuestions = ({ todaysQuestions }) => {
               <div
                 onClick={
                   width <= 900
-                    ? () => startInterviewHandler(question)
+                    ? () => {
+                        startInterviewHandler(question);
+                        ReactGA.event({
+                          category: "Daily question",
+                          action: "Daily question recording",
+                        });
+                      }
                     : () => {}
                 }
                 className="card"
@@ -71,7 +78,13 @@ const DailyQuestions = ({ todaysQuestions }) => {
                   onClick={
                     width <= 900
                       ? () => {}
-                      : () => startInterviewHandler(question)
+                      : () => {
+                          startInterviewHandler(question);
+                          ReactGA.event({
+                            category: "Daily question",
+                            action: "Daily question recording",
+                          });
+                        }
                   }
                   className="startBtn"
                 >

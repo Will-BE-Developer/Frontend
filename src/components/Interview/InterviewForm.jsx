@@ -7,6 +7,7 @@ import GlobalButton from "../UI/GlobalButton";
 import { GrRefresh } from "react-icons/gr";
 import interviewApis from "../../apis/interviewApis";
 import checkIcon from "../../assets/icons/check.png";
+import ReactGA from "react-ga";
 
 const InterviewForm = (
   { thumbnail, questionId, reset, category, question, loadingHandler },
@@ -127,7 +128,13 @@ const InterviewForm = (
           </GlobalButton>
         </div>
         <GlobalButton
-          onClick={createInterviewHandler}
+          onClick={() => {
+            createInterviewHandler();
+            ReactGA.event({
+              category: "Interview",
+              action: "Save Interview",
+            });
+          }}
           background={theme.colors.blue}
           hover={({ theme }) => theme.colors.mainHover}
         >

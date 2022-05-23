@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import * as Sentry from "@sentry/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getCookie } from "../../shared/cookies";
+import ReactGA from "react-ga";
 
 import theme from "../../styles/theme";
 import styled, { css } from "styled-components";
@@ -278,7 +279,15 @@ const FeedBackDetail = (props) => {
                     </span>
                   </div>
                   <div className="button_wrap">
-                    <button onClick={scrapHandler}>
+                    <button
+                      onClick={() => {
+                        scrapHandler();
+                        ReactGA.event({
+                          category: "Feedback",
+                          action: "Scrap Feedback",
+                        });
+                      }}
+                    >
                       {!isScrapped ? <ScrapIcon /> : <ScrappedIcon />}
                     </button>
 

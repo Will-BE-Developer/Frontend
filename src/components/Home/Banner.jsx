@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { HiChevronRight, HiChevronLeft } from "react-icons/hi";
 import bannerLogo from "../../assets/bannerLogo.svg";
 import bannerImage from "../../assets/bannerImage.png";
+import ReactGA from "react-ga";
 
 const DUMMY_CONTENTS = [
   {
@@ -62,6 +63,10 @@ const Banner = () => {
                     className="link"
                     onClick={() => {
                       if (idx === 1) {
+                        ReactGA.event({
+                          category: "Banner",
+                          action: "Go to the survey page",
+                        });
                         window.open("https://forms.gle/3CCWq2KZ8d63qefm6");
                       } else {
                         navigate("/interview");

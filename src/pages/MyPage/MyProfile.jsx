@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import * as Sentry from "@sentry/react";
+import ReactGA from "react-ga";
 import defaultUserImage from "../../assets/defaultUserImage.png";
 import { signout, deleteUser, updateUser } from "../../store/slices/userSlice";
 import SetProfileImg from "../../components/Signup/SetProfileImg";
@@ -115,7 +116,13 @@ const MyProfile = () => {
                 background={theme.colors.blue}
                 border="1px solid rgba(130, 130, 130, 0.2)"
                 _height="40px"
-                onClick={updateUserHandler}
+                onClick={() => {
+                  updateUserHandler();
+                  ReactGA.event({
+                    category: "Mypage",
+                    action: "Update Profile",
+                  });
+                }}
                 hover={theme.colors.mainHover}
               />
               <GlobalButton
