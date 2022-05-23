@@ -5,7 +5,14 @@ const interviewApis = {
   getCategories: () => instance.get("/api/categories"),
   getQuestion: (topic) => instance.get(`/api/questions/${topic}`),
   getPresignedUrl: () =>
-    instance.post(`${process.env.REACT_APP_API_FILE_URL}/api/interviews/draft`),
+    axios.post(
+      `${process.env.REACT_APP_API_FILE_URL}/api/interviews/draft`,
+      {},
+      {
+        accept: "application/json,",
+        "Access-Control-Allow-Origin": "https://willbedeveloper.com",
+      }
+    ),
   s3VideoUpload: (presignedUrl, video) =>
     axios.put(presignedUrl, video, {
       headers: {
@@ -21,12 +28,17 @@ const interviewApis = {
       },
     }),
   createInterview: (interviewId, note, questionId, isPublic) =>
-    instance.post(
+    axios.post(
       `${process.env.REACT_APP_API_FILE_URL}/api/interviews/${interviewId}`,
       {
         note,
         questionId,
         isPublic,
+      },
+
+      {
+        accept: "application/json,",
+        "Access-Control-Allow-Origin": "https://willbedeveloper.com",
       }
     ),
 };
