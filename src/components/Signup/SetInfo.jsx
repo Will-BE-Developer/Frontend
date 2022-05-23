@@ -13,7 +13,6 @@ import { FcPrevious } from "react-icons/fc";
 import GlobalTextArea from "../UI/GlobalTextArea";
 import { updateUser } from "../../store/slices/userSlice";
 import mailCheckIcon from "../../assets/icons/mail_check.svg";
-import GlobalModal from "../UI/GlobalModal";
 
 const SetInfo = (props) => {
   const dispatch = useDispatch();
@@ -24,7 +23,6 @@ const SetInfo = (props) => {
     githubLink: "https://github.com/",
     introduce: "",
   });
-  const [openTermsModal, setOpenTermsModal] = useState(false);
 
   const currentPage = props.currentPage;
 

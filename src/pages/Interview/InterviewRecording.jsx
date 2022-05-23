@@ -1,11 +1,14 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import * as Sentry from "@sentry/react";
 import RecordRTC from "recordrtc";
 import Timer from "react-timer-wrapper";
 import Timecode from "react-timecode";
 import styled from "styled-components";
 import { BsAlarm } from "react-icons/bs";
 import { GrRefresh } from "react-icons/gr";
+import Slider from "@mui/material/Slider";
+import { isMobile } from "react-device-detect";
 import GlobalButton from "../../components/UI/GlobalButton";
 import InterviewForm from "../../components/Interview/InterviewForm";
 import webcamNotice from "../../assets/webcamNotice.svg";
@@ -13,7 +16,7 @@ import interviewApis from "../../apis/interviewApis";
 import Countdown from "react-countdown";
 import LoadingLoader from "../../components/UI/LoadingLoader";
 import theme from "../../styles/theme";
-import Slider from "@mui/material/Slider";
+import IsMobileModal from "../../components/UI/ModalSample/IsMobileModal";
 
 const InterviewRecording = () => {
   const { state } = useLocation();
@@ -29,8 +32,13 @@ const InterviewRecording = () => {
   const [question, setQuestion] = useState({});
   const [firstTry, setIsFirstTry] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [isM, setIsM] = useState(true);
 
   const currSecond = Math.floor(time / 1000);
+
+  const confirmHandler = () => {
+    setIsM(false);
+  };
 
   const loadingHandler = () => {
     setIsLoading(true);
@@ -90,14 +98,18 @@ const InterviewRecording = () => {
     }
 
     if (firstTry && !state?.question) {
-      interviewApis
-        .getQuestion(state.selectTopic)
-        .then((question) => {
-          setQuestion(question);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      const getQuestion = async () => {
+        const {
+          data: { question },
+        } = await interviewApis.getQuestion(state.selectTopic);
+        setQuestion(question);
+      };
+
+      try {
+        getQuestion();
+      } catch (err) {
+        Sentry.captureException(`Get question : ${err}`);
+      }
     }
   }, [recordingHandler, isEnd, state, firstTry, navigate]);
 
@@ -123,6 +135,10 @@ const InterviewRecording = () => {
     setIsEnd(false);
     setIsStart(false);
   };
+
+  if (isMobile && isM) {
+    return <IsMobileModal confirmHandler={confirmHandler} />;
+  }
 
   return (
     <RecordWrapper

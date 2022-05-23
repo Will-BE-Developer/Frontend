@@ -1,4 +1,5 @@
 import { useState } from "react";
+import * as Sentry from "@sentry/react";
 import { useNavigate, useLocation } from "react-router-dom";
 import theme from "../../styles/theme";
 import styled, { css } from "styled-components";
@@ -18,28 +19,24 @@ const FeedbackUpdate = () => {
   });
   const [isPublic, setIsPublic] = useState(data.isPublic);
 
-  const clickUpdateHandler = () => {
+  const clickUpdateHandler = async () => {
     const cardId = data.id;
     const updateData = {
       note: noteInfo.noteText,
       isPublic,
     };
 
-    feedbackApis.updateDetail(cardId, updateData).then((data) => {
-      if (isPublic === true) {
-        navigate(`/feedback/${cardId}`, { replace: true });
-      } else {
-        navigate("/mypage/history", { replace: true });
-      }
-    });
+    try {
+      feedbackApis.updateDetail(cardId, updateData);
+      navigate(`/feedback/${cardId}`, { replace: true });
+    } catch (err) {
+      Sentry.captureException(`Update Feedback  : ${err}`);
+      navigate("/notFound");
+    }
   };
 
   const clickCancleHandler = () => {
-    if (isPublic === true) {
-      navigate(`/feedback/${data.id}`, { replace: true });
-    } else {
-      navigate("/mypage/history", { replace: true });
-    }
+    navigate(`/feedback/${data.id}`, { replace: true });
   };
 
   return (

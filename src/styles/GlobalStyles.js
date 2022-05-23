@@ -11,20 +11,12 @@ const GlobalStyles = createGlobalStyle`
     font-style: normal;
   }
 
-/* 
-  @font-face {
-    font-family: 'Arita-dotum-Medium';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Arita-dotum-Medium.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}  */
   *{
     box-sizing: border-box;
   }
 
   body {
     min-height: 100vh;
-    /* font-family: 'Arita-dotum-Medium'; */
     font-family: 'Pretendard-Regular';
     margin: ${(props) => (props.home ? "60px auto 0px auto" : "60px auto")};
   }

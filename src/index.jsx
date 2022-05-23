@@ -1,8 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserTracing } from "@sentry/tracing";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import * as Sentry from "@sentry/react";
+
 import store from "./store/configStore";
 import theme from "./styles/theme";
 import App from "./App";
@@ -27,6 +30,13 @@ import MyHistory from "./pages/MyPage/MyHistory";
 import MyScrap from "./pages/MyPage/MyScrap";
 import NotFound from "./pages/NotFound";
 import ServerError from "./pages/ServerError";
+import CheckUserAgent from "./components/CheckUserAgent";
+
+Sentry.init({
+  dsn: process.env.REACT_APP_SENTRY_DSN,
+  integrations: [new BrowserTracing()],
+  tracesSampleRate: 1.0,
+});
 
 ReactDOM.render(
   <React.StrictMode>
@@ -35,38 +45,39 @@ ReactDOM.render(
         <BrowserRouter>
           <ScrollToTop />
           <Routes>
-            <Route path="" element={<Home />} />
-            <Route path="/" element={<App />}>
+            <Route path="" element={<CheckUserAgent />}>
               <Route path="" element={<Home />} />
-              <Route path="feedback" element={<FeedBack />} />
-              <Route path="feedback/:cardId" element={<FeedBackDetail />} />
-              <Route
-                path="feedback/:cardId/update"
-                element={<FeedbackUpdate />}
-              />
-              <Route path="mypage" element={<MyPage />}>
+              <Route path="/" element={<App />}>
+                <Route path="feedback" element={<FeedBack />} />
+                <Route path="feedback/:cardId" element={<FeedBackDetail />} />
                 <Route
-                  path=""
-                  element={
-                    <RequireAuth>
-                      <MyProfile />
-                    </RequireAuth>
-                  }
+                  path="feedback/:cardId/update"
+                  element={<FeedbackUpdate />}
                 />
-                <Route path="history" element={<MyHistory />} />
-                <Route path="scrap" element={<MyScrap />} />
+                <Route path="mypage" element={<MyPage />}>
+                  <Route
+                    path=""
+                    element={
+                      <RequireAuth>
+                        <MyProfile />
+                      </RequireAuth>
+                    }
+                  />
+                  <Route path="history" element={<MyHistory />} />
+                  <Route path="scrap" element={<MyScrap />} />
+                </Route>
               </Route>
+              <Route path="interview" element={<Interview />}>
+                <Route path="" element={<InterviewTopic />} />
+                <Route path="recording" element={<InterviewRecording />} />
+              </Route>
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/signin" element={<Signin />} />
+              <Route path="/user/kakao/callback" element={<KakaoRedirect />} />
+              <Route path="/signin/validation" element={<SigninValidation />} />
+              <Route path="/notice" element={<ServerError />} />
+              <Route path="*" element={<NotFound />} />
             </Route>
-            <Route path="interview" element={<Interview />}>
-              <Route path="" element={<InterviewTopic />} />
-              <Route path="recording" element={<InterviewRecording />} />
-            </Route>
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/signin" element={<Signin />} />
-            <Route path="/user/kakao/callback" element={<KakaoRedirect />} />
-            <Route path="/signin/validation" element={<SigninValidation />} />
-            <Route path="/notice" element={<ServerError />} />
-            <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

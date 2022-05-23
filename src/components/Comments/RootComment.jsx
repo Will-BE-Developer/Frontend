@@ -1,13 +1,18 @@
 import { useState } from "react";
-import styled, { css } from "styled-components";
-import { FiPlusSquare, FiMinusSquare } from "react-icons/fi";
-import { RiArrowDownSFill, RiArrowUpSFill } from "react-icons/ri";
-import GlobalButton from "../UI/GlobalButton";
+import * as Sentry from "@sentry/react";
+import ReactGA from "react-ga";
+import { useNavigate } from "react-router-dom";
 import { getCookie } from "../../shared/cookies";
+
 import Comment from "./Comment";
 import commentApis from "../../apis/commentApis";
-import GlobalTextArea from "../UI/GlobalTextArea";
+
 import theme from "../../styles/theme";
+import styled, { css } from "styled-components";
+import { RiArrowDownSFill, RiArrowUpSFill } from "react-icons/ri";
+import GlobalButton from "../UI/GlobalButton";
+import GlobalTextArea from "../UI/GlobalTextArea";
+
 const RootComment = ({
   rootComment,
   cardId,
@@ -15,6 +20,7 @@ const RootComment = ({
   setCommentCount,
 }) => {
   const token = getCookie("token");
+  const navigate = useNavigate();
   const { id } = rootComment;
   const nestedComments = rootComment.nestedComments;
   const [isShowReply, setIsShowReply] = useState(false);
@@ -30,15 +36,23 @@ const RootComment = ({
       alert("내용을 채워주세요.");
       return;
     }
-    const data = { contents: content, rootId: id, rootName: "comment" };
+    ReactGA.event({
+      category: "Comments",
+      action: "Add Nested Comment",
+    });
+    const nestedCommnetData = {
+      contents: content,
+      rootId: id,
+      rootName: "comment",
+    };
     try {
-      const response = await commentApis.addComment(data);
-
+      const { data } = await commentApis.addComment(nestedCommnetData);
       setContent("");
-      setAllComments(response.comments);
-      setCommentCount(response.totalComments);
+      setAllComments(data.comments);
+      setCommentCount(data.totalComments);
     } catch (err) {
-      console.log("대댓글 작성 오류", err);
+      Sentry.captureException(`Add nested comment  : ${err}`);
+      navigate("/notFound");
     }
   };
   return (

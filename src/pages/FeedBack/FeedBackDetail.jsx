@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
+import * as Sentry from "@sentry/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getCookie } from "../../shared/cookies";
+import ReactGA from "react-ga";
+
 import theme from "../../styles/theme";
 import styled, { css } from "styled-components";
 import GlobalButton from "../../components/UI/GlobalButton";
@@ -61,16 +64,20 @@ const FeedBackDetail = (props) => {
 
   const weekChar = { 1: "첫", 2: "둘", 3: "셋" };
 
+  const { question, user, note, createdAt } = data;
+  const editHandler = () => {
+    navigate(`/feedback/${cardId}/update`, { state: { data, video } });
+  };
+
   useEffect(() => {
-    feedbackApis
-      .getDetail(cardId)
-      .then((data) => {
+    const getDetail = async () => {
+      try {
+        const { data } = await feedbackApis.getDetail(cardId);
         setData(data.interview);
         setIsScrapped(data.interview.scrapsMe);
         setScrapCount(data.interview.scrapsCount);
         setIsMine(data.interview.isMine);
         setVideo(data.interview.video);
-
         setBadge((prev) => {
           return {
             ...prev,
@@ -80,50 +87,52 @@ const FeedBackDetail = (props) => {
             ranking: data.interview.ranking,
           };
         });
-      })
-
-      .catch((err) => {
-        console.log(err);
+      } catch (err) {
+        Sentry.captureException(`Get feedback detail  : ${err}`);
         navigate("/notFound");
-        return;
-      });
+      }
+    };
+    getDetail();
   }, [cardId, navigate]);
 
-  const { question, user, note, createdAt } = data;
-  const editHandler = () => {
-    navigate(`/feedback/${cardId}/update`, { state: { data, video } });
+  const clickDeleteHandler = async () => {
+    try {
+      const { data } = await feedbackApis.deleteDetail(cardId);
+      if (data.interview?.isPublic === true) {
+        navigate(`/feedback/`, { replace: true });
+      } else {
+        navigate("/mypage/history", { replace: true });
+      }
+    } catch (err) {
+      Sentry.captureException(`delete interview : ${err}`);
+      navigate("/notFound");
+    }
   };
 
-  const clickDeleteHandler = () => {
-    feedbackApis
-      .deleteDetail(cardId)
-      .then((data) => {
-        if (data.interview?.isPublic === true) {
-          navigate(`/feedback/`, { replace: true });
-        } else {
-          navigate("/mypage/history", { replace: true });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const scrapHandler = () => {
+  const scrapHandler = async () => {
     if (!token) {
       openModalHandler();
       return;
     }
+
     if (isScrapped === false) {
-      feedbackApis.addScrap(cardId).then((data) => {
+      try {
+        const { data } = await feedbackApis.addScrap(cardId);
         setIsScrapped(data.scrap.scrapsMe);
         setScrapCount(data.scrap.scrapsCount);
-      });
+      } catch (err) {
+        Sentry.captureException(`delete interview : ${err}`);
+        navigate("/notFound");
+      }
     } else {
-      feedbackApis.undoScrap(cardId).then((data) => {
+      try {
+        const { data } = await feedbackApis.undoScrap(cardId);
         setIsScrapped(data.scrap.scrapsMe);
         setScrapCount(data.scrap.scrapsCount);
-      });
+      } catch (err) {
+        Sentry.captureException(`delete interview : ${err}`);
+        navigate("/notFound");
+      }
     }
   };
 
@@ -217,7 +226,7 @@ const FeedBackDetail = (props) => {
               )}
               <TitleContainer>
                 <div className="title_box">
-                  <div className="catetory_box">
+                  <div className="category_box">
                     {badge.color !== "NONE" && (
                       <>
                         <div
@@ -270,7 +279,15 @@ const FeedBackDetail = (props) => {
                     </span>
                   </div>
                   <div className="button_wrap">
-                    <button onClick={scrapHandler}>
+                    <button
+                      onClick={() => {
+                        scrapHandler();
+                        ReactGA.event({
+                          category: "Feedback",
+                          action: "Scrap Feedback",
+                        });
+                      }}
+                    >
                       {!isScrapped ? <ScrapIcon /> : <ScrappedIcon />}
                     </button>
 
@@ -337,7 +354,7 @@ const TitleContainer = styled.div`
       justify-content: space-between;
       margin-top: 32px;
       & .title_box {
-        & .catetory_box {
+        & .category_box {
           display: flex;
           align-items: center;
           gap: 8px;
@@ -413,6 +430,9 @@ const TitleContainer = styled.div`
             ${device.mobile} {
               font-size: ${fontSize["18"]};
               margin: 16px 0;
+              -webkit-line-clamp: 2;
+              -webkit-box-orient: vertical;
+              line-height: 1.2em;
             }
           }
         }

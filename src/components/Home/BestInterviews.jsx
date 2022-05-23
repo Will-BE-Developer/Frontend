@@ -102,13 +102,13 @@ const BestInterviews = ({ weeklyInterviews }) => {
                           {interview.user?.nickname}님
                           <img src={badgeIcon[idx]} alt="badge" />
                         </span>
-                        <span style={{ fontSize: theme.fontSize["14"] }}>
+                        {/* <span style={{ fontSize: theme.fontSize["14"] }}>
                           누적 스크랩
                           <span style={{ color: theme.colors.blue }}>
                             &nbsp;{interview.scrapsCount}
                           </span>
                           개 달성!
-                        </span>
+                        </span> */}
                       </div>
                       <div className="hr" />
                       <div className="interviewContents">
@@ -186,8 +186,10 @@ const SliderLayout = styled.div`
   .btnWrapper button {
     display: flex;
     padding: 0px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    border: 1px solid white;
+    background-color: white;
     border-radius: 50%;
+    box-shadow: 1px 2px 5px rgba(133, 133, 133, 0.2);
   }
 
   .background {
@@ -275,6 +277,7 @@ const StyledSlider = styled(Slider)`
       .question {
         margin-top: 10px;
         font-weight: ${fontWeight.extraBold};
+        text-align: start;
       }
 
       .description {

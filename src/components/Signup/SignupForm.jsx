@@ -1,13 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
+import ReactGA from "react-ga";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { boxShadow } from "../../styles/boxShadow";
 import styled, { css } from "styled-components";
 import theme from "../../styles/theme";
 import LoadingLoader from "../UI/LoadingLoader";
-import { Link } from "react-router-dom";
 
-// 회원가입 유효성 검사 api : react hook form
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -15,7 +14,6 @@ import GlobalButton from "../UI/GlobalButton";
 import { signupEmail } from "../../store/slices/userSlice";
 import userApis from "../../apis/userApis";
 import { FcPrevious } from "react-icons/fc";
-import GlobalModal from "../UI/GlobalModal";
 import TermsModal from "../UI/ModalSample/TemsModal";
 
 const SignupForm = (props) => {
@@ -81,6 +79,10 @@ const SignupForm = (props) => {
       alert("윌비 서비스 이용 약관에 동의해주세요.");
       return;
     }
+    ReactGA.event({
+      category: "SignUp",
+      action: "Sign up with email",
+    });
     setIsLoading(true);
     try {
       await dispatch(signupEmail(userData)).unwrap();
@@ -98,13 +100,11 @@ const SignupForm = (props) => {
     const currentEmail = emailRef.current?.value;
     if (currentEmail) {
       try {
-        const res = await userApis.signupEmailCheck(currentEmail);
-        console.log(res, "중복체크 결과 ");
-        alert(res.data.msg);
+        const { data } = await userApis.signupEmailCheck(currentEmail);
+        alert(data.msg);
         setCheckEmail(true);
         return;
       } catch (err) {
-        console.log(err.response, "중복체크 에러 ");
         alert(err.response.data.msg);
         setCheckEmail(false);
       }
@@ -122,7 +122,6 @@ const SignupForm = (props) => {
   const checkTermsHandler = () => {
     setCheckedTerms(!checkedTerms);
   };
-  console.log(checkedTerms);
 
   return (
     <Container>

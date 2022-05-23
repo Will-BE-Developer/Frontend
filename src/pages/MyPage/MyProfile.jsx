@@ -4,6 +4,8 @@ import theme from "../../styles/theme";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import * as Sentry from "@sentry/react";
+import ReactGA from "react-ga";
 import defaultUserImage from "../../assets/defaultUserImage.png";
 import { signout, deleteUser, updateUser } from "../../store/slices/userSlice";
 import SetProfileImg from "../../components/Signup/SetProfileImg";
@@ -46,7 +48,7 @@ const MyProfile = () => {
       setIsLoading(false);
       setIsEdit(false);
     } catch (err) {
-      console.log(err);
+      Sentry.captureException(`update user : ${err}`);
     }
   };
 
@@ -63,7 +65,7 @@ const MyProfile = () => {
       await dispatch(signout()).unwrap();
       navigate("/", { replace: true });
     } catch (err) {
-      console.log(err);
+      Sentry.captureException(`signout : ${err}`);
     }
   };
 
@@ -73,7 +75,7 @@ const MyProfile = () => {
       alert("계정삭제가 완료되었습니다");
       navigate("/", { replace: true });
     } catch (err) {
-      console.log(err);
+      Sentry.captureException(`delete user : ${err}`);
     }
   };
 
@@ -114,7 +116,13 @@ const MyProfile = () => {
                 background={theme.colors.blue}
                 border="1px solid rgba(130, 130, 130, 0.2)"
                 _height="40px"
-                onClick={updateUserHandler}
+                onClick={() => {
+                  updateUserHandler();
+                  ReactGA.event({
+                    category: "Mypage",
+                    action: "Update Profile",
+                  });
+                }}
                 hover={theme.colors.mainHover}
               />
               <GlobalButton

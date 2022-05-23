@@ -1,11 +1,13 @@
 import styled, { css } from "styled-components";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import * as Sentry from "@sentry/react";
 import { HiChevronRight } from "react-icons/hi";
 import interviewApis from "../../apis/interviewApis";
 import GlobalButton from "../../components/UI/GlobalButton";
 import { boxShadow } from "../../styles/boxShadow";
 import { smallIcons } from "../../shared/categoryIcons";
+import IsMobileModal from "../../components/UI/ModalSample/IsMobileModal";
 
 const InterviewTopic = () => {
   const [topics, setTopics] = useState([]);
@@ -13,14 +15,18 @@ const InterviewTopic = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    interviewApis
-      .getCategories()
-      .then((categories) => {
-        setTopics(categories);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const getCategories = async () => {
+      const {
+        data: { categories },
+      } = await interviewApis.getCategories();
+      setTopics(categories);
+    };
+
+    try {
+      getCategories();
+    } catch (err) {
+      Sentry.captureException(`Get categories : ${err}`);
+    }
   }, []);
 
   const selectTopicHandler = () => {

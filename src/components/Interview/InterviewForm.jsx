@@ -1,11 +1,13 @@
 import { useState, forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
+import * as Sentry from "@sentry/react";
 import styled, { css } from "styled-components";
 import theme from "../../styles/theme";
 import GlobalButton from "../UI/GlobalButton";
 import { GrRefresh } from "react-icons/gr";
 import interviewApis from "../../apis/interviewApis";
 import checkIcon from "../../assets/icons/check.png";
+import ReactGA from "react-ga";
 
 const InterviewForm = (
   { thumbnail, questionId, reset, category, question, loadingHandler },
@@ -24,8 +26,7 @@ const InterviewForm = (
     try {
       loadingHandler();
 
-      const data = await interviewApis.getPresignedUrl();
-
+      const { data } = await interviewApis.getPresignedUrl();
       const video = recorderRef.current.getBlob();
       const interviewId = data.interview.id;
       const presignedUrlVideo = data.presignedUrl.video;
@@ -48,8 +49,8 @@ const InterviewForm = (
       } else {
         navigate("/mypage/history");
       }
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      Sentry.captureException(`Interview Form : ${err}`);
     }
   };
 
@@ -127,7 +128,13 @@ const InterviewForm = (
           </GlobalButton>
         </div>
         <GlobalButton
-          onClick={createInterviewHandler}
+          onClick={() => {
+            createInterviewHandler();
+            ReactGA.event({
+              category: "Interview",
+              action: "Save Interview",
+            });
+          }}
           background={theme.colors.blue}
           hover={({ theme }) => theme.colors.mainHover}
         >
