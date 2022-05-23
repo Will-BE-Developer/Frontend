@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Sentry from "@sentry/react";
+import ReactGA from "react-ga";
 import RootComment from "./RootComment";
 
 import styled from "styled-components";
@@ -47,6 +48,10 @@ const Comments = ({ cardId }) => {
       alert("내용을 채워주세요.");
       return;
     }
+    ReactGA.event({
+      category: "Comments",
+      action: "Add Root comment",
+    });
     const commentData = {
       contents: content,
       rootId: cardId,

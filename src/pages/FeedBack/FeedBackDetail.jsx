@@ -226,7 +226,7 @@ const FeedBackDetail = (props) => {
               )}
               <TitleContainer>
                 <div className="title_box">
-                  <div className="catetory_box">
+                  <div className="category_box">
                     {badge.color !== "NONE" && (
                       <>
                         <div
@@ -354,7 +354,7 @@ const TitleContainer = styled.div`
       justify-content: space-between;
       margin-top: 32px;
       & .title_box {
-        & .catetory_box {
+        & .category_box {
           display: flex;
           align-items: center;
           gap: 8px;

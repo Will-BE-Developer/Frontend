@@ -1,5 +1,6 @@
 import { useState } from "react";
 import * as Sentry from "@sentry/react";
+import ReactGA from "react-ga";
 import { useNavigate } from "react-router-dom";
 import { getCookie } from "../../shared/cookies";
 
@@ -35,6 +36,10 @@ const RootComment = ({
       alert("내용을 채워주세요.");
       return;
     }
+    ReactGA.event({
+      category: "Comments",
+      action: "Add Nested Comment",
+    });
     const nestedCommnetData = {
       contents: content,
       rootId: id,
