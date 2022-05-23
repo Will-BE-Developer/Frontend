@@ -30,12 +30,11 @@ import MyHistory from "./pages/MyPage/MyHistory";
 import MyScrap from "./pages/MyPage/MyScrap";
 import NotFound from "./pages/NotFound";
 import ServerError from "./pages/ServerError";
-import Check from "./components/Check";
+import CheckUserAgent from "./components/CheckUserAgent";
 
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,
   integrations: [new BrowserTracing()],
-
   tracesSampleRate: 1.0,
 });
 
@@ -46,7 +45,7 @@ ReactDOM.render(
         <BrowserRouter>
           <ScrollToTop />
           <Routes>
-            <Route path="" element={<Check />}>
+            <Route path="" element={<CheckUserAgent />}>
               <Route path="" element={<Home />} />
               <Route path="/" element={<App />}>
                 <Route path="feedback" element={<FeedBack />} />

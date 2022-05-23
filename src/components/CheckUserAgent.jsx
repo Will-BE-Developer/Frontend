@@ -5,7 +5,7 @@ import styled from "styled-components";
 import GlobalStyles from "../styles/GlobalStyles";
 import { isIE } from "react-device-detect";
 
-const Check = () => {
+const CheckUserAgent = () => {
   const location = useLocation();
   const [initialized, setInitialized] = useState(false);
 
@@ -51,4 +51,4 @@ const IENotice = styled.div`
   }
 `;
 
-export default Check;
+export default CheckUserAgent;
