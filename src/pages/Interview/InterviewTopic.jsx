@@ -39,7 +39,6 @@ const InterviewTopic = () => {
 
   return (
     <TopicBox>
-      <IsMobileModal />
       <p className="title">면접 주제를 선정해주세요</p>
       <div className="topic">
         {topics?.map((topic, index) => {
