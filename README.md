@@ -118,7 +118,7 @@
 
 <br/>
 
-#### 디자인
+#### Design
 
 <p>
   <img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=Figma&logoColor=white"/>
@@ -129,21 +129,7 @@
 <br>
 </p>
 
-#### 백엔드
-
-<p>
-
-<br>
-  <img src="https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql& logoColor=white">
-  <img src="https://img.shields.io/badge/NPM-%23000000.svg?style=for-the-badge&logo=npm&  logoColor=white">
-  <img src="https://img.shields.io/badge/AWS Ec2-232F3E?style=for-the-badge&  logo=amazonaws&logoColor=white">
-   <img src="https://img.shields.io/badge/socket.io-ffffff?style=for-the-badge&logo=socket.io&logoColor=black">
-  <img src="https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens">
-
-<br>
-</p>
-
-#### frontEnd
+#### FrontEnd
 
 <p>
   <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
@@ -157,6 +143,19 @@
   <img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white">
 </p>
 
+#### BackEnd
+
+<p>
+
+  <img src="https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql& logoColor=white">
+  <img src="https://img.shields.io/badge/NPM-%23000000.svg?style=for-the-badge&logo=npm&  logoColor=white">
+  <img src="https://img.shields.io/badge/AWS Ec2-232F3E?style=for-the-badge&  logo=amazonaws&logoColor=white">
+   <img src="https://img.shields.io/badge/socket.io-ffffff?style=for-the-badge&logo=socket.io&logoColor=black">
+  <img src="https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens">
+
+<br>
+</p>
+
 #### Dev tools
 
 <p> 
@@ -168,7 +167,7 @@
 <hr>
 <br><br>
 
-## WebRTC (표만들기)
+## WebRTC (표만들기..)
 
 ### 영상 오류 핸들링
 
