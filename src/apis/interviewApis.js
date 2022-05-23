@@ -12,7 +12,7 @@ const interviewApis = {
       {
         Authorization: getCookie("token"),
         accept: "application/json,",
-        "Access-Control-Allow-Origin": "https://willbedeveloper.com",
+        "Access-Control-Allow-Origin": "https://willbedeveloper.com/",
       }
     ),
   s3VideoUpload: (presignedUrl, video) =>
@@ -37,11 +37,10 @@ const interviewApis = {
         questionId,
         isPublic,
       },
-
       {
         Authorization: getCookie("token"),
         accept: "application/json,",
-        "Access-Control-Allow-Origin": "https://willbedeveloper.com",
+        "Access-Control-Allow-Origin": "https://willbedeveloper.com/",
       }
     ),
 };
