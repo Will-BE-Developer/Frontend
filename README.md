@@ -38,6 +38,12 @@
 
 <br/>
 
+## Architecture
+![WillBe-service_architecture](https://user-images.githubusercontent.com/90495580/169758235-5dee4871-a34a-495d-a327-a6312e2bc2ec.jpg)
+
+
+<br/>
+
 ## 🔥 Trouble Shooting
 ### Issue
 동영상을 인코딩할때 MediaRecorder에서 지원하는 코덱중 대부분 플랫폼에서 사용가능한 vp8 코덱과 해당 코덱으로 만들 수 있는 webm컨테이너를 사용하여 동영상을 인코딩하였더니, IOS에서는 재생되지 않는 문제가 발생하였다.
