@@ -11,7 +11,6 @@ const interviewApis = {
       headers: {
         "Content-Type": "video/webm",
         accept: "application/json,",
-        "Access-Control-Allow-Origin": "*",
       },
     }),
   s3ThumbnailUpload: (presignedUrl, thumbnail) =>
@@ -19,7 +18,6 @@ const interviewApis = {
       headers: {
         "Content-Type": "image/png",
         accept: "application/json,",
-        "Access-Control-Allow-Origin": "*",
       },
     }),
   createInterview: (interviewId, note, questionId, isPublic) =>
