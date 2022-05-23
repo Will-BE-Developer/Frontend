@@ -5,7 +5,6 @@ import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import * as Sentry from "@sentry/react";
-import ReactGA from "react-ga";
 
 import store from "./store/configStore";
 import theme from "./styles/theme";
@@ -32,10 +31,6 @@ import MyScrap from "./pages/MyPage/MyScrap";
 import NotFound from "./pages/NotFound";
 import ServerError from "./pages/ServerError";
 import CheckUserAgent from "./components/CheckUserAgent";
-
-ReactGA.initialize({
-  trackingId: process.env.REACT_APP_GOOGLE_ANALYTICS_TRACKING_ID,
-});
 
 Sentry.init({
   dsn: process.env.REACT_APP_SENTRY_DSN,

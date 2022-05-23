@@ -13,9 +13,6 @@ export const signinKakao = createAsyncThunk(
     try {
       const response = await instance.get("/user/kakao/callback", {
         params: { code },
-        headers: {
-          Authorization: getCookie("token"),
-        },
       });
 
       const result = {
@@ -34,16 +31,10 @@ export const signupEmail = createAsyncThunk(
   "user/signupEmail",
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await instance.post("/signup", userData, {
-        headers: {
-          Authorization: getCookie("token"),
-        },
-      });
-      console.log(response);
+      const response = await instance.post("/signup", userData);
 
       return response.data;
     } catch (err) {
-      console.log(err);
       return rejectWithValue(err.response.data);
     }
   }
@@ -53,11 +44,7 @@ export const signinEmail = createAsyncThunk(
   "user/signinEmail",
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await instance.post("/signin", userData, {
-        headers: {
-          Authorization: getCookie("token"),
-        },
-      });
+      const response = await instance.post("/signin", userData);
 
       const result = {
         user: response.data.user,
@@ -80,9 +67,6 @@ export const emailValidation = createAsyncThunk(
           token,
           email,
         },
-        headers: {
-          Authorization: getCookie("token"),
-        },
       });
 
       const result = {
@@ -101,11 +85,7 @@ export const getUser = createAsyncThunk(
   "user/getUser",
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await instance.get("/api/users/me", {
-        headers: {
-          Authorization: getCookie("token"),
-        },
-      });
+      const { data } = await instance.get("/api/users/me");
 
       const userData = {
         profileImageUrl: data.user.profileImageUrl,
@@ -127,7 +107,6 @@ export const updateUser = createAsyncThunk(
     try {
       const { data } = await instance.put("/api/users/me", formData, {
         headers: {
-          Authorization: getCookie("token"),
           "Content-Type": "multipart/form-data",
         },
       });
@@ -150,15 +129,7 @@ export const signout = createAsyncThunk(
   "user/signout",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await instance.post(
-        "/signout",
-        {},
-        {
-          headers: {
-            Authorization: getCookie("token"),
-          },
-        }
-      );
+      const response = await instance.post("/signout");
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data);
@@ -170,11 +141,7 @@ export const deleteUser = createAsyncThunk(
   "user/deleteUser",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await instance.delete("/api/users/me", {
-        headers: {
-          Authorization: getCookie("token"),
-        },
-      });
+      const response = await instance.delete("/api/users/me");
 
       return response.data;
     } catch (err) {
