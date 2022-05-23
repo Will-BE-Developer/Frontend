@@ -128,6 +128,11 @@ const BannerContainer = styled.div`
     font-size: ${({ theme }) => theme.fontSize["20"]};
     word-break: break-all;
   }
+  @media screen and (max-width: 700px) {
+    h2 {
+      font-size: 19px;
+    }
+  }
 
   p {
     font-size: ${({ theme }) => theme.fontSize["16"]};
