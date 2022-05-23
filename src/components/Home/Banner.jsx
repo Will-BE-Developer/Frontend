@@ -12,7 +12,7 @@ import ReactGA from "react-ga";
 const DUMMY_CONTENTS = [
   {
     badge: "윌비 소개",
-    title: "화상면접 연습 플랫폼 “Willbe”를 소개합니다.",
+    title: "화상면접 연습 커뮤니티 “Willbe”를 소개합니다.",
     content:
       "화상면접을 준비하면서 어려움을 겪고 계신가요? \n \n 윌비와 함께 하면 신입개발자도 면접준비 걱정 끝! \n \n  윌비와 함께 준비하세요😄",
   },
@@ -135,7 +135,7 @@ const BannerContainer = styled.div`
   }
   @media screen and (max-width: 700px) {
     h2 {
-      font-size: 19px;
+      font-size: 18px;
     }
   }
 
@@ -171,7 +171,7 @@ const StyledSlider = styled(Slider)`
 
   .slick-slide div {
     text-align: start;
-    max-width: 370px;
+    max-width: 375px;
     width: 100%;
     height: 220px;
   }
@@ -182,15 +182,6 @@ const StyledSlider = styled(Slider)`
     align-items: flex-start;
     color: ${({ theme }) => theme.colors.white};
   }
-
-  /* .badge {
-    width: max-content;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    font-size: 14px;
-    border-radius: 20px;
-    padding: 5px 12px;
-    margin-bottom: 12px;
-  } */
 
   .title {
     margin-bottom: 20px;
@@ -232,11 +223,6 @@ const StyledSlider = styled(Slider)`
     align-items: center;
     color: white;
     padding: 3px;
-    /* background-color: white; */
-    /* border: 1px solid white; */
-    /* background-color: rgba(255, 255, 255, 0.4); */
-    /* border: 1px solid rgba(0, 0, 0, 0.2); */
-    /* border-radius: 50%; */
   }
 `;
 
