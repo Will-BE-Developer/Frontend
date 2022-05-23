@@ -3,12 +3,11 @@ import { useLocation, Outlet } from "react-router-dom";
 import ReactGA from "react-ga";
 import styled from "styled-components";
 import GlobalStyles from "../styles/GlobalStyles";
+import { isIE } from "react-device-detect";
 
 const Check = () => {
   const location = useLocation();
   const [initialized, setInitialized] = useState(false);
-
-  const agent = window.navigator.userAgent.toLowerCase();
 
   useEffect(() => {
     if (!window.location.href.includes("localhost")) {
@@ -25,7 +24,7 @@ const Check = () => {
     }
   }, [initialized, location]);
 
-  if (agent.indexOf("trident") > -1) {
+  if (isIE) {
     return (
       <IENotice>
         <GlobalStyles />
