@@ -6,6 +6,7 @@ import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiChevronRight, HiChevronLeft } from "react-icons/hi";
 import bannerLogo from "../../assets/bannerLogo.svg";
+import bannerImage from "../../assets/bannerImage.png";
 
 const DUMMY_CONTENTS = [
   {
@@ -100,21 +101,15 @@ const BannerContainer = styled.div`
   width: 100%;
   height: 420px;
   background-color: ${({ theme }) => theme.colors.mainHover};
-  /* background-position: 300px;
-     background-size: 70%; */
-  /* background-repeat: no-repeat; */
+  background-position: 500px;
+  background-size: center;
+  background-image: url(${bannerImage});
+  background-repeat: no-repeat;
   color: ${({ theme }) => theme.colors.white};
 
   @media screen and (min-width: 1350px) {
-    margin-bottom: 50px;
-    background-size: 50%;
-    background-position: 600px;
-  }
-
-  @media screen and (max-width: 700px) {
-    margin-bottom: 50px;
-    background-position: center;
-    background-size: 100%;
+    background-size: center;
+    background-position: 800px;
   }
 
   .contentsWrapper {

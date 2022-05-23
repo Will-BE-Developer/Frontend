@@ -6,7 +6,7 @@ const instance = axios.create({
   headers: {
     "content-type": "application/json;charset=UTF-8",
     accept: "application/json,",
-    "Access-Control-Allow-Origin": "https://willbedeveloper.com/",
+    "Access-Control-Allow-Origin": "https://willbedeveloper.com",
   },
 });
 
