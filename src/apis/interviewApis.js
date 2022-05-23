@@ -1,5 +1,6 @@
 import instance from "./axios";
 import axios from "axios";
+import { getCookie } from "../shared/cookies";
 
 const interviewApis = {
   getCategories: () => instance.get("/api/categories"),
@@ -9,6 +10,7 @@ const interviewApis = {
       `${process.env.REACT_APP_API_FILE_URL}/api/interviews/draft`,
       {},
       {
+        Authorization: getCookie("token"),
         accept: "application/json,",
         "Access-Control-Allow-Origin": "https://willbedeveloper.com",
       }
@@ -37,6 +39,7 @@ const interviewApis = {
       },
 
       {
+        Authorization: getCookie("token"),
         accept: "application/json,",
         "Access-Control-Allow-Origin": "https://willbedeveloper.com",
       }
