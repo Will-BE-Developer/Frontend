@@ -4,6 +4,7 @@ import GlobalButton from "../components/UI/GlobalButton";
 import { useNavigate } from "react-router-dom";
 import GlobalStyles from "../styles/GlobalStyles";
 import notFoundImg from "../assets/notFound.svg";
+import theme from "../styles/theme";
 
 const NotFound = () => {
   const navigate = useNavigate();
@@ -16,7 +17,8 @@ const NotFound = () => {
       <h2>페이지를 찾을 수 없습니다</h2>
       <GlobalButton
         padding="15px 35px"
-        background="#567FE8"
+        background={theme.colors.main}
+        hover={theme.colors.mainHover}
         _fontSize={16}
         text="되돌아가기"
         onClick={() => navigate("/", { replace: true })}

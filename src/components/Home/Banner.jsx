@@ -2,11 +2,12 @@ import styled from "styled-components";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiChevronRight, HiChevronLeft } from "react-icons/hi";
 import bannerLogo from "../../assets/bannerLogo.svg";
-import bannerImage from "../../assets/bannerImage.png";
+import illust1 from "../../assets/illust1.png";
+import illust2 from "../../assets/illust2.png";
 import ReactGA from "react-ga";
 
 const DUMMY_CONTENTS = [
@@ -24,7 +25,10 @@ const DUMMY_CONTENTS = [
   },
 ];
 
+const IMAGE_LIST = [illust1, illust2];
+
 const Banner = () => {
+  const [bannerImage, setBannerImage] = useState(illust1);
   const slider = useRef(null);
   const navigate = useNavigate();
 
@@ -45,6 +49,7 @@ const Banner = () => {
     slidesToScroll: 1,
     slidesToShow: 1,
     fade: true,
+    beforeChange: (_, newIdx) => setBannerImage(IMAGE_LIST[newIdx]),
   };
 
   return (

@@ -1,6 +1,7 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import GlobalButton from "../components/UI/GlobalButton";
-import { useNavigate } from "react-router-dom";
+import theme from "../styles/theme";
 
 const NotAvailable = (props) => {
   const navigate = useNavigate();
@@ -14,7 +15,8 @@ const NotAvailable = (props) => {
       <h2>{text ? text : "로그인이 필요한 기능입니다"}</h2>
       <GlobalButton
         padding="15px 35px"
-        background="#567FE8"
+        background={theme.colors.main}
+        hover={theme.colors.mainHover}
         _fontSize={16}
         text={btnText ? btnText : "로그인하기"}
         onClick={() =>
