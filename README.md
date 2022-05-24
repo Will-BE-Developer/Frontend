@@ -123,12 +123,13 @@
   <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">
 </p>
 
-#### FrontEnd
+#### Frontend
 
 <p>
   <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
   <img src="https://img.shields.io/badge/html-E34F26?style=for-the-badge&logo=html5&logoColor=white">
   <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">
+  <img src="https://img.shields.io/badge/axios-007CE2?style=for-the-badge&logo=axios&logoColor=white" >
   <br>
   <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black">
   <img src="https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white">
@@ -136,10 +137,14 @@
   <br>
   <img src="https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white" >
   <img src="https://img.shields.io/badge/MUI-%230081CB.svg?style=for-the-badge&logo=mui&logoColor=white" >
-  <br>
+</p>
+
+#### Infrastructure
+<p>
   <img src="https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white" > 
+  <img src="https://img.shields.io/badge/AWS amplify-CA4245?style=for-the-badge&logo=AWS amplify&logoColor=white">
   <img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white">
-  
+  <img src="https://img.shields.io/badge/route53-F7A81B?style=for-the-badge&logo=route53&logoColor=white">
 </p>
 
 #### Dev tools
@@ -157,26 +162,23 @@
 
 ## 🔥 Trouble Shooting
 
-### Issue
+### Issue1
 
-동영상을 인코딩할때 MediaRecorder에서 지원하는 코덱중 대부분 플랫폼에서 사용가능한 vp8 코덱과 해당 코덱으로 만들 수 있는 webm컨테이너를 사용하여 동영상을 인코딩하였더니, IOS에서는 재생되지 않는 문제가 발생하였다.
+동영상을 인코딩할때 MediaRecorder에서 지원하는 코덱중 대부분 플랫폼에서 사용가능한 vp8 코덱과 해당 코덱으로 만들 수 있는 webm컨테이너를 사용하여 동영상을 인코딩하였더니, IOS에서는 재생되지 않는 문제가 발생하였습니다.
 
 #### 원인
 
-IOS15부터 webm audio는 지원하지만 아직 영상은 지원하지 않는다는 사실을 알게되었다.
+IOS15부터 webm audio는 지원하지만 아직 영상은 지원하지 않는다는 사실을 알게되었습니다.
 
 #### 해결 순서
 
-1. mp4컨테이너를 사용하려고 mediarecorder를 다시 찾아본 결과 h264코덱은 지원하지만 mp4 mimeType을 지원하지 않았다.
-2. ffmpeg.wasm를 이용하여 브라우저에서 mp4로 컨버팅이 가능하였지만 작업 도중에 브라우저를 종료하게 된다면 컨버팅 과정이 모두 날아가고 유저의 대기시간을 생각하여서 다른 방안을 찾았다.
-3. 브라우저에서 webm으로 인코딩 후 S3에 저장한 뒤 서버에서 mp4로 컨버팅 하기로 결정하였고, 서버에서 FFmpeg로 컨버팅하여 저장하였다.
-
+1. mp4컨테이너를 사용하려고 mediarecorder를 다시 찾아본 결과 h264코덱은 지원하지만 mp4 mimeType을 지원하지 않았습니다.
+2. ffmpeg.wasm를 이용하여 브라우저에서 mp4로 컨버팅이 가능하였지만 작업 도중에 브라우저를 종료하게 된다면 컨버팅 과정이 모두 날아가고 유저의 대기시간을 생각하여서 다른 방안을 찾았습니다.
+3. 브라우저에서 webm으로 인코딩 후 S3에 저장한 뒤 서버에서 mp4로 컨버팅 하기로 결정하였고, 서버에서 FFmpeg로 컨버팅하여 저장하였습니다.
 
 <br/>
-<br/>
 
-
-## WebRTC 관련 에러 핸들링
+### Issue2 (WebRTC 관련 에러 핸들링)
 
 #### 유저가 카메라 접근을 차단했을 경우
 - 카메라가 차단되었다는 안내와 함께 해제 방법을 안내하는 이미지를 보여줍니다. ![Frame 1028](https://user-images.githubusercontent.com/90495580/169949359-9a10d960-847c-440b-9530-dcb1ae20ba13.png)
@@ -184,6 +186,11 @@ IOS15부터 webm audio는 지원하지만 아직 영상은 지원하지 않는�
 #### Internet explorer 에서 접속할 경우
 
 - IE는 지원하지 않기 때문에 다른 브라우저로 접속을 유도하는 안내문을 보여줍니다. ![스크린샷 2022-05-24 오후 12 30 00](https://user-images.githubusercontent.com/90495580/169949592-ecea91e8-8976-460c-8fb7-586266bddd60.png)
+
+
+<br/>
+<br/>
+
 
 <br>
 <br>
