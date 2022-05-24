@@ -2,11 +2,12 @@ import styled from "styled-components";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiChevronRight, HiChevronLeft } from "react-icons/hi";
 import bannerLogo from "../../assets/bannerLogo.svg";
-import bannerImage from "../../assets/bannerImage.png";
+import illust1 from "../../assets/illust1.png";
+import illust2 from "../../assets/illust2.png";
 import ReactGA from "react-ga";
 
 const DUMMY_CONTENTS = [
@@ -24,7 +25,10 @@ const DUMMY_CONTENTS = [
   },
 ];
 
+const IMAGE_LIST = [illust1, illust2];
+
 const Banner = () => {
+  const [bannerImage, setBannerImage] = useState(illust1);
   const slider = useRef(null);
   const navigate = useNavigate();
 
@@ -45,55 +49,59 @@ const Banner = () => {
     slidesToScroll: 1,
     slidesToShow: 1,
     fade: true,
+    beforeChange: (_, newIdx) => setBannerImage(IMAGE_LIST[newIdx]),
   };
 
   return (
     <BannerContainer>
-      <div className="contentsWrapper">
-        <img alt="bannerLogo" src={bannerLogo} />
-        <StyledSlider ref={slider} {...settings}>
-          {DUMMY_CONTENTS.map((ele, idx) => {
-            const totalCount = DUMMY_CONTENTS.length;
-            return (
-              <div className="card" key={idx}>
-                <div className="contents">
-                  <h2 className="title">{ele.title}</h2>
-                  <p className="content">{ele.content}</p>
-                  <button
-                    className="link"
-                    onClick={() => {
-                      if (idx === 1) {
-                        ReactGA.event({
-                          category: "Banner",
-                          action: "Go to the survey page",
-                        });
-                        window.open("https://forms.gle/3CCWq2KZ8d63qefm6");
-                      } else {
-                        navigate("/interview");
-                      }
-                    }}
-                  >
-                    {idx === 1 ? "설문조사 바로가기" : "면접연습 하러가기"}
-                    <HiChevronRight size="20px" />
-                  </button>
-                  <div className="btnWrapper">
-                    <button onClick={prevBtn}>
-                      <HiChevronLeft size="16px" />
+      <div className="contentsLayout">
+        <div className="contentsWrapper">
+          <img alt="bannerLogo" src={bannerLogo} />
+          <StyledSlider ref={slider} {...settings}>
+            {DUMMY_CONTENTS.map((ele, idx) => {
+              const totalCount = DUMMY_CONTENTS.length;
+              return (
+                <div className="card" key={idx}>
+                  <div className="contents">
+                    <h2 className="title">{ele.title}</h2>
+                    <p className="content">{ele.content}</p>
+                    <button
+                      className="link"
+                      onClick={() => {
+                        if (idx === 1) {
+                          ReactGA.event({
+                            category: "Banner",
+                            action: "Go to the survey page",
+                          });
+                          window.open("https://forms.gle/3CCWq2KZ8d63qefm6");
+                        } else {
+                          navigate("/interview");
+                        }
+                      }}
+                    >
+                      {idx === 1 ? "설문조사 바로가기" : "면접연습 하러가기"}
+                      <HiChevronRight size="20px" />
                     </button>
-                    <span>
-                      <span>{`${idx + 1}`}</span>
-                      <span> / </span>
-                      <span>{`${totalCount}`}</span>
-                    </span>
-                    <button onClick={nextBtn}>
-                      <HiChevronRight size="16px" />
-                    </button>
+                    <div className="btnWrapper">
+                      <button onClick={prevBtn}>
+                        <HiChevronLeft size="16px" />
+                      </button>
+                      <span>
+                        <span>{`${idx + 1}`}</span>
+                        <span> / </span>
+                        <span>{`${totalCount}`}</span>
+                      </span>
+                      <button onClick={nextBtn}>
+                        <HiChevronRight size="16px" />
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-        </StyledSlider>
+              );
+            })}
+          </StyledSlider>
+        </div>
+        <img className="bannerImg" alt="bannerImage" src={bannerImage} />
       </div>
     </BannerContainer>
   );
@@ -106,15 +114,27 @@ const BannerContainer = styled.div`
   width: 100%;
   height: 420px;
   background-color: ${({ theme }) => theme.colors.mainHover};
-  background-position: 500px;
-  background-size: center;
-  background-image: url(${bannerImage});
-  background-repeat: no-repeat;
   color: ${({ theme }) => theme.colors.white};
 
-  @media screen and (min-width: 1350px) {
-    background-size: center;
-    background-position: 800px;
+  .contentsLayout {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 900px;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .bannerImg {
+    height: 340px !important;
+    margin: 0px !important;
+    ${({ theme }) => theme.device.tablet} {
+      padding: 0px 2rem;
+    }
+
+    @media screen and (max-width: 550px) {
+      display: none;
+    }
   }
 
   .contentsWrapper {
@@ -122,10 +142,10 @@ const BannerContainer = styled.div`
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
-    max-width: 1200px;
+    max-width: 1000px;
     width: 100%;
     ${({ theme }) => theme.device.tablet} {
-      padding: 0px 1rem;
+      padding: 0px 2rem;
     }
   }
 
