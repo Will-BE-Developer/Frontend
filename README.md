@@ -16,13 +16,10 @@
 
 <br/>
 
-<hr/>
-
 ### 프로젝트 기간
 
 - 2022.04.29 ~ 2022.06.03
 
-<hr/>
 <br/>
 
 ### 😎 Members
@@ -51,13 +48,12 @@
   </tr>
 </table>
 
+
 <br/>
-<hr>
 <br/>
+
 
 ## 프로젝트 기능 소개
-
-<br/>
 
 #### 🐰 카카오 로그인 / 이메일 로그인
 
@@ -101,22 +97,21 @@
 
 - 메인 페이지에서 매일 다른 질문을 추천해줘요! 유일하게 질문을 선택할 수 있는 공간이랍니다.
 
-<br/>
-<hr/>
 
 <br/>
+<br/>
+
 
 ## Architecture
 
 ![WillBe-service_architecture](https://user-images.githubusercontent.com/90495580/169758235-5dee4871-a34a-495d-a327-a6312e2bc2ec.jpg)
 
+
+<br/>
 <br/>
 
-<hr/>
 
 ## 🛠 Tools
-
-<br/>
 
 #### Design
 
@@ -146,13 +141,10 @@
 #### BackEnd
 
 <p>
-
   <img src="https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql& logoColor=white">
   <img src="https://img.shields.io/badge/NPM-%23000000.svg?style=for-the-badge&logo=npm&  logoColor=white">
   <img src="https://img.shields.io/badge/AWS Ec2-232F3E?style=for-the-badge&  logo=amazonaws&logoColor=white">
   <img src="https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens">
-
-<br>
 </p>
 
 #### Dev tools
@@ -161,33 +153,12 @@
   <img src="https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white">
   <img src="https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white">
   <img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white">
-<br>
+</p>
 
-<hr>
-<br><br>
-
-## WebRTC (표만들기..)
-
-### 영상 오류 핸들링
 
 <br>
-
-#### 유저가 카메라 접근을 차단했을 경우
-
-- 카메라가 차단되었다는 안내와 함께 해제 방법을 안내하는 이미지를 보여줍니다.
-
-#### Internet explorer 에서 접속할 경우
-
--
-
-#### 동영상이 인코딩중일 경우
-
-- 인코딩이 완료될 때까지 인코딩중이라는 안내 이미지로 대체해 보여줍니다.
-
-<br><br>
-
-<hr>
 <br>
+
 
 ## 🔥 Trouble Shooting
 
@@ -204,3 +175,20 @@ IOS15부터 webm audio는 지원하지만 아직 영상은 지원하지 않는�
 1. mp4컨테이너를 사용하려고 mediarecorder를 다시 찾아본 결과 h264코덱은 지원하지만 mp4 mimeType을 지원하지 않았다.
 2. ffmpeg.wasm를 이용하여 브라우저에서 mp4로 컨버팅이 가능하였지만 작업 도중에 브라우저를 종료하게 된다면 컨버팅 과정이 모두 날아가고 유저의 대기시간을 생각하여서 다른 방안을 찾았다.
 3. 브라우저에서 webm으로 인코딩 후 S3에 저장한 뒤 서버에서 mp4로 컨버팅 하기로 결정하였고, 서버에서 FFmpeg로 컨버팅하여 저장하였다.
+
+
+<br/>
+<br/>
+
+
+## WebRTC 관련 에러 핸들링
+
+#### 유저가 카메라 접근을 차단했을 경우
+- 카메라가 차단되었다는 안내와 함께 해제 방법을 안내하는 이미지를 보여줍니다. ![Frame 1028](https://user-images.githubusercontent.com/90495580/169949359-9a10d960-847c-440b-9530-dcb1ae20ba13.png)
+
+#### Internet explorer 에서 접속할 경우
+
+- IE는 지원하지 않기 때문에 다른 브라우저로 접속을 유도하는 안내문을 보여줍니다. ![스크린샷 2022-05-24 오후 12 30 00](https://user-images.githubusercontent.com/90495580/169949592-ecea91e8-8976-460c-8fb7-586266bddd60.png)
+
+<br>
+<br>
