@@ -42,18 +42,18 @@ const Header = () => {
   };
 
   useEffect(() => {
-    mobileHandler();
+    const mobileHandler = () => {
+      if (window.innerWidth <= 960) {
+        setIsMobile(true);
+      } else {
+        setIsMobile(false);
+      }
+    };
+
+    window.addEventListener("resize", mobileHandler);
+
+    return () => window.removeEventListener("resize", mobileHandler);
   }, []);
-
-  const mobileHandler = () => {
-    if (window.innerWidth <= 960) {
-      setIsMobile(true);
-    } else {
-      setIsMobile(false);
-    }
-  };
-
-  window.addEventListener("resize", mobileHandler);
 
   const clickBurgerHandler = () => setIsClicked(!isClicked);
 
@@ -189,7 +189,7 @@ const Header = () => {
 
 const HeaderContainer = styled.div`
   ${({ theme }) => {
-    const { colors, fontWeight, device } = theme;
+    const { colors, fontWeight } = theme;
 
     return css`
       list-style: none;

@@ -1,5 +1,4 @@
 import React, { forwardRef, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { getCookie } from "../../shared/cookies";
 
 import PropTypes from "prop-types";
