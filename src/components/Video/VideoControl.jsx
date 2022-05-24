@@ -205,10 +205,10 @@ const VideoControl = forwardRef(
                     <Slider
                       min={0}
                       max={100}
-                      // value={
-                      //   muted ? 0 : !muted && volume === 0 ? 50 : volume * 100
-                      // }
-                      value={muted ? 0 : volume * 100}
+                      value={
+                        muted ? 0 : !muted && volume === 0 ? 50 : volume * 100
+                      }
+                      // value={muted ? 0 : volume * 100}
                       onChange={onVolumeChange}
                       aria-label="Default"
                       onMouseDown={onSeekMouseDown}
@@ -236,7 +236,7 @@ const VideoControl = forwardRef(
                           opacity: 0.28,
                         },
                       }}
-                    ></Slider>
+                    />
                   </div>
                   <button
                     className="video_time"
