@@ -66,7 +66,6 @@ const Video = (props) => {
     played: 0,
     seeking: false,
     duration: 0,
-    // pip: false,
   });
 
   const { playing, muted, volume, playbackRate, played } = state;
@@ -197,7 +196,7 @@ const Video = (props) => {
     });
   };
 
-  const volumeSeekDownHandler = (e, newValue) => {
+  const volumeSeekUpHandler = (e, newValue) => {
     setState({
       ...state,
       volume: parseFloat(newValue / 100),
@@ -323,23 +322,14 @@ const Video = (props) => {
                   <ReactPlayer
                     ref={videoRef}
                     url={video}
-                    // pip={pip}
                     playing={playing}
                     controls={false}
                     muted={muted}
                     volume={volume}
                     playbackRate={playbackRate}
-                    className="react-player"
+                    onProgress={progressHandler}
                     width="100%"
                     height="100%"
-                    onProgress={progressHandler}
-                    config={{
-                      file: {
-                        attributes: {
-                          crossOrigin: "anonymous",
-                        },
-                      },
-                    }}
                   />
                   <VideoControl
                     ref={controlsRef}
@@ -347,18 +337,18 @@ const Video = (props) => {
                     playing={playing}
                     onRewind={rewindHandler}
                     onForward={forwardHandler}
+                    onSeekMouseDown={seekMouseDownHandler}
+                    onSeekMouseUp={seekMouseUpHandler}
                     muted={muted}
                     onMute={muteHandler}
                     onVolumeChange={volumeChangeHandler}
-                    onVolumeSeekDown={volumeSeekDownHandler}
+                    onVolumeSeekUp={volumeSeekUpHandler}
                     volume={volume}
                     playbackRate={playbackRate}
                     onPlaybackRateChange={playBackChangeHandler}
                     onToggleFullScreen={toggleFullScreenHandler}
                     played={played}
                     onSeek={onSeekChangeHandler}
-                    onSeekMouseDown={seekMouseDownHandler}
-                    onSeekMouseUp={seekMouseUpHandler}
                     elapsedTime={elapsedTime}
                     totalDuration={totalDuration}
                     onChangeDisplayFormat={displayFormatHandler}
@@ -465,8 +455,6 @@ const VideoBackgroud = styled.div`
     max-width: 750px;
     width: 100%;
     margin: 0 auto;
-    .react-player {
-    }
     .converting_img {
       width: 100%;
       -webkit-user-drag: none;

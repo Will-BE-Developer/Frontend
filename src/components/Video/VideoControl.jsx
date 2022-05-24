@@ -29,7 +29,7 @@ const VideoControl = forwardRef(
       muted,
       onMute,
       onVolumeChange,
-      onVolumeSeekDown,
+      onVolumeSeekUp,
       volume,
       playbackRate,
       onPlaybackRateChange,
@@ -41,8 +41,6 @@ const VideoControl = forwardRef(
       elapsedTime,
       totalDuration,
       onChangeDisplayFormat,
-      onLike,
-      cardId,
       scrapHandler,
       isScrapped,
       openModalHandler,
@@ -50,33 +48,19 @@ const VideoControl = forwardRef(
     ref
   ) => {
     const token = getCookie("token");
-    const [isActive, setIsActive] = useState(false);
-    const [anchorEl, setAnchorEl] = useState(null);
 
-    useEffect(() => {
-      const onWindowClick = () => {
-        setIsActive(!isActive);
-      };
-      if (isActive) {
-        window.addEventListener("click", onWindowClick);
-        return () => {
-          window.removeEventListener("click", onWindowClick);
-        };
-      }
-    }, [isActive]);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [open, setOpen] = useState(false);
 
     const handlePopover = (event) => {
       setAnchorEl(event.currentTarget);
-      setIsActive(true);
+      setOpen(true);
     };
 
     const handleClose = () => {
       setAnchorEl(null);
-      setIsActive(false);
+      setOpen(false);
     };
-
-    const open = Boolean(anchorEl);
-    const id = open ? "playbackrate-popover" : undefined;
 
     function valuetext(value) {
       return `${value}: 00`;
@@ -203,17 +187,16 @@ const VideoControl = forwardRef(
                       )}
                     </button>
                     <Slider
+                      className="volume_slider"
                       min={0}
                       max={100}
                       value={
                         muted ? 0 : !muted && volume === 0 ? 50 : volume * 100
                       }
-                      // value={muted ? 0 : volume * 100}
                       onChange={onVolumeChange}
                       aria-label="Default"
                       onMouseDown={onSeekMouseDown}
-                      onChangeCommitted={onVolumeSeekDown}
-                      className="volume_slider"
+                      onChangeCommitted={onVolumeSeekUp}
                       valueLabelDisplay="off"
                       sx={{
                         color: "#567FE8",
@@ -251,10 +234,10 @@ const VideoControl = forwardRef(
                     <h1>{playbackRate}X</h1>
                   </button>
                   <Popover
-                    id={id}
+                    id={open ? "playbackrate-popover" : undefined}
                     open={open}
-                    anchorEl={anchorEl}
                     onClose={handleClose}
+                    anchorEl={anchorEl}
                     anchorOrigin={{
                       vertical: "top",
                       horizontal: "left",
@@ -268,7 +251,7 @@ const VideoControl = forwardRef(
                       <div
                         className="speed_box"
                         key={rate}
-                        // onClick={() => setIsActive(false)}
+                        onClick={() => setOpen(false)}
                       >
                         <button
                           onClick={() => onPlaybackRateChange(rate)}
