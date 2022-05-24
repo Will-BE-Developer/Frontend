@@ -3,6 +3,7 @@ import styled from "styled-components";
 import footerBanner from "../../assets/footerBanner.png";
 import theme from "../../styles/theme";
 import { HiChevronRight } from "react-icons/hi";
+import { BsGithub } from "react-icons/bs";
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -26,14 +27,25 @@ const Footer = () => {
 
       <div className="serviceWrapper">
         <div className="service">
-          <a
-            href="https://forms.gle/3CCWq2KZ8d63qefm6"
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            설문조사하기
-          </a>
-          <p className="company">윌비와 함께 준비하세요😎</p>
+          <div>
+            <a
+              href="https://forms.gle/3CCWq2KZ8d63qefm6"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              설문조사하기
+            </a>
+            <p className="company">윌비와 함께 준비하세요😎</p>
+          </div>
+          <div className="introSection">
+            <button
+              onClick={() =>
+                window.open("https://github.com/Will-BE-Developer")
+              }
+            >
+              <BsGithub size="24px" />
+            </button>
+          </div>
         </div>
       </div>
     </FooterLayout>
@@ -60,6 +72,7 @@ const FooterLayout = styled.div`
     align-items: center;
     max-width: 1200px;
     width: 100%;
+    height: 100%;
     color: #fff;
 
     ${theme.device.tablet} {
@@ -67,9 +80,9 @@ const FooterLayout = styled.div`
     }
 
     @media screen and (max-width: 700px) {
-      align-items: flex-start;
-      justify-content: center;
       flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
       gap: 15px;
     }
   }
@@ -98,16 +111,25 @@ const FooterLayout = styled.div`
 
   .service {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     max-width: 1200px;
     width: 100%;
     height: 100px;
-    gap: 15px;
+
+    /* @media screen and (max-width: 700px) {
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 10px;
+    } */
   }
 
   .company {
     color: ${theme.colors.mediumGrey};
     font-size: ${theme.fontSize["14"]};
+    margin-top: 10px;
   }
 `;
 
