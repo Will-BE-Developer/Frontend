@@ -23,7 +23,6 @@ const VideoControl = forwardRef(
   (
     {
       onPlayPause,
-      onDuration,
       playing,
       onRewind,
       onForward,
@@ -135,7 +134,6 @@ const VideoControl = forwardRef(
                   min={0}
                   max={100}
                   aria-label="custom thumb label"
-                  // defaultValue={elapsedTime}
                   value={played * 100}
                   onChange={onSeek}
                   onMouseDown={onSeekMouseDown}
@@ -367,7 +365,6 @@ const Container = styled.div`
 
       button {
         font-size: 40px;
-        /* color: ${({ theme }) => theme.colors.pink}; */
         color: #777;
         transform: scale(0.9);
         &:hover {
@@ -401,7 +398,6 @@ const Container = styled.div`
 
           .play_icon {
             font-size: 30px;
-            /* color: ${({ theme }) => theme.colors.pink}; */
             color: #777;
             transform: scale(0.9);
             &:hover {
