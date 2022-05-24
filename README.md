@@ -104,7 +104,7 @@
 
 ## Architecture
 
-![WillBe-service_architecture](https://user-images.githubusercontent.com/90495580/169758235-5dee4871-a34a-495d-a327-a6312e2bc2ec.jpg)
+![WillBe-Infra-Architecture](https://user-images.githubusercontent.com/90495580/170075291-1bcf0d34-081b-49cb-8693-8516dbc90009.jpg)
 
 
 <br/>
