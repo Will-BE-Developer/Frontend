@@ -66,10 +66,10 @@ const Video = (props) => {
     played: 0,
     seeking: false,
     duration: 0,
-    pip: false,
+    // pip: false,
   });
 
-  const { playing, muted, volume, playbackRate, played, pip } = state;
+  const { playing, muted, volume, playbackRate, played } = state;
 
   useEffect(() => {
     const getDetail = async () => {
@@ -323,7 +323,7 @@ const Video = (props) => {
                   <ReactPlayer
                     ref={videoRef}
                     url={video}
-                    pip={pip}
+                    // pip={pip}
                     playing={playing}
                     controls={false}
                     muted={muted}
