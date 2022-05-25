@@ -5,14 +5,11 @@ import styled, { css } from "styled-components";
 import theme from "../../styles/theme";
 import GlobalButton from "../UI/GlobalButton";
 import SocialSignin from "./SocialSignin";
-import cancleIcon from "../../assets/icons/cancle.svg";
-import { positions } from "@mui/system";
+import cancelIcon from "../../assets/icons/cancel.svg";
 
 const SignupStart = (props) => {
   const currentPage = props.currentPage;
   const navigate = useNavigate();
-  // 다음 페이지
-
   const nextPageHandler = () => {
     props.setCurrentPage(currentPage + 1);
   };
@@ -26,7 +23,7 @@ const SignupStart = (props) => {
       <BoxContainer>
         <div className="cancle">
           <button onClick={() => navigate("/")} className="goback">
-            <img src={cancleIcon} alt="cancle" width="14px" />
+            <img src={cancelIcon} alt="cancel" width="14px" />
           </button>
         </div>
         <h2 className="title">

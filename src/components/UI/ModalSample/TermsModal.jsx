@@ -1,6 +1,6 @@
 import GlobalModal from "../GlobalModal";
-
 import styled from "styled-components";
+
 const TermsModal = (props) => {
   const { openTermsModal, setOpenTermsModal } = props;
 

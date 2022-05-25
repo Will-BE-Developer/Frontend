@@ -1,26 +1,27 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getCookie } from "../../shared/cookies";
 import * as Sentry from "@sentry/react";
 import ReactGA from "react-ga";
+import commentApis from "../../apis/commentApis";
 import RootComment from "./RootComment";
 
-import styled from "styled-components";
-import commentApis from "../../apis/commentApis";
+import GlobalModal from "../../components/UI/GlobalModal";
 import GlobalButton from "../UI/GlobalButton";
 import GlobalTextArea from "../UI/GlobalTextArea";
-import { IoAlertCircle } from "react-icons/io5";
-import GlobalModal from "../../components/UI/GlobalModal";
+
 import theme from "../../styles/theme";
-import { getCookie } from "../../shared/cookies";
+import styled from "styled-components";
+import { IoAlertCircle } from "react-icons/io5";
 
 const Comments = ({ cardId }) => {
   const token = getCookie("token");
   const navigate = useNavigate();
   const [allComments, setAllComments] = useState([]);
   const [content, setContent] = useState("");
-  const isTextareaDisabled = content.length === 0;
-  const [openModal, setOpenModal] = useState(false);
   const [commentCount, setCommentCount] = useState(0);
+  const [openModal, setOpenModal] = useState(false);
+  const isTextareaDisabled = content.length === 0;
 
   useEffect(() => {
     const getComment = async () => {
@@ -36,10 +37,10 @@ const Comments = ({ cardId }) => {
     getComment();
   }, [cardId, navigate]);
 
-  const sendCommentdataHandler = (data) => {
+  const sendCommentData = (data) => {
     setAllComments(data);
   };
-  const sendCommentCountHandler = (data) => {
+  const sendCommentCount = (data) => {
     setCommentCount(data);
   };
 
@@ -59,7 +60,6 @@ const Comments = ({ cardId }) => {
     };
     try {
       const { data } = await commentApis.addComment(commentData);
-      console.log(data);
       setContent("");
       setAllComments(data.comments);
       setCommentCount(data.totalComments);
@@ -76,6 +76,7 @@ const Comments = ({ cardId }) => {
   const openModalHandler = () => {
     setOpenModal(true);
   };
+
   return (
     <CommentsContainer>
       <GlobalModal
@@ -141,8 +142,8 @@ const Comments = ({ cardId }) => {
               key={rootComment.id}
               rootComment={rootComment}
               cardId={cardId}
-              setAllComments={sendCommentdataHandler}
-              setCommentCount={sendCommentCountHandler}
+              setAllComments={sendCommentData}
+              setCommentCount={sendCommentCount}
             />
           );
         })}

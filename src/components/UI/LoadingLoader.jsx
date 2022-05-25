@@ -1,6 +1,6 @@
-import styled from "styled-components";
 import PacmanLoader from "react-spinners/PacmanLoader";
 import theme from "../../styles/theme";
+import styled from "styled-components";
 
 const LoadingLoader = ({ text, noti, _height }) => {
   const styles = {

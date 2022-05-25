@@ -1,17 +1,17 @@
 import { useState } from "react";
-import * as Sentry from "@sentry/react";
-import ReactGA from "react-ga";
 import { useNavigate } from "react-router-dom";
 import { getCookie } from "../../shared/cookies";
-
+import * as Sentry from "@sentry/react";
+import ReactGA from "react-ga";
 import Comment from "./Comment";
 import commentApis from "../../apis/commentApis";
+
+import GlobalButton from "../UI/GlobalButton";
+import GlobalTextArea from "../UI/GlobalTextArea";
 
 import theme from "../../styles/theme";
 import styled, { css } from "styled-components";
 import { RiArrowDownSFill, RiArrowUpSFill } from "react-icons/ri";
-import GlobalButton from "../UI/GlobalButton";
-import GlobalTextArea from "../UI/GlobalTextArea";
 
 const RootComment = ({
   rootComment,
@@ -21,15 +21,17 @@ const RootComment = ({
 }) => {
   const token = getCookie("token");
   const navigate = useNavigate();
-  const { id } = rootComment;
-  const nestedComments = rootComment.nestedComments;
+
   const [isShowReply, setIsShowReply] = useState(false);
   const [content, setContent] = useState("");
+  const { id } = rootComment;
+  const nestedComments = rootComment.nestedComments;
   const isTextareaDisabled = content.length === 0;
 
   const replyToggleHandler = () => {
     setIsShowReply((isShowReply) => !isShowReply);
   };
+
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     if (isTextareaDisabled) {

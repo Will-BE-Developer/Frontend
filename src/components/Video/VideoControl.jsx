@@ -1,14 +1,12 @@
 import React, { forwardRef, useState } from "react";
 import { getCookie } from "../../shared/cookies";
 
+import theme from "../../styles/theme";
+import styled from "styled-components";
+import logo from "../../assets/logo.png";
 import PropTypes from "prop-types";
 import Slider from "@mui/material/Slider";
-
 import Popover from "@mui/material/Popover";
-import styled from "styled-components";
-import theme from "../../styles/theme";
-
-import logo from "../../assets/logo.png";
 
 import { BsFillBookmarkFill } from "react-icons/bs";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
@@ -329,7 +327,6 @@ const Container = styled.div`
           color: black;
           .tooltip {
             display: block;
-            /* background: ${({ theme }) => theme.colors.grey70}; */
           }
         }
       }

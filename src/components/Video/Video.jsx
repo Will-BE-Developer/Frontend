@@ -1,21 +1,22 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCookie } from "../../shared/cookies";
-import ReactPlayer from "react-player";
-import screenfull from "screenfull";
 import * as Sentry from "@sentry/react";
 
+import ReactPlayer from "react-player";
+import screenfull from "screenfull";
+
 import VideoControl from "./VideoControl.jsx";
+import Bubble from "./Bubble.jsx";
+
 import feedbackApis from "../../apis/feedbackApis.js";
 import highlightApis from "../../apis/highlightApis.js";
 
 import LoadingLoader from "../UI/LoadingLoader.jsx";
+import styled, { css } from "styled-components";
 import questionMark from "../../assets/questionMark.svg";
 import convertingImg from "../../assets/convertingImage.svg";
-
-import Bubble from "./Bubble.jsx";
 import GlobalModal from "../UI/GlobalModal";
-import styled, { css } from "styled-components";
 import { boxShadow } from "../../styles/boxShadow.js";
 import { MdFavorite } from "react-icons/md";
 import { IoAlertCircle } from "react-icons/io5";
@@ -100,13 +101,11 @@ const Video = (props) => {
           display: format(time),
         })
       );
-
       setLikes((prev) => ({
         likeTime: newLike,
         like: [...prev.like, new Date().getTime()],
       }));
     };
-
     try {
       getHighlight();
     } catch (err) {
@@ -227,17 +226,31 @@ const Video = (props) => {
     }
   };
 
-  const onSeekChangeHandler = (e, newValue) => {
+  const onSeekChangeHandler = (newValue) => {
     setState({ ...state, played: parseFloat(newValue / 100) });
   };
 
-  const seekMouseDownHandler = (e) => {
+  const seekMouseDownHandler = () => {
     setState({ ...state, seeking: true });
   };
 
-  const seekMouseUpHandler = (e, newValue) => {
+  const seekMouseUpHandler = (newValue) => {
     setState({ ...state, seeking: false });
     videoRef.current.seekTo(newValue / 100, "fraction");
+  };
+
+  const mouseMoveHandler = () => {
+    if (video !== null) {
+      controlsRef.current.style.visibility = "visible";
+      count = 0;
+    }
+  };
+
+  const mouseLeaveHandler = () => {
+    if (video !== null) {
+      controlsRef.current.style.visibility = "hidden";
+      count = 0;
+    }
   };
 
   const displayFormatHandler = () => {
@@ -258,20 +271,6 @@ const Video = (props) => {
       : `-${format(duration - currentTime)}`;
 
   const totalDuration = format(duration);
-
-  const mouseMoveHandler = () => {
-    if (video !== null) {
-      controlsRef.current.style.visibility = "visible";
-      count = 0;
-    }
-  };
-
-  const mouseLeaveHandler = () => {
-    if (video !== null) {
-      controlsRef.current.style.visibility = "hidden";
-      count = 0;
-    }
-  };
 
   const linkToSignInHandler = () => {
     navigate("/signin");
@@ -433,6 +432,7 @@ const Video = (props) => {
     </Container>
   );
 };
+
 const AlertIcon = styled(IoAlertCircle)`
   font-size: 24px;
   color: #ec5959;
@@ -573,8 +573,6 @@ const HightLight = styled.div`
             border-radius: 4px;
             margin-right: 10px;
           }
-
-          /* 아직 사용안하는중 get하고.. */
           .timestamp {
             background: rgba(234, 97, 122, 0.06);
             padding: 10px 20px;
@@ -593,7 +591,6 @@ const HightLight = styled.div`
 
 const LikeIcon = styled(MdFavorite)`
   font-size: 20px;
-  /* color: ${({ theme }) => theme.colors.pink}; */
   color: white;
 
   &:hover {

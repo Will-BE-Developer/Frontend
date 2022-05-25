@@ -1,16 +1,17 @@
 import { useState, useEffect } from "react";
-import styled, { css } from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { signout } from "../../store/slices/userSlice";
 import { getCookie } from "../../shared/cookies";
+
+import GlobalModal from "../../components/UI/GlobalModal";
+
+import styled, { css } from "styled-components";
 import logo from "../../assets/logo.png";
 import homeIcon from "../../assets/icons/mNavbar_home.svg";
 import feedbackIcon from "../../assets/icons/mNavbar_feedback.svg";
 import interviewIcon from "../../assets/icons/mNavbar_interview.svg";
 import mypageIcon from "../../assets/icons/mNavbar_mypage.svg";
-import { signout } from "../../store/slices/userSlice";
-
-import GlobalModal from "../../components/UI/GlobalModal";
 import { IoAlertCircle } from "react-icons/io5";
 import { GiHamburger } from "react-icons/gi";
 import { AiOutlineClose } from "react-icons/ai";
@@ -19,13 +20,13 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = getCookie("token");
-  const [openSignOuteModal, setOpenSignOutModal] = useState(false);
+  const [openSignOutModal, setOpenSignOutModal] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [getWidth, setGetWidth] = useState(window.innerWidth);
   const [isMobile, setIsMobile] = useState(false);
 
   const signOutHandler = () => {
-    const signoutDispatch = async () => {
+    const signOutDispatch = async () => {
       try {
         await dispatch(signout()).unwrap();
         setOpenSignOutModal(false);
@@ -34,7 +35,7 @@ const Header = () => {
         console.log(err);
       }
     };
-    signoutDispatch();
+    signOutDispatch();
   };
 
   const scrollToTop = () => {
@@ -63,7 +64,7 @@ const Header = () => {
       <GlobalModal
         title="로그아웃"
         confirmText="로그아웃"
-        open={openSignOuteModal}
+        open={openSignOutModal}
         onClose={() => setOpenSignOutModal(false)}
         onConfirm={signOutHandler}
         isConfirm

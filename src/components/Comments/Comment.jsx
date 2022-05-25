@@ -1,15 +1,17 @@
 import { useState } from "react";
-import * as Sentry from "@sentry/react";
 import { useNavigate } from "react-router-dom";
-import styled, { css } from "styled-components";
-import TimeAgo from "../FeedBack/TimeAgo";
+import * as Sentry from "@sentry/react";
 import commentApis from "../../apis/commentApis";
-import UserProfileModal from "../UI/ModalSample/UserProfileModal";
+
+import TimeAgo from "../FeedBack/TimeAgo";
 import GlobalTextArea from "../UI/GlobalTextArea";
-import { IoAlertCircle } from "react-icons/io5";
 import GlobalModal from "../../components/UI/GlobalModal";
+import UserProfileModal from "../UI/ModalSample/UserProfileModal";
 import defaultUserImage from "../../assets/defaultUserImage.png";
+
 import theme from "../../styles/theme";
+import styled, { css } from "styled-components";
+import { IoAlertCircle } from "react-icons/io5";
 import deleteIcon from "../../assets/icons/delete_grey.svg";
 import editIcon from "../../assets/icons/edit.svg";
 
@@ -218,8 +220,8 @@ const ContentBox = styled.div`
 `;
 
 const AuthorContainer = styled.div`
-  ${({ badge, theme, bgColor }) => {
-    const { colors, device, fontSize, fontWeight } = theme;
+  ${({ theme }) => {
+    const { colors, fontSize, fontWeight } = theme;
     return css`
       width: 100%;
 
@@ -277,18 +279,5 @@ const ProfileImg = styled.img`
   height: 30px;
   margin-right: 5px;
 `;
-
-// const ScrapIcon = styled(FaTrash)`
-//   ${({ theme }) => {
-//     return css`
-//       margin-left: 10px;
-//       height: 100%;
-//       font-size: ${theme.calRem(14)};
-//       padding: 0;
-//       color: ${theme.colors.lightGrey};
-//       cursor: pointer;
-//     `;
-//   }}
-// `;
 
 export default Comment;
