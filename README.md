@@ -184,11 +184,5 @@ IOS15부터 webm audio는 지원하지만 아직 영상은 지원하지 않는�
 
 - IE는 지원하지 않기 때문에 다른 브라우저로 접속을 유도하는 안내문을 보여줍니다. ![스크린샷 2022-05-24 오후 12 30 00](https://user-images.githubusercontent.com/90495580/169949592-ecea91e8-8976-460c-8fb7-586266bddd60.png)
 
-# <<<<<<< HEAD
-
-<br/>
-<br/>
->>>>>>> origin/dev
-
 <br>
 <br>
