@@ -20,8 +20,9 @@ const Header = () => {
   const dispatch = useDispatch();
   const token = getCookie("token");
   const [openSignOuteModal, setOpenSignOutModal] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
+  const [getWidth, setGetWidth] = useState(window.innerWidth);
+  const [isMobile, setIsMobile] = useState(false);
 
   const signOutHandler = () => {
     const signoutDispatch = async () => {
@@ -41,19 +42,19 @@ const Header = () => {
     window.scrollTo(0, 0);
   };
 
+  const getScreenWidth = () => {
+    setGetWidth(window.innerWidth);
+  };
+
   useEffect(() => {
-    const mobileHandler = () => {
-      if (window.innerWidth <= 960) {
-        setIsMobile(true);
-      } else {
-        setIsMobile(false);
-      }
-    };
-
-    window.addEventListener("resize", mobileHandler);
-
-    return () => window.removeEventListener("resize", mobileHandler);
-  }, []);
+    if (getWidth <= 960) {
+      setIsMobile(true);
+    } else {
+      setIsMobile(false);
+    }
+    window.addEventListener("resize", getScreenWidth);
+    return () => window.removeEventListener("resize", getScreenWidth);
+  }, [getWidth]);
 
   const clickBurgerHandler = () => setIsClicked(!isClicked);
 
