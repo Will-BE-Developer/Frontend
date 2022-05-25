@@ -48,10 +48,8 @@
   </tr>
 </table>
 
-
 <br/>
 <br/>
-
 
 ## 프로젝트 기능 소개
 
@@ -97,19 +95,15 @@
 
 - 메인 페이지에서 매일 다른 질문을 추천해줘요! 유일하게 질문을 선택할 수 있는 공간이랍니다.
 
-
 <br/>
 <br/>
-
 
 ## Architecture
 
-![WillBe-service_architecture](https://user-images.githubusercontent.com/90495580/169758235-5dee4871-a34a-495d-a327-a6312e2bc2ec.jpg)
-
+![WillBe-service_architecture](https://user-images.githubusercontent.com/88864019/170158157-eb5066ef-93dc-42a4-9407-4cfac15d4b76.jpg)
 
 <br/>
 <br/>
-
 
 ## 🛠 Tools
 
@@ -140,6 +134,7 @@
 </p>
 
 #### Infrastructure
+
 <p>
   <img src="https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white" > 
   <img src="https://img.shields.io/badge/AWS amplify-CA4245?style=for-the-badge&logo=AWS amplify&logoColor=white">
@@ -155,10 +150,8 @@
   <img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white">
 </p>
 
-
 <br>
 <br>
-
 
 ## 🔥 Trouble Shooting
 
@@ -181,16 +174,15 @@ IOS15부터 webm audio는 지원하지만 아직 영상은 지원하지 않는�
 ### Issue2 (WebRTC 관련 에러 핸들링)
 
 #### 유저가 카메라 접근을 차단했을 경우
+
 - 카메라가 차단되었다는 안내와 함께 해제 방법을 안내하는 이미지를 보여줍니다. ![Frame 1028](https://user-images.githubusercontent.com/90495580/169949359-9a10d960-847c-440b-9530-dcb1ae20ba13.png)
 
 #### Internet explorer 에서 접속할 경우
 
 - IE는 지원하지 않기 때문에 다른 브라우저로 접속을 유도하는 안내문을 보여줍니다. ![스크린샷 2022-05-24 오후 12 30 00](https://user-images.githubusercontent.com/90495580/169949592-ecea91e8-8976-460c-8fb7-586266bddd60.png)
 
-
 <br/>
 <br/>
-
 
 <br>
 <br>
