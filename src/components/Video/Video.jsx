@@ -75,6 +75,7 @@ const Video = (props) => {
     const getDetail = async () => {
       try {
         const { data } = await feedbackApis.getDetail(cardId);
+        console.log(data);
         setVideo(data.interview.video);
       } catch (err) {
         Sentry.captureException(`Get video  : ${err}`);
@@ -226,15 +227,15 @@ const Video = (props) => {
     }
   };
 
-  const onSeekChangeHandler = (newValue) => {
+  const onSeekChangeHandler = (e, newValue) => {
     setState({ ...state, played: parseFloat(newValue / 100) });
   };
 
-  const seekMouseDownHandler = () => {
+  const seekMouseDownHandler = (e) => {
     setState({ ...state, seeking: true });
   };
 
-  const seekMouseUpHandler = (newValue) => {
+  const seekMouseUpHandler = (e, newValue) => {
     setState({ ...state, seeking: false });
     videoRef.current.seekTo(newValue / 100, "fraction");
   };
@@ -261,7 +262,6 @@ const Video = (props) => {
 
   const currentTime =
     videoRef && videoRef.current ? videoRef.current.getCurrentTime() : "00:00";
-
   const duration =
     videoRef && videoRef.current ? videoRef.current.getDuration() : "00:00";
 
