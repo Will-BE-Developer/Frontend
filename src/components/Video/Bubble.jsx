@@ -13,7 +13,6 @@ const Bubble = ({ id, onAnimationEnd }) => {
   const size = useRef(random(0.7, 1.5));
 
   const element = useRef();
-  // const emoji = useRef(Math.floor(random(0, EMOJIS.length)));
 
   const initialOptions = useRef({
     animationDuration: random(1, 3),

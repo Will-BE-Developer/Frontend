@@ -1,10 +1,9 @@
 import { useNavigate } from "react-router-dom";
-
-import { IoLinkOutline, IoPerson } from "react-icons/io5";
 import GlobalModal from "../GlobalModal";
+import styled from "styled-components";
+import { IoLinkOutline, IoPerson } from "react-icons/io5";
 import defaultUserImage from "../../../assets/defaultUserImage.png";
 
-import styled, { css } from "styled-components";
 const UserProfileModal = (props) => {
   const {
     img,
@@ -48,7 +47,7 @@ const UserProfileModal = (props) => {
               <td style={{ paddingRight: "2px" }}>|</td>
 
               <td className="github_link">
-                <a target="_blank" href={githubLink}>
+                <a target="_blank" href={githubLink} rel="noreferrer">
                   {githubLink}
                 </a>
               </td>

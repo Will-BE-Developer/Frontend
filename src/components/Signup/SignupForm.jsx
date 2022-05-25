@@ -1,23 +1,25 @@
 import React, { useState, useRef } from "react";
-import ReactGA from "react-ga";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { signupEmail } from "../../store/slices/userSlice";
+import userApis from "../../apis/userApis";
+import ReactGA from "react-ga";
 import { boxShadow } from "../../styles/boxShadow";
-import styled, { css } from "styled-components";
-import theme from "../../styles/theme";
-import LoadingLoader from "../UI/LoadingLoader";
 
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+
+import TermsModal from "../UI/ModalSample/TermsModal";
 import GlobalButton from "../UI/GlobalButton";
-import { signupEmail } from "../../store/slices/userSlice";
-import userApis from "../../apis/userApis";
+import LoadingLoader from "../UI/LoadingLoader";
+import theme from "../../styles/theme";
+import styled, { css } from "styled-components";
 import { FcPrevious } from "react-icons/fc";
-import TermsModal from "../UI/ModalSample/TemsModal";
 
 const SignupForm = (props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const emailRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
   const [checkEmail, setCheckEmail] = useState(false);
@@ -25,9 +27,6 @@ const SignupForm = (props) => {
   const [openTermsModal, setOpenTermsModal] = useState(false);
   const [checkedTerms, setCheckedTerms] = useState(false);
 
-  const dispatch = useDispatch();
-
-  // 회원가입 유효성 검사
   const schema = Yup.object().shape({
     email: Yup.string()
       .email("이메일 형식이 맞지 않습니다.")
@@ -48,7 +47,6 @@ const SignupForm = (props) => {
       .required("비밀번호 확인란을 채워주세요."),
   });
 
-  // react hook form
   const {
     register,
     handleSubmit,
@@ -204,29 +202,6 @@ const SignupForm = (props) => {
   );
 };
 
-// const Container = styled.div`
-//   ${({ theme }) => {
-//     const { colors, device, fontSize, fontWeight } = theme;
-//     return css`
-//       margin: 158px auto;
-//       .title {
-//         text-align: center;
-//         margin-bottom: 32px;
-//         color: ${colors.grey90};
-//         font-weight: ${fontWeight.semiExtraBold};
-//       }
-//       font-size: ${fontSize["24"]};
-//       font-weight: ${fontWeight.semiExtraBold};
-
-//       ${device.mobile} {
-//         margin: 158px auto;
-//         width: 100%;
-
-//         font-size: ${fontSize["18"]};
-//       }
-//     `;
-//   }}
-// `;
 const Container = styled.div`
   ${({ theme }) => {
     const { fontSize, fontWeight, device } = theme;
@@ -372,7 +347,7 @@ const ErrorMSG = styled.span`
 
 const Terms = styled.div`
   ${({ theme }) => {
-    const { colors, device, fontSize, fontWeight } = theme;
+    const { device, fontSize, fontWeight } = theme;
     return css`
       font-size: ${fontSize["12"]};
       font-weight: ${fontWeight.semiExtraBold};

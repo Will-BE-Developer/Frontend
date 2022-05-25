@@ -34,7 +34,7 @@ const SetInfo = (props) => {
     props.setCurrentPage(currentPage - 1);
   };
 
-  const nextPageHandler = () => {
+  const nextPageWithNameHandler = () => {
     const nameRegex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
 
     if (!nameRegex.test(userData.nickname)) {
@@ -43,6 +43,7 @@ const SetInfo = (props) => {
     }
     props.setCurrentPage(currentPage + 1);
   };
+
   const nextPageWithUploadImgHandler = async () => {
     props.setCurrentPage(currentPage + 1);
     try {
@@ -120,7 +121,7 @@ const SetInfo = (props) => {
               </div>
               <InfoMsg>공백 없이 한글/영문/숫자만 가능합니다. </InfoMsg>
               <GlobalButton
-                onClick={nextPageHandler}
+                onClick={nextPageWithNameHandler}
                 type="submit"
                 _width="100%"
                 margin="24px 0 0 0"

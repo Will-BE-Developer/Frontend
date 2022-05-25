@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import styled, { css } from "styled-components";
 import { AiOutlineClose } from "react-icons/ai";
@@ -19,8 +18,6 @@ const GlobalModal = (props) => {
     isConfirm,
     isIcon,
     icon,
-    btnWidth,
-    btnHeight,
   } = props;
 
   const styles = {
@@ -30,19 +27,6 @@ const GlobalModal = (props) => {
     hover,
     _mobileHeight,
   };
-
-  // useEffect(() => {
-  //   document.body.style.cssText = `
-  //     position: fixed;
-  //     top: -${window.scrollY}px;
-  //     overflow-y: scroll;
-  //     width: 100%;`;
-  //   return () => {
-  //     const scrollY = document.body.style.top;
-  //     document.body.style.cssText = "";
-  //     window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
-  //   };
-  // }, []);
 
   if (!open) return null;
   return ReactDOM.createPortal(
@@ -89,7 +73,7 @@ const Overlay = styled.div`
 
 const ModalContainer = styled.div`
   ${({ theme }) => {
-    const { colors, device, calRem } = theme;
+    const { device } = theme;
     return css`
       position: fixed;
       min-width: 478px;

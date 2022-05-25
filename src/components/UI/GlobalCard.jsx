@@ -1,20 +1,16 @@
 import { useState, memo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import styled, { css } from "styled-components";
-import theme from "../../styles/theme";
-
-import { BsFillBookmarkFill, BsHeartFill } from "react-icons/bs";
-import { AiTwotoneEdit, AiTwotoneCrown } from "react-icons/ai";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
-
 import TimeAgo from "../FeedBack/TimeAgo";
-import defaultUserImage from "../../assets/defaultUserImage.png";
 import UserProfileModal from "../UI/ModalSample/UserProfileModal";
+
+import theme from "../../styles/theme";
+import styled, { css } from "styled-components";
+import defaultUserImage from "../../assets/defaultUserImage.png";
 import convertingImg from "../../assets/convertingImageM.svg";
+import { BsFillBookmarkFill } from "react-icons/bs";
 
 const GlobalCard = memo(({ card }) => {
-  const [showModal, setShowModal] = useState(false);
   const [openProfileModal, setOpenProfileModal] = useState(false);
   const { cardId } = useParams();
   const navigate = useNavigate();
@@ -23,15 +19,12 @@ const GlobalCard = memo(({ card }) => {
     thumbnail,
     question,
     user,
-    badge,
     note,
     scrapsMe,
     scrapsCount,
     createdAt,
     isMine,
-    isPublic,
     commentsCount,
-    video,
   } = card;
 
   const sendProfileModalHandler = (boolean) => {
@@ -103,12 +96,7 @@ GlobalCard.defaultProps = {
   img_src: defaultUserImage,
 };
 
-// 면접왕 아이콘 (추후 추가할 수 있음)
-//  <BtnCircleBg>
-//    <CrownIcon />
-//  </BtnCircleBg>
 const Img = styled.img`
-  /* background: ${({ theme }) => theme.colors.grey5} */
   ${({ theme }) => theme.device.mobile} {
     max-height: 200px;
   }
@@ -132,7 +120,7 @@ const Card = styled.article`
         transition-timing-function: ease-in, ease-in;
         transition-delay: 0s, 0s;
       }
-      transition: 1000ms eash-in-out;
+      transition: 1000ms ease-in-out;
 
       ${device.mobile} {
       }
@@ -219,7 +207,7 @@ const BodyContainer = styled.div`
 
 const CardFooter = styled.div`
   ${({ theme }) => {
-    const { calRem, fontWeight, colors, fontSize } = theme;
+    const { colors, fontSize } = theme;
     return css`
       border-top: 1px solid #f4f6f9;
       flex-grow: 0;
@@ -254,14 +242,6 @@ const CardFooter = styled.div`
       }
     `;
   }}
-`;
-
-const ProfileImg = styled.img`
-  border-radius: 50%;
-  object-fit: cover;
-  width: 24px;
-  height: 24px;
-  margin-right: 5px;
 `;
 
 const ScrapIcon = styled(BsFillBookmarkFill)`
