@@ -53,7 +53,6 @@ const Signin = () => {
         navigate("/", { replace: true });
       }
     } catch (err) {
-      console.log(err);
       alert(err.message);
       return;
     }

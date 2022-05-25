@@ -75,7 +75,6 @@ const Video = (props) => {
     const getDetail = async () => {
       try {
         const { data } = await feedbackApis.getDetail(cardId);
-        console.log(data);
         setVideo(data.interview.video);
       } catch (err) {
         Sentry.captureException(`Get video  : ${err}`);
