@@ -1,4 +1,4 @@
-import React, { forwardRef, useState, useEffect } from "react";
+import React, { forwardRef, useState } from "react";
 import { getCookie } from "../../shared/cookies";
 
 import PropTypes from "prop-types";
@@ -61,15 +61,11 @@ const VideoControl = forwardRef(
       setOpen(false);
     };
 
-    function valuetext(value) {
-      return `${value}: 00`;
-    }
-
-    function valueLabelFormat(value) {
+    const valueLabelFormat = (value) => {
       let _elapsedTime = value;
       _elapsedTime = elapsedTime;
       return _elapsedTime;
-    }
+    };
 
     return (
       <Container className="controls_wrapper">
@@ -120,7 +116,6 @@ const VideoControl = forwardRef(
                   value={played * 100}
                   onChange={onSeek}
                   onMouseDown={onSeekMouseDown}
-                  getAriaValueText={valuetext}
                   onChangeCommitted={onSeekMouseUp}
                   valueLabelFormat={valueLabelFormat}
                   sx={{
