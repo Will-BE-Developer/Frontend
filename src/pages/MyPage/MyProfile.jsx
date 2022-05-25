@@ -91,7 +91,7 @@ const MyProfile = () => {
         isIcon
         icon={<AlertIcon />}
       >
-        계정을 삭제하시겠습니까?
+        계정을 삭제하시겠습니까? 삭제시 6개월간 재가입이 불가능합니다.
       </GlobalModal>{" "}
       <GlobalModal
         title="로그아웃"
