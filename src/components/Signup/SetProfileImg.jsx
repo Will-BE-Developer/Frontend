@@ -12,9 +12,9 @@ const SetProfileImg = (props) => {
   const handleImageUrl = (event) => {
     const file = event.target.files[0];
     const fileExt = file.name.split(".").pop();
-    const filetype = ["png", "PNG", "jpg", "JPG", "jpeg", "gif"];
+    const filetype = ["png", "PNG", "jpg", "JPG", "jpeg"];
     if (!filetype.includes(fileExt)) {
-      alert("PNG, JPG, GiF 파일만 업로드 가능합니다.");
+      alert("PNG, JPG 파일만 업로드 가능합니다.");
       return;
     }
     setFileReader(file);
@@ -130,36 +130,10 @@ const Div = styled.div`
   }
 `;
 
-const Button = styled.button`
-  ${({ theme }) => {
-    const { colors, device, calRem } = theme;
-    return css`
-      border-radius: 4px;
-      background: ${colors.darkGrey};
-      color: ${colors.white};
-      width: 96px;
-      height: 60px;
-      font-size: ${calRem(16)};
-      margin: 0 0 6px 0;
-
-      ${device.mobile} {
-        width: 80px;
-        height: 30px;
-        font-size: ${calRem(12)};
-      }
-      &:hover {
-        background: ${colors.mediumGrey};
-      }
-    `;
-  }}
-`;
-
 const Img = styled.img`
   border-radius: 50%;
   width: 120px;
   height: 120px;
-  /* width: ${({ isedit }) => (isedit ? "160px" : "120px")};
-  height: ${({ isedit }) => (isedit ? "160px" : "120px")}; */
 `;
 
 const Input = styled.input`

@@ -20,8 +20,9 @@ const Header = () => {
   const dispatch = useDispatch();
   const token = getCookie("token");
   const [openSignOuteModal, setOpenSignOutModal] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
+  const [getWidth, setGetWidth] = useState(window.innerWidth);
+  const [isMobile, setIsMobile] = useState(false);
 
   const signOutHandler = () => {
     const signoutDispatch = async () => {
@@ -41,19 +42,19 @@ const Header = () => {
     window.scrollTo(0, 0);
   };
 
-  useEffect(() => {
-    mobileHandler();
-  }, []);
+  const getScreenWidth = () => {
+    setGetWidth(window.innerWidth);
+  };
 
-  const mobileHandler = () => {
-    if (window.innerWidth <= 960) {
+  useEffect(() => {
+    if (getWidth <= 960) {
       setIsMobile(true);
     } else {
       setIsMobile(false);
     }
-  };
-
-  window.addEventListener("resize", mobileHandler);
+    window.addEventListener("resize", getScreenWidth);
+    return () => window.removeEventListener("resize", getScreenWidth);
+  }, [getWidth]);
 
   const clickBurgerHandler = () => setIsClicked(!isClicked);
 
@@ -189,7 +190,7 @@ const Header = () => {
 
 const HeaderContainer = styled.div`
   ${({ theme }) => {
-    const { colors, fontWeight, device } = theme;
+    const { colors, fontWeight } = theme;
 
     return css`
       list-style: none;
