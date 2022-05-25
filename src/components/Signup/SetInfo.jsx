@@ -38,8 +38,12 @@ const SetInfo = (props) => {
     const nameRegex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
 
     if (!nameRegex.test(userData.nickname)) {
-      props.setCurrentPage(3);
-      return alert("닉네임은 공백 없이 한글/영문/숫자만 가능합니다.");
+      if (userData.nickname.length === 0) {
+        props.setCurrentPage(currentPage + 1);
+        return;
+      }
+      alert("닉네임은 공백 없이 한글/영문/숫자만 가능합니다.");
+      return;
     }
     props.setCurrentPage(currentPage + 1);
   };
@@ -109,7 +113,7 @@ const SetInfo = (props) => {
                 <Input
                   value={userData.nickname}
                   type="text"
-                  placeholder="2-15자 이내로 입력해주세요."
+                  placeholder="닉네임을 넣지 않는다면 기본 닉네임이 들어갑니다."
                   minLength="2"
                   maxLength="15"
                   onChange={(e) => {
@@ -119,7 +123,7 @@ const SetInfo = (props) => {
                   }}
                 />
               </div>
-              <InfoMsg>공백 없이 한글/영문/숫자만 가능합니다. </InfoMsg>
+              <InfoMsg>공백 없이 2~15자 한글/영문/숫자만 가능합니다. </InfoMsg>
               <GlobalButton
                 onClick={nextPageWithNameHandler}
                 type="submit"
