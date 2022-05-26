@@ -43,6 +43,7 @@ const SetInfo = (props) => {
         return;
       }
       alert("닉네임은 공백 없이 2-15자이내 한글/영문/숫자만 가능합니다.");
+      props.setCurrentPage(3);
       return;
     }
     props.setCurrentPage(currentPage + 1);

@@ -14,7 +14,9 @@ const Signup = () => {
   const { pathname } = useLocation();
   const { state } = useLocation();
   const [currentPage, setCurrentPage] = useState(state ? state : 1);
-
+  const sendSetCurrentPage = () => {
+    setCurrentPage();
+  };
   return (
     <>
       <GlobalStyles />
@@ -32,12 +34,12 @@ const Signup = () => {
           {currentPage === 1 ? (
             <SignupForm
               currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
+              setCurrentPage={sendSetCurrentPage}
             />
           ) : (
             <SetInfo
               currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
+              setCurrentPage={sendSetCurrentPage}
             />
           )}
         </Wrap>
