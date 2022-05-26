@@ -34,7 +34,7 @@ const SetInfo = (props) => {
     props.setCurrentPage(currentPage - 1);
   };
 
-  const nextPageWithNameHandler = () => {
+  const nextPageWithNameHandler = (e) => {
     const nameRegex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]{2,15}$/;
 
     if (!nameRegex.test(userData.nickname)) {
@@ -42,8 +42,8 @@ const SetInfo = (props) => {
         props.setCurrentPage(currentPage + 1);
         return;
       }
+      e.preventDefault();
       alert("닉네임은 공백 없이 2-15자이내 한글/영문/숫자만 가능합니다.");
-      props.setCurrentPage(3);
       return;
     }
     props.setCurrentPage(currentPage + 1);
