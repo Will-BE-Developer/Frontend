@@ -19,7 +19,9 @@ const KakaoRedirect = () => {
       try {
         await dispatch(signinKakao(code)).unwrap();
         navigate("/", { replace: true });
-      } catch (err) {}
+      } catch (err) {
+        alert("회원탈퇴 후 6개월간 재가입이 불가능합니다.");
+      }
     };
     singinDispatch();
   }, [code, navigate, dispatch, error]);
