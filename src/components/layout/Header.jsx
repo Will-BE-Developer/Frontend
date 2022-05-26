@@ -159,12 +159,23 @@ const Header = () => {
                 <div className="footer">
                   <ul>
                     <li>
-                      <Link to="/feedback" onClick={scrollToTop}>
-                        팀원소개
-                      </Link>
+                      <a
+                        target="_blank"
+                        href="
+                    https://github.com/Will-BE-Developer"
+                        rel="noreferrer"
+                      >
+                        프로젝트소개
+                      </a>
                     </li>
                     <li>
-                      <Link to="/interview">설문조사하기</Link>
+                      <a
+                        target="_blank"
+                        href="https://forms.gle/R823Qso4cEPJE1dL8"
+                        rel="noreferrer"
+                      >
+                        설문조사하기
+                      </a>
                     </li>
                     <li>
                       {token ? (
