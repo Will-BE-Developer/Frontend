@@ -18,9 +18,9 @@ const SigninValidation = () => {
         await dispatch(emailValidation({ token, email })).unwrap();
         navigate("/signup", { replace: true, state: 3 });
       } catch (err) {
-        navigate("/", { replace: true });
+        alert("이미 인증된 이메일입니다.");
         console.log(err);
-        // alert("로그인에 실패하였습니다");
+        return navigate("/", { replace: true });
       }
     };
     singinDispatch();

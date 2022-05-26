@@ -74,6 +74,10 @@ export const emailValidation = createAsyncThunk(
       };
       return result;
     } catch (err) {
+      console.log(err.response, "userslice");
+      alert(
+        "이미 인증된 이메일이거나 유효하지 않은 인증링크입니다. : userslice"
+      );
       return rejectWithValue(err.response.data);
     }
   }
