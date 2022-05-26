@@ -25,7 +25,6 @@ const SetProfileImg = (props) => {
     reader.readAsDataURL(file);
 
     reader.onloadend = () => {
-      console.log(file);
       getImage({ image: reader.result, file });
     };
   };

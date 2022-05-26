@@ -33,18 +33,24 @@ const MyProfile = () => {
   const [openSignOuteModal, setOpenSignOutModal] = useState(false);
 
   const updateUserHandler = async () => {
+    const nameRegex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]{2,15}$/;
+    if (
+      !nameRegex.test(updateUserData.nickname) &&
+      updateUserData.nickname.length !== 0
+    ) {
+      alert("닉네임은 공백 없이 2-15자이내 한글/영문/숫자만 가능합니다.");
+      return;
+    }
     setIsLoading(true);
     try {
       const formData = new FormData();
       const img = getImage ? getImage.file : "";
-
       formData.append("profileImage", img);
       formData.append("nickname", JSON.stringify(updateUserData.nickname));
       formData.append("githubLink", JSON.stringify(updateUserData.githubLink));
       formData.append("introduce", JSON.stringify(updateUserData.introduce));
 
       await dispatch(updateUser(formData)).unwrap();
-
       setIsLoading(false);
       setIsEdit(false);
     } catch (err) {
@@ -175,7 +181,9 @@ const MyProfile = () => {
               <p>닉네임</p>
               {isEdit ? (
                 <textarea
+                  maxLength="15"
                   value={updateUserData.nickname}
+                  placeholder="빈 값이면 기본 닉네임으로 설정됩니다."
                   onChange={(e) =>
                     setUpdateUserData((prev) => ({
                       ...prev,
@@ -259,7 +267,7 @@ const MyProfile = () => {
             hover
             onClick={() => setOpenModal(true)}
           >
-            회원탈퇴
+            계정삭제
           </GlobalButton>
         </div>
       </BodyContainer>
@@ -279,7 +287,7 @@ const Container = styled.div`
 
 const BodyContainer = styled.div`
   ${({ theme }) => {
-    const { colors, device, fontSize } = theme;
+    const { colors, fontSize } = theme;
     return css`
       width: 100%;
       & .title {
