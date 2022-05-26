@@ -14,8 +14,8 @@ const Signup = () => {
   const { pathname } = useLocation();
   const { state } = useLocation();
   const [currentPage, setCurrentPage] = useState(state ? state : 1);
-  const sendSetCurrentPage = () => {
-    setCurrentPage();
+  const sendSetCurrentPage = (num) => {
+    setCurrentPage(num);
   };
   return (
     <>
