@@ -1,6 +1,5 @@
   <img src="https://user-images.githubusercontent.com/88864019/170626268-84bb3558-f24f-4877-9469-100754f1a433.png"/>
-<br />
-
+  
 # [Will BE](https://willbedeveloper.com/)
 
 <b>개발자로 취업하고싶은 사람들을 위한 화상면접 연습 커뮤니티</b>
