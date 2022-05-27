@@ -33,7 +33,7 @@ const MyProfile = () => {
   const [openSignOuteModal, setOpenSignOutModal] = useState(false);
 
   const updateUserHandler = async () => {
-    const nameRegex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]{2,15}$/;
+    const nameRegex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|@]{2,15}$/;
     if (
       !nameRegex.test(updateUserData.nickname) &&
       updateUserData.nickname.length !== 0
