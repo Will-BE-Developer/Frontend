@@ -20,6 +20,7 @@ const CheckUserAgent = () => {
 
   useEffect(() => {
     if (initialized) {
+      console.log(location.pathname);
       ReactGA.pageview(location.pathname + location.search);
     }
   }, [initialized, location]);
