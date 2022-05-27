@@ -130,7 +130,7 @@ const Header = () => {
 
                 <ul className="nav_list">
                   <li>
-                    <Link to="/feedback" onClick={scrollToTop}>
+                    <Link to="/" onClick={scrollToTop}>
                       <img src={homeIcon} alt="home_icon" />홈
                     </Link>
                   </li>
