@@ -20,14 +20,19 @@ instance.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response.status === 401 || error.response.status === 403) {
+    if (error.response.status === 401) {
       deleteCookie("token");
       alert("로그인이 만료되었습니다");
-      window.location.href = "/signin";
+      window.location.href = "https://willbedeveloper.com/signin";
+    }
+
+    if (error.response.status === 403) {
+      alert("잘못된 접근입니다.");
+      window.location.href = "https://willbedeveloper.com/";
     }
 
     if (error.response.status === 500) {
-      window.location.href = "/notice";
+      window.location.href = "https://willbedeveloper.com/notice";
     }
 
     return Promise.reject(error);
