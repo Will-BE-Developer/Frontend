@@ -6,8 +6,8 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiChevronRight, HiChevronLeft } from "react-icons/hi";
 import bannerLogo from "../../assets/bannerLogo.svg";
-import illust1 from "../../assets/illust1.png";
-import illust2 from "../../assets/illust2.png";
+import illust1 from "../../assets/illust1.gif";
+import illust2 from "../../assets/illust2.gif";
 import ReactGA from "react-ga";
 
 const DUMMY_CONTENTS = [
