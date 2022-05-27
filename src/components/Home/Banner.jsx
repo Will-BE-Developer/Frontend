@@ -105,7 +105,14 @@ const Banner = () => {
             })}
           </StyledSlider>
         </div>
-        <img className="bannerImg" alt="bannerImage" src={bannerImage} />
+        <img
+          style={{
+            paddingRight: `${bannerImage === illust2 ? "100px" : "0px"}`,
+          }}
+          className="bannerImg"
+          alt="bannerImage"
+          src={bannerImage}
+        />
       </div>
     </BannerContainer>
   );
