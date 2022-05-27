@@ -156,7 +156,7 @@ const FeedBackDetail = (props) => {
           confirmText="삭제"
           open={openDeleteModal}
           onClose={() => setOpenDeleteModal(false)}
-          onConfirm={() => clickDeleteHandler}
+          onConfirm={clickDeleteHandler}
           isConfirm
           isIcon
           icon={<AlertIcon />}

@@ -33,7 +33,7 @@ const MyProfile = () => {
   const [openSignOuteModal, setOpenSignOutModal] = useState(false);
 
   const updateUserHandler = async () => {
-    const nameRegex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]{2,15}$/;
+    const nameRegex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|@]{2,15}$/;
     if (
       !nameRegex.test(updateUserData.nickname) &&
       updateUserData.nickname.length !== 0
@@ -228,7 +228,7 @@ const MyProfile = () => {
                   charLimit="50"
                   rows="5"
                   cols="80"
-                  placeHolder="댓글을 수정해주세요."
+                  placeHolder="자기소개를 해주세요"
                   border="none"
                   isBorderBot
                   _height="80px"
