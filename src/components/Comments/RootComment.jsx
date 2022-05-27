@@ -70,13 +70,17 @@ const RootComment = ({
         <div>
           {!isShowReply ? (
             <div onClick={replyToggleHandler} className="toggle_box">
-              <span>답글</span>
+              <span>
+                {nestedComments.length > 0
+                  ? `${nestedComments.length}개의 답글`
+                  : "답글 달기"}
+              </span>
               <RiArrowDownSFill />
             </div>
           ) : (
             <>
               <div onClick={replyToggleHandler} className="toggle_box">
-                <span>답글</span>
+                <span>숨기기</span>
                 <RiArrowUpSFill />
               </div>
               <div className="nested_box">
