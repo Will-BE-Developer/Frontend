@@ -130,13 +130,6 @@ const FooterLayout = styled.div`
     max-width: 1200px;
     width: 100%;
     height: 100px;
-
-    /* @media screen and (max-width: 700px) {
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
-      gap: 10px;
-    } */
   }
 
   .company {

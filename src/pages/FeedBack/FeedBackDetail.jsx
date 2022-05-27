@@ -525,10 +525,6 @@ const AuthorContainer = styled.div`
           align-items: center;
           object-fit: cover;
 
-          button : {
-            /* width: 10px;
-      margin: 0 5px; */
-          }
           span {
             font-size: ${({ theme }) => theme.fontSize["14"]};
           }
