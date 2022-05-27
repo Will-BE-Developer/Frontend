@@ -1,4 +1,4 @@
-  <img src="https://user-images.githubusercontent.com/88864019/170626268-84bb3558-f24f-4877-9469-100754f1a433.png"/>
+  <img src="https://user-images.githubusercontent.com/88864019/170627059-f7b49422-9d78-491e-8602-a1b603bab5bc.png"/>
   
 # [Will BE](https://willbedeveloper.com/)
 
