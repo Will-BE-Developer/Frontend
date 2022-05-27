@@ -1,5 +1,6 @@
 import { useState, memo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import ReactGA from "react-ga";
 
 import TimeAgo from "../FeedBack/TimeAgo";
 import UserProfileModal from "../UI/ModalSample/UserProfileModal";
@@ -30,7 +31,12 @@ const GlobalCard = memo(({ card }) => {
   const sendProfileModalHandler = (boolean) => {
     setOpenProfileModal(boolean);
   };
+
   const linkToDetailHandler = () => {
+    ReactGA.event({
+      category: "Feedback",
+      action: "Click Card to detail",
+    });
     navigate(`/feedback/${id}`, { cardId });
   };
 

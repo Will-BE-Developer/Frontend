@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCookie } from "../../shared/cookies";
 import * as Sentry from "@sentry/react";
+import ReactGA from "react-ga";
 
 import ReactPlayer from "react-player";
 import screenfull from "screenfull";
@@ -158,6 +159,10 @@ const Video = (props) => {
         }));
 
         likeCount = 0;
+        ReactGA.event({
+          category: "Highlight",
+          action: "Event addHighlight api",
+        });
       } catch (err) {
         Sentry.captureException(`Add highlight : ${err}`);
       }
@@ -414,6 +419,10 @@ const Video = (props) => {
                             setTimeout(() => {
                               controlsRef.current.style.visibility = "hidden";
                             }, 1000);
+                            ReactGA.event({
+                              category: "Highlight",
+                              action: "Click Highlight time",
+                            });
                           }}
                           elevation={3}
                         >

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Sentry from "@sentry/react";
 import commentApis from "../../apis/commentApis";
+import ReactGA from "react-ga";
 
 import TimeAgo from "../FeedBack/TimeAgo";
 import GlobalTextArea from "../UI/GlobalTextArea";
@@ -67,9 +68,14 @@ const Comment = ({
 
     try {
       const { data } = await commentApis.updateComment(updateData, id);
+
       setIsEdit(false);
       setAllComments(data.comments);
       setCommentCount(data.totalComments);
+      ReactGA.event({
+        category: "Comments",
+        action: "Update Comment",
+      });
     } catch (err) {
       Sentry.captureException(`Edit comment  : ${err}`);
       navigate("/notFound");
@@ -81,6 +87,10 @@ const Comment = ({
       const { data } = await commentApis.deleteComment(id);
       setAllComments(data.comments);
       setCommentCount(data.totalComments);
+      ReactGA.event({
+        category: "Comments",
+        action: "Delete Comment",
+      });
     } catch (err) {
       Sentry.captureException(`Delete comment  : ${err}`);
       navigate("/notFound");

@@ -98,6 +98,10 @@ const FeedBackDetail = (props) => {
   const clickDeleteHandler = async () => {
     try {
       const { data } = await feedbackApis.deleteDetail(cardId);
+      ReactGA.event({
+        category: "Feedback",
+        action: "Delete Feedback Post",
+      });
       if (data.interview?.isPublic === true) {
         navigate(`/feedback/`, { replace: true });
       } else {
@@ -152,7 +156,7 @@ const FeedBackDetail = (props) => {
           confirmText="삭제"
           open={openDeleteModal}
           onClose={() => setOpenDeleteModal(false)}
-          onConfirm={() => clickDeleteHandler()}
+          onConfirm={() => clickDeleteHandler}
           isConfirm
           isIcon
           icon={<AlertIcon />}
@@ -262,7 +266,13 @@ const FeedBackDetail = (props) => {
                   <div className="author_date">
                     <div
                       className="user_profile"
-                      onClick={() => setOpenProfileModal(true)}
+                      onClick={() => {
+                        setOpenProfileModal(true);
+                        ReactGA.event({
+                          category: "Profile",
+                          action: "Click User Profile",
+                        });
+                      }}
                     >
                       <ProfileImg
                         src={
