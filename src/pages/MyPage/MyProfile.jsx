@@ -228,7 +228,7 @@ const MyProfile = () => {
                   charLimit="50"
                   rows="5"
                   cols="80"
-                  placeHolder="댓글을 수정해주세요."
+                  placeHolder="소개글을 수정해주세요."
                   border="none"
                   isBorderBot
                   _height="80px"
