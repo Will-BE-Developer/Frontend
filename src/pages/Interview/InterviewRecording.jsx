@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import * as Sentry from "@sentry/react";
+import ReactGA from "react-ga";
 import RecordRTC from "recordrtc";
 import Timer from "react-timer-wrapper";
 import Timecode from "react-timecode";
@@ -64,6 +65,11 @@ const InterviewRecording = () => {
 
       setIsFirstTry(false);
       setIsStart(true);
+
+      ReactGA.event({
+        category: "Interview recording",
+        action: "Recording completed",
+      });
     } catch (err) {
       setIsDenied(true);
     }

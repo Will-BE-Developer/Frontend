@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import ReactGA from "react-ga";
 import styled from "styled-components";
 import footerBanner from "../../assets/footerBanner.png";
 import theme from "../../styles/theme";
@@ -17,7 +18,13 @@ const Footer = () => {
             <p>자신만의 노하우로 주간 면접왕에 도전해보세요</p>
           </div>
           <button
-            onClick={() => navigate("/interview")}
+            onClick={() => {
+              navigate("/interview");
+              ReactGA.event({
+                category: "Footer",
+                action: "Go to the interview recording page",
+              });
+            }}
             className="interviewBtn"
           >
             면접 보러가기 <HiChevronRight size="25px" />
@@ -32,6 +39,12 @@ const Footer = () => {
               href="https://forms.gle/3CCWq2KZ8d63qefm6"
               target="_blank"
               rel="noreferrer noopener"
+              onClick={() => {
+                ReactGA.event({
+                  category: "Footer",
+                  action: "Go to the survey page",
+                });
+              }}
             >
               설문조사하기
             </a>

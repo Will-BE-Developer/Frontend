@@ -423,7 +423,7 @@ const Input = styled.input`
 `;
 const InfoMsg = styled.span`
   ${({ theme }) => {
-    const { colors, device, fontSize, fontWeight } = theme;
+    const { colors, fontSize } = theme;
     return css`
       margin-top: 2px;
       font-size: ${fontSize["12"]};

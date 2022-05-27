@@ -75,6 +75,10 @@ const Banner = () => {
                           });
                           window.open("https://forms.gle/3CCWq2KZ8d63qefm6");
                         } else {
+                          ReactGA.event({
+                            category: "Banner",
+                            action: "Go to the interview recording page",
+                          });
                           navigate("/interview");
                         }
                       }}

@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import ReactGA from "react-ga";
 import { HiChevronRight } from "react-icons/hi";
 import GlobalCard from "../UI/GlobalCard";
 import { useNavigate } from "react-router-dom";
@@ -27,7 +28,13 @@ const LatestFeedback = ({ latestInterviews }) => {
           background={theme.colors.white}
           color={theme.colors.black}
           border="1px solid rgba(130, 130, 130, 0.2)"
-          onClick={() => navigate("/feedback")}
+          onClick={() => {
+            navigate("/feedback");
+            ReactGA.event({
+              category: "Latest Feedback",
+              action: "Go to the feedback page",
+            });
+          }}
         >
           피드백 더보기
           <HiChevronRight size="25px" color={theme.colors.grey50} />
