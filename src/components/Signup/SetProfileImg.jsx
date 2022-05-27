@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 
 import defaultUserImage from "../../assets/defaultUserImage.png";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import GlobalButton from "../UI/GlobalButton";
 import theme from "../../styles/theme";
 

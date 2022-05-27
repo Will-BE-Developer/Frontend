@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import ReactGA from "react-ga";
 import Slider from "react-slick";
 import { useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
@@ -102,13 +103,6 @@ const BestInterviews = ({ weeklyInterviews }) => {
                           {interview.user?.nickname}님
                           <img src={badgeIcon[idx]} alt="badge" />
                         </span>
-                        {/* <span style={{ fontSize: theme.fontSize["14"] }}>
-                          누적 스크랩
-                          <span style={{ color: theme.colors.blue }}>
-                            &nbsp;{interview.scrapsCount}
-                          </span>
-                          개 달성!
-                        </span> */}
                       </div>
                       <div className="hr" />
                       <div className="interviewContents">
@@ -121,7 +115,13 @@ const BestInterviews = ({ weeklyInterviews }) => {
                       </div>
                       <div className="feedbackBtn">
                         <button
-                          onClick={() => navigate(`/feedback/${interview.id}`)}
+                          onClick={() => {
+                            navigate(`/feedback/${interview.id}`);
+                            ReactGA.event({
+                              category: "BestInterview",
+                              action: "Go to the interview detail page",
+                            });
+                          }}
                           className="interviewBtn"
                         >
                           영상 보러가기

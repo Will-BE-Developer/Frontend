@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 import { useNavigate } from "react-router-dom";
+import ReactGA from "react-ga";
 import GlobalBadge from "../UI/GlobalBadge";
 import theme from "../../styles/theme";
 
@@ -17,9 +18,13 @@ const HotTopic = ({ hotCategories }) => {
               return (
                 <GlobalBadge
                   fontSize="14px"
-                  onClick={() =>
-                    navigate("/feedback", { state: topic.category })
-                  }
+                  onClick={() => {
+                    navigate("/feedback", { state: topic.category });
+                    ReactGA.event({
+                      category: "HotTopic",
+                      action: "Go to the feedback page",
+                    });
+                  }}
                   padding="11px 16px"
                   background={
                     idx % 2 === 0 ? theme.colors.blue : theme.colors.white

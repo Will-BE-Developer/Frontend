@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import ReactGA from "react-ga";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Sentry from "@sentry/react";
@@ -7,7 +8,6 @@ import interviewApis from "../../apis/interviewApis";
 import GlobalButton from "../../components/UI/GlobalButton";
 import { boxShadow } from "../../styles/boxShadow";
 import { smallIcons } from "../../shared/categoryIcons";
-import IsMobileModal from "../../components/UI/ModalSample/IsMobileModal";
 
 const InterviewTopic = () => {
   const [topics, setTopics] = useState([]);
@@ -35,6 +35,11 @@ const InterviewTopic = () => {
       return;
     }
     navigate("/interview/recording", { state: { selectTopic } });
+
+    ReactGA.event({
+      category: "Interview Topic",
+      action: "Go to the interview recording",
+    });
   };
 
   return (

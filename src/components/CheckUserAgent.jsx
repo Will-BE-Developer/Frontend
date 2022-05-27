@@ -11,7 +11,6 @@ const CheckUserAgent = () => {
 
   useEffect(() => {
     if (!window.location.href.includes("localhost")) {
-      console.log(process.env.REACT_APP_GOOGLE_ANALYTICS_TRACKING_ID);
       ReactGA.initialize(process.env.REACT_APP_GOOGLE_ANALYTICS_TRACKING_ID);
       setInitialized(true);
     }
@@ -19,7 +18,6 @@ const CheckUserAgent = () => {
 
   useEffect(() => {
     if (initialized) {
-      console.log(location.pathname);
       ReactGA.pageview(location.pathname + location.search);
     }
   }, [initialized, location]);
