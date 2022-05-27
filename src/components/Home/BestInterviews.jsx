@@ -19,7 +19,7 @@ const BestInterviews = ({ weeklyInterviews }) => {
   const [title, setTitle] = useState(
     isEmpty
       ? "현재 면접왕이 없습니다."
-      : `${weeklyInterviews[0]?.badge} '${weeklyInterviews[0]?.user?.nickname}'`
+      : `${weeklyInterviews[0]?.badge} '${weeklyInterviews[0]?.user?.nickname}' 님`
   );
   const badgeIcon = [gold, silver, bronze];
 
