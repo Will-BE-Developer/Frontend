@@ -163,6 +163,13 @@ const FormLayout = styled.div`
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
         word-wrap: break-word;
+        ${device.mobile} {
+          font-size: ${fontSize["18"]};
+          margin: 16px 0;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          line-height: 1.2em;
+        }
       }
       & p {
         margin-top: 24px;

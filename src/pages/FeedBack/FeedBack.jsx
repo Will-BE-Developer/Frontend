@@ -168,8 +168,7 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     gap: 14px;
-    height: 40vh;
-
+    padding-top: 200px;
     animation: fadein 1.5s;
     -webkit-animation: fadein 1.5s;
 

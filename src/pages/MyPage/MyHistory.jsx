@@ -104,7 +104,7 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     gap: 14px;
-    height: 40vh;
+    padding-top: 100px;
     animation: fadein 2s;
     -webkit-animation: fadein 2s;
     @keyframes fadein {
