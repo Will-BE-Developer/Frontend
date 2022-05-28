@@ -49,7 +49,24 @@ const SetInfo = (props) => {
     props.setCurrentPage(currentPage + 1);
   };
 
-  const nextPageWithUploadImgHandler = async () => {
+  const nextPageWithUploadImgHandler = async (e) => {
+    const urlRegex = /(http(s)?:\/\/)([a-z0-9\w]+\.*)+[a-z0-9]{2,4}/gi;
+
+    if (currentPage === 5) {
+      if (
+        !urlRegex.test(userData.githubLink) &&
+        userData.githubLink.length !== 0
+      ) {
+        e.preventDefault();
+        alert("url형식을 지켜주세요. (eg.http(s)://willbedeveloper.com)");
+        return;
+      } else if (userData.githubLink.length > 200) {
+        e.preventDefault();
+        alert("url허용 글자수를 초과하였습니다.(200자 제한)");
+        return;
+      }
+    }
+
     props.setCurrentPage(currentPage + 1);
     try {
       const formData = new FormData();

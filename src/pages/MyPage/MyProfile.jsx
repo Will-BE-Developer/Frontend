@@ -34,11 +34,22 @@ const MyProfile = () => {
 
   const updateUserHandler = async () => {
     const nameRegex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|@]{2,15}$/;
+    const urlRegex = /(http(s)?:\/\/)([a-z0-9\w]+\.*)+[a-z0-9]{2,4}/gi;
     if (
       !nameRegex.test(updateUserData.nickname) &&
       updateUserData.nickname.length !== 0
     ) {
       alert("닉네임은 공백 없이 2-15자이내 한글/영문/숫자만 가능합니다.");
+      return;
+    }
+    if (
+      !urlRegex.test(updateUserData.githubLink) &&
+      updateUserData.githubLink.length !== 0
+    ) {
+      alert("url형식을 지켜주세요. (eg.http(s)://willbedeveloper.com)");
+      return;
+    } else if (updateUserData.githubLink.length > 200) {
+      alert("url허용 글자수를 초과하였습니다. (200자 제한)");
       return;
     }
     setIsLoading(true);
