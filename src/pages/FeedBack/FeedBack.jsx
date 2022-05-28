@@ -90,7 +90,7 @@ const FeedBack = () => {
         loadMore={fetchFeedback}
         hasMore={data?.pagination?.nextPage !== null}
         loader={<Loader key={0} />}
-        threshold={theme.device.mobile ? 130 : 0}
+        threshold={theme.device.mobile ? 180 : 0}
       >
         {data?.feedback.length === 0 ? (
           <div className="noData">
