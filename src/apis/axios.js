@@ -27,6 +27,7 @@ instance.interceptors.response.use(
     }
 
     if (error.response.status === 403) {
+      deleteCookie("token");
       alert("잘못된 접근입니다.");
       window.location.href = "https://willbedeveloper.com/";
     }
