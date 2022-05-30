@@ -118,13 +118,9 @@ const InterviewRecording = () => {
       }
     }
 
-    const tracks = videoRef.current.srcObject?.getTracks();
+    const tracks = videoRef.current?.srcObject?.getTracks();
 
-    return () => {
-      tracks?.forEach((track) => {
-        track.stop();
-      });
-    };
+    return () => tracks?.forEach((track) => track.stop());
   }, [recordingHandler, isEnd, state, firstTry, navigate]);
 
   const stopRecordingHandler = () => {
