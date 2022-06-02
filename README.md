@@ -102,7 +102,7 @@
 
 ## Architecture
 
-![WillBe-service_architecture](https://user-images.githubusercontent.com/88864019/170158157-eb5066ef-93dc-42a4-9407-4cfac15d4b76.jpg)
+![WillBe-service_architecture](https://user-images.githubusercontent.com/88864019/171544168-af0d6f37-406d-4ba0-98bb-8aa30fefe4c0.jpg)
 
 <br/>
 <br/>
@@ -189,9 +189,8 @@ IOS15부터 webm audio는 지원하지만 아직 영상은 지원하지 않는�
 <br>
 <br>
 
-
 ## 🌐 Google Analytics를 활용한 사용자 분석 및 추후 개선 사항
+
 ![GA-분석](https://user-images.githubusercontent.com/90495580/171033444-5e1d2f5d-fc37-440d-b5c5-40288e51d8be.png)
 ![GA-이벤트](https://user-images.githubusercontent.com/90495580/171032862-b238d586-4171-4ec2-934e-7507d8378da8.png)
 ![GA-개선사항](https://user-images.githubusercontent.com/90495580/171032870-e2a62ccf-fb9e-4cd5-a129-348325615521.png)
-
