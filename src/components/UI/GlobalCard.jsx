@@ -104,8 +104,9 @@ GlobalCard.defaultProps = {
 
 const Img = styled.img`
   ${({ theme }) => theme.device.mobile} {
-    max-height: 240px;
+    height: 240px;
   }
+  height: 240px;
 `;
 const Card = styled.article`
   ${({ theme }) => {

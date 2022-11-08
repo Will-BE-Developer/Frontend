@@ -11,6 +11,8 @@ const DailyQuestions = ({ todaysQuestions }) => {
   const navigate = useNavigate();
   const [width, setWidth] = useState(window.innerWidth);
 
+  console.log(todaysQuestions);
+
   useEffect(() => {
     const resizeHandler = () => {
       setWidth(window.innerWidth);
@@ -33,6 +35,7 @@ const DailyQuestions = ({ todaysQuestions }) => {
         </div>
         <div className="main">
           {todaysQuestions.map(({ question }) => {
+            console.log(question);
             return (
               <div
                 onClick={

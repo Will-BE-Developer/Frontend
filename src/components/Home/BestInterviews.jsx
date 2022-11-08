@@ -292,6 +292,7 @@ const StyledSlider = styled(Slider)`
 
       .thumbnail {
         max-width: 350px;
+        height: 240px;
         width: 50%;
         border-radius: 8px;
         @media screen and (max-width: 700px) {
