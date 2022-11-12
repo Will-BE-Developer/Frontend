@@ -85,8 +85,23 @@ const FeedBack = () => {
           onChangeHandler={onChangeHandler}
         />
       </div>
+      <div className="noData">
+        <img alt="bang" src={bangIcon} />
+        <p>데이터가 없습니다</p>
+        <GlobalButton
+          margin="10px 0px 0px 0px"
+          hover={({ theme }) => theme.colors.grey5}
+          background={theme.colors.white}
+          color={theme.colors.black}
+          border="1px solid rgba(130, 130, 130, 0.2)"
+          onClick={() => navigate("/interview")}
+        >
+          면접 보러 가기
+          <HiChevronRight size="22px" color={theme.colors.grey50} />
+        </GlobalButton>
+      </div>
 
-      <InfiniteScroll
+      {/* <InfiniteScroll
         loadMore={fetchFeedback}
         hasMore={data?.pagination?.nextPage !== null}
         loader={<Loader key={0} />}
@@ -115,7 +130,7 @@ const FeedBack = () => {
             })}
           </div>
         )}
-      </InfiniteScroll>
+      </InfiniteScroll> */}
     </Container>
   );
 };

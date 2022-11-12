@@ -9,6 +9,11 @@ import Footer from "../components/Home/Footer";
 import { useEffect, useState } from "react";
 import instance from "../apis/axios";
 import * as Sentry from "@sentry/react";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
+import { Box } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
 
 const Home = () => {
   const [homeData, setHomedata] = useState(null);
@@ -137,6 +142,27 @@ const Home = () => {
 
   return (
     <div>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          width: "100%",
+          background: "rgb(255, 244, 229)",
+        }}
+      >
+        <Alert
+          severity="warning"
+          sx={{ maxWidth: "1200px", width: "100%", padding: "6px 10px" }}
+        >
+          <AlertTitle>서비스 종료</AlertTitle>
+          2022년 11월 11일부로 윌비 서비스를 종료합니다.
+          <br />
+          윌비 서비스를 지속 제공하지 못하게 된점 진심으로 사과드리며 고객님들의
+          넓은 양해를 부탁드립니다.
+          <br />
+          그동안 윌비를 아껴주시고 사랑해주신 여러분께 진심으로 감사드립니다.
+        </Alert>
+      </Box>
       {homeData && (
         <>
           <GlobalStyles home />
